@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableItem : MonoBehaviour
+public class InteractableItem : BaseItem
 {
-    
+    public override void Interact()
+    {
+    }
 }
