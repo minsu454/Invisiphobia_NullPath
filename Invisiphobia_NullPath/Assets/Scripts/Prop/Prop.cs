@@ -5,14 +5,22 @@ using UnityEngine;
 public class Prop : MonoBehaviour, IDetectable
 {
     [SerializeField] private MeshRenderer renderer;
+    [SerializeField] private Collider collider;
 
+    public bool isRevealed = false;
     /// <summary>
     /// Prop 초기화 함수
     /// </summary>
     public virtual void Init()
     {
+
+    }
+
+    private void Awake()
+    {
         renderer = GetComponent<MeshRenderer>();
         renderer.enabled = false;
+        collider = GetComponent<Collider>();
     }
 
     public void Detected()
@@ -23,5 +31,6 @@ public class Prop : MonoBehaviour, IDetectable
     public void Revealed()
     {
         renderer.enabled = true;
+        isRevealed = true;
     }
 }

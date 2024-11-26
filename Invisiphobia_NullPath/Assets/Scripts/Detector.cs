@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Detector : MonoBehaviour
 {
-    [SerializeField]private List<Collider> DetectedObjectList;
+    [SerializeField] private List<GameObject> DetectedObjectList;
+    [SerializeField] private Animator anim;
 
     private float updateInterval = 1f;
 
@@ -17,7 +18,7 @@ public class Detector : MonoBehaviour
         if (other.gameObject.CompareTag("InvisibleObject"))
         {
             StartTimer();
-            DetectedObjectList.Add(other);
+            DetectedObjectList.Add(other.gameObject);
         }
     }
 
@@ -25,15 +26,15 @@ public class Detector : MonoBehaviour
     {
         if (other.gameObject.CompareTag("InvisibleObject"))
         {
-            DetectedObjectList.Remove(other);
+            DetectedObjectList.Remove(other.gameObject);
             if (DetectedObjectList.Count == 0)
             {
                 StopTimer();
             }
         }
     }
-
-    bool HasLineOfSight(Collider target)
+    
+    bool HasLineOfSight(GameObject target)
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -119,6 +120,25 @@ public class Detector : MonoBehaviour
         else if (distance < 10f)
         {
             Debug.Log("물체가 감지되었습니다!");
+        }
+    }
+    
+    public void Reveal()
+    {
+        List<IDetectable> detectables = new List<IDetectable>();
+        for(int i = 0; i < DetectedObjectList.Count; i++)
+        {
+            IDetectable detactable; 
+            bool isRevealable = DetectedObjectList[i].TryGetComponent<IDetectable>(out detactable);
+            if (isRevealable)
+            {
+                detectables.Add(detactable);
+            }
+        }
+
+        for (int i = 0; i < detectables.Count;i++)
+        {
+            detectables[i].Revealed();
         }
     }
 }
