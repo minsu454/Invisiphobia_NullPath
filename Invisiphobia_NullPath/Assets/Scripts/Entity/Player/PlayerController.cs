@@ -101,7 +101,6 @@ public class PlayerController : Entity
         if (characterController.isGrounded == true)
         {
             isGrounded = true;
-            Debug.Log("키입력감지");
         }
         else
         {
