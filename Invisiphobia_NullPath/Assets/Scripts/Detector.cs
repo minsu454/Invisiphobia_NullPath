@@ -6,7 +6,6 @@ using UnityEngine;
 public class Detector : MonoBehaviour
 {
     [SerializeField] private List<GameObject> DetectedObjectList;
-    [SerializeField] private Animator anim;
 
     private float updateInterval = 1f;
 
