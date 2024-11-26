@@ -12,4 +12,11 @@ public class Entity : MonoBehaviour
     {
 
     }
+
+
+}
+
+public class Controller : MonoBehaviour
+{
+
 }
