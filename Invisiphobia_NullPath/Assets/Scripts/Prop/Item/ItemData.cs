@@ -7,10 +7,11 @@ public class ItemData
     public string Description { get; private set; }
     public ItemCarryType type { get; private set; }
 
-    public ItemData(int id, string name, string description)
+    public ItemData(int id, string name, string description, ItemCarryType type)
     {
         Id = id;
         Name = name;
         Description = description;
+        this.type = type;
     }
 }
