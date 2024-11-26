@@ -1,22 +1,23 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Detector : MonoBehaviour
 {
-    [SerializeField]private List<GameObject> DetectedObjects;
+    [SerializeField]private List<Collider> DetectedObjectList;
 
-    private float updateInterval = 0.5f;
-    private float timeSinceLastUpdate = 0f;
+    private float updateInterval = 1f;
 
+    private Coroutine currentCoroutine = null;
+
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("InvisibleObject"))
         {
-            if (HasLineOfSight(other))
-            {
-                DetectedObjects.Add(other.gameObject);
-            }
+            StartTimer();
+            DetectedObjectList.Add(other);
         }
     }
 
@@ -24,7 +25,11 @@ public class Detector : MonoBehaviour
     {
         if (other.gameObject.CompareTag("InvisibleObject"))
         {
-            DetectedObjects.Remove(other.gameObject);
+            DetectedObjectList.Remove(other);
+            if (DetectedObjectList.Count == 0)
+            {
+                StopTimer();
+            }
         }
     }
 
@@ -47,13 +52,33 @@ public class Detector : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void StartTimer()
     {
-        timeSinceLastUpdate += Time.deltaTime;
-        if (timeSinceLastUpdate >= updateInterval)
+        if (currentCoroutine == null)
         {
-            timeSinceLastUpdate = 0f;
-            UpdateDistances();
+            currentCoroutine = StartCoroutine(CoCheckTimer());
+        }
+    }
+    
+    private void StopTimer()
+    {
+        StopCoroutine(currentCoroutine);
+        currentCoroutine = null;
+    }
+
+    private IEnumerator CoCheckTimer()
+    {
+        while (true)
+        {
+            for (int i = 0; i < DetectedObjectList.Count; i++)
+            {
+                if (HasLineOfSight(DetectedObjectList[i]))
+                {
+                    UpdateDistances();
+                    break;
+                }
+            }
+            yield return new WaitForSeconds(updateInterval);
         }
     }
 
@@ -62,19 +87,19 @@ public class Detector : MonoBehaviour
         GameObject closestObject = null;
         float minDistance = float.MaxValue;
 
-        for (int i = DetectedObjects.Count - 1; i >= 0; i--)
+        for (int i = 0; i < DetectedObjectList.Count; i++)
         {
-            if (DetectedObjects[i] == null)
+            if (DetectedObjectList[i] == null)
             {
                 throw new Exception();
             }
             else
             {
-                float distance = Vector3.Distance(transform.position, DetectedObjects[i].transform.position);
+                float distance = Vector3.Distance(transform.position, DetectedObjectList[i].transform.position);
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    closestObject = DetectedObjects[i];
+                    closestObject = DetectedObjectList[i].gameObject;
                 }
             }
         }
