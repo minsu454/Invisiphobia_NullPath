@@ -68,6 +68,9 @@ public class PlayerController : Entity
             currentSpeed.x = Mathf.SmoothDamp(currentSpeed.x, 0, ref speedVelocity.x, decelerationTime);
             currentSpeed.y = Mathf.SmoothDamp(currentSpeed.y, 0, ref speedVelocity.y, decelerationTime);
         }
+        // 로컬 좌표를 기준으로 이동 방향 계산
+        Vector3 moveDirection = (transform.right * currentSpeed.x + transform.forward * currentSpeed.y).normalized;
+
 
         // 최종 플레이어 이동  코드
         Vector3 move = new Vector3(currentSpeed.x, velocity.y, currentSpeed.y) * Time.deltaTime;
