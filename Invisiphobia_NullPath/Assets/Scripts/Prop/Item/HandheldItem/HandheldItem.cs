@@ -6,8 +6,6 @@ using static BaseItem;
 
 public class HandheldItem : BaseItem
 {
-    public bool CanBePickedUp { get; private set; }
-
     public override void Interact()
     {
     }
