@@ -1,85 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerState : Entity
+public class PlayerState : MonoBehaviour
 {
-    [SerializeField]
-    GameObject stamina;
+    public float playerHealth { get; private set; } = 100f;
 
-    [SerializeField]
-    Slider staminaSlider;
 
-    private Coroutine sliderCoroutine;
-
-    private bool isShiftPressed = false;
-
-    private void Start()
+    private void PlayerTired()
     {
-        if (staminaSlider != null)
+        if(Player.Instance.PlayerMovement.staminaSlider.value == 0f)
         {
-            staminaSlider.value = 1f; // 초기값 설정
+            Player.Instance.PlayerMovement.moveSpeed *= 0.5f;
         }
     }
 
-    private void Update()
-    {
-        
-    }
-
-    private void PlayerStamina()
-    {
-        // Shift 키 눌림 감지
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
-        {
-            if (!isShiftPressed)
-            {
-                isShiftPressed = true;
-                StartSliderCoroutine(-0.1f); // 감소 코루틴 시작
-            }
-        }
-
-        // Shift 키 떼는 동작 감지
-        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
-        {
-            if (isShiftPressed)
-            {
-                isShiftPressed = false;
-                StartSliderCoroutine(0.1f); // 증가 코루틴 시작
-                if(staminaSlider.value == 1f)
-                {
-
-                }
-            }
-        }
-    }
-
-    private void StartSliderCoroutine(float changeRate)
-    {
-        if (sliderCoroutine != null)
-        {
-            StopCoroutine(sliderCoroutine); // 기존 코루틴 중지
-        }
-        sliderCoroutine = StartCoroutine(UpdateSliderValue(changeRate)); // 새로운 코루틴 시작
-    }
-
-    private IEnumerator UpdateSliderValue(float changeRate)
-    {
-        while (true)
-        {
-            if (staminaSlider != null)
-            {
-                staminaSlider.value = Mathf.Clamp(staminaSlider.value + changeRate * Time.deltaTime, 0f, 1f);
-            }
-            yield return null; // 다음 프레임까지 대기
-        }
-    }
-
-
+    /// <summary>
+    /// 플레이어 죽는 조건 함수
+    /// </summary>
     private void PlayerDie()
     {
+        if(playerHealth == 0f)
+        {
 
+        }
     }
+
 }

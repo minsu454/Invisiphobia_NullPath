@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Tripolygon.UModelerX.Runtime.IHotspotFilterRule;
 
-public class CameraController : Entity
+public class CameraController : MonoBehaviour
 {
 
     [SerializeField]
@@ -22,6 +22,10 @@ public class CameraController : Entity
     [SerializeField]
     private Vector3 offset = new Vector3(0f, 1.8f, 0f); // 플레이어와 카메라의 상대적인 위치 (예: 눈높이)
 
+    private void Start()
+    {
+        Cursor.visible = false;
+    }
     private void Update()
     {
         CameraRotate();
