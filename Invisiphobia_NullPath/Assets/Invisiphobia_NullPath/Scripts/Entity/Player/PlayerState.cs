@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerState : MonoBehaviour
 {
@@ -19,7 +17,7 @@ public class PlayerState : MonoBehaviour
     }
 
     /// <summary>
-    /// í”Œë ˆì´ì–´ ì£½ëŠ” ì¡°ê±´ í•¨ìˆ˜
+    /// ÇÃ·¹ÀÌ¾î Á×´Â Á¶°Ç ÇÔ¼ö
     /// </summary>
     private void PlayerDie()
     {
