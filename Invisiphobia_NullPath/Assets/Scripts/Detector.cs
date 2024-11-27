@@ -11,7 +11,6 @@ public class Detector : MonoBehaviour
 
     private Coroutine currentCoroutine = null;
 
-    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("InvisibleObject"))
