@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseItem : Prop    //, IInteractable
+public abstract class BaseItem : Prop, IInteractable
 {
     public ItemData ItemData;
 
