@@ -1,22 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.PackageManager.UI;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class MapEditor2D : EditorWindow
 {
     private static MapEditor2D window;
-    private bool isCreate = false;
+    private bool isCreateData = false;
+    private bool isCreateMap = false;
 
     private GameObject map;
     private Vector2 mapSize;
 
+    private GameObject background;
+    private GameObject plane;
+
     private string brforeScenePath; // 현재 씬 저장용
     private Scene brforeScene;     // 임시 씬
     private const string UseScenePath = "Assets/Invisiphobia_NullPath/Scenes/MapEditor.unity";
+    private const string planePath = "Assets/Invisiphobia_NullPath/Prefabs/Map/Plane.prefab";
+
 
     [MenuItem("Tools/MapEditor/2DMap")]
     public static void Init()
@@ -52,7 +56,7 @@ public class MapEditor2D : EditorWindow
         }
         GUILayout.EndHorizontal();
 
-        if (!isCreate)
+        if (!isCreateData)
             return;
 
         // Normal =====================================================================
@@ -67,7 +71,21 @@ public class MapEditor2D : EditorWindow
                 return;
             }
 
-            Debug.Log("hi");
+            if (background == null)
+            {
+                background = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                background.transform.SetParent(map.transform);
+                background.transform.position = new Vector3(0, -1, 0);
+
+                plane = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(planePath));
+                plane.transform.position = new Vector3(0, -0.49f, 0);
+                plane.transform.SetParent(map.transform);
+            }
+
+            background.transform.localScale = new Vector3(mapSize.x, 1, mapSize.y);
+            plane.transform.localScale = new Vector3(mapSize.x / 10, 1, mapSize.y / 10);
+
+            isCreateMap = true;
         }
     }
 
@@ -90,7 +108,7 @@ public class MapEditor2D : EditorWindow
             map = new GameObject("Map");
             Debug.Log("Create Completed");
 
-            isCreate = true;
+            isCreateData = true;
         }
         else
         {
@@ -108,7 +126,8 @@ public class MapEditor2D : EditorWindow
             Debug.Log("Delete Completed");
             DestroyImmediate(map);
 
-            isCreate = false;
+            isCreateData = false;
+            isCreateMap = false;
 
             if (!brforeScene.IsValid())
                 return;
