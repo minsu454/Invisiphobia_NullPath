@@ -24,7 +24,8 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = false;
+        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Update()
     {
@@ -34,8 +35,8 @@ public class CameraController : MonoBehaviour
 
     private void CameraRotate()
     {
-        //애를 통해서 mouseDelta에 
-        Vector3 mousePosition = Input.mousePosition;
+        //mouseDelta로 구해야한다. mousePosition x >> 애는 마우스가 해상도 위치를 기준으로함.
+        Vector3 mousePosition = Input.mousePosition; //mouseDelta
         Vector3 mouseDelta = mousePosition - lastMousePosition;
 
         lastMousePosition = mousePosition;
