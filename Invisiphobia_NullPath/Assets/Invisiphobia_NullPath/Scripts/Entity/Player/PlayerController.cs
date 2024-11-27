@@ -1,35 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+
 public class PlayerController : Entity
 {
-    //애를 쓰면 rigidbody에서 구현해야 하는 중력, 물리작용을 직접 구현해야됨
     [SerializeField] private CharacterController characterController;
 
     [Header("PlayerSpeed")]
     [SerializeField] private float baseSpeed = 5f;
     [SerializeField] private float moveSpeed = 5f;
 
-    private float decelerationTime = 0.3f; // 감속 시간   
-
+    private float decelerationTime = 0.3f; // 감속 시간
     private float runSpeed = 1.5f;        // 달리는 속도
-    private Vector2 currentSpeed;         // 현재 이동 속도 
-    private Vector2 targetSpeed;          // 목표 속도 
+    private Vector2 currentSpeed;         // 현재 이동 속도
+    private Vector2 targetSpeed;          // 목표 속도
     private Vector2 speedVelocity;        // 보간용 속도
 
-
     [Header("PlayerJump")]
-    [SerializeField] private float jumpForce = 2f;   // 점프 힘
-    [SerializeField] private float gravity = 9.8f;    // 중력
+    [SerializeField] private float jumpForce = 0.5f;   // 점프 힘
+    [SerializeField] private float gravity = 3f;    // 중력
     private Vector3 velocity;                         // 플레이어의 현재 속도
     [SerializeField] private bool isGrounded = false; // 지면 여부
 
-
+    [Header("Camera")]
+    [SerializeField] private Transform cameraTransform; // 카메라 Transform 참조
 
     void Start()
     {
-        //초기화 작업
         characterController = GetComponent<CharacterController>();
         currentSpeed = Vector2.zero;
         targetSpeed = Vector2.zero;
@@ -50,36 +47,42 @@ public class PlayerController : Entity
 
     private void PlayerMove()
     {
+        // 입력 값
         float Vertical = Input.GetAxisRaw("Vertical");
         float Horizontal = Input.GetAxisRaw("Horizontal");
 
+        // 입력에 따른 목표 속도 설정
         targetSpeed.x = Horizontal * moveSpeed;
         targetSpeed.y = Vertical * moveSpeed;
 
-        // Wasd 누르고 있을 떄(0이 아닐 경우) 
-        if (Vertical != 0 || Horizontal != 0)
+        // 현재 속도 업데이트
+        if (Mathf.Abs(Vertical) > 0 || Mathf.Abs(Horizontal) > 0)
         {
+            // 입력이 있을 때 목표 속도로 설정
             currentSpeed.x = targetSpeed.x;
             currentSpeed.y = targetSpeed.y;
         }
         else
         {
-            // Wasd 뗐을 경우(0이 됬을 경우) 부드럽게 감속 처리
+            // 입력이 없을 때 감속 처리
             currentSpeed.x = Mathf.SmoothDamp(currentSpeed.x, 0, ref speedVelocity.x, decelerationTime);
             currentSpeed.y = Mathf.SmoothDamp(currentSpeed.y, 0, ref speedVelocity.y, decelerationTime);
         }
-        // 로컬 좌표를 기준으로 이동 방향 계산
-        Vector3 moveDirection = (transform.right * currentSpeed.x + transform.forward * currentSpeed.y).normalized;
 
+        // 로컬 좌표 기준으로 이동 방향 계산
+        Vector3 moveDirection = (cameraTransform.right * currentSpeed.x + cameraTransform.forward * currentSpeed.y);
+        moveDirection.y = 0f; // 수평 이동만 처리
 
-        // 최종 플레이어 이동  코드
-        Vector3 move = new Vector3(currentSpeed.x, velocity.y, currentSpeed.y) * Time.deltaTime;
-        characterController.Move(move);
+        // 프레임 단위로 이동 거리 계산
+        Vector3 finalMove = moveDirection.normalized * currentSpeed.magnitude * Time.deltaTime + new Vector3(0, velocity.y, 0);
+
+        // 이동 적용
+        characterController.Move(finalMove);
     }
 
     private void PlayerRun()
     {
-        if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
             moveSpeed = baseSpeed * runSpeed;
         }
@@ -91,28 +94,27 @@ public class PlayerController : Entity
 
     private void PlayerJump()
     {
-        if(Input.GetKey(KeyCode.Space) && isGrounded == true)
+        if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpForce * 2f * gravity); // 초기 점프 속도 계산
+            velocity.y = Mathf.Sqrt(jumpForce);
             isGrounded = false;
         }
     }
 
     private void ApplyGravity()
     {
-        // 지면 체크
-        if (characterController.isGrounded == true)
+        if (characterController.isGrounded)
         {
             isGrounded = true;
         }
         else
         {
             isGrounded = false;
+            velocity.y -= gravity * Time.deltaTime; // 중력 적용
         }
-
-        velocity.y -= gravity * Time.deltaTime; // 중력 적용
     }
 }
+
 
 
 
