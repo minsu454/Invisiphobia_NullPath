@@ -7,10 +7,11 @@ public enum AIState
 {
     Idle,
     Wandering,
-    Attacking
+    Attacking,
+    Fleeing
 }
 
-public class MonsterController : Entity
+public class MonsterController : MonoBehaviour
 {
     [Header("Stats")]
     public float walkSpeed;
@@ -18,7 +19,7 @@ public class MonsterController : Entity
 
     [Header("AI")]
     public float detectDistance;
-    private NavMeshAgent agent;
+    public float safeDistance;
     private AIState aiState;
 
     [Header("Wandering")]
@@ -36,6 +37,7 @@ public class MonsterController : Entity
 
     public Transform playerTransform;
 
+    private NavMeshAgent agent;
     //private Animator animator;
     //private SkinnedMeshRenderer[] meshRenderers;
 
@@ -44,7 +46,7 @@ public class MonsterController : Entity
         agent = GetComponent<NavMeshAgent>();
         //animator = GetComponent<Animator>();
         //meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-        SetState(AIState.Idle);
+        SetState(AIState.Wandering);
     }
 
     void Update()
@@ -57,8 +59,13 @@ public class MonsterController : Entity
         {
             case AIState.Idle:
             case AIState.Wandering:
+                PassiveUpdate();
                 break;
             case AIState.Attacking:
+                AttackingUpdate();
+                break;
+            case AIState.Fleeing:
+                FleeingUpdate();
                 break;
         }
     }
@@ -78,6 +85,10 @@ public class MonsterController : Entity
                 agent.isStopped = false;
                 break;
             case AIState.Attacking:
+                agent.speed = runSpeed;
+                agent.isStopped = false;
+                break;
+            case AIState.Fleeing:
                 agent.speed = runSpeed;
                 agent.isStopped = false;
                 break;
@@ -102,26 +113,30 @@ public class MonsterController : Entity
 
     void AttackingUpdate()
     {
-        if (playerDistance > attackDistance || !IsPlayerInFieldOfView())
+        if ((playerDistance <= attackDistance) && IsPlayerInFieldOfView())
         {
-            agent.isStopped = false;
-            NavMeshPath path = new NavMeshPath();
-            if (agent.CalculatePath(playerTransform.position, path))
-            {
-                agent.SetDestination(playerTransform.position);
-            }
-            else
-            {
-                //SetState(AIState.Fleeing);
-            }
+            agent.isStopped = true;
         }
         else
         {
-            agent.isStopped = true;
-            //playerController.GetComponent<IDamagable>().TakePhysicalDamage(damage);
+            if (playerDistance < detectDistance)
+            {
+                agent.isStopped = false;
+                NavMeshPath path = new NavMeshPath();
+                if (agent.CalculatePath(playerTransform.position, path))
+                {
+                    Debug.Log($"{playerTransform.position}, {aiState}");
+                    agent.SetDestination(playerTransform.position);
+                }
+            }
+            else
+            {
+                agent.SetDestination(transform.position);
+                agent.isStopped = true;
+                SetState(AIState.Wandering);
+            }
             //animator.speed = 1;
             //animator.SetTrigger("Attack");
-
         }
     }
 
@@ -129,7 +144,7 @@ public class MonsterController : Entity
     {
         if (agent.remainingDistance < 0.1f)
         {
-           // agent.SetDestination(GetFleeLocation());
+            agent.SetDestination(GetFleeLocation());
         }
         else
         {
@@ -152,6 +167,25 @@ public class MonsterController : Entity
         Vector3 directionToPlayer = playerTransform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         return angle < fieldOfView * 0.5f;
+    }
+
+    Vector3 GetFleeLocation()
+    {
+        NavMeshHit hit;
+
+        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * safeDistance), out hit, maxWanderDistance, NavMesh.AllAreas);
+
+        int i = 0;
+        while (GetDestinationAngle(hit.position) > 90 || playerDistance < safeDistance)
+        {
+
+            NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * safeDistance), out hit, maxWanderDistance, NavMesh.AllAreas);
+            i++;
+            if (i == 30)
+                break;
+        }
+
+        return hit.position;
     }
 
     Vector3 GetWanderLocation()
