@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class MapEditor2D : EditorWindow
+public class MapEditor : EditorWindow
 {
-    private static MapEditor2D window;
+    private static MapEditor window;
     private bool isCreateData = false;
     private bool isCreateMap = false;
 
@@ -19,7 +19,7 @@ public class MapEditor2D : EditorWindow
 
     private string brforeScenePath; // 현재 씬 저장용
     private Scene brforeScene;     // 임시 씬
-    private const string UseScenePath = "Assets/Invisiphobia_NullPath/Scenes/MapEditor.unity";
+    private const string useScenePath = "Assets/Invisiphobia_NullPath/Scenes/MapEditor.unity";
     private const string planePath = "Assets/Invisiphobia_NullPath/Prefabs/Map/Plane.prefab";
 
 
@@ -31,7 +31,7 @@ public class MapEditor2D : EditorWindow
             return;
         }
 
-        window = GetWindow<MapEditor2D>("Create 2D Map");
+        window = GetWindow<MapEditor>("Create 2D Map");
         window.Show();
 
         //// 최소, 최대 크기 지정
@@ -107,7 +107,7 @@ public class MapEditor2D : EditorWindow
             }
 
             brforeScenePath = EditorSceneManager.GetActiveScene().path;
-            brforeScene = EditorSceneManager.OpenScene(UseScenePath);
+            brforeScene = EditorSceneManager.OpenScene(useScenePath);
 
             GameObject go = new GameObject("Map");
             mapBuilder = go.AddComponent<MapBuilder>();
@@ -154,6 +154,8 @@ public class MapEditor2D : EditorWindow
             return;
         }
 
+        mapBuilder.MapSize = mapSize;
+
         int controlId = GUIUtility.GetControlID(FocusType.Passive);
 
         HandleUtility.AddDefaultControl(controlId);
@@ -169,7 +171,6 @@ public class MapEditor2D : EditorWindow
 
         Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
 
-        Debug.Log(mousePosition);
         HandleUtility.FindNearestVertex(mousePosition, mapBuilder.GridTransforms, out Vector3 nearestVertex);
 
         mapBuilder.HoveredPosition = nearestVertex;
