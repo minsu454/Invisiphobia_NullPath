@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     private float decelerationTime = 0.3f; // 감속 시간
     private float runSpeed = 1.5f;        // 달리는 속도
     private Vector2 currentSpeed;         // 현재 이동 속도
-    //private Vector2 targetSpeed;          // 목표 속도
     private Vector2 speedVelocity;        // 보간용 속도
 
 
@@ -44,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
         //초기 플레이어 MoveMent값
         characterController = GetComponent<CharacterController>();
         currentSpeed = Vector2.zero;
-        //targetSpeed = Vector2.zero;
         speedVelocity = Vector2.zero;
         moveSpeed = baseSpeed * runSpeed;
 
