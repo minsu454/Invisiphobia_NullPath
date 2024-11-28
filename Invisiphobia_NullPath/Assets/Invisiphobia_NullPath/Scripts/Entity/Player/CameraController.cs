@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Tripolygon.UModelerX.Runtime.IHotspotFilterRule;
 
-public class CameraController : Entity
+public class CameraController : MonoBehaviour
 {
 
     [SerializeField]
@@ -22,6 +22,11 @@ public class CameraController : Entity
     [SerializeField]
     private Vector3 offset = new Vector3(0f, 1.8f, 0f); // 플레이어와 카메라의 상대적인 위치 (예: 눈높이)
 
+    private void Start()
+    {
+        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     private void Update()
     {
         CameraRotate();
@@ -30,8 +35,8 @@ public class CameraController : Entity
 
     private void CameraRotate()
     {
-        //애를 통해서 mouseDelta에 
-        Vector3 mousePosition = Input.mousePosition;
+        //mouseDelta로 구해야한다. mousePosition x >> 애는 마우스가 해상도 위치를 기준으로함.
+        Vector3 mousePosition = Input.mousePosition; //mouseDelta
         Vector3 mouseDelta = mousePosition - lastMousePosition;
 
         lastMousePosition = mousePosition;
