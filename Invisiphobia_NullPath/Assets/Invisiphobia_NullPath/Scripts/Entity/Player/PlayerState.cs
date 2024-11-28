@@ -7,17 +7,8 @@ public class PlayerState : MonoBehaviour
 {
     public float playerHealth { get; private set; } = 100f;
 
-
-    private void PlayerTired()
-    {
-        if(Player.Instance.PlayerMovement.staminaSlider.value == 0f)
-        {
-            Player.Instance.PlayerMovement.moveSpeed *= 0.5f;
-        }
-    }
-
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î Á×´Â Á¶°Ç ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ ì£½ëŠ” ì¡°ê±´ í•¨ìˆ˜
     /// </summary>
     private void PlayerDie()
     {
