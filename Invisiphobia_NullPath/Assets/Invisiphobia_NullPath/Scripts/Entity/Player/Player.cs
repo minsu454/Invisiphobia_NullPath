@@ -12,7 +12,7 @@ public class Player : Entity
     public PlayerMovement PlayerMovement;
 
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
         PlayerController = GetComponent<PlayerController>();

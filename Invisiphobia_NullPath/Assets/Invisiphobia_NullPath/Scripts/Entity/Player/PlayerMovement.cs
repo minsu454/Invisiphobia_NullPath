@@ -33,13 +33,8 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine sliderCoroutine;
     private bool isSlowed = false;
 
-
-    private void Start()
+    private void Awake()
     {
-        Player.Instance.PlayerController.playerRunActionEvent += OnPlayerRun;
-        Player.Instance.PlayerController.playerJumpActionEvent += OnPlayerJump;
-        Player.Instance.PlayerController.playerMoveActionEvent += OnPlayerMove;
-
         //초기 플레이어 MoveMent값
         characterController = GetComponent<CharacterController>();
         currentSpeed = Vector2.zero;
@@ -53,6 +48,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Player.Instance.PlayerController.playerRunActionEvent += OnPlayerRun;
+        Player.Instance.PlayerController.playerJumpActionEvent += OnPlayerJump;
+        Player.Instance.PlayerController.playerMoveActionEvent += OnPlayerMove;
+    }
+
 
     private void Update()
     {
@@ -60,10 +62,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void OnPlayerMove(Vector2 vec)
-    { 
+    {
         // 입력에 따른 목표 속도 설정
         vec *= moveSpeed;
-
 
         // 현재 속도 업데이트
         if (Mathf.Abs(vec.x) > 0 || Mathf.Abs(vec.y) > 0)

@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private Vector3 offset = new Vector3(0f, 1.8f, 0f); // 플레이어와 카메라의 상대적인 위치 (예: 눈높이)
 
-    private void Start()
+    private void Awake()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
