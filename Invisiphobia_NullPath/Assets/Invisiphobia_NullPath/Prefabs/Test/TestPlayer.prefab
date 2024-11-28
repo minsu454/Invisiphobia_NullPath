@@ -44,7 +44,8 @@ GameObject:
   - component: {fileID: 5982435251349520842}
   - component: {fileID: 7312890946017489373}
   - component: {fileID: 1367495146211830483}
-  m_Layer: 0
+  - component: {fileID: 3985451180748227034}
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -169,6 +170,19 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &3985451180748227034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002174227182758650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21aa50131bc134f04a14efdbeb7686be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PipelineAsset: {fileID: 11400000, guid: d9c9fb8242f28427590fbaeb84ae75ea, type: 2}
 --- !u!1 &1668402866074309809
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +194,7 @@ GameObject:
   - component: {fileID: 7974975661160653160}
   - component: {fileID: 7100981241868468205}
   - component: {fileID: 1629403762154715916}
+  - component: {fileID: 1349314846666485146}
   m_Layer: 7
   m_Name: MonsterCamera
   m_TagString: Untagged
@@ -297,6 +312,19 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &1349314846666485146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668402866074309809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 624b5d410886fa24bbb457f5315c8adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 26ca42a287732a14cb9dd79729c6e4e5, type: 2}
 --- !u!1 &1708647298843670580
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +338,6 @@ GameObject:
   - component: {fileID: 447295810817325821}
   - component: {fileID: 5988033857793926820}
   - component: {fileID: 8836965512500946539}
-  - component: {fileID: 2725624630112828336}
   m_Layer: 0
   m_Name: Tablet
   m_TagString: Untagged
@@ -417,27 +444,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DetectedObjectList: []
---- !u!95 &2725624630112828336
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1708647298843670580}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bf728d7ef2e3e8141854ad7617e9b89a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2235079303568632125
 GameObject:
   m_ObjectHideFlags: 0
