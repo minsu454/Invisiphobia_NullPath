@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         // 입력 값
         float vertical = Input.GetAxisRaw("Vertical");
         float horizontal = Input.GetAxisRaw("Horizontal");
-        playerMoveActionEvent.Invoke(new Vector2(horizontal,vertical));
+        playerMoveActionEvent.Invoke(new Vector2(horizontal, vertical));
     }
 }
 
