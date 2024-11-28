@@ -5,6 +5,9 @@ using UnityEngine;
 public class Monster : Entity , IDetectable
 {
     [SerializeField] private MonsterController controller;
+    [SerializeField] private MeshRenderer renderer;
+
+    public bool isRevealed = false;
     public override void Init()
     {
         base.Init();
@@ -23,6 +26,30 @@ public class Monster : Entity , IDetectable
     public void Revealed()
     {
         //controller.isRevealed = true;
+        if (!isRevealed)
+        {
+            isRevealed = true;
+            renderer.enabled = true;
+
+            controller.SetState(AIState.Wandering);
+        }
     }
 
+    public void BecomeInvisible()
+    {
+        if (isRevealed)
+        {
+            isRevealed = false;
+
+            if (renderer != null)
+            {
+                renderer.enabled = false;
+            }
+
+            if (controller != null)
+            {
+                controller.SetState(AIState.Idle);
+            }
+        }
+    }
 }

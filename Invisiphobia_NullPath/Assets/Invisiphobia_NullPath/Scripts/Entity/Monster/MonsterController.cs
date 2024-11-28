@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public enum AIState
 {
-    Idle,
-    Wandering,
-    Attacking,
-    Fleeing
+    Idle,           // 투명화로 멈춰있는 상태
+    Wandering,      // 잠시 어슬렁거리는 상태
+    Attacking,      // 플레이어를 쫓고 공격하는 상태
+    Fleeing,        // 플레이어가 도망쳤을 때의 상태
+    //LookingAtPlayer // 플레이어를 바라보는 상태
 }
 
 public class MonsterController : MonoBehaviour
@@ -20,6 +21,7 @@ public class MonsterController : MonoBehaviour
     [Header("AI")]
     public float detectDistance;
     public float safeDistance;
+    public float lookAtPlayerDistance;
     private AIState aiState;
 
     [Header("Wandering")]
@@ -27,19 +29,24 @@ public class MonsterController : MonoBehaviour
     public float maxWanderDistance;
     public float minWanderWaitTime;
     public float maxWanderWaitTime;
+    public float wanderingTime = 10f;
+
+    private float wanderingTimer = 0f;
 
     [Header("Combat")]
     public float attackDistance;
-
-    private float playerDistance;
-
     public float fieldOfView = 120f;
 
-    public Transform playerTransform;
+    private float playerDistance;
+    private bool isHiding;
 
+    public Transform playerTransform;
     private NavMeshAgent agent;
+    [SerializeField] private MeshRenderer meshRenderer;
     //private Animator animator;
     //private SkinnedMeshRenderer[] meshRenderers;
+
+    private Monster monster;
 
     void Start()
     {
@@ -67,13 +74,16 @@ public class MonsterController : MonoBehaviour
             case AIState.Fleeing:
                 FleeingUpdate();
                 break;
+            //case AIState.LookingAtPlayer:
+            //    LookingAtPlayerUpdate();
+            //    break;
         }
     }
 
     public void SetState(AIState state)
     {
         aiState = state;
-
+        Debug.Log(state);
         switch (aiState)
         {
             case AIState.Idle:
@@ -81,8 +91,10 @@ public class MonsterController : MonoBehaviour
                 agent.isStopped = true;
                 break;
             case AIState.Wandering:
+                Debug.Log("wandering");
                 agent.speed = walkSpeed;
                 agent.isStopped = false;
+                WanderToNewLocation();
                 break;
             case AIState.Attacking:
                 agent.speed = runSpeed;
@@ -92,6 +104,9 @@ public class MonsterController : MonoBehaviour
                 agent.speed = runSpeed;
                 agent.isStopped = false;
                 break;
+            //case AIState.LookingAtPlayer:
+            //    agent.isStopped = true;
+            //    break;
         }
 
         //animator.speed = agent.speed / walkSpeed;
@@ -105,15 +120,39 @@ public class MonsterController : MonoBehaviour
             Invoke("WanderToNewLocation", Random.Range(minWanderWaitTime, maxWanderWaitTime));
         }
 
-        if (playerDistance < detectDistance)
+        if (playerDistance < detectDistance)    // 플레이어 감지하고 공격 상태
         {
             SetState(AIState.Attacking);
+        }
+        else if (aiState != AIState.Wandering)  // 플레이어가 도망갔을 때
+        {
+            SetState(AIState.Wandering);
+            Invoke("BecomeInvisible", Random.Range(minWanderWaitTime, maxWanderWaitTime)); // 떠도는 후 투명화
+        }
+
+        //if (playerDistance < lookAtPlayerDistance)     // 플레이어를 감지하고 바라보도록
+        //{
+        //    SetState(AIState.LookingAtPlayer);
+        //}
+    }
+
+    private void LookingAtPlayerUpdate()
+    {
+        if (playerDistance > lookAtPlayerDistance)
+        {
+            SetState(AIState.Wandering);
+        }
+        else
+        {
+            Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
     }
 
     void AttackingUpdate()
     {
-        if ((playerDistance <= attackDistance) && IsPlayerInFieldOfView())
+        if ((playerDistance <= attackDistance))
         {
             agent.isStopped = true;
         }
@@ -121,11 +160,11 @@ public class MonsterController : MonoBehaviour
         {
             if (playerDistance < detectDistance)
             {
+                Debug.Log("Attack");
                 agent.isStopped = false;
                 NavMeshPath path = new NavMeshPath();
                 if (agent.CalculatePath(playerTransform.position, path))
                 {
-                    Debug.Log($"{playerTransform.position}, {aiState}");
                     agent.SetDestination(playerTransform.position);
                 }
             }
@@ -152,9 +191,25 @@ public class MonsterController : MonoBehaviour
         }
     }
 
+    void BecomeInvisible()
+    {
+        if (aiState == AIState.Wandering) // Wandering 상태에서만 실행
+        {
+            SetState(AIState.Idle);
+            if (monster != null)
+            {
+                monster.BecomeInvisible();
+            }
+        }
+    }
+
     void WanderToNewLocation()
     {
         if (aiState != AIState.Idle)
+        {
+            return;
+        }
+        if (!meshRenderer.enabled)
         {
             return;
         }
