@@ -1,11 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : Entity
+public class PlayerState : MonoBehaviour
 {
-    public override void Init()
+    public float playerHealth { get; private set; } = 100f;
+
+
+    private void PlayerTired()
     {
-        base.Init();
+        if(Player.Instance.PlayerMovement.staminaSlider.value == 0f)
+        {
+            Player.Instance.PlayerMovement.moveSpeed *= 0.5f;
+        }
     }
+
+    /// <summary>
+    /// 플레이어 죽는 조건 함수
+    /// </summary>
+    private void PlayerDie()
+    {
+        if(playerHealth == 0f)
+        {
+
+        }
+    }
+
 }
