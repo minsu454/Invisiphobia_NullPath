@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Detector : MonoBehaviour
 {
-    [SerializeField] private List<IDetectable> detectedObjectList;
+    [SerializeField] private List<IDetectable> detectedObjectList = new List<IDetectable>();
 
     private float updateInterval = 1f;
 
