@@ -7,8 +7,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private CharacterController characterController;
 
-    public float baseSpeed { get; set; } = 10f;
-    public float moveSpeed { get; set; }
+    [SerializeField] private float baseSpeed = 10f;
+    private float moveSpeed;
 
     private float decelerationTime = 0.3f; // 감속 시간
     private float runSpeed = 1.5f;        // 달리는 속도
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         currentSpeed = Vector2.zero;
         speedVelocity = Vector2.zero;
-        moveSpeed = baseSpeed * runSpeed;
+        moveSpeed = baseSpeed;
 
         //초기 플레이어 스테미나 값
         if (staminaSlider != null)
@@ -93,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnPlayerRun(float value)
     {
+        moveSpeed = baseSpeed * runSpeed;
         staminaSlider.value = Mathf.Clamp(staminaSlider.value + value * 0.1f * Time.deltaTime, 0f, 1f);
 
         if (staminaSlider.value == 0)
@@ -121,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void RestoreSpeed()
     {
-        moveSpeed = baseSpeed * runSpeed; // 기본 속도로 복구
+        moveSpeed = baseSpeed; // 기본 속도로 복구
         isSlowed = false; // 감속 상태 해제
     }
 
