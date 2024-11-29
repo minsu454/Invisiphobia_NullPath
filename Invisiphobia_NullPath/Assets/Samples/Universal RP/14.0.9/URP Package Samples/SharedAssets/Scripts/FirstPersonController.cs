@@ -2,7 +2,7 @@ using UnityEngine;
 using Cursor = UnityEngine.Cursor;
 
 [RequireComponent(typeof(CharacterController))]
-public class FirstPersonController : MonoBehaviour
+public class PersonController : MonoBehaviour
 {
     [SerializeField]
     private float m_MouseSensitivity = 100f;
