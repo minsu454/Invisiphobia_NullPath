@@ -6,9 +6,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public event Action<float> playerRunActionEvent;
+    public event Action<bool> playerRunActionEvent;
     public event Action playerJumpActionEvent;
     public event Action<Vector2> playerMoveActionEvent;
+    private bool isRunning = false;
 
     void Update()
     {
@@ -20,13 +21,20 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerRun()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            playerRunActionEvent.Invoke(-1f);
+            isRunning = true;
         }
-        else
+
+        else if(Input.GetKeyUp(KeyCode.LeftShift))
         {
-            playerRunActionEvent.Invoke(1f);
+            isRunning = false;
+            playerRunActionEvent.Invoke(false);
+        }
+
+        if(isRunning)
+        {
+            playerRunActionEvent.Invoke(true);
         }
     }
 

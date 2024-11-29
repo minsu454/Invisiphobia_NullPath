@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private CharacterController characterController;
 
-    public float baseSpeed { get; set; } = 10f;
-    public float moveSpeed { get; set; }
+    [SerializeField] private float baseSpeed = 5f;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float runSpeed;
 
     private float decelerationTime = 0.3f; // 감속 시간
-    private float runSpeed = 1.5f;        // 달리는 속도
     private Vector2 currentSpeed;         // 현재 이동 속도
     private Vector2 speedVelocity;        // 보간용 속도
 
@@ -39,7 +40,8 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         currentSpeed = Vector2.zero;
         speedVelocity = Vector2.zero;
-        moveSpeed = baseSpeed * runSpeed;
+        moveSpeed = baseSpeed;
+        runSpeed = baseSpeed * 1.5f;
 
         //초기 플레이어 스테미나 값
         if (staminaSlider != null)
@@ -91,8 +93,21 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(finalMove);
     }
 
-    private void OnPlayerRun(float value)
+    private void OnPlayerRun(bool pressed)
     {
+        moveSpeed = runSpeed;
+
+        float value = 0f;
+
+        if (pressed == true)
+        {
+            value = -1f;
+        }
+        else if (pressed == false)
+        {
+            value = 1f;
+        }
+
         staminaSlider.value = Mathf.Clamp(staminaSlider.value + value * 0.1f * Time.deltaTime, 0f, 1f);
 
         if (staminaSlider.value == 0)
@@ -121,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void RestoreSpeed()
     {
-        moveSpeed = baseSpeed * runSpeed; // 기본 속도로 복구
+        moveSpeed = baseSpeed; // 기본 속도로 복구
         isSlowed = false; // 감속 상태 해제
     }
 
