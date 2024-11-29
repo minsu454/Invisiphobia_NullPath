@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Prop : MonoBehaviour, IDetectable
 {
-    [SerializeField] private MeshRenderer renderer;
-    [SerializeField] private Collider collider;
+    [SerializeField] private MeshRenderer myRenderer;
+    [SerializeField] private Collider myCollider;
 
     public bool isRevealed = false;
     /// <summary>
@@ -18,9 +18,9 @@ public class Prop : MonoBehaviour, IDetectable
 
     private void Awake()
     {
-        renderer = GetComponent<MeshRenderer>();
-        renderer.enabled = false;
-        collider = GetComponent<Collider>();
+        myRenderer = GetComponent<MeshRenderer>();
+        myRenderer.enabled = false;
+        myCollider = GetComponent<Collider>();
     }
 
     public void Detected()
@@ -30,7 +30,7 @@ public class Prop : MonoBehaviour, IDetectable
 
     public void Revealed()
     {
-        renderer.enabled = true;
+        myRenderer.enabled = true;
         isRevealed = true;
     }
 }
