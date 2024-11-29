@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum AIState
-{
-    Idle,
-    Wandering,
-    Attacking,
-    Fleeing
-}
-
 public class MonsterController : MonoBehaviour
 {
     [Header("Stats")]
@@ -20,33 +12,40 @@ public class MonsterController : MonoBehaviour
     [Header("AI")]
     public float detectDistance;
     public float safeDistance;
-    private AIState aiState;
+    public float lookAtPlayerDistance;
+    private AIStateType aiState;
 
     [Header("Wandering")]
     public float minWanderDistance;
     public float maxWanderDistance;
     public float minWanderWaitTime;
     public float maxWanderWaitTime;
+    public float wanderingTime = 5f;
+    private int wanderingCount;
+    private float wanderingTimer = 0f;
+
 
     [Header("Combat")]
     public float attackDistance;
-
-    private float playerDistance;
-
     public float fieldOfView = 120f;
 
-    public Transform playerTransform;
+    private float playerDistance;
+    private bool isHiding;
 
+    public Transform playerTransform;
     private NavMeshAgent agent;
+    [SerializeField] private MeshRenderer meshRenderer;
     //private Animator animator;
     //private SkinnedMeshRenderer[] meshRenderers;
+
+    private Monster monster;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         //animator = GetComponent<Animator>();
         //meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-        SetState(AIState.Wandering);
+        SetState(AIStateType.Wandering);
     }
 
     void Update()
@@ -57,38 +56,53 @@ public class MonsterController : MonoBehaviour
 
         switch (aiState)
         {
-            case AIState.Idle:
-            case AIState.Wandering:
+            case AIStateType.Idle:
+            case AIStateType.Wandering:
                 PassiveUpdate();
                 break;
-            case AIState.Attacking:
+            case AIStateType.Attacking:
                 AttackingUpdate();
                 break;
-            case AIState.Fleeing:
+            case AIStateType.Fleeing:
                 FleeingUpdate();
                 break;
         }
+
+        if (aiState == AIStateType.Wandering)
+        {
+            wanderingTimer += Time.deltaTime;
+            if (wanderingTimer >= wanderingTime) // 일정 시간 Wandering 후 투명화
+            {
+                BecomeInvisible();
+                wanderingTimer = 0f;
+            }
+        }
+
+        if (!meshRenderer.enabled)
+        {
+            LookingAtPlayerUpdate();
+        }
     }
 
-    public void SetState(AIState state)
+    public void SetState(AIStateType state)
     {
         aiState = state;
-
         switch (aiState)
         {
-            case AIState.Idle:
+            case AIStateType.Idle:
                 agent.speed = walkSpeed;
                 agent.isStopped = true;
                 break;
-            case AIState.Wandering:
+            case AIStateType.Wandering:
                 agent.speed = walkSpeed;
                 agent.isStopped = false;
+                WanderToNewLocation();
                 break;
-            case AIState.Attacking:
+            case AIStateType.Attacking:
                 agent.speed = runSpeed;
                 agent.isStopped = false;
                 break;
-            case AIState.Fleeing:
+            case AIStateType.Fleeing:
                 agent.speed = runSpeed;
                 agent.isStopped = false;
                 break;
@@ -99,21 +113,43 @@ public class MonsterController : MonoBehaviour
 
     void PassiveUpdate()
     {
-        if (aiState == AIState.Wandering && agent.remainingDistance < 0.1f)
+        if (aiState == AIStateType.Wandering && agent.remainingDistance < 0.1f)
         {
-            SetState(AIState.Idle);
+            SetState(AIStateType.Idle);
             Invoke("WanderToNewLocation", Random.Range(minWanderWaitTime, maxWanderWaitTime));
         }
 
-        if (playerDistance < detectDistance)
+        if (aiState != AIStateType.Idle) // 투명화 상태에서는 거리 감지 비활성화
         {
-            SetState(AIState.Attacking);
+            if (playerDistance < detectDistance && !isHiding) // 플레이어가 감지 범위 안에 있고 숨지 않은 경우
+            {
+                SetState(AIStateType.Attacking);
+            }
+            else if ((isHiding || playerDistance > detectDistance) && aiState != AIStateType.Wandering) // 플레이어를 놓친 경우 Wandering으로 전환
+            {
+                SetState(AIStateType.Wandering);
+                wanderingTimer = 0f; // Wandering 타이머 초기화
+            }
+        }
+    }
+
+    private void LookingAtPlayerUpdate()
+    {
+        if (playerDistance > lookAtPlayerDistance)
+        {
+            SetState(AIStateType.Wandering);
+        }
+        else
+        {
+            Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
     }
 
     void AttackingUpdate()
     {
-        if ((playerDistance <= attackDistance) && IsPlayerInFieldOfView())
+        if ((playerDistance <= attackDistance))
         {
             agent.isStopped = true;
         }
@@ -125,7 +161,6 @@ public class MonsterController : MonoBehaviour
                 NavMeshPath path = new NavMeshPath();
                 if (agent.CalculatePath(playerTransform.position, path))
                 {
-                    Debug.Log($"{playerTransform.position}, {aiState}");
                     agent.SetDestination(playerTransform.position);
                 }
             }
@@ -133,7 +168,7 @@ public class MonsterController : MonoBehaviour
             {
                 agent.SetDestination(transform.position);
                 agent.isStopped = true;
-                SetState(AIState.Wandering);
+                SetState(AIStateType.Wandering);
             }
             //animator.speed = 1;
             //animator.SetTrigger("Attack");
@@ -148,17 +183,30 @@ public class MonsterController : MonoBehaviour
         }
         else
         {
-            SetState(AIState.Wandering);
+            SetState(AIStateType.Wandering);
+        }
+    }
+
+    void BecomeInvisible()
+    {
+        if (aiState == AIStateType.Wandering) // Wandering 상태에서만 실행
+        {
+            SetState(AIStateType.Idle);
+            meshRenderer.enabled = false;
         }
     }
 
     void WanderToNewLocation()
     {
-        if (aiState != AIState.Idle)
+        if (aiState != AIStateType.Idle)
         {
             return;
         }
-        SetState(AIState.Wandering);
+        if (!meshRenderer.enabled)
+        {
+            return;
+        }
+        SetState(AIStateType.Wandering);
         agent.SetDestination(GetWanderLocation());
     }
 
