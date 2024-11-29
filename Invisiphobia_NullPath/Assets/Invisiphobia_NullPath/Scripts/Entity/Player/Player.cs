@@ -10,6 +10,7 @@ public class Player : Entity
     public PlayerController PlayerController;
     public PlayerState PlayerState;
     public PlayerMovement PlayerMovement;
+    public PlayerAnimation PlayerAnimation;
 
 
     private void Awake()
@@ -18,6 +19,7 @@ public class Player : Entity
         PlayerController = GetComponent<PlayerController>();
         PlayerState = GetComponent<PlayerState>();
         PlayerMovement = GetComponent<PlayerMovement>();
+        PlayerAnimation = GetComponent<PlayerAnimation>();
     }
 
 }
