@@ -15,22 +15,21 @@ public class MapBuilder : MonoBehaviour
     }
 
     public bool Dragging { get; set; }
-    public bool EditState = true;
+    public bool EditState { get; set; } = true;
 
     public Vector2 MapSize = new Vector2(100, 100);
     private Transform gridTransform;
     private MeshFilter gridMeshFilter;
-    private List<Vector3> gridVertices;
+    private List<Vector3> gridVerticeList;
 
     [Header("Tiles:")]
     public Color tileColor = new Color32(172, 255, 255, 255);
     public Vector3Int tileScale = new Vector3Int(1, 1, 1);
 
-    private Vector3 _tileHalfHeight;
-
+    private Vector3 tileHalfHeight;
 
     public Vector3 HoveredPosition { get; set; }
-    public List<Vector3> SelectedPositions { get; set; }
+    public List<Vector3> SelectedPositionList { get; set; }
 
     public bool busy = false;
 
@@ -86,9 +85,9 @@ public class MapBuilder : MonoBehaviour
             gridMeshFilter.sharedMesh = new Mesh() { name = "Grid" };
         }
 
-        if (this.SelectedPositions == null)
+        if (this.SelectedPositionList == null)
         {
-            this.SelectedPositions = new List<Vector3>();
+            this.SelectedPositionList = new List<Vector3>();
         }
     }
 
@@ -100,7 +99,7 @@ public class MapBuilder : MonoBehaviour
 
         tileScale = new Vector3Int(x, y, z);
 
-        _tileHalfHeight = Vector3.up * tileScale.y / 2f;
+        tileHalfHeight = Vector3.up * tileScale.y / 2f;
     }
 
     public void UpdateGridMesh()
@@ -130,13 +129,13 @@ public class MapBuilder : MonoBehaviour
             }
         }
 
-        gridVertices = new List<Vector3>(allVertices);
+        gridVerticeList = new List<Vector3>(allVertices);
 
         foreach (Vector3 vertex in allVertices)
         {
             bool isValid = true;
 
-            Vector3 globalVertex = vertex + _tileHalfHeight;
+            Vector3 globalVertex = vertex + tileHalfHeight;
 
             Bounds vertexBounds = new Bounds(globalVertex, (Vector3)tileScale * .95f);
 
@@ -154,14 +153,14 @@ public class MapBuilder : MonoBehaviour
 
             if (!isValid)
             {
-                gridVertices.Remove(vertex);
+                gridVerticeList.Remove(vertex);
 
                 continue;
             }
 
-            foreach (Vector3 selectedPosition in this.SelectedPositions)
+            foreach (Vector3 selectedPosition in this.SelectedPositionList)
             {
-                Bounds selectedBounds = new Bounds(selectedPosition + _tileHalfHeight, (Vector3)tileScale * 0.95f);
+                Bounds selectedBounds = new Bounds(selectedPosition + tileHalfHeight, (Vector3)tileScale * 0.95f);
 
                 if (selectedBounds.Intersects(vertexBounds))
                 {
@@ -173,47 +172,52 @@ public class MapBuilder : MonoBehaviour
 
             if (!isValid)
             {
-                gridVertices.Remove(vertex);
+                gridVerticeList.Remove(vertex);
             }
         }
 
         gridMeshFilter.sharedMesh.Clear();
 
-        gridMeshFilter.sharedMesh.vertices = gridVertices.ToArray();
+        gridMeshFilter.sharedMesh.vertices = gridVerticeList.ToArray();
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .02f);
-
-        for (int i = 0; i < gridVertices.Count; i++)
+        if (!this.EditState)
         {
-            Gizmos.DrawCube(gridVertices[i] + _tileHalfHeight, tileScale);
+            return;
+        }
 
-            Gizmos.DrawWireCube(gridVertices[i] + _tileHalfHeight, tileScale);
+        Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .01f);
+
+        for (int i = 0; i < gridVerticeList.Count; i++)
+        {
+            Gizmos.DrawCube(gridVerticeList[i] + tileHalfHeight, tileScale);
+
+            Gizmos.DrawWireCube(gridVerticeList[i] + tileHalfHeight, tileScale);
         }
 
         if (!this.Dragging)
         {
             Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .25f);
 
-            Gizmos.DrawCube(this.HoveredPosition + _tileHalfHeight, tileScale);
+            Gizmos.DrawCube(this.HoveredPosition + tileHalfHeight, tileScale);
 
             Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .5f);
 
-            Gizmos.DrawWireCube(this.HoveredPosition + _tileHalfHeight, tileScale);
+            Gizmos.DrawWireCube(this.HoveredPosition + tileHalfHeight, tileScale);
         }
         else
         {
-            foreach (Vector3 selectedPosition in this.SelectedPositions)
+            foreach (Vector3 selectedPosition in this.SelectedPositionList)
             {
                 Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .25f);
 
-                Gizmos.DrawCube(selectedPosition + _tileHalfHeight, tileScale);
+                Gizmos.DrawCube(selectedPosition + tileHalfHeight, tileScale);
 
                 Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .5f);
 
-                Gizmos.DrawWireCube(selectedPosition + _tileHalfHeight, tileScale);
+                Gizmos.DrawWireCube(selectedPosition + tileHalfHeight, tileScale);
             }
         }
     }
