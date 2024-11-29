@@ -13,7 +13,7 @@ public class Prop : MonoBehaviour, IDetectable
     /// </summary>
     public virtual void Init()
     {
-
+        
     }
 
     private void Awake()
