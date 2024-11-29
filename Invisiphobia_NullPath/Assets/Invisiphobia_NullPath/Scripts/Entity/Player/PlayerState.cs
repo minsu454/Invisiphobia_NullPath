@@ -5,26 +5,18 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    public float playerHealth { get; private set; } = 100f;
-
-
-    private void PlayerTired()
-    {
-        if(Player.Instance.PlayerMovement.staminaSlider.value == 0f)
-        {
-            Player.Instance.PlayerMovement.moveSpeed *= 0.5f;
-        }
-    }
-
     /// <summary>
-    /// �÷��̾� �״� ���� �Լ�
+    /// 플레이어 죽는 조건 함수
     /// </summary>
-    private void PlayerDie()
+    private void OnTriggerEnter(Collider player)
     {
-        if(playerHealth == 0f)
+        if (player.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-
+            Debug.Log("몬스터와 충돌해서 플레이어가 천국으로 갔습니다");
+            //여기에 효과음 및 죽는 애니메이션, 기타 죽었을 경우
+            //띄워줄 UI 삽입
         }
     }
+
 
 }

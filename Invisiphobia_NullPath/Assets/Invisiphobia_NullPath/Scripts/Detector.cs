@@ -1,3 +1,4 @@
+using Common.Yield;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,35 +6,35 @@ using UnityEngine;
 
 public class Detector : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> DetectedObjectList;
+    [SerializeField] private List<IDetectable> detectedObjectList = new List<IDetectable>();
 
     private float updateInterval = 1f;
 
     private Coroutine currentCoroutine = null;
 
-    
+
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("InvisibleObject"))
+        if (other.TryGetComponent(out IDetectable detectable))
         {
             StartTimer();
-            DetectedObjectList.Add(other.gameObject);
+            detectedObjectList.Add(detectable);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("InvisibleObject"))
+        if (other.TryGetComponent(out IDetectable detectable))
         {
-            DetectedObjectList.Remove(other.gameObject);
-            if (DetectedObjectList.Count == 0)
+            detectedObjectList.Remove(detectable);
+            if (detectedObjectList.Count == 0)
             {
                 StopTimer();
             }
         }
     }
     
-    bool HasLineOfSight(GameObject target)
+    bool HasLineOfSight(IDetectable target)
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -70,47 +71,47 @@ public class Detector : MonoBehaviour
     {
         while (true)
         {
-            for (int i = 0; i < DetectedObjectList.Count; i++)
+            for (int i = 0; i < detectedObjectList.Count; i++)
             {
-                if (HasLineOfSight(DetectedObjectList[i]))
+                if (HasLineOfSight(detectedObjectList[i]))
                 {
                     UpdateDistances();
                     break;
                 }
             }
-            yield return new WaitForSeconds(updateInterval);
+            yield return YieldCache.WaitForSeconds(updateInterval);
         }
     }
 
     void UpdateDistances()
     {
-        GameObject closestObject = null;
+        IDetectable closestDetectable = null;
         float minDistance = float.MaxValue;
 
-        for (int i = 0; i < DetectedObjectList.Count; i++)
+        for (int i = 0; i < detectedObjectList.Count; i++)
         {
-            if (DetectedObjectList[i] == null)
+            if (detectedObjectList[i] == null)
             {
                 throw new Exception();
             }
             else
             {
-                float distance = Vector3.Distance(transform.position, DetectedObjectList[i].transform.position);
+                float distance = Vector3.Distance(transform.position, detectedObjectList[i].transform.position);
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    closestObject = DetectedObjectList[i].gameObject;
+                    closestDetectable = detectedObjectList[i];
                 }
             }
         }
 
-        if (closestObject != null)
+        if (closestDetectable != null)
         {
-            HandleAlarm(minDistance, closestObject);
+            HandleAlarm(minDistance, closestDetectable);
         }
     }
 
-    private void HandleAlarm(float distance, GameObject detectedobject)
+    private void HandleAlarm(float distance, IDetectable detectedobject)
     {
         if(distance < 5f)
         {
@@ -124,20 +125,9 @@ public class Detector : MonoBehaviour
     
     public void Reveal()
     {
-        List<IDetectable> detectables = new List<IDetectable>();
-        for(int i = 0; i < DetectedObjectList.Count; i++)
+        for (int i = 0; i < detectedObjectList.Count; i++)
         {
-            IDetectable detactable; 
-            bool isRevealable = DetectedObjectList[i].TryGetComponent<IDetectable>(out detactable);
-            if (isRevealable)
-            {
-                detectables.Add(detactable);
-            }
-        }
-
-        for (int i = 0; i < detectables.Count;i++)
-        {
-            detectables[i].Revealed();
+            detectedObjectList[i].Revealed();
         }
     }
 }
