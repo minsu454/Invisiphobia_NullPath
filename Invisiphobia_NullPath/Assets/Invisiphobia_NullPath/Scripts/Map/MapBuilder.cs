@@ -188,7 +188,7 @@ public class MapBuilder : MonoBehaviour
             return;
         }
 
-        Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .02f);
+        Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .01f);
 
         for (int i = 0; i < gridVerticeList.Count; i++)
         {

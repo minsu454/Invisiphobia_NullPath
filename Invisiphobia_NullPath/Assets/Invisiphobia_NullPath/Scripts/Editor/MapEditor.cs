@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditorInternal;
@@ -22,6 +23,8 @@ public class MapEditor : EditorWindow
     private const string useScenePath = "Assets/Invisiphobia_NullPath/Scenes/MapEditor.unity";
     private const string planePath = "Assets/Invisiphobia_NullPath/Prefabs/Map/Plane.prefab";
 
+    private readonly HashSet<GameObject> mapGo = new HashSet<GameObject>();
+    private readonly HashSet<GameObject> itemGo = new HashSet<GameObject>();
 
     [MenuItem("Tools/MapEditor/2DMap")]
     public static void Init()
