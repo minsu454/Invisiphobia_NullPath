@@ -1,0 +1,1 @@
+START ExcelToJsonWizard/ExcelToJsonWizard/bin/Debug/net8.0/ExcelToJsonWizard.exe
