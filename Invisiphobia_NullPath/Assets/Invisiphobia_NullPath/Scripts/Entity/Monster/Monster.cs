@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Monster : Entity, IDetectable
 {
-    [SerializeField] private MonsterController controller;
-    [SerializeField] private MeshRenderer renderer;
+    [SerializeField] private MonsterController myController;
+    [SerializeField] private MeshRenderer myRenderer;
 
     public bool isRevealed = false;
     public override void Init()
@@ -28,9 +28,9 @@ public class Monster : Entity, IDetectable
         //controller.isRevealed = true;
         
         //isRevealed = true;
-        renderer.enabled = true;
+        myRenderer.enabled = true;
 
-        controller.SetState(AIStateType.Wandering);
+        myController.SetState(AIStateType.Wandering);
     }
     /*
     public void BecomeInvisible()
@@ -39,14 +39,14 @@ public class Monster : Entity, IDetectable
         {
             isRevealed = false;
 
-            if (renderer != null)
+            if (myRenderer != null)
             {
-                renderer.enabled = false;
+                myRenderer.enabled = false;
             }
 
-            if (controller != null)
+            if (myController != null)
             {
-                controller.SetState(AIState.Idle);
+                myController.SetState(AIState.Idle);
             }
         }
     }
