@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditorInternal;
@@ -22,9 +24,15 @@ public class MapEditor : EditorWindow
     private Scene brforeScene;     // 임시 씬
     private const string useScenePath = "Assets/Invisiphobia_NullPath/Scenes/MapEditor.unity";
     private const string planePath = "Assets/Invisiphobia_NullPath/Prefabs/Map/Plane.prefab";
+    private const string texturePath = "Assets/Invisiphobia_NullPath/Image/UI/progress-bar.png";
 
     private readonly HashSet<GameObject> mapGo = new HashSet<GameObject>();
     private readonly HashSet<GameObject> itemGo = new HashSet<GameObject>();
+
+    private Vector2 scrollPos; // 스크롤 위치 저장
+    int selGridInt = 0;
+    private int selectedIndex = -1; // 선택된 버튼의 인덱스 (-1은 선택되지 않은 상태)
+    string[] selStrings = { "radio1", "radio2", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3" };
 
     [MenuItem("Tools/MapEditor/2DMap")]
     public static void Init()
@@ -94,6 +102,72 @@ public class MapEditor : EditorWindow
             SceneView.duringSceneGui -= this.OnSceneGUI;
             SceneView.duringSceneGui += this.OnSceneGUI;
         }
+
+        if (!isCreateMap)
+            return;
+
+        GUILayout.Space(10f);
+        GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(2)); // 구분선
+        GUILayout.Space(10f);
+
+        DrawScrollView();
+    }
+
+    private void DrawScrollView()
+    {
+        scrollPos = GUILayout.BeginScrollView(scrollPos);
+
+        // 창 크기에 따라 열 개수 계산
+        float windowWidth = position.width - 20; // 여백 고려
+        int cellWidth = 100; // 셀 너비
+        int columns = Mathf.Max(1, Mathf.FloorToInt(windowWidth / cellWidth)); // 최소 1열
+
+        // 그리드 렌더링
+        int rows = Mathf.CeilToInt(selStrings.Length / (float)columns); // 줄 수 계산
+        for (int row = 0; row < rows; row++)
+        {
+            GUILayout.BeginHorizontal(); // 한 줄 시작
+            for (int col = 0; col < columns; col++)
+            {
+                int index = row * columns + col;
+                if (index >= selStrings.Length) break; // 남은 셀 없으면 종료
+
+                // 현재 버튼이 선택된 상태인지 확인
+                bool isSelected = (selectedIndex == index);
+
+                // 버튼 스타일 정의
+                GUIStyle buttonStyle = new GUIStyle("Button");
+                buttonStyle.normal.textColor = Color.white;
+
+                if (isSelected)
+                {
+                    buttonStyle.normal.background = CreateTexture(new Color(0.2f, 0.6f, 1.0f)); // 파란색
+                }
+                else
+                {
+                    buttonStyle.normal.background = CreateTexture(new Color(0.7f, 0.7f, 0.7f)); // 회색
+                }
+
+                // 버튼 생성
+                GUIContent content = new GUIContent("", AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath));
+                if (GUILayout.Button(content, buttonStyle, GUILayout.Width(cellWidth), GUILayout.Height(100)))
+                {
+                    selectedIndex = index; // 선택 상태 업데이트
+                    Debug.Log("Selected: " + selStrings[index]);
+                }
+            }
+            GUILayout.EndHorizontal(); // 한 줄 끝
+        }
+
+        GUILayout.EndScrollView(); // 스크롤 뷰 끝
+    }
+
+    private Texture2D CreateTexture(Color color)
+    {
+        Texture2D texture = new Texture2D(1, 1);
+        texture.SetPixel(0, 0, color);
+        texture.Apply();
+        return texture;
     }
 
     /// <summary>
