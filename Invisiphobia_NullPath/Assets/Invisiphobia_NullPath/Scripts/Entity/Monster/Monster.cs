@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : Entity , IDetectable
+public class Monster : Entity, IDetectable
 {
     [SerializeField] private MonsterController controller;
     [SerializeField] private MeshRenderer renderer;
@@ -15,7 +15,7 @@ public class Monster : Entity , IDetectable
 
     private void Awake()
     {
-        
+
     }
 
     public void Detected()
@@ -26,15 +26,13 @@ public class Monster : Entity , IDetectable
     public void Revealed()
     {
         //controller.isRevealed = true;
-        if (!isRevealed)
-        {
-            isRevealed = true;
-            renderer.enabled = true;
+        
+        //isRevealed = true;
+        renderer.enabled = true;
 
-            controller.SetState(AIState.Wandering);
-        }
+        controller.SetState(AIStateType.Wandering);
     }
-
+    /*
     public void BecomeInvisible()
     {
         if (isRevealed)
@@ -52,4 +50,5 @@ public class Monster : Entity , IDetectable
             }
         }
     }
+    */
 }
