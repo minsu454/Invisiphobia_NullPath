@@ -46,8 +46,8 @@ public class MapEditor : EditorWindow
         window.Show();
 
         //// 최소, 최대 크기 지정
-        window.minSize = new Vector2(340f, 100f);
-        window.maxSize = new Vector2(500f, 1000f);
+        window.minSize = new Vector2(1000f, 700f);
+        window.maxSize = new Vector2(1000f, 700f);
     }
 
     private void OnGUI()
@@ -115,15 +115,26 @@ public class MapEditor : EditorWindow
 
     private void DrawScrollView()
     {
-        scrollPos = GUILayout.BeginScrollView(scrollPos);
+        // Area 정의
+        Rect areaRect = new Rect(10, 150, 520, 540); // 독립적인 Area
+        Color backgroundColor = new Color(0.9f, 0.9f, 0.9f); // 연한 회색
+
+        // Area 배경 박스
+        GUI.color = backgroundColor; // 배경색 설정
+        GUI.Box(areaRect, GUIContent.none); // 배경 박스 그리기
+        GUI.color = Color.white; // 기본 색상 복원
+
+        GUILayout.BeginArea(areaRect, GUIStyle.none); // Area 시작
+
+        // 스크롤 뷰 시작
+        scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.Width(areaRect.width), GUILayout.Height(areaRect.height));
 
         // 창 크기에 따라 열 개수 계산
-        float windowWidth = position.width - 20; // 여백 고려
-        int cellWidth = 100; // 셀 너비
-        int columns = Mathf.Max(1, Mathf.FloorToInt(windowWidth / cellWidth)); // 최소 1열
-
-        // 그리드 렌더링
+        float cellWidth = 100; // 셀 너비
+        int columns = Mathf.Max(1, Mathf.FloorToInt((areaRect.width - 20) / cellWidth)); // 최소 1열
         int rows = Mathf.CeilToInt(selStrings.Length / (float)columns); // 줄 수 계산
+
+        // 버튼 그리드 렌더링
         for (int row = 0; row < rows; row++)
         {
             GUILayout.BeginHorizontal(); // 한 줄 시작
@@ -139,17 +150,11 @@ public class MapEditor : EditorWindow
                 GUIStyle buttonStyle = new GUIStyle("Button");
                 buttonStyle.normal.textColor = Color.white;
 
-                if (isSelected)
-                {
-                    buttonStyle.normal.background = CreateTexture(new Color(0.2f, 0.6f, 1.0f)); // 파란색
-                }
-                else
-                {
-                    buttonStyle.normal.background = CreateTexture(new Color(0.7f, 0.7f, 0.7f)); // 회색
-                }
+                // 선택된 상태에 따라 배경색 설정
+                buttonStyle.normal.background = CreateTexture(isSelected ? new Color(0.2f, 0.6f, 1.0f) : new Color(0.7f, 0.7f, 0.7f));
 
                 // 버튼 생성
-                GUIContent content = new GUIContent("", AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath));
+                GUIContent content = new GUIContent(AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath));
                 if (GUILayout.Button(content, buttonStyle, GUILayout.Width(cellWidth), GUILayout.Height(100)))
                 {
                     selectedIndex = index; // 선택 상태 업데이트
@@ -160,6 +165,8 @@ public class MapEditor : EditorWindow
         }
 
         GUILayout.EndScrollView(); // 스크롤 뷰 끝
+
+        GUILayout.EndArea(); // Area 끝
     }
 
     private Texture2D CreateTexture(Color color)
