@@ -34,7 +34,7 @@ public class Detector : MonoBehaviour
         }
     }
     
-    bool HasLineOfSight(IDetectable target)
+    bool HasLineOfSight(IDetectable target) //IDetectable과 Detecter사이에 Wall이 있는지 판단
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -44,7 +44,6 @@ public class Detector : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, direction, out hit, distance, layerMask))
         {
-            // Raycast가 벽을 맞췄을 때
             return false;
         }
         else
@@ -111,7 +110,7 @@ public class Detector : MonoBehaviour
         }
     }
 
-    private void HandleAlarm(float distance, IDetectable detectedobject)
+    private void HandleAlarm(float distance, IDetectable detectedobject) //TODO : 조명과 오디오로 알람
     {
         if(distance < 5f)
         {
