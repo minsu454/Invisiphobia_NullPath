@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using Common.Editor;
+using UnityEditor.MapEditor;
 
 public class MapEditor : EditorWindow
 {
@@ -80,7 +80,6 @@ public class MapEditor : EditorWindow
             mapManager.DeleteMap(ref mapBuilder);
         }
         GUILayout.EndHorizontal();
-
 
         if (!mapManager.IsCreateData)
         {

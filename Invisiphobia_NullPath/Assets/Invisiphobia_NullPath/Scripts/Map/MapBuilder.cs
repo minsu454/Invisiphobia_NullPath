@@ -5,7 +5,7 @@ using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-namespace Common.Editor
+namespace UnityEditor.MapEditor
 {
     [ExecuteInEditMode]
     public class MapBuilder : MonoBehaviour
@@ -227,5 +227,4 @@ namespace Common.Editor
         }
     }
 }
-
 #endif
