@@ -4,94 +4,60 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEditor.MapEditor;
 
-public class MapEditor : EditorWindow
+public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
 {
-    private static MapEditor window;
-    private bool isCreateMap = false;
-
     private MapBuilder mapBuilder;
-    private MapEditorManager mapManager;
-
+    
     private Vector2 mapSize;
 
-    private GameObject background;
-    private GameObject plane;
+    Rect areaRect;
+    Color backgroundColor = new Color(0.9f, 0.9f, 0.9f);
 
     private const string planePath = "Assets/Invisiphobia_NullPath/Prefabs/Map/Plane.prefab";
     private const string texturePath = "Assets/Invisiphobia_NullPath/Image/UI/progress-bar.png";
 
-    private readonly HashSet<GameObject> mapGo = new HashSet<GameObject>();
-    private readonly HashSet<GameObject> itemGo = new HashSet<GameObject>();
-
     private Vector2 scrollPos; // 스크롤 위치 저장
-    int selGridInt = 0;
     private int selectedIndex = -1; // 선택된 버튼의 인덱스 (-1은 선택되지 않은 상태)
     string[] selStrings = { "radio1", "radio2", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3",
     "radio1", "radio2", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3",
     "radio1", "radio2", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3",
     "radio1", "radio2", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3"};
 
-    private void OnEnable()
-    {
-        mapManager = new MapEditorManager();
-    }
-
     [MenuItem("Tools/MapEditor/2DMap")]
     static void Init()
     {
-        if (window != null)
-        {
-            return;
-        }
-
-        window = GetWindow<MapEditor>("Create 2D Map");
-        window.Show();
-
-        //// 최소, 최대 크기 지정
-        window.minSize = new Vector2(1000f, 700f);
-        window.maxSize = new Vector2(1000f, 700f);
+        CreateComstomWindow("Create 2D Map", new Vector2(1000f, 700f), new Vector2(1000f, 700f));
     }
 
     private void OnGUI()
     {
         // Normal =====================================================================
-        Rect areaRect = new Rect(10, 10, 500, 125); // 독립적인 Area
-        Color backgroundColor = new Color(0.9f, 0.9f, 0.9f); // 연한 회색
-
-        // Area 배경 박스
-        GUI.color = backgroundColor; // 배경색 설정
-        GUI.Box(areaRect, GUIContent.none); // 배경 박스 그리기
-        GUI.color = Color.white; // 기본 색상 복원
-
-        GUILayout.BeginArea(areaRect, GUIStyle.none); // Area 시작
-
-        GUILayout.Space(10f);
-        GUILayout.Label("Normal", EditorStyles.boldLabel);
-
-        GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Map Create"))
-        {
-            mapManager.CreateMap(ref mapBuilder);
-            SceneView.duringSceneGui += this.OnSceneGUI;
-        }
-
-        if (GUILayout.Button("Map Delete"))
-        {
-            mapManager.DeleteMap(ref mapBuilder);
-        }
-        GUILayout.EndHorizontal();
+        GUIParts.CreateHorizontal(MapField, CreateBtn, DeleteBtn);
 
         if (!mapManager.IsCreateData)
-        {
-            GUILayout.EndArea(); // Area 끝
             return;
-        }
-        
-        // Normal =====================================================================
-        GUILayout.Space(10f);
 
-        mapSize = EditorGUILayout.Vector2Field("Map Size", mapSize);
-        if (GUILayout.Button("Bake"))
+        // Save =======================================================================
+
+
+
+        // ScrollView =================================================================
+
+        areaRect = new Rect(10, 150, 530, 540); // 독립적인 Area
+
+        GUIParts.CreateArea(areaRect, backgroundColor, DrawScrollView);
+    }
+
+    private void MapField()
+    {
+        mapSize = EditorGUILayout.Vector2Field("", mapSize, GUILayout.Width(200));
+    }
+
+    private void CreateBtn()
+    {
+        GUI.enabled = !mapManager.IsCreateData;
+
+        if (GUILayout.Button("Create", GUILayout.Width(100), GUILayout.Height(20)))
         {
             if (mapSize.x <= 0 || mapSize.x % 1 != 0 || mapSize.y <= 0 || mapSize.y % 1 != 0)
             {
@@ -99,54 +65,50 @@ public class MapEditor : EditorWindow
                 return;
             }
 
-            if (background == null)
-            {
-                background = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                background.transform.SetParent(mapBuilder.transform);
-                background.transform.position = new Vector3(0, -1, 0);
+            mapManager.CreateMap(ref mapBuilder);
+            SceneView.duringSceneGui += OnSceneGUI;
 
-                plane = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(planePath));
-                plane.transform.position = new Vector3(0, -0.49f, 0);
-                plane.transform.SetParent(mapBuilder.transform);
-            }
+            GameObject background = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            background.transform.SetParent(mapBuilder.transform);
+            background.transform.position = new Vector3(0, -1, 0);
+
+            GameObject plane = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(planePath));
+            plane.transform.position = new Vector3(0, -0.49f, 0);
+            plane.transform.SetParent(mapBuilder.transform);
 
             background.transform.localScale = new Vector3(mapSize.x, 1, mapSize.y);
             plane.transform.localScale = new Vector3(mapSize.x / 10, 1, mapSize.y / 10);
-
-            isCreateMap = true;
         }
-
-        GUILayout.EndArea(); // Area 끝
-
-        if (!isCreateMap)
-            return;
-
-        GUILayout.Space(10f);
-        GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(2)); // 구분선
-        GUILayout.Space(10f);
-
-        DrawScrollView();
+        GUI.enabled = true;
     }
 
-    private void DrawScrollView()
+    private void DeleteBtn()
     {
-        // Area 정의
-        Rect areaRect = new Rect(10, 150, 530, 540); // 독립적인 Area
-        Color backgroundColor = new Color(0.9f, 0.9f, 0.9f); // 연한 회색
+        GUI.enabled = mapManager.IsCreateData;
 
-        // Area 배경 박스
-        GUI.color = backgroundColor; // 배경색 설정
-        GUI.Box(areaRect, GUIContent.none); // 배경 박스 그리기
-        GUI.color = Color.white; // 기본 색상 복원
+        if (GUILayout.Button("Delete", GUILayout.Width(100), GUILayout.Height(20)))
+        {
+            if (mapSize.x <= 0 || mapSize.x % 1 != 0 || mapSize.y <= 0 || mapSize.y % 1 != 0)
+            {
+                Debug.LogWarning("Map Size Value is OutOfRange. (integer, Positive Number)");
+                return;
+            }
 
-        GUILayout.BeginArea(areaRect, GUIStyle.none); // Area 시작
+            mapManager.DeleteMap(ref mapBuilder);
+            SceneView.duringSceneGui -= OnSceneGUI;
+        }
 
+        GUI.enabled = true;
+    }
+
+    private void DrawScrollView(Rect rect)
+    {
         // 스크롤 뷰 시작
-        scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.Width(areaRect.width), GUILayout.Height(areaRect.height));
+        scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.Width(rect.width), GUILayout.Height(rect.height));
 
         // 창 크기에 따라 열 개수 계산
         float cellWidth = 100; // 셀 너비
-        int columns = Mathf.Max(1, Mathf.FloorToInt((areaRect.width - 20) / cellWidth)); // 최소 1열
+        int columns = Mathf.Max(1, Mathf.FloorToInt((rect.width - 20) / cellWidth)); // 최소 1열
         int rows = Mathf.CeilToInt(selStrings.Length / (float)columns); // 줄 수 계산
 
         // 버튼 그리드 렌더링
@@ -166,7 +128,7 @@ public class MapEditor : EditorWindow
                 buttonStyle.normal.textColor = Color.white;
 
                 // 선택된 상태에 따라 배경색 설정
-                buttonStyle.normal.background = CreateTexture(isSelected ? new Color(0.2f, 0.6f, 1.0f) : new Color(0.7f, 0.7f, 0.7f));
+                buttonStyle.normal.background = GUIParts.CreateTexture(isSelected ? new Color(0.2f, 0.6f, 1.0f) : new Color(0.7f, 0.7f, 0.7f));
 
                 // 버튼 생성
                 GUIContent content = new GUIContent(AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath));
@@ -180,19 +142,9 @@ public class MapEditor : EditorWindow
         }
 
         GUILayout.EndScrollView(); // 스크롤 뷰 끝
-
-        GUILayout.EndArea(); // Area 끝
     }
 
-    private Texture2D CreateTexture(Color color)
-    {
-        Texture2D texture = new Texture2D(1, 1);
-        texture.SetPixel(0, 0, color);
-        texture.Apply();
-        return texture;
-    }
-
-    private void OnSceneGUI(SceneView sceneView)
+    protected override void OnSceneGUI(SceneView sceneView)
     {
         if (mapBuilder == null)
             return;
@@ -224,7 +176,6 @@ public class MapEditor : EditorWindow
 
         if (e.button == 0)
         {
-
             switch (e.type)
             {
                 case EventType.MouseDown:
@@ -237,10 +188,6 @@ public class MapEditor : EditorWindow
                 case EventType.MouseLeaveWindow:
 
                 case EventType.MouseUp:
-
-                    //mapBuilder.InstantiateTiles();
-
-                    //mapBuilder.Dragging = false;
 
                     Debug.Log("MouseUp");
 
@@ -256,9 +203,6 @@ public class MapEditor : EditorWindow
             {
                 case EventType.MouseDown:
 
-                    //GUIUtility.hotControl = controlId;
-
-                    //_dragOnsetTileInstance = hit.transform.GetComponent<EditModeInstanceBhv>();
                     Debug.Log("MouseDown");
                     break;
 
@@ -266,12 +210,6 @@ public class MapEditor : EditorWindow
 
                 case EventType.MouseUp:
 
-                    //EditModeInstanceBhv tileInstance = hit.transform.GetComponent<EditModeInstanceBhv>();
-
-                    //if (tileInstance == _dragOnsetTileInstance)
-                    //{
-                    //    mapBuilder.DestroyTile(hit.collider);
-                    //}
                     Debug.Log("MouseUp");
                     break;
             }
@@ -280,13 +218,11 @@ public class MapEditor : EditorWindow
         }
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
-        SceneView.duringSceneGui -= this.OnSceneGUI;
-
         if (mapBuilder != null)
             mapManager.DeleteMap(ref mapBuilder);
 
-        mapManager = null;
+        base.OnDisable();
     }
 }

@@ -6,7 +6,6 @@ using UnityEditor.MapEditor;
 
 public sealed class MapEditorManager
 {
-
     public bool IsCreateData { get; private set; } = false;
 
     private const string useScenePath = "Assets/Invisiphobia_NullPath/Scenes/MapEditor.unity";
@@ -50,3 +49,5 @@ public sealed class MapEditorManager
         Debug.Log("Delete Completed");
     }
 }
+
+
