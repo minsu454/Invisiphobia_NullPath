@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEditor.MapEditor;
 using System;
 using System.IO;
+using UnityEngine.UIElements;
 
 public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
 {
@@ -17,6 +18,8 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
     private Vector2 saveScrollPos;                              // 스크롤 위치 저장 변수
     private string pickName = "";                               // 선택된 버튼의 이미지 이름 저장 변수
     private int pickIdx = -1;                                   // 선택된 버튼의 인덱스 저장 변수
+
+    private Editor goEditor;
 
     private Texture2D[] texture2DArr;                                                           //Parts사진 저장 배열
     private Dictionary<string, RoomParts> partsGoDict = new Dictionary<string, RoomParts>();    //PartsGo 저장 Dictionary
@@ -59,8 +62,8 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
 
         // FreView =================================================================
 
-        areaRect = new Rect(550, 30, 245, 340);
-        GUIParts.CreateArea(areaRect, areaBackgroundColor, PickGoPreView);
+        areaRect = new Rect(550, 30, 245, 240);
+        PickGoPreView(areaRect);
     }
 
     protected override void OnSceneGUI(SceneView sceneView)
@@ -155,6 +158,7 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
             }
 
             editorManager.DeleteMap(ref mapBuilder);
+            goEditor = null;
             Stop();
         }
 
@@ -197,6 +201,11 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
                         pickName = name;
                         mapBuilder.TileScale = partsGoDict[name].Size;
                         pickIdx = index;
+
+                        if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
+                            return;
+
+                        goEditor = Editor.CreateEditor(partsPrefab.gameObject);
                     }
                 }
             });
@@ -207,13 +216,12 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
 
     private void PickGoPreView(Rect rect)
     {
-        if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
+        if (goEditor == null)
             return;
 
-        Editor partsEditor = Editor.CreateEditor(partsPrefab); // 새 Editor 생성
-
-        GUIStyle bgColor = new GUIStyle { normal = { background = EditorGUIUtility.whiteTexture } };
-        partsEditor.OnPreviewGUI(rect, bgColor);
+        GUIStyle gStyle = new GUIStyle();
+        gStyle.normal.background = Texture2D.grayTexture;
+        goEditor.OnInteractivePreviewGUI(rect, gStyle);
     }
 
     /// <summary>
