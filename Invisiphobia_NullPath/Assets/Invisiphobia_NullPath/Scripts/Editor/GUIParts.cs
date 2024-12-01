@@ -1,7 +1,8 @@
 using System;
-using System.Data.SqlTypes;
-using Unity.VisualScripting;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class GUIParts
 {
@@ -35,6 +36,43 @@ public static class GUIParts
             content[i].Invoke(rect);
 
         GUILayout.EndArea();
+    }
+
+    /// <summary>
+    /// 경로에 있는 모든 파일들 반환하는 함수
+    /// </summary>
+    public static void LoadAllInFolder<T>(string folderPath, out T[] arr) where T : Object
+    {
+        string[] guids = AssetDatabase.FindAssets($"t:{typeof(T).Name}", new[] { folderPath });
+        T[] returnArr = new T[guids.Length];
+
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+            returnArr[i] = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+        }
+
+        arr = returnArr;
+    }
+
+    /// <summary>
+    /// 경로에 있는 모든 파일들 반환하는 함수
+    /// </summary>
+    public static void LoadAllInFolder<T>(string folderPath, out Dictionary<string, T> dict) where T : Component
+    {
+        string[] guids = AssetDatabase.FindAssets($"t:GameObject", new[] { folderPath });
+        Dictionary<string, T> returnDict = new Dictionary<string, T>();
+
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+            GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+
+            T component = go.GetComponent<T>();
+            returnDict.Add(go.name, component);
+        }
+
+        dict = returnDict;
     }
 
     /// <summary>

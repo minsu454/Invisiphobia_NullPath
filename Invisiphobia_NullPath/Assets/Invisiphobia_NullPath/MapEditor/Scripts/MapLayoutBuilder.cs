@@ -8,7 +8,7 @@ using Vector3 = UnityEngine.Vector3;
 namespace UnityEditor.MapEditor
 {
     [ExecuteInEditMode]
-    public class MapBuilder : MonoBehaviour
+    public class MapLayoutBuilder : MonoBehaviour
     {
         public Transform[] GridTransforms
         {
@@ -17,8 +17,6 @@ namespace UnityEditor.MapEditor
                 return gridTransform.GetComponents<Transform>();
             }
         }
-
-        public bool Dragging { get; set; }
         public bool EditState { get; set; } = true;
 
         public Vector2 MapSize = new Vector2(100, 100);
@@ -27,13 +25,12 @@ namespace UnityEditor.MapEditor
         private List<Vector3> gridVerticeList;
 
         [Header("Tiles:")]
-        public Color tileColor = new Color32(172, 255, 255, 255);
-        public Vector3Int tileScale = new Vector3Int(1, 1, 1);
-
-        private Vector3 tileHalfHeight;
+        public Color TileColor = new Color32(172, 255, 255, 255);
+        public Vector3Int TileScale { get; set; } = Vector3Int.zero;
 
         public Vector3 HoveredPosition { get; set; }
-        public List<Vector3> SelectedPositionList { get; set; }
+
+        private Vector3 tileHalfHeight;
 
         public bool busy = false;
 
@@ -54,7 +51,7 @@ namespace UnityEditor.MapEditor
 
             busy = true;
 
-            this.PseudoAwake();
+            this.Reset();
 
             this.UpdateGridMesh();
 
@@ -63,7 +60,10 @@ namespace UnityEditor.MapEditor
             busy = false;
         }
 
-        public void PseudoAwake()
+        /// <summary>
+        /// 리셋해주는 함수
+        /// </summary>
+        public void Reset()
         {
             gridTransform = transform.Find("Grid");
 
@@ -88,28 +88,29 @@ namespace UnityEditor.MapEditor
             {
                 gridMeshFilter.sharedMesh = new Mesh() { name = "Grid" };
             }
-
-            if (this.SelectedPositionList == null)
-            {
-                this.SelectedPositionList = new List<Vector3>();
-            }
         }
 
+        /// <summary>
+        /// 맵사이즈 안에서 배치하게 제약거는 함수
+        /// </summary>
         private void ValidateTileScale()
         {
-            int x = (int)Mathf.Clamp(tileScale.x, 1, MapSize.x);
-            int y = (int)Mathf.Clamp(tileScale.y, 1, Mathf.Infinity);
-            int z = (int)Mathf.Clamp(tileScale.z, 1, MapSize.y);
+            int x = (int)Mathf.Clamp(TileScale.x, 1, MapSize.x);
+            int y = (int)Mathf.Clamp(TileScale.y, 1, Mathf.Infinity);
+            int z = (int)Mathf.Clamp(TileScale.z, 1, MapSize.y);
 
-            tileScale = new Vector3Int(x, y, z);
+            TileScale = new Vector3Int(x, y, z);
 
-            tileHalfHeight = Vector3.up * tileScale.y / 2f;
+            tileHalfHeight = Vector3.up * TileScale.y / 2f;
         }
 
+        /// <summary>
+        /// 그룹매쉬 업데이트 해주는 함수
+        /// </summary>
         public void UpdateGridMesh()
         {
-            int xSize = (int)MapSize.x - (int)(tileScale.x - 1);
-            int zSize = (int)MapSize.y - (int)(tileScale.z - 1);
+            int xSize = (int)MapSize.x - (int)(TileScale.x - 1);
+            int zSize = (int)MapSize.y - (int)(TileScale.z - 1);
 
             List<Vector3> allVertices = new List<Vector3>();
 
@@ -117,8 +118,8 @@ namespace UnityEditor.MapEditor
             {
                 for (int j = 0; j < xSize; j++)
                 {
-                    float x = j - MapSize.x / 2f + tileScale.x / 2f;
-                    float z = i - MapSize.y / 2f + tileScale.z / 2f;
+                    float x = j - MapSize.x / 2f + TileScale.x / 2f;
+                    float z = i - MapSize.y / 2f + TileScale.z / 2f;
 
                     Vector3 rayOrigin = new Vector3(x, int.MaxValue, z);
 
@@ -141,9 +142,9 @@ namespace UnityEditor.MapEditor
 
                 Vector3 globalVertex = vertex + tileHalfHeight;
 
-                Bounds vertexBounds = new Bounds(globalVertex, (Vector3)tileScale * .95f);
+                Bounds vertexBounds = new Bounds(globalVertex, (Vector3)TileScale * .95f);
 
-                Collider[] placedCollidersInReach = Physics.OverlapBox(globalVertex, (Vector3)tileScale / 2f);
+                Collider[] placedCollidersInReach = Physics.OverlapBox(globalVertex, (Vector3)TileScale / 2f);
 
                 foreach (Collider placedTileCollider in placedCollidersInReach)
                 {
@@ -161,23 +162,6 @@ namespace UnityEditor.MapEditor
 
                     continue;
                 }
-
-                foreach (Vector3 selectedPosition in this.SelectedPositionList)
-                {
-                    Bounds selectedBounds = new Bounds(selectedPosition + tileHalfHeight, (Vector3)tileScale * 0.95f);
-
-                    if (selectedBounds.Intersects(vertexBounds))
-                    {
-                        isValid = false;
-
-                        break;
-                    }
-                }
-
-                if (!isValid)
-                {
-                    gridVerticeList.Remove(vertex);
-                }
             }
 
             gridMeshFilter.sharedMesh.Clear();
@@ -192,38 +176,36 @@ namespace UnityEditor.MapEditor
                 return;
             }
 
-            Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .01f);
+            Color c1;
+            Color c2;
+
+            Gizmos.color = new Color(TileColor.r, TileColor.g, TileColor.b, .01f);
 
             for (int i = 0; i < gridVerticeList.Count; i++)
             {
-                Gizmos.DrawCube(gridVerticeList[i] + tileHalfHeight, tileScale);
+                Gizmos.DrawCube(gridVerticeList[i] + tileHalfHeight, TileScale);
 
-                Gizmos.DrawWireCube(gridVerticeList[i] + tileHalfHeight, tileScale);
+                Gizmos.DrawWireCube(gridVerticeList[i] + tileHalfHeight, TileScale);
             }
 
-            if (!this.Dragging)
-            {
-                Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .25f);
+            c1 = new Color(TileColor.r, TileColor.g, TileColor.b, .25f);
+            c2 = new Color(TileColor.r, TileColor.g, TileColor.b, .5f);
 
-                Gizmos.DrawCube(this.HoveredPosition + tileHalfHeight, tileScale);
+            DrawGizmoCube(this.HoveredPosition + tileHalfHeight, c1, c2);
+        }
+        
+        /// <summary>
+        /// 기즈모 큐브형태 띄워주는 함수
+        /// </summary>
+        private void DrawGizmoCube(Vector3 center, Color c1, Color c2)
+        {
+            Gizmos.color = c1;
 
-                Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .5f);
+            Gizmos.DrawCube(center, TileScale);
 
-                Gizmos.DrawWireCube(this.HoveredPosition + tileHalfHeight, tileScale);
-            }
-            else
-            {
-                foreach (Vector3 selectedPosition in this.SelectedPositionList)
-                {
-                    Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .25f);
+            Gizmos.color = c2;
 
-                    Gizmos.DrawCube(selectedPosition + tileHalfHeight, tileScale);
-
-                    Gizmos.color = new Color(tileColor.r, tileColor.g, tileColor.b, .5f);
-
-                    Gizmos.DrawWireCube(selectedPosition + tileHalfHeight, tileScale);
-                }
-            }
+            Gizmos.DrawWireCube(center, TileScale);
         }
     }
 }

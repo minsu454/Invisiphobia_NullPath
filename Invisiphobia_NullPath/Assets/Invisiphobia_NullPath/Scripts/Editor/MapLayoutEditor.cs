@@ -3,38 +3,48 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEditor.MapEditor;
+using System;
+using System.IO;
 
 public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
 {
-    private MapBuilder mapBuilder;
+    private MapLayoutBuilder mapBuilder;                        //맵 gizmo 체크 class
     
-    private Vector2 mapSize;
+    private Vector2 mapSize;                                    //맵 사이즈 저장 변수
+    Rect areaRect;                                              //rect 저장 변수
+    Color areaBackgroundColor = new Color(0.9f, 0.9f, 0.9f);    //에리어 배경 색 변수
 
-    Rect areaRect;
-    Color backgroundColor = new Color(0.9f, 0.9f, 0.9f);
+    private Vector2 saveScrollPos;                              // 스크롤 위치 저장 변수
+    private string pickName = "";                               // 선택된 버튼의 이미지 이름 저장 변수
+    private int pickIdx = -1;                                   // 선택된 버튼의 인덱스 저장 변수
 
-    private const string texturePath = "Assets/Invisiphobia_NullPath/Image/UI/progress-bar.png";
-    private const string planePath = "Assets/Invisiphobia_NullPath/Prefabs/Map/Plane.prefab";
+    private Texture2D[] texture2DArr;                                                           //Parts사진 저장 배열
+    private Dictionary<string, RoomParts> partsGoDict = new Dictionary<string, RoomParts>();    //PartsGo 저장 Dictionary
 
-    private Vector2 scrollPos; // 스크롤 위치 저장
-    private int selectedIndex = -1; // 선택된 버튼의 인덱스 (-1은 선택되지 않은 상태)
-    string[] selStrings = { "radio1", "radio2", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3",
-    "radio1", "radio2", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3",
-    "radio1", "radio2", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3",
-    "radio1", "radio2", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3", "radio3"};
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        GUIParts.LoadAllInFolder(EditorPath.texturePath, out texture2DArr);
+        GUIParts.LoadAllInFolder(EditorPath.partsPath, out partsGoDict);
+
+        controller.leftMouseDownEvent += OnleftMouseDown;
+        controller.rightMouseUpEvent += OnrightMouseUp;
+    }
 
     [MenuItem("Tools/MapEditor/2DMap")]
     static void Init()
     {
-        CreateComstomWindow("Create 2D Map", new Vector2(1000f, 700f), new Vector2(1000f, 700f));
+        CreateComstomWindow("Create 2D Map", new Vector2(800f, 580f), new Vector2(800f, 580f));
     }
 
     private void OnGUI()
     {
         // Normal =====================================================================
+        GUILayout.Space(5f);
         GUIParts.CreateHorizontal(MapSizeField, CreateBtn, DeleteBtn);
 
-        if (!manager.IsCreateData)
+        if (!editorManager.IsCreateData)
             return;
 
         // Save =======================================================================
@@ -43,9 +53,14 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
 
         // ScrollView =================================================================
 
-        areaRect = new Rect(10, 150, 535, 540); // 독립적인 Area
+        areaRect = new Rect(10, 30, 535, 540); // 독립적인 Area
 
-        GUIParts.CreateArea(areaRect, backgroundColor, DrawScrollView);
+        GUIParts.CreateArea(areaRect, areaBackgroundColor, RoomScrollView);
+
+        // FreView =================================================================
+
+        areaRect = new Rect(550, 30, 245, 340);
+        GUIParts.CreateArea(areaRect, areaBackgroundColor, PickGoPreView);
     }
 
     protected override void OnSceneGUI(SceneView sceneView)
@@ -64,15 +79,11 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
 
         Vector3 mousePosition = e.mousePosition;
 
-        Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
-
         HandleUtility.FindNearestVertex(mousePosition, mapBuilder.GridTransforms, out Vector3 nearestVertex);
 
         mapBuilder.HoveredPosition = nearestVertex;
 
-        Bounds bounds = new Bounds(nearestVertex + Vector3.up * mapBuilder.tileScale.y / 2f, mapBuilder.tileScale);
-
-        bool t = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity);
+        Bounds bounds = new Bounds(nearestVertex + Vector3.up * mapBuilder.TileScale.y / 2f, mapBuilder.TileScale);
 
         controller.InputMouse(e);
     }
@@ -82,7 +93,9 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
     /// </summary>
     private void MapSizeField()
     {
+        GUI.enabled = !editorManager.IsCreateData;
         mapSize = EditorGUILayout.Vector2Field("", mapSize, GUILayout.Width(200));
+        GUI.enabled = true;
     }
 
     /// <summary>
@@ -90,7 +103,7 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
     /// </summary>
     private void CreateBtn()
     {
-        GUI.enabled = !manager.IsCreateData;
+        GUI.enabled = !editorManager.IsCreateData;
 
         if (GUILayout.Button("Create", GUILayout.Width(100), GUILayout.Height(20)))
         {
@@ -100,9 +113,9 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
                 return;
             }
 
-            manager.CreateMap(ref mapBuilder);
-            SceneView.duringSceneGui += OnSceneGUI;
+            editorManager.CreateMap(ref mapBuilder);
 
+            Run();
             CreateGrid();
         }
 
@@ -118,7 +131,7 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
         background.transform.SetParent(mapBuilder.transform);
         background.transform.position = new Vector3(0, -1, 0);
 
-        GameObject plane = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(planePath));
+        GameObject plane = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(EditorPath.planePath));
         plane.transform.position = new Vector3(0, -0.49f, 0);
         plane.transform.SetParent(mapBuilder.transform);
 
@@ -131,7 +144,7 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
     /// </summary>
     private void DeleteBtn()
     {
-        GUI.enabled = manager.IsCreateData;
+        GUI.enabled = editorManager.IsCreateData;
 
         if (GUILayout.Button("Delete", GUILayout.Width(100), GUILayout.Height(20)))
         {
@@ -141,25 +154,25 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
                 return;
             }
 
-            manager.DeleteMap(ref mapBuilder);
-            SceneView.duringSceneGui -= OnSceneGUI;
+            editorManager.DeleteMap(ref mapBuilder);
+            Stop();
         }
 
         GUI.enabled = true;
     }
 
     /// <summary>
-    /// 아이템 선택 스크롤 뷰 생성 함수
+    /// 방 선택 스크롤 뷰 생성 함수
     /// </summary>
-    private void DrawScrollView(Rect rect)
+    private void RoomScrollView(Rect rect)
     {
         // 스크롤 뷰 시작
-        scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.Width(rect.width), GUILayout.Height(rect.height));
+        saveScrollPos = GUILayout.BeginScrollView(saveScrollPos, GUILayout.Width(rect.width), GUILayout.Height(rect.height));
 
         // 창 크기에 따라 열 개수 계산
         float cellWidth = 100; // 셀 너비
         int columns = Mathf.Max(1, Mathf.FloorToInt((rect.width - 20) / cellWidth)); // 최소 1열
-        int rows = Mathf.CeilToInt(selStrings.Length / (float)columns); // 줄 수 계산
+        int rows = Mathf.CeilToInt(texture2DArr.Length / (float)columns); // 줄 수 계산
 
         // 버튼 그리드 렌더링
         for (int row = 0; row < rows; row++)
@@ -169,36 +182,76 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
                 for (int col = 0; col < columns; col++)
                 {
                     int index = row * columns + col;
-                    if (index >= selStrings.Length) break; // 남은 셀 없으면 종료
+                    if (index >= texture2DArr.Length) break;
 
-                    // 현재 버튼이 선택된 상태인지 확인
-                    bool isSelected = (selectedIndex == index);
+                    bool isSelected = (pickIdx == index);
 
-                    // 버튼 스타일 정의
                     GUIStyle buttonStyle = new GUIStyle("Button");
                     buttonStyle.normal.textColor = Color.white;
-
-                    // 선택된 상태에 따라 배경색 설정
                     buttonStyle.normal.background = GUIParts.CreateTexture(isSelected ? new Color(0.2f, 0.6f, 1.0f) : new Color(0.7f, 0.7f, 0.7f));
 
-                    // 버튼 생성
-                    GUIContent content = new GUIContent(AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath));
+                    GUIContent content = new GUIContent(texture2DArr[index]);
                     if (GUILayout.Button(content, buttonStyle, GUILayout.Width(cellWidth), GUILayout.Height(100)))
                     {
-                        selectedIndex = index; // 선택 상태 업데이트
-                        Debug.Log("Selected: " + selStrings[index]);
+                        string name = texture2DArr[index].name;
+                        pickName = name;
+                        mapBuilder.TileScale = partsGoDict[name].Size;
+                        pickIdx = index;
                     }
                 }
             });
         }
 
-        GUILayout.EndScrollView(); // 스크롤 뷰 끝
+        GUILayout.EndScrollView();
+    }
+
+    private void PickGoPreView(Rect rect)
+    {
+        if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
+            return;
+
+        Editor partsEditor = Editor.CreateEditor(partsPrefab); // 새 Editor 생성
+
+        GUIStyle bgColor = new GUIStyle { normal = { background = EditorGUIUtility.whiteTexture } };
+        partsEditor.OnPreviewGUI(rect, bgColor);
+    }
+
+    /// <summary>
+    /// 왼쪽 마우스 입력 action 함수
+    /// </summary>
+    private void OnleftMouseDown(Vector3 mousePos)
+    {
+        if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
+            return;
+
+        GameObject partsGo = Instantiate(partsPrefab.gameObject);
+        partsGo.transform.position = mapBuilder.HoveredPosition + Vector3.up * 0.5f;
+        RoomParts roomParts = partsGo.GetComponent<RoomParts>();
+
+        saveManager.Add(roomParts);
+    }
+
+    /// <summary>
+    /// 오른쪽 마우스 입력해제 action 함수
+    /// </summary>
+    private void OnrightMouseUp(Vector3 mousePos)
+    {
+        Ray ray = HandleUtility.GUIPointToWorldRay(mousePos);
+
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+            return;
+
+        if (!hit.collider.TryGetComponent(out Parts parts))
+            return;
+
+        saveManager.Remove(parts);
+        DestroyImmediate(parts.gameObject);
     }
 
     protected override void OnDisable()
     {
         if (mapBuilder != null)
-            manager.DeleteMap(ref mapBuilder);
+            editorManager.DeleteMap(ref mapBuilder);
 
         base.OnDisable();
     }

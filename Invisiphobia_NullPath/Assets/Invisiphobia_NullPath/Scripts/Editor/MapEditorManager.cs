@@ -6,9 +6,7 @@ using UnityEditor.MapEditor;
 
 public sealed class MapEditorManager
 {
-    public bool IsCreateData { get; private set; } = false;
-
-    private const string useScenePath = "Assets/Invisiphobia_NullPath/Scenes/MapEditor.unity";      //전용씬 경로
+    public bool IsCreateData { get; private set; } = false;     //데이터 생성했는지 확인하는 bool 변수
 
     /// <summary>
     /// 2D맵 생성 함수
@@ -21,7 +19,7 @@ public sealed class MapEditorManager
             return;
         }
 
-        SceneEditorManager.OpenTempScene(useScenePath);
+        SceneEditorManager.OpenTempScene(EditorPath.useScenePath);
 
         GameObject go = new GameObject("Map");
         builder = go.AddComponent<T>();

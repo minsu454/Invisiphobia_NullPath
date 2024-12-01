@@ -4,19 +4,38 @@ using UnityEngine;
 public abstract class ComstomEditor<T> : EditorWindow where T : EditorWindow
 {
     protected static T window;
-    protected MapEditorManager manager;
+    protected MapEditorManager editorManager;
+    protected MapSaveManager saveManager;
+
     protected ComstomMapEditorController controller;
 
     protected virtual void OnEnable()
     {
-        manager = new MapEditorManager();
+        editorManager = new MapEditorManager();
         controller = new ComstomMapEditorController();
+        saveManager = new MapSaveManager();
     }
 
     /// <summary>
     /// 프레임마다 주기적으로 업데이트 해야하는 것들 함수
     /// </summary>
     protected abstract void OnSceneGUI(SceneView sceneView);
+
+    /// <summary>
+    /// OnSceneGUI 실행시켜주는 함수
+    /// </summary>
+    protected void Run()
+    {
+        SceneView.duringSceneGui += OnSceneGUI;
+    }
+
+    /// <summary>
+    /// OnSceneGUI 멈추는 함수
+    /// </summary>
+    protected void Stop()
+    {
+        SceneView.duringSceneGui -= OnSceneGUI;
+    }
 
     /// <summary>
     /// ComstomWindow 생성 함수
@@ -39,8 +58,9 @@ public abstract class ComstomEditor<T> : EditorWindow where T : EditorWindow
 
     protected virtual void OnDisable()
     {
-        SceneView.duringSceneGui -= OnSceneGUI;
-        manager = null;
+        Stop();
+        editorManager = null;
+        saveManager = null;
         controller = null;
     }
 }
