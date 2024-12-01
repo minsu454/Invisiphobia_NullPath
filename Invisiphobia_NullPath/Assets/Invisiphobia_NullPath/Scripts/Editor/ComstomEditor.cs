@@ -4,15 +4,23 @@ using UnityEngine;
 public abstract class ComstomEditor<T> : EditorWindow where T : EditorWindow
 {
     protected static T window;
-    protected MapEditorManager mapManager;
+    protected MapEditorManager manager;
+    protected ComstomMapEditorController controller;
 
     protected virtual void OnEnable()
     {
-        mapManager = new MapEditorManager();
+        manager = new MapEditorManager();
+        controller = new ComstomMapEditorController();
     }
 
+    /// <summary>
+    /// 프레임마다 주기적으로 업데이트 해야하는 것들 함수
+    /// </summary>
     protected abstract void OnSceneGUI(SceneView sceneView);
 
+    /// <summary>
+    /// ComstomWindow 생성 함수
+    /// </summary>
     protected static void CreateComstomWindow(string name, Vector2 minSize, Vector2 maxSize)
     {
         if (window != null)
@@ -32,6 +40,7 @@ public abstract class ComstomEditor<T> : EditorWindow where T : EditorWindow
     protected virtual void OnDisable()
     {
         SceneView.duringSceneGui -= OnSceneGUI;
-        mapManager = null;
+        manager = null;
+        controller = null;
     }
 }

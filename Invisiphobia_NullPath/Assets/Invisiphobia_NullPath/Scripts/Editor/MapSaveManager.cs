@@ -3,8 +3,12 @@ using UnityEngine;
 
 public sealed class MapSaveManager
 {
-    private readonly HashSet<GameObject> mapGo = new HashSet<GameObject>();
-    private readonly HashSet<GameObject> itemGo = new HashSet<GameObject>();
+    private readonly HashSet<GameObject> saveGo = new HashSet<GameObject>();
+
+    public void Init(string path)
+    {
+
+    }
 
     public void SaveMap()
     {

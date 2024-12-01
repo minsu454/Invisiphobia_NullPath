@@ -8,14 +8,14 @@ public sealed class MapEditorManager
 {
     public bool IsCreateData { get; private set; } = false;
 
-    private const string useScenePath = "Assets/Invisiphobia_NullPath/Scenes/MapEditor.unity";
+    private const string useScenePath = "Assets/Invisiphobia_NullPath/Scenes/MapEditor.unity";      //전용씬 경로
 
     /// <summary>
     /// 2D맵 생성 함수
     /// </summary>
-    public void CreateMap(ref MapBuilder mapBuilder)
+    public void CreateMap<T>(ref T builder) where T : Component
     {
-        if (mapBuilder != null)
+        if (builder != null)
         {
             Debug.LogWarning("map has already been created.");
             return;
@@ -24,7 +24,7 @@ public sealed class MapEditorManager
         SceneEditorManager.OpenTempScene(useScenePath);
 
         GameObject go = new GameObject("Map");
-        mapBuilder = go.AddComponent<MapBuilder>();
+        builder = go.AddComponent<T>();
 
         IsCreateData = true;
 
@@ -34,15 +34,15 @@ public sealed class MapEditorManager
     /// <summary>
     /// 2D맵 삭제 함수
     /// </summary>
-    public void DeleteMap(ref MapBuilder mapBuilder)
+    public void DeleteMap<T>(ref T builder) where T : Component
     {
-        if (mapBuilder == null)
+        if (builder == null)
         {
             Debug.LogWarning("map has already been deleted.");
             return;
         }
 
-        Object.DestroyImmediate(mapBuilder);
+        Object.DestroyImmediate(builder);
         IsCreateData = false;
 
         SceneEditorManager.CloseTempScene();

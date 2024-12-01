@@ -16,7 +16,7 @@ public static class SceneEditorManager
         brforeScene = EditorSceneManager.OpenScene(path);
     }
 
-    internal static void CloseTempScene()
+    public static void CloseTempScene()
     {
         if (!brforeScene.IsValid())
             return;
