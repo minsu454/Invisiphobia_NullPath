@@ -21,10 +21,7 @@ public class MonsterController : MonoBehaviour
     public float maxWanderDistance;
     public float minWanderWaitTime;
     public float maxWanderWaitTime;
-    public float wanderingTime = 10f;
     private int wanderingCount;
-    private int maxWanderingCount;
-    private float wanderingTimer = 0f;
 
 
     [Header("Combat")]
