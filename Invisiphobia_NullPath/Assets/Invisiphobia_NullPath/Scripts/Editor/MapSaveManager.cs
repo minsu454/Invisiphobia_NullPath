@@ -30,7 +30,15 @@ public sealed class MapSaveManager
         savePartsHashSet.Remove(parts);
     }
 
-    public void SaveMap(string path)
+    /// <summary>
+    /// HashSet 클리어해주는 함수
+    /// </summary>
+    public void Clear()
+    {
+        savePartsHashSet.Clear();
+    }
+
+    public void SaveMap(string path, Vector2 mapSize)
     {
         if (path == "")
             return;
@@ -50,12 +58,13 @@ public sealed class MapSaveManager
         }
 
         totalData.MapName = Path.GetFileNameWithoutExtension(path);
+        totalData.MapSize = mapSize;
         string json = JsonUtility.ToJson(totalData);
 
         File.WriteAllText(path, json);
     }
 
-    public void LoadMap<T>(string path, Action create, Dictionary<string, T> partsGoDict) where T : Parts
+    public void LoadMap<T>(string path, Action create, ref Vector2 mapSize, Dictionary<string, T> partsGoDict) where T : Parts
     {
         if (path == "")
             return;
@@ -64,13 +73,14 @@ public sealed class MapSaveManager
         {
             string json = File.ReadAllText(path);
             TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(json);
+            mapSize = totalData.MapSize;
 
             create.Invoke();
 
             foreach (RoomData data in totalData.RoomDataList)
             {
                 GameObject go = Object.Instantiate(partsGoDict[data.Name].gameObject);
-
+                go.name = data.Name;
                 go.transform.position = data.Pos;
                 savePartsHashSet.Add(go.GetComponent<Parts>());
             }

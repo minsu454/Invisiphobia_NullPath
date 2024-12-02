@@ -6,6 +6,7 @@ using UnityEngine;
 public class TotalMapData
 {
     public string MapName;
+    public Vector2 MapSize;
     public List<RoomData> RoomDataList = new List<RoomData>();
 }
 
