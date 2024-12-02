@@ -7,55 +7,62 @@ public class PlayerController : MonoBehaviour
 {
     public KeyCode sprintKey;
     public KeyCode jumpKey;
-    public KeyCode zoomKey;
     public KeyCode crouchKey;
 
-    public Vector3 targetVelocity;
-
-    public event Action playerRunActionEvent;
-    public event Action playerJumpActionEvent;
     public event Action playerMoveActionEvent;
-    private bool isRunning = false;
+    public event Action playerSprintActionEvent;
+    public event Action playerJumpActionEvent;
+    public event Action playerCrouchActionEvent;
+
+    private bool isSprinting = false;
+    public bool enableJump = true;
+    private bool isGrounded = false;
+    public bool enableCrouch = true;
+    public bool holdToCrouch = true;
+    public bool isCrouched = false;
 
     private void Start()
     {
         sprintKey = Player.Instance.PlayerMovement.sprintKey;
         jumpKey = Player.Instance.PlayerMovement.jumpKey;
-        zoomKey = Player.Instance.CameraController.zoomKey;
         crouchKey = Player.Instance.PlayerMovement.crouchKey;
+
+        isSprinting = Player.Instance.PlayerMovement.isSprinting;
+        enableJump = Player.Instance.PlayerMovement.enableJump;
+        isGrounded = Player.Instance.PlayerMovement.isGrounded;
+        enableCrouch = Player.Instance.PlayerMovement.enableCrouch;
+        holdToCrouch = Player.Instance.PlayerMovement.holdToCrouch;
+        isCrouched = Player.Instance.PlayerMovement.isCrouched;
     }
     void Update()
     {
         OnPlayerMove();
         OnPlayerSprint();
         OnPlayerJump();
-        OnPlayerZoom();
         OnPlayerCrouch();
     }
 
 
     private void OnPlayerSprint()
     {
-        if (Input.GetKeyDown(crouchKey))
+        if (Input.GetKeyDown(sprintKey))
         {
-            isRunning = true;
+            isSprinting = true;
+        }
+        else if (Input.GetKeyUp(sprintKey))
+        {
+            isSprinting = false;
         }
 
-        else if(Input.GetKeyUp(KeyCode.LeftShift))
+        if(isSprinting)
         {
-            isRunning = false;
-            playerRunActionEvent.Invoke();
-        }
-
-        if(isRunning)
-        {
-            playerRunActionEvent.Invoke();
+            playerSprintActionEvent.Invoke();
         }
     }
 
     private void OnPlayerJump()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (enableJump && Input.GetKeyDown(jumpKey) && isGrounded)
         {
             playerJumpActionEvent.Invoke();
         }
@@ -63,21 +70,32 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerMove()
     {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-        {
-            playerMoveActionEvent.Invoke();
-        }
-    }
-
-    private void OnPlayerZoom()
-    {
-
+        playerMoveActionEvent.Invoke();
     }
 
     private void OnPlayerCrouch()
     {
+        if (enableCrouch)
+        {
+            //holdToCrouch = 숙일 때 키를 꾹 눌러서 숙일지 여부
+            if (Input.GetKeyDown(crouchKey) && !holdToCrouch)
+            {
+                playerCrouchActionEvent.Invoke();
+            }
 
+            if (Input.GetKeyDown(crouchKey) && holdToCrouch)
+            {
+                isCrouched = true;
+                playerCrouchActionEvent.Invoke();
+            }
+            else if (Input.GetKeyUp(crouchKey) && holdToCrouch)
+            {
+                isCrouched = false;
+                playerCrouchActionEvent.Invoke();
+            }
+        }
     }
+
 }
 
 
