@@ -44,14 +44,14 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     {
         // Normal =====================================================================
         GUILayout.Space(5f);
-        GUIParts.CreateHorizontal(MapSizeField, CreateBtn, LoadBtn, DeleteBtn, SaveBtn);
+        GUIParts.CreateHorizontal(MapSizeField, CreateBtn, LoadBtn, DeleteBtn);
 
         if (!editorManager.IsCreateData)
             return;
 
         // Save =======================================================================
 
-
+        SaveBtn();
 
         // ScrollView =================================================================
 
@@ -115,13 +115,18 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
                 return;
             }
 
-            editorManager.CreateMap(ref mapBuilder);
-
-            Run();
-            CreateGrid();
+            CreateMap();
         }
 
         GUI.enabled = true;
+    }
+
+    public void CreateMap()
+    {
+        editorManager.CreateMap(ref mapBuilder);
+
+        Run();
+        CreateGrid();
     }
 
     /// <summary>
@@ -169,10 +174,14 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     /// </summary>
     private void SaveBtn()
     {
-        if (GUILayout.Button("Save", GUILayout.Width(100), GUILayout.Height(20)))
+        Rect buttonRect = new Rect(695, 5, 100, 20);
+
+        if (GUI.Button(buttonRect, "Save"))
         {
-            string path = EditorUtility.SaveFilePanel("Save File", "", "", "json");
-            saveManager.SaveMap();
+            string initialFilename = "SaveData_" + DateTime.Now.ToString(("MM_dd_HH_mm_ss")) + ".json";
+
+            string path = EditorUtility.SaveFilePanel("Save File", "", initialFilename, "json");
+            saveManager.SaveMap(path);
         }
     }
 
@@ -186,7 +195,7 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         if (GUILayout.Button("Load", GUILayout.Width(100), GUILayout.Height(20)))
         {
             string path = EditorUtility.OpenFilePanel("Open File", "", "json");
-            saveManager.LoadMap(path);
+            saveManager.LoadMap(path, CreateMap, partsGoDict);
         }
 
         GUI.enabled = true;
@@ -271,6 +280,8 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
             return;
 
         GameObject partsGo = Instantiate(partsPrefab.gameObject);
+
+        partsGo.name = partsPrefab.gameObject.name;
         partsGo.transform.position = mapBuilder.HoveredPosition + Vector3.up * 0.5f;
         RoomParts roomParts = partsGo.GetComponent<RoomParts>();
 
