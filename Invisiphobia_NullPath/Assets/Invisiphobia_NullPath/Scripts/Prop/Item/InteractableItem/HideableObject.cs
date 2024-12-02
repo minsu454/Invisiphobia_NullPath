@@ -5,7 +5,7 @@ public class HideableObject : InteractableItem
     private bool isHidden = false;
     private Transform hidingSpot;
 
-    public override void Interact()
+    public override GameObject Interact()
     {
         if (isHidden)
         {
@@ -16,5 +16,7 @@ public class HideableObject : InteractableItem
             isHidden = true;
             hidingSpot = transform;
         }
+
+        return gameObject;
     }
 }
