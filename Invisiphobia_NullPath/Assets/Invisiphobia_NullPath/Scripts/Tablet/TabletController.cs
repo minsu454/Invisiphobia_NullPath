@@ -48,6 +48,7 @@ public class TabletController : MonoBehaviour
             detector.Reveal();
             SetTabletState(TabletStateType.Idle);
         }
+        TabletManager.Instance.ApplyMapSize();
     }
 
     private void SetTabletState(TabletStateType newState)
