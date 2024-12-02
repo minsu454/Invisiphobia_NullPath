@@ -6,7 +6,8 @@ using static BaseItem;
 
 public class HandheldItem : BaseItem
 {
-    public override void Interact()
+    public override GameObject Interact()
     {
+        return gameObject;
     }
 }

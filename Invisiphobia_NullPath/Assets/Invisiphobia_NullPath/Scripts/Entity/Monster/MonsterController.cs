@@ -7,48 +7,42 @@ using UnityEngine.AI;
 public class MonsterController : MonoBehaviour
 {
     [Header("Stats")]
-    public float walkSpeed;
-    public float runSpeed;
+    [SerializeField]private float walkSpeed;
+    [SerializeField] private float runSpeed;
 
     [Header("AI")]
-    public float detectDistance;
-    public float safeDistance;
-    public float lookAtPlayerDistance;
+    [SerializeField] private float detectDistance;
+    [SerializeField] private float safeDistance;
+    [SerializeField] private float lookAtPlayerDistance;
     private AIStateType aiState;
 
     [Header("Wandering")]
-    public float minWanderDistance;
-    public float maxWanderDistance;
-    public float minWanderWaitTime;
-    public float maxWanderWaitTime;
-    public float wanderingTime = 10f;
+    [SerializeField] private float minWanderDistance;
+    [SerializeField] private float maxWanderDistance;
     private int wanderingCount;
-    private int maxWanderingCount;
-    private float wanderingTimer = 0f;
+    [SerializeField] private int minWanderingCount;
+    [SerializeField] private int maxWanderingCount;
 
 
     [Header("Combat")]
-    public float attackDistance;
-    public float fieldOfView = 120f;
+    [SerializeField] private float attackDistance;
+    private const float fieldOfView = 120f;
 
     private float playerDistance;
     private bool isHiding;
 
-    public Transform playerTransform;
+    private Transform playerTransform;
     private NavMeshAgent agent;
-    [SerializeField] private MeshRenderer meshRenderer;
-    //private Animator animator;
-    //private SkinnedMeshRenderer[] meshRenderers;
 
     private Monster monster;
-    private Coroutine coroutine;
-    private bool check = true;
+    private Coroutine timer;
+    private bool canWander = true;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        //animator = GetComponent<Animator>();
-        //meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+        monster = GetComponent<Monster>();
+        playerTransform = Player.Instance.transform;
         SetState(AIStateType.Idle);
         ResetWanderingCount();
     }
@@ -56,8 +50,6 @@ public class MonsterController : MonoBehaviour
     void Update()
     {
         playerDistance = Vector3.Distance(transform.position, playerTransform.position);
-
-        //animator.SetBool("Moving", aiState != AIState.Idle);
 
         switch (aiState)
         {
@@ -73,7 +65,7 @@ public class MonsterController : MonoBehaviour
                 break;
         }
 
-        if (!meshRenderer.enabled)
+        if (!monster.RendererActive)
         {
             LookingAtPlayerUpdate();
         }
@@ -87,30 +79,19 @@ public class MonsterController : MonoBehaviour
         aiState = state;
         switch (aiState)
         {
-            case AIStateType.Idle:
-                agent.speed = walkSpeed;
-                agent.isStopped = true;
-                break;
             case AIStateType.Wandering:
                 agent.speed = walkSpeed;
-                agent.isStopped = false;
                 break;
             case AIStateType.Attacking:
-                agent.speed = runSpeed;
-                agent.isStopped = false;
-                break;
             case AIStateType.Fleeing:
                 agent.speed = runSpeed;
-                agent.isStopped = false;
                 break;
         }
-
-        //animator.speed = agent.speed / walkSpeed;
     }
 
     void PassiveUpdate()
     {
-        if (!meshRenderer.enabled)
+        if (!monster.RendererActive)
         {
             return;
         }
@@ -124,15 +105,14 @@ public class MonsterController : MonoBehaviour
             SetState(AIStateType.Wandering);
         }
 
-        if (AIStateType.Wandering == aiState && agent.remainingDistance < 0.1f && check)
+        if (AIStateType.Wandering == aiState && agent.remainingDistance < 0.1f && canWander)
         {
-            check = false;
-            Debug.Log(wanderingCount);
+            canWander = false;
             WanderToNewLocation();  // 새 위치로 이동
 
             // 이동 횟수를 모두 소진하면 투명화 상태로 전환
             if (wanderingCount <= 0)
-                BecomeInvisible();
+                ResetCycle();
         }
     }
 
@@ -152,29 +132,18 @@ public class MonsterController : MonoBehaviour
 
     void AttackingUpdate()
     {
-        if ((playerDistance <= attackDistance))
+        if (playerDistance < detectDistance)
         {
-            agent.isStopped = true;
+            NavMeshPath path = new NavMeshPath();
+            if (agent.CalculatePath(playerTransform.position, path))
+            {
+                agent.SetDestination(playerTransform.position);
+            }
         }
         else
         {
-            if (playerDistance < detectDistance)
-            {
-                agent.isStopped = false;
-                NavMeshPath path = new NavMeshPath();
-                if (agent.CalculatePath(playerTransform.position, path))
-                {
-                    agent.SetDestination(playerTransform.position);
-                }
-            }
-            else
-            {
-                agent.SetDestination(transform.position);
-                agent.isStopped = true;
-                SetState(AIStateType.Wandering);
-            }
-            //animator.speed = 1;
-            //animator.SetTrigger("Attack");
+            agent.SetDestination(transform.position);
+            SetState(AIStateType.Wandering);
         }
     }
 
@@ -192,26 +161,25 @@ public class MonsterController : MonoBehaviour
 
     void ResetWanderingCount()
     {
-        wanderingCount = Random.Range(6, 11);
+        wanderingCount = Random.Range(minWanderingCount, maxWanderingCount);
     }
 
-    void BecomeInvisible()
+    void ResetCycle()
     {
-        SetState(AIStateType.Idle);
-        meshRenderer.enabled = false;
-        StopCoroutine(coroutine);
-        coroutine = null;
+        monster.Invisible();
+        StopCoroutine(timer);
+        timer = null;
         ResetWanderingCount();
-        check = true;
+        canWander = true;
     }
 
     void WanderToNewLocation()
     {
-        coroutine = StartCoroutine(CoTimer.Start(0.5f, () =>
+        timer = StartCoroutine(CoTimer.Start(0.5f, () =>
         {
             agent.SetDestination(GetWanderLocation());
             wanderingCount--;
-            check = true;
+            canWander = true;
         }));
 
     }
@@ -227,17 +195,14 @@ public class MonsterController : MonoBehaviour
     {
         NavMeshHit hit;
 
-        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * safeDistance), out hit, maxWanderDistance, NavMesh.AllAreas);
-
         int i = 0;
-        while (GetDestinationAngle(hit.position) > 90 || playerDistance < safeDistance)
+        do
         {
-
             NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * safeDistance), out hit, maxWanderDistance, NavMesh.AllAreas);
             i++;
             if (i == 30)
                 break;
-        }
+        } while (GetDestinationAngle(hit.position) > 90 || playerDistance < safeDistance);
 
         return hit.position;
     }
@@ -246,16 +211,14 @@ public class MonsterController : MonoBehaviour
     {
         NavMeshHit hit;
 
-        NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(minWanderDistance, maxWanderDistance)), out hit, maxWanderDistance, NavMesh.AllAreas);
-
         int i = 0;
-        while (Vector3.Distance(transform.position, hit.position) < detectDistance)
+        do
         {
             NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(minWanderDistance, maxWanderDistance)), out hit, maxWanderDistance, NavMesh.AllAreas);
             i++;
             if (i == 30)
                 break;
-        }
+        } while (Vector3.Distance(transform.position, hit.position) < detectDistance);
 
         return hit.position;
     }

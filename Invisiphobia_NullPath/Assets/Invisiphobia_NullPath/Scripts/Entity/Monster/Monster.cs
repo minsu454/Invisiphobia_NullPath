@@ -7,6 +7,8 @@ public class Monster : Entity, IDetectable
     [SerializeField] private MonsterController myController;
     [SerializeField] private MeshRenderer myRenderer;
 
+    public bool RendererActive { get { return myRenderer.enabled; } }
+
     public bool isRevealed = false;
     public override void Init()
     {
@@ -32,23 +34,10 @@ public class Monster : Entity, IDetectable
 
         myController.SetState(AIStateType.Wandering);
     }
-    /*
-    public void BecomeInvisible()
+
+    public void Invisible()
     {
-        if (isRevealed)
-        {
-            isRevealed = false;
-
-            if (myRenderer != null)
-            {
-                myRenderer.enabled = false;
-            }
-
-            if (myController != null)
-            {
-                myController.SetState(AIState.Idle);
-            }
-        }
+        myRenderer.enabled = false;
+        myController.SetState(AIStateType.Idle);
     }
-    */
 }
