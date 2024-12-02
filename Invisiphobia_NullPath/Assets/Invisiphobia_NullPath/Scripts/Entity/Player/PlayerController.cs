@@ -5,23 +5,38 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public KeyCode sprintKey;
+    public KeyCode jumpKey;
+    public KeyCode zoomKey;
+    public KeyCode crouchKey;
 
-    public event Action<bool> playerRunActionEvent;
+    public Vector3 targetVelocity;
+
+    public event Action playerRunActionEvent;
     public event Action playerJumpActionEvent;
-    public event Action<Vector2> playerMoveActionEvent;
+    public event Action playerMoveActionEvent;
     private bool isRunning = false;
 
+    private void Start()
+    {
+        sprintKey = Player.Instance.PlayerMovement.sprintKey;
+        jumpKey = Player.Instance.PlayerMovement.jumpKey;
+        zoomKey = Player.Instance.CameraController.zoomKey;
+        crouchKey = Player.Instance.PlayerMovement.crouchKey;
+    }
     void Update()
     {
-        PlayerMove();
-        PlayerRun();
-        PlayerJump();
+        OnPlayerMove();
+        OnPlayerSprint();
+        OnPlayerJump();
+        OnPlayerZoom();
+        OnPlayerCrouch();
     }
 
 
-    private void PlayerRun()
+    private void OnPlayerSprint()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(crouchKey))
         {
             isRunning = true;
         }
@@ -29,16 +44,16 @@ public class PlayerController : MonoBehaviour
         else if(Input.GetKeyUp(KeyCode.LeftShift))
         {
             isRunning = false;
-            playerRunActionEvent.Invoke(false);
+            playerRunActionEvent.Invoke();
         }
 
         if(isRunning)
         {
-            playerRunActionEvent.Invoke(true);
+            playerRunActionEvent.Invoke();
         }
     }
 
-    private void PlayerJump()
+    private void OnPlayerJump()
     {
         if (Input.GetKey(KeyCode.Space))
         {
@@ -46,12 +61,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void PlayerMove()
+    private void OnPlayerMove()
     {
-        // 입력 값
-        float vertical = Input.GetAxisRaw("Vertical");
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        playerMoveActionEvent.Invoke(new Vector2(horizontal, vertical));
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            playerMoveActionEvent.Invoke();
+        }
+    }
+
+    private void OnPlayerZoom()
+    {
+
+    }
+
+    private void OnPlayerCrouch()
+    {
+
     }
 }
 

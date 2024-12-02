@@ -11,6 +11,7 @@ public class Player : Entity
     public PlayerState PlayerState;
     public PlayerMovement PlayerMovement;
     public PlayerAnimation PlayerAnimation;
+    public CameraController CameraController;
 
 
     private void Awake()
@@ -20,6 +21,7 @@ public class Player : Entity
         PlayerState = GetComponent<PlayerState>();
         PlayerMovement = GetComponent<PlayerMovement>();
         PlayerAnimation = GetComponent<PlayerAnimation>();
+        CameraController = GetComponent<CameraController>();
     }
 
 }
