@@ -14,14 +14,14 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float detectDistance;
     [SerializeField] private float safeDistance;
     [SerializeField] private float lookAtPlayerDistance;
-    [SerializeField] private AIStateType aiState;
+    private AIStateType aiState;
 
     [Header("Wandering")]
     [SerializeField] private float minWanderDistance;
     [SerializeField] private float maxWanderDistance;
-    [SerializeField] private float minWanderWaitTime;
-    [SerializeField] private float maxWanderWaitTime;
-    [SerializeField] private int wanderingCount;
+    private int wanderingCount;
+    [SerializeField] private int minWanderingCount;
+    [SerializeField] private int maxWanderingCount;
 
 
     [Header("Combat")]
@@ -31,7 +31,7 @@ public class MonsterController : MonoBehaviour
     private float playerDistance;
     private bool isHiding;
 
-    [SerializeField] private Transform playerTransform;
+    private Transform playerTransform;
     private NavMeshAgent agent;
 
     private Monster monster;
@@ -42,6 +42,7 @@ public class MonsterController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         monster = GetComponent<Monster>();
+        playerTransform = Player.Instance.transform;
         SetState(AIStateType.Idle);
         ResetWanderingCount();
     }
@@ -160,8 +161,7 @@ public class MonsterController : MonoBehaviour
 
     void ResetWanderingCount()
     {
-        wanderingCount = Random.Range(6, 11);
-        wanderingCount = 2;
+        wanderingCount = Random.Range(minWanderingCount, maxWanderingCount);
     }
 
     void ResetCycle()
