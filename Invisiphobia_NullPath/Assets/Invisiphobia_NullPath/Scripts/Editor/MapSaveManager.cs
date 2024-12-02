@@ -5,11 +5,6 @@ public sealed class MapSaveManager
 {
     private readonly HashSet<Parts> saveGoHashSet = new HashSet<Parts>();
 
-    public void Init(string path)
-    {
-
-    }
-
     /// <summary>
     /// HashSet에 추가해주는 함수
     /// </summary>
@@ -32,12 +27,18 @@ public sealed class MapSaveManager
         saveGoHashSet.Remove(parts);
     }
 
-    public void SaveMap()
+    public void SaveMap(string path)
     {
+        if (saveGoHashSet.Count == 0)
+        {
+            Debug.LogWarning("There is no data to save.");
+            return;
+        }
 
+        MapTotalData data = new MapTotalData();
     }
 
-    public void LoadMap()
+    public void LoadMap(string path)
     {
 
     }
