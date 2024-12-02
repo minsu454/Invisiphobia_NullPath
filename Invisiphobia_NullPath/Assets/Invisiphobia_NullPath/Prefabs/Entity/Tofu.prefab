@@ -143,17 +143,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30ce0dc97f05d043bdd9e3d338cdfba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 5
-  runSpeed: 9
-  detectDistance: 5
-  safeDistance: 10
+  walkSpeed: 2
+  runSpeed: 4
+  detectDistance: 10
+  safeDistance: 20
+  lookAtPlayerDistance: 15
   minWanderDistance: 5
   maxWanderDistance: 10
   minWanderWaitTime: 1
   maxWanderWaitTime: 3
+  wanderingTime: 5
   attackDistance: 0
   fieldOfView: 120
   playerTransform: {fileID: 0}
+  meshRenderer: {fileID: 0}
 --- !u!114 &2683954283993833379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,9 +169,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b30199a7c623614f8630c1fd20c6d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  meshRenderer: {fileID: 0}
-  collider: {fileID: 0}
+  myController: {fileID: 0}
+  myRenderer: {fileID: 0}
+  isRevealed: 0
 --- !u!54 &550918450144510688
 Rigidbody:
   m_ObjectHideFlags: 0
