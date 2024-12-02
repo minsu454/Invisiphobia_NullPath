@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
@@ -56,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpPower = 5f;
 
     // Internal Variables
-    private bool isGrounded = false;
+    public bool isGrounded = false;
 
     #endregion
 
@@ -69,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     public float speedReduction = .5f;
 
     // Internal Variables
-    private bool isCrouched = false;
+    public bool isCrouched = false;
     private Vector3 originalScale;
 
     #endregion
@@ -86,64 +87,40 @@ public class PlayerMovement : MonoBehaviour
     private float timer = 0;
 
     #endregion
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+
+        originalScale = transform.localScale;
+        jointOriginalPos = joint.localPosition;
+
+        if (!unlimitedSprint)
+        {
+            sprintRemaining = sprintDuration;
+            sprintCooldownReset = sprintCooldown;
+        }
+    }
 
     private void Start()
     {
         playerCamera = Player.Instance.CameraController.playerCamera;
         isZoomed = Player.Instance.CameraController.isZoomed;
 
-        Player.Instance.PlayerController.playerRunActionEvent += Sprint;
+        Player.Instance.PlayerController.playerSprintActionEvent += Sprint;
         Player.Instance.PlayerController.playerJumpActionEvent += Jump;
         Player.Instance.PlayerController.playerMoveActionEvent += Move;
-        ;
+        Player.Instance.PlayerController.playerCrouchActionEvent += Crouch;
+
     }
 
     private void Update()
     {
-        Sprint();
-
-        #region Jump
-        // Gets input and calls jump method
-        //jump가 true이고 jump키를 눌렀으며 땅일 경우
-        if (enableJump && Input.GetKeyDown(jumpKey) && isGrounded)
-        {
-            Jump();
-        }
-        #endregion
-
-        #region Crouch
-        if (enableCrouch)
-        {
-            //holdToCrouch = 숙일 때 키를 꾹 눌러서 숙일지 여부
-            if (Input.GetKeyDown(crouchKey) && !holdToCrouch)
-            {
-                Crouch();
-            }
-
-            if (Input.GetKeyDown(crouchKey) && holdToCrouch)
-            {
-                isCrouched = true;
-                Crouch();
-            }
-            else if (Input.GetKeyUp(crouchKey) && holdToCrouch)
-            {
-                isCrouched = false;
-                Crouch();
-            }
-        }
-        #endregion
-
         CheckGround();
 
         if (enableHeadBob)
         {
             HeadBob();
         }
-    }
-
-    void FixedUpdate()
-    {
-        Move();
     }
 
     /// <summary>
