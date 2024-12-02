@@ -17,11 +17,11 @@ public class Player : Entity
     private void Awake()
     {
         Instance = this;
-        PlayerController = GetComponent<PlayerController>();
-        PlayerState = GetComponent<PlayerState>();
-        PlayerMovement = GetComponent<PlayerMovement>();
-        PlayerAnimation = GetComponent<PlayerAnimation>();
-        CameraController = GetComponent<CameraController>();
+        //PlayerController = GetComponent<PlayerController>();
+        //PlayerState = GetComponent<PlayerState>();
+        //PlayerMovement = GetComponent<PlayerMovement>();
+        //PlayerAnimation = GetComponent<PlayerAnimation>();
+        //CameraController = GetComponent<CameraController>();
     }
 
 }

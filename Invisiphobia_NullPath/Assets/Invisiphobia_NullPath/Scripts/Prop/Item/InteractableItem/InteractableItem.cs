@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class InteractableItem : BaseItem
 {
-    public override void Interact()
+    public override GameObject Interact()
     {
+        return gameObject;
     }
 }

@@ -33,4 +33,9 @@ public class Prop : MonoBehaviour, IDetectable
         myRenderer.enabled = true;
         isRevealed = true;
     }
+
+    public void Invisible()
+    {
+        throw new System.NotImplementedException();
+    }
 }
