@@ -69,7 +69,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && curInteractable != null)
         {
-            curInteractable.Interact();
+            //curInteractable.Interact();
             curInteractGameObject = null;
             curInteractable = null;
             promptText.gameObject.SetActive(false);
