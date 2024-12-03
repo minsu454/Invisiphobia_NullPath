@@ -13,5 +13,5 @@ public abstract class BaseItem : Prop, IInteractable
         TwoHanded
     }
 
-    public abstract GameObject Interact();
+    public abstract void Interact(Player player);
 }
