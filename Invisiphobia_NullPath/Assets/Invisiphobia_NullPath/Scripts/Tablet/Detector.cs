@@ -126,7 +126,10 @@ public class Detector : MonoBehaviour
     {
         for (int i = 0; i < detectedObjectList.Count; i++)
         {
-            detectedObjectList[i].Revealed();
+            if (HasLineOfSight(detectedObjectList[i]))
+            {
+                detectedObjectList[i].Revealed();
+            }
         }
     }
 }

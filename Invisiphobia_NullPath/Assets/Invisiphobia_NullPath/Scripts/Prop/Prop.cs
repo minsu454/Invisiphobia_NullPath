@@ -6,6 +6,7 @@ public class Prop : MonoBehaviour, IDetectable
 {
     [SerializeField] private MeshRenderer myRenderer;
     [SerializeField] private Collider myCollider;
+    [SerializeField] private SpriteRenderer mapIcon;
 
     public bool isRevealed = false;
     /// <summary>
