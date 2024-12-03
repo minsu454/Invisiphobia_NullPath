@@ -89,7 +89,7 @@ public class CameraController : MonoBehaviour
         if (crosshair)
         {
             //이미지 오브젝트에 해당 sprite이미지를 넣음.
-            crosshairObject.sprite = crosshairImage;
+            //crosshairObject.sprite = crosshairImage;
         }
         else
         {
