@@ -24,13 +24,20 @@ namespace Common.Data
         /// <summary>
         /// 아이템 텍스트 가져오기
         /// </summary>
-        public static string GetItemText(int key)
+        public static string GetItemText(int key, DesignEnums.LanguageType type)
         {
             ItemTextTable textTable = itemTextLoader.GetByKey(key);
-
             string text = string.Empty;
 
-            //Todo
+            switch (type)
+            {
+                case DesignEnums.LanguageType.English:
+                    text = textTable.english;
+                    break;
+                case DesignEnums.LanguageType.Korean:
+                    text = textTable.korean;
+                    break;
+            }
 
             return text;
         }
