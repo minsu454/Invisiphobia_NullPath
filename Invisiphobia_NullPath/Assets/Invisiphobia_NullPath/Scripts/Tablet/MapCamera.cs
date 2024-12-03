@@ -15,5 +15,4 @@ public class MapCamera : MonoBehaviour
             transform.rotation = Quaternion.Euler(90f, 0, 0); //회전값 고정
         }
     }
-
 }

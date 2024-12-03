@@ -17,7 +17,7 @@ public class PlayerInteract : MonoBehaviour
     private IInteractable curInteractable;
     public TextMeshProUGUI promptText;
 
-    private Camera camera;
+    private new Camera camera;
 
     private void Start()
     {
@@ -69,7 +69,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && curInteractable != null)
         {
-            curInteractable.Interact();
+            //curInteractable.Interact();
             curInteractGameObject = null;
             curInteractable = null;
             promptText.gameObject.SetActive(false);
