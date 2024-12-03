@@ -15,13 +15,15 @@ public class RoomData
 {
     public string Name;
     public Vector3 Pos;
+    public float RatateY;
     public string FloorMaterialName;
     public string WallMaterialName;
 
-    public RoomData(string name, Vector3 pos, string floorMaterialName, string wallMaterialName)
+    public RoomData(string name, Vector3 pos, float ratateY, string floorMaterialName, string wallMaterialName)
     {
         Name = name;
         Pos = pos;
+        RatateY = ratateY;
         FloorMaterialName = floorMaterialName;
         WallMaterialName = wallMaterialName;
     }

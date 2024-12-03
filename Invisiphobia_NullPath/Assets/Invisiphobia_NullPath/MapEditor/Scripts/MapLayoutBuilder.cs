@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -29,6 +30,7 @@ namespace UnityEditor.MapEditor
         public Vector3Int TileScale { get; set; } = Vector3Int.zero;
 
         public Vector3 HoveredPosition { get; set; }
+        public Vector3 Floor { get; set; } = Vector3.zero;
 
         private Vector3 tileHalfHeight;
 
@@ -169,6 +171,17 @@ namespace UnityEditor.MapEditor
             gridMeshFilter.sharedMesh.vertices = gridVerticeList.ToArray();
         }
 
+        public void UpFloor()
+        {
+            Floor += Vector3.up;
+        }
+
+        public void DownFloor()
+        {
+            if(Floor != Vector3.zero)
+                Floor += Vector3.down;
+        }
+
         private void OnDrawGizmosSelected()
         {
             if (!this.EditState)
@@ -179,13 +192,12 @@ namespace UnityEditor.MapEditor
             Color c1;
             Color c2;
 
-            Gizmos.color = new Color(TileColor.r, TileColor.g, TileColor.b, .01f);
+            c1 = c2 = new Color(TileColor.r, TileColor.g, TileColor.b, .01f);
 
             for (int i = 0; i < gridVerticeList.Count; i++)
             {
-                Gizmos.DrawCube(gridVerticeList[i] + tileHalfHeight, TileScale);
+                DrawGizmoCube(gridVerticeList[i] + tileHalfHeight, c1, c2);
 
-                Gizmos.DrawWireCube(gridVerticeList[i] + tileHalfHeight, TileScale);
             }
 
             c1 = new Color(TileColor.r, TileColor.g, TileColor.b, .25f);
