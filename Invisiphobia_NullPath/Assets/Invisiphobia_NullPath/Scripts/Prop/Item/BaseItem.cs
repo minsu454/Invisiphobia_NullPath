@@ -1,16 +1,17 @@
+using Common.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseItem : Prop, IInteractable
 {
-    public ItemData ItemData;
+    public int itemId;
+    protected ItemTable table;
 
-    public enum ItemCarryType
+    public override void Init()
     {
-        Uncarryable,
-        OneHanded,
-        TwoHanded
+        base.Init();
+        table = DataServise.GetItemTableByKey(itemId);
     }
 
     public abstract void Interact(Player player);

@@ -142,4 +142,3 @@ namespace Common.Assets
         }
     }
 }
-

@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableItem : BaseItem
+public abstract class InteractableItem : BaseItem
 {
-    public override void Interact(Player player)
-    {
-    }
 }
