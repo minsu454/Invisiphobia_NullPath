@@ -6,19 +6,27 @@ using UnityEditor.MapEditor;
 using System;
 using System.IO;
 using UnityEngine.UIElements;
+using DG.Tweening.Plugins.Core.PathCore;
+using Path = System.IO.Path;
+using Unity.VisualScripting;
 
 public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
 {
-    private MapLayoutBuilder mapBuilder;                        //맵 gizmo 체크 class
-    
-    private Vector2 mapSize;                                    //맵 사이즈 저장 변수
-    Rect areaRect;                                              //rect 저장 변수
+    private MapLayoutBuilder mapBuilder;    //맵 gizmo 체크 class
+  
+    private Vector2 mapSize;                //맵 사이즈 저장 변수
+    Rect areaRect;                          //rect 저장 변수
 
-    private Vector2 saveScrollPos;                              // 스크롤 위치 저장 변수
-    private string pickName = "";                               // 선택된 버튼의 이미지 이름 저장 변수
-    private int pickIdx = -1;                                   // 선택된 버튼의 인덱스 저장 변수
+    private Vector2 saveScrollPos;          //스크롤 위치 저장 변수
+    private string pickName = "";           //선택된 버튼의 이미지 이름 저장 변수
+    private int pickIdx = -1;               //선택된 버튼의 인덱스 저장 변수
 
-    private Editor goEditor;
+    private Material floorMaterial;         //바닥 머터리얼
+    private Material wallMaterial;          //벽 머터리얼
+
+    private Editor pickGoEditor;            //선택 오브젝트 프리뷰
+    private Editor floorEditor;             //선택 바닥 프리뷰
+    private Editor wallEditor;              //선택 벽 프리뷰
 
     private Texture2D[] texture2DArr;                                                           //Parts사진 저장 배열
     private Dictionary<string, RoomParts> partsGoDict = new Dictionary<string, RoomParts>();    //PartsGo 저장 Dictionary
@@ -34,10 +42,10 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         controller.rightMouseUpEvent += OnrightMouseUp;
     }
 
-    [MenuItem("Tools/MapEditor/2DMap")]
+    [MenuItem("Tools/MapEditor/CreateMap")]
     static void Init()
     {
-        CreateComstomWindow("Create 2D Map", new Vector2(800f, 580f), new Vector2(800f, 580f));
+        CreateComstomWindow("Create Map", new Vector2(800f, 580f), new Vector2(800f, 580f));
     }
 
     private void OnGUI()
@@ -59,10 +67,18 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
 
         GUIParts.CreateArea(areaRect, new Color(0.9f, 0.9f, 0.9f), RoomScrollView);
 
-        // FreView =================================================================
+        // PickFreView =================================================================
 
         areaRect = new Rect(550, 30, 245, 265);
         GUIParts.CreateArea(areaRect, Color.red, PickGoPreView);
+
+        // MaterialFreView =================================================================
+
+        areaRect = new Rect(550, 300, 245, 132f);
+        GUIParts.CreateArea(areaRect, Color.red, FloorMaterialPreView);
+
+        areaRect = new Rect(550, 437f, 245, 132f);
+        GUIParts.CreateArea(areaRect, Color.red, WallMaterialPreView);
     }
 
     protected override void OnSceneGUI(SceneView sceneView)
@@ -160,10 +176,7 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
                 Debug.LogWarning("Map Size Value is OutOfRange. (integer, Positive Number)");
                 return;
             }
-
-            editorManager.DeleteMap(ref mapBuilder);
-            goEditor = null;
-            Stop();
+            Clear();
         }
 
         GUI.enabled = true;
@@ -181,7 +194,9 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
             string initialFilename = "SaveData_" + DateTime.Now.ToString(("MM_dd_HH_mm_ss")) + ".json";
 
             string path = EditorUtility.SaveFilePanel("Save File", "", initialFilename, "json");
-            saveManager.SaveMap(path);
+            string json = SaveSerialize(path);
+
+            saveManager.SaveMap(path, json);
         }
     }
 
@@ -195,7 +210,7 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         if (GUILayout.Button("Load", GUILayout.Width(100), GUILayout.Height(20)))
         {
             string path = EditorUtility.OpenFilePanel("Open File", "", "json");
-            saveManager.LoadMap(path, CreateMap, partsGoDict);
+            saveManager.LoadMap(path, LoadUnserialize);
         }
 
         GUI.enabled = true;
@@ -206,15 +221,12 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     /// </summary>
     private void RoomScrollView(Rect rect)
     {
-        // 스크롤 뷰 시작
         saveScrollPos = GUILayout.BeginScrollView(saveScrollPos, GUILayout.Width(rect.width), GUILayout.Height(rect.height));
 
-        // 창 크기에 따라 열 개수 계산
-        float cellWidth = 100; // 셀 너비
-        int columns = Mathf.Max(1, Mathf.FloorToInt((rect.width - 20) / cellWidth)); // 최소 1열
-        int rows = Mathf.CeilToInt(texture2DArr.Length / (float)columns); // 줄 수 계산
+        float cellWidth = 100;
+        int columns = Mathf.Max(1, Mathf.FloorToInt((rect.width - 20) / cellWidth));
+        int rows = Mathf.CeilToInt(texture2DArr.Length / (float)columns);
 
-        // 버튼 그리드 렌더링
         for (int row = 0; row < rows; row++)
         {
             GUIParts.CreateHorizontal(() =>
@@ -241,7 +253,7 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
                         if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
                             return;
 
-                        goEditor = Editor.CreateEditor(partsPrefab.gameObject);
+                        pickGoEditor = Editor.CreateEditor(partsPrefab.gameObject);
                     }
                 }
             });
@@ -250,26 +262,87 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         GUILayout.EndScrollView();
     }
 
+    /// <summary>
+    /// 선택한 오브젝트 프리뷰
+    /// </summary>
+    /// <param name="rect"></param>
     private void PickGoPreView(Rect rect)
     {
-        if (goEditor == null)
+        if (pickGoEditor == null)
             return;
 
         GUIStyle gStyle = new GUIStyle();
         gStyle.normal.background = Texture2D.grayTexture;
-        goEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
+        pickGoEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
 
-        if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
+        if (!partsGoDict.TryGetValue(pickName, out RoomParts parts))
             return;
 
         GUIStyle styleLabel = new GUIStyle("label");
-        styleLabel.alignment = TextAnchor.UpperCenter;
+        styleLabel.alignment = TextAnchor.LowerRight;
         styleLabel.normal.textColor = new Color(1, 1, 1, 0.8f);
-        styleLabel.fontSize = 20;
+        styleLabel.fontSize = 10;
 
-        GUIContent label = new GUIContent(partsPrefab.gameObject.name, partsPrefab.gameObject.name);
-        EditorGUI.LabelField(new Rect(3, 237, 239, 30), label, styleLabel);
+        GUIContent nameLabel = new GUIContent(parts.gameObject.name, parts.gameObject.name);
+        EditorGUI.LabelField(new Rect(3, 217, 239, 20), nameLabel, styleLabel);
+
+        styleLabel.alignment = TextAnchor.MiddleLeft;
+        styleLabel.normal.textColor = new Color(1, 1, 1, 0.8f);
+        styleLabel.fontSize = 15;
+
+        GUIContent label = new GUIContent(parts.Description, parts.Description);
+        EditorGUI.LabelField(new Rect(3, 237, 239, 25), label, styleLabel);
     }
+
+    /// <summary>
+    /// 바닥 머터리얼 프리뷰
+    /// </summary>
+    private void FloorMaterialPreView(Rect rect)
+    {
+        GUILayout.Label("Material Preview", EditorStyles.boldLabel);
+
+        // 드래그 앤 드롭으로 Material 선택
+        Material newMaterial = (Material)EditorGUILayout.ObjectField(floorMaterial, typeof(Material), true);
+
+        if (newMaterial == floorMaterial)
+            return;
+
+        floorMaterial = newMaterial;
+
+        //pickGoEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
+
+        //GUIStyle styleLabel = new GUIStyle("label");
+        //styleLabel.alignment = TextAnchor.LowerRight;
+        //styleLabel.normal.textColor = new Color(1, 1, 1, 0.8f);
+        //styleLabel.fontSize = 10;
+
+        //GUIContent nameLabel = new GUIContent(parts.gameObject.name, parts.gameObject.name);
+        //EditorGUI.LabelField(new Rect(3, 217, 239, 20), nameLabel, styleLabel);
+
+        //styleLabel.alignment = TextAnchor.MiddleLeft;
+        //styleLabel.normal.textColor = new Color(1, 1, 1, 0.8f);
+        //styleLabel.fontSize = 15;
+
+        //GUIContent label = new GUIContent(parts.Description, parts.Description);
+        //EditorGUI.LabelField(new Rect(3, 237, 239, 25), label, styleLabel);
+    }
+
+    /// <summary>
+    /// 벽 머터리얼 프리뷰
+    /// </summary>
+    private void WallMaterialPreView(Rect rect)
+    {
+        GUILayout.Label("Material Preview", EditorStyles.boldLabel);
+
+        // 드래그 앤 드롭으로 Material 선택
+        Material newMaterial = (Material)EditorGUILayout.ObjectField(wallMaterial, typeof(Material), true);
+
+        if (newMaterial == wallMaterial)
+            return;
+
+        wallMaterial = newMaterial;
+    }
+    
 
     /// <summary>
     /// 왼쪽 마우스 입력 action 함수
@@ -284,6 +357,8 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         partsGo.name = partsPrefab.gameObject.name;
         partsGo.transform.position = mapBuilder.HoveredPosition + Vector3.up * 0.5f;
         RoomParts roomParts = partsGo.GetComponent<RoomParts>();
+
+        roomParts.Init(floorMaterial, wallMaterial);
 
         saveManager.Add(roomParts);
     }
@@ -303,6 +378,72 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
 
         saveManager.Remove(parts);
         DestroyImmediate(parts.gameObject);
+    }
+
+    /// <summary>
+    /// 데이터 json으로 변환 함수
+    /// </summary>
+    private string SaveSerialize(string path)
+    {
+        TotalMapData totalData = new TotalMapData();
+
+        foreach (Parts parts in saveManager.SavePartsHashSet)
+        {
+            RoomData roomData = new RoomData(parts.name, parts.transform.position, floorMaterial.name, wallMaterial.name);
+            totalData.RoomDataList.Add(roomData);
+        }
+
+        totalData.MapName = Path.GetFileNameWithoutExtension(path);
+        totalData.MapSize = mapSize;
+        string json = JsonUtility.ToJson(totalData);
+
+        return json;
+    }
+
+    /// <summary>
+    /// json 데이터 맵으로 변환 함수
+    /// </summary>
+    private void LoadUnserialize(string json)
+    {
+        TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(json);
+
+        try
+        {
+            mapSize = totalData.MapSize;
+
+            CreateMap();
+
+            foreach (RoomData data in totalData.RoomDataList)
+            {
+                GameObject go = Instantiate(partsGoDict[data.Name].gameObject);
+                go.name = data.Name;
+                go.transform.position = data.Pos;
+
+                RoomParts parts = go.GetComponent<RoomParts>();
+
+                Material floor = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.FloorMaterialName}.mat");
+                Material wall = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.WallMaterialName}.mat");
+
+                parts.Init(floor, wall);
+
+                saveManager.Add(parts);
+            }
+        }
+        catch
+        {
+            Debug.LogWarning("This file cannot be loaded.");
+        }
+    }
+
+    /// <summary>
+    /// 클리어 함수
+    /// </summary>
+    private void Clear()
+    {
+        editorManager.DeleteMap(ref mapBuilder);
+        saveManager.Clear();
+        pickGoEditor = null;
+        Stop();
     }
 
     protected override void OnDisable()

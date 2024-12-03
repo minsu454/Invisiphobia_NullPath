@@ -9,16 +9,12 @@ public class PlayerController : MonoBehaviour
     public KeyCode jumpKey;
     public KeyCode crouchKey;
 
-    public event Action playerMoveActionEvent;
+    public event Action<Vector3> playerMoveActionEvent;
     public event Action playerSprintActionEvent;
     public event Action playerJumpActionEvent;
-    public event Action playerCrouchActionEvent;
+    public event Action<bool> playerCrouchActionEvent;
 
-    private bool isSprinting = false;
-    public bool enableJump = true;
-    private bool isGrounded = false;
-    public bool enableCrouch = true;
-    public bool holdToCrouch = true;
+    public bool isSprinting = false;
     public bool isCrouched = false;
 
     private void Start()
@@ -26,20 +22,17 @@ public class PlayerController : MonoBehaviour
         sprintKey = Player.Instance.PlayerMovement.sprintKey;
         jumpKey = Player.Instance.PlayerMovement.jumpKey;
         crouchKey = Player.Instance.PlayerMovement.crouchKey;
-
-        isSprinting = Player.Instance.PlayerMovement.isSprinting;
-        enableJump = Player.Instance.PlayerMovement.enableJump;
-        isGrounded = Player.Instance.PlayerMovement.isGrounded;
-        enableCrouch = Player.Instance.PlayerMovement.enableCrouch;
-        holdToCrouch = Player.Instance.PlayerMovement.holdToCrouch;
-        isCrouched = Player.Instance.PlayerMovement.isCrouched;
     }
     void Update()
     {
-        OnPlayerMove();
         OnPlayerSprint();
         OnPlayerJump();
         OnPlayerCrouch();
+    }
+
+    private void FixedUpdate()
+    {
+        OnPlayerMove();
     }
 
 
@@ -62,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerJump()
     {
-        if (enableJump && Input.GetKeyDown(jumpKey) && isGrounded)
+        if (Input.GetKeyDown(jumpKey))
         {
             playerJumpActionEvent.Invoke();
         }
@@ -70,30 +63,21 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerMove()
     {
-        playerMoveActionEvent.Invoke();
+        Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        playerMoveActionEvent.Invoke(targetVelocity);
     }
 
     private void OnPlayerCrouch()
     {
-        if (enableCrouch)
-        {
-            //holdToCrouch = 숙일 때 키를 꾹 눌러서 숙일지 여부
-            if (Input.GetKeyDown(crouchKey) && !holdToCrouch)
-            {
-                playerCrouchActionEvent.Invoke();
-            }
-
-            if (Input.GetKeyDown(crouchKey) && holdToCrouch)
-            {
-                isCrouched = true;
-                playerCrouchActionEvent.Invoke();
-            }
-            else if (Input.GetKeyUp(crouchKey) && holdToCrouch)
-            {
-                isCrouched = false;
-                playerCrouchActionEvent.Invoke();
-            }
-        }
+       if (Input.GetKeyDown(crouchKey) && !isCrouched)
+       {
+           isCrouched = true;
+       }
+       else if (Input.GetKeyUp(crouchKey) && isCrouched)
+       {
+           isCrouched = false;
+       }
+       playerCrouchActionEvent.Invoke(isCrouched);
     }
 
 }

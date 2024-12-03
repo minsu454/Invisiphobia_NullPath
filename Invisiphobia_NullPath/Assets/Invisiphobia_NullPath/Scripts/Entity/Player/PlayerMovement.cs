@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+using Unity.VisualScripting;
+
+
+#if UNITY_EDITOR
+using UnityEditor;
+using System.Net;
+#endif
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
 
     public Camera playerCamera;
 
@@ -55,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     public bool enableJump = true;
     public KeyCode jumpKey = KeyCode.Space;
     public float jumpPower = 5f;
-
+    public bool isJumping = false;
     // Internal Variables
     public bool isGrounded = false;
 
@@ -63,15 +68,16 @@ public class PlayerMovement : MonoBehaviour
 
     #region Crouch
 
-    public bool enableCrouch = true;
-    public bool holdToCrouch = true;
     public KeyCode crouchKey = KeyCode.LeftControl;
-    public float crouchHeight = .75f;
     public float speedReduction = .5f;
-
-    // Internal Variables
+    public bool holdToCrouch = true;
+    [SerializeField] private float crouchHeight = 0.3f;
+    [SerializeField] private float crouchSpeed = 5; //앉는 속도
+    private Vector3 standingPosition; // 서 있는 상태의 카메라 위치
+    private Vector3 crouchingPosition; // 앉았을 때의 카메라 위치
     public bool isCrouched = false;
-    private Vector3 originalScale;
+    // Internal Variables
+
 
     #endregion
 
@@ -89,9 +95,9 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        standingPosition = playerCamera.transform.localPosition;
+        crouchingPosition = standingPosition - new Vector3(0f, crouchHeight, 0f);
 
-        originalScale = transform.localScale;
         jointOriginalPos = joint.localPosition;
 
         if (!unlimitedSprint)
@@ -106,9 +112,9 @@ public class PlayerMovement : MonoBehaviour
         playerCamera = Player.Instance.CameraController.playerCamera;
         isZoomed = Player.Instance.CameraController.isZoomed;
 
+        Player.Instance.PlayerController.playerMoveActionEvent += Move;
         Player.Instance.PlayerController.playerSprintActionEvent += Sprint;
         Player.Instance.PlayerController.playerJumpActionEvent += Jump;
-        Player.Instance.PlayerController.playerMoveActionEvent += Move;
         Player.Instance.PlayerController.playerCrouchActionEvent += Crouch;
 
     }
@@ -126,11 +132,8 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>
     /// 플레이어 움직이는 함수
     /// </summary>
-    private void Move()
+    private void Move(Vector3 targetVelocity)
     {
-        #region Movement
-        Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
         if (playerCanMove)
         {
             // Checks if player is walking and isGrounded
@@ -161,16 +164,10 @@ public class PlayerMovement : MonoBehaviour
                 if (velocityChange.x != 0 || velocityChange.z != 0)
                 {
                     isSprinting = true;
-
-                    if (isCrouched)
-                    {
-                        Crouch();
-                    }
-
-                    if (hideBarWhenFull && !unlimitedSprint)
-                    {
-                        sprintBarCG.alpha += 5 * Time.deltaTime;
-                    }
+                    //if (hideBarWhenFull && !unlimitedSprint)
+                    //{
+                    //    sprintBarCG.alpha += 5 * Time.deltaTime;
+                    //}
                 }
 
                 rb.AddForce(velocityChange, ForceMode.VelocityChange);
@@ -180,10 +177,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 isSprinting = false;
 
-                if (hideBarWhenFull && sprintRemaining == sprintDuration)
-                {
-                    sprintBarCG.alpha -= 3 * Time.deltaTime;
-                }
+                //if (hideBarWhenFull && sprintRemaining == sprintDuration)
+                //{
+                //    sprintBarCG.alpha -= 3 * Time.deltaTime;
+                //}
 
                 targetVelocity = transform.TransformDirection(targetVelocity) * walkSpeed;
 
@@ -197,8 +194,6 @@ public class PlayerMovement : MonoBehaviour
                 rb.AddForce(velocityChange, ForceMode.VelocityChange);
             }
         }
-
-        #endregion
     }
 
     /// <summary>
@@ -206,8 +201,6 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Sprint()
     {
-        #region Sprint
-
         if (enableSprint)
         {
             if (isSprinting)
@@ -248,14 +241,12 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // Handles sprintBar 
-            if (useSprintBar && !unlimitedSprint)
-            {
-                float sprintRemainingPercent = sprintRemaining / sprintDuration;
-                sprintBar.transform.localScale = new Vector3(sprintRemainingPercent, 1f, 1f);
-            }
+            //if (useSprintBar && !unlimitedSprint)
+            //{
+            //    float sprintRemainingPercent = sprintRemaining / sprintDuration;
+            //    sprintBar.transform.localScale = new Vector3(sprintRemainingPercent, 1f, 1f);
+            //}
         }
-
-        #endregion
     }
     // Sets isGrounded based on a raycast sent straigth down from the player object
 
@@ -288,39 +279,21 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             rb.AddForce(0f, jumpPower, 0f, ForceMode.Impulse);
-            isGrounded = false;
-        }
-
-        // When crouched and using toggle system, will uncrouch for a jump
-        if (isCrouched && !holdToCrouch)
-        {
-            Crouch();
+            isJumping = false;
         }
     }
 
     /// <summary>
     /// 플레이어 웅크리는 함수
     /// </summary>
-    private void Crouch()
+    private void Crouch(bool isCrouched)
     {
-        // Stands player up to full height
-        // Brings walkSpeed back up to original speed
-        if (isCrouched)
-        {
-            transform.localScale = new Vector3(originalScale.x, originalScale.y, originalScale.z);
-            walkSpeed /= speedReduction;
+        // 목표 위치 설정 (앉거나 서 있는 상태)
+        Vector3 targetPosition = isCrouched ? crouchingPosition : standingPosition;
 
-            isCrouched = false;
-        }
-        // Crouches player down to set height
-        // Reduces walkSpeed
-        else
-        {
-            transform.localScale = new Vector3(originalScale.x, crouchHeight, originalScale.z);
-            walkSpeed *= speedReduction;
-
-            isCrouched = true;
-        }
+        this.isCrouched = isCrouched;
+        // 카메라의 위치를 부드럽게 전환
+        playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition,targetPosition,Time.deltaTime * crouchSpeed);
     }
 
     /// <summary>
