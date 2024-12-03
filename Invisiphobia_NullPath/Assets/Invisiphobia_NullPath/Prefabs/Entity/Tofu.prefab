@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 246864510771828883}
   - component: {fileID: 2683954283993833379}
   - component: {fileID: 550918450144510688}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tofu
   m_TagString: InvisibleObject
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2545141409687436013}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -150,13 +150,9 @@ MonoBehaviour:
   lookAtPlayerDistance: 15
   minWanderDistance: 5
   maxWanderDistance: 10
-  minWanderWaitTime: 1
-  maxWanderWaitTime: 3
-  wanderingTime: 5
+  minWanderingCount: 2
+  maxWanderingCount: 3
   attackDistance: 0
-  fieldOfView: 120
-  playerTransform: {fileID: 0}
-  meshRenderer: {fileID: 0}
 --- !u!114 &2683954283993833379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,8 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b30199a7c623614f8630c1fd20c6d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myController: {fileID: 0}
-  myRenderer: {fileID: 0}
+  myController: {fileID: 246864510771828883}
+  myRenderer: {fileID: 204742143482401896}
   isRevealed: 0
 --- !u!54 &550918450144510688
 Rigidbody:

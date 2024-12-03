@@ -54,6 +54,8 @@ public class MonsterController : MonoBehaviour
         switch (aiState)
         {
             case AIStateType.Idle:
+                LookingAtPlayerUpdate();
+                break;
             case AIStateType.Wandering:
                 PassiveUpdate();
                 break;
@@ -63,11 +65,6 @@ public class MonsterController : MonoBehaviour
             case AIStateType.Fleeing:
                 FleeingUpdate();
                 break;
-        }
-
-        if (!monster.RendererActive)
-        {
-            LookingAtPlayerUpdate();
         }
     }
 
@@ -166,6 +163,7 @@ public class MonsterController : MonoBehaviour
 
     void ResetCycle()
     {
+        Debug.Log(wanderingCount);
         monster.Invisible();
         StopCoroutine(timer);
         timer = null;
