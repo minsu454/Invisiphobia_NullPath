@@ -6,7 +6,8 @@ using Object = UnityEngine.Object;
 
 public sealed class MapSaveManager
 {
-    private readonly HashSet<Parts> savePartsHashSet = new HashSet<Parts>();
+    private readonly HashSet<Parts> savePartsHashSet= new HashSet<Parts>();
+    public HashSet<Parts> SavePartsHashSet { get { return savePartsHashSet; } }
 
     /// <summary>
     /// HashSet에 추가해주는 함수
@@ -38,7 +39,7 @@ public sealed class MapSaveManager
         savePartsHashSet.Clear();
     }
 
-    public void SaveMap(string path, Vector2 mapSize)
+    public void SaveMap(string path, string json)
     {
         if (path == "")
             return;
@@ -49,45 +50,15 @@ public sealed class MapSaveManager
             return;
         }
 
-        TotalMapData totalData = new TotalMapData();
-
-        foreach (Parts parts in savePartsHashSet)
-        {
-            RoomData roomData = new RoomData(parts.name, parts.transform.position);
-            totalData.RoomDataList.Add(roomData);
-        }
-
-        totalData.MapName = Path.GetFileNameWithoutExtension(path);
-        totalData.MapSize = mapSize;
-        string json = JsonUtility.ToJson(totalData);
-
         File.WriteAllText(path, json);
     }
 
-    public void LoadMap<T>(string path, Action create, ref Vector2 mapSize, Dictionary<string, T> partsGoDict) where T : Parts
+    public void LoadMap(string path, Action<string> Load)
     {
         if (path == "")
             return;
 
-        try
-        {
-            string json = File.ReadAllText(path);
-            TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(json);
-            mapSize = totalData.MapSize;
-
-            create.Invoke();
-
-            foreach (RoomData data in totalData.RoomDataList)
-            {
-                GameObject go = Object.Instantiate(partsGoDict[data.Name].gameObject);
-                go.name = data.Name;
-                go.transform.position = data.Pos;
-                savePartsHashSet.Add(go.GetComponent<Parts>());
-            }
-        }
-        catch
-        {
-            Debug.LogWarning("This file cannot be loaded.");
-        }
+        string json = File.ReadAllText(path);
+        Load.Invoke(json);
     }
 }

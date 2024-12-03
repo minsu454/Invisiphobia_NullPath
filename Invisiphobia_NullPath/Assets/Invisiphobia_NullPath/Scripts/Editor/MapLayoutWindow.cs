@@ -6,6 +6,9 @@ using UnityEditor.MapEditor;
 using System;
 using System.IO;
 using UnityEngine.UIElements;
+using DG.Tweening.Plugins.Core.PathCore;
+using Path = System.IO.Path;
+using Unity.VisualScripting;
 
 public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
 {
@@ -39,10 +42,10 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         controller.rightMouseUpEvent += OnrightMouseUp;
     }
 
-    [MenuItem("Tools/MapEditor/2DMap")]
+    [MenuItem("Tools/MapEditor/CreateMap")]
     static void Init()
     {
-        CreateComstomWindow("Create 2D Map", new Vector2(800f, 580f), new Vector2(800f, 580f));
+        CreateComstomWindow("Create Map", new Vector2(800f, 580f), new Vector2(800f, 580f));
     }
 
     private void OnGUI()
@@ -179,14 +182,6 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         GUI.enabled = true;
     }
 
-    private void Clear()
-    {
-        editorManager.DeleteMap(ref mapBuilder);
-        saveManager.Clear();
-        pickGoEditor = null;
-        Stop();
-    }
-
     /// <summary>
     /// 맵 세이브 버튼
     /// </summary>
@@ -199,7 +194,9 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
             string initialFilename = "SaveData_" + DateTime.Now.ToString(("MM_dd_HH_mm_ss")) + ".json";
 
             string path = EditorUtility.SaveFilePanel("Save File", "", initialFilename, "json");
-            saveManager.SaveMap(path, mapSize);
+            string json = SaveSerialize(path);
+
+            saveManager.SaveMap(path, json);
         }
     }
 
@@ -213,7 +210,7 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         if (GUILayout.Button("Load", GUILayout.Width(100), GUILayout.Height(20)))
         {
             string path = EditorUtility.OpenFilePanel("Open File", "", "json");
-            saveManager.LoadMap(path, CreateMap, ref mapSize, partsGoDict);
+            saveManager.LoadMap(path, LoadUnserialize);
         }
 
         GUI.enabled = true;
@@ -224,15 +221,12 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     /// </summary>
     private void RoomScrollView(Rect rect)
     {
-        // 스크롤 뷰 시작
         saveScrollPos = GUILayout.BeginScrollView(saveScrollPos, GUILayout.Width(rect.width), GUILayout.Height(rect.height));
 
-        // 창 크기에 따라 열 개수 계산
-        float cellWidth = 100; // 셀 너비
-        int columns = Mathf.Max(1, Mathf.FloorToInt((rect.width - 20) / cellWidth)); // 최소 1열
-        int rows = Mathf.CeilToInt(texture2DArr.Length / (float)columns); // 줄 수 계산
+        float cellWidth = 100;
+        int columns = Mathf.Max(1, Mathf.FloorToInt((rect.width - 20) / cellWidth));
+        int rows = Mathf.CeilToInt(texture2DArr.Length / (float)columns);
 
-        // 버튼 그리드 렌더링
         for (int row = 0; row < rows; row++)
         {
             GUIParts.CreateHorizontal(() =>
@@ -310,9 +304,6 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         // 드래그 앤 드롭으로 Material 선택
         Material newMaterial = (Material)EditorGUILayout.ObjectField(floorMaterial, typeof(Material), true);
 
-        if (newMaterial == null)
-            return;
-
         if (newMaterial == floorMaterial)
             return;
 
@@ -346,9 +337,6 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         // 드래그 앤 드롭으로 Material 선택
         Material newMaterial = (Material)EditorGUILayout.ObjectField(wallMaterial, typeof(Material), true);
 
-        if (newMaterial == null)
-            return;
-
         if (newMaterial == wallMaterial)
             return;
 
@@ -370,6 +358,8 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         partsGo.transform.position = mapBuilder.HoveredPosition + Vector3.up * 0.5f;
         RoomParts roomParts = partsGo.GetComponent<RoomParts>();
 
+        roomParts.Init(floorMaterial, wallMaterial);
+
         saveManager.Add(roomParts);
     }
 
@@ -388,6 +378,72 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
 
         saveManager.Remove(parts);
         DestroyImmediate(parts.gameObject);
+    }
+
+    /// <summary>
+    /// 데이터 json으로 변환 함수
+    /// </summary>
+    private string SaveSerialize(string path)
+    {
+        TotalMapData totalData = new TotalMapData();
+
+        foreach (Parts parts in saveManager.SavePartsHashSet)
+        {
+            RoomData roomData = new RoomData(parts.name, parts.transform.position, floorMaterial.name, wallMaterial.name);
+            totalData.RoomDataList.Add(roomData);
+        }
+
+        totalData.MapName = Path.GetFileNameWithoutExtension(path);
+        totalData.MapSize = mapSize;
+        string json = JsonUtility.ToJson(totalData);
+
+        return json;
+    }
+
+    /// <summary>
+    /// json 데이터 맵으로 변환 함수
+    /// </summary>
+    private void LoadUnserialize(string json)
+    {
+        TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(json);
+
+        try
+        {
+            mapSize = totalData.MapSize;
+
+            CreateMap();
+
+            foreach (RoomData data in totalData.RoomDataList)
+            {
+                GameObject go = Instantiate(partsGoDict[data.Name].gameObject);
+                go.name = data.Name;
+                go.transform.position = data.Pos;
+
+                RoomParts parts = go.GetComponent<RoomParts>();
+
+                Material floor = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.FloorMaterialName}.mat");
+                Material wall = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.WallMaterialName}.mat");
+
+                parts.Init(floor, wall);
+
+                saveManager.Add(parts);
+            }
+        }
+        catch
+        {
+            Debug.LogWarning("This file cannot be loaded.");
+        }
+    }
+
+    /// <summary>
+    /// 클리어 함수
+    /// </summary>
+    private void Clear()
+    {
+        editorManager.DeleteMap(ref mapBuilder);
+        saveManager.Clear();
+        pickGoEditor = null;
+        Stop();
     }
 
     protected override void OnDisable()
