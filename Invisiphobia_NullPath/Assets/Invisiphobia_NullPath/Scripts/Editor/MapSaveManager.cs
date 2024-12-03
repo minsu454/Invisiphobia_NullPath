@@ -1,24 +1,23 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public sealed class MapSaveManager
 {
-    private readonly HashSet<Parts> saveGoHashSet = new HashSet<Parts>();
-
-    public void Init(string path)
-    {
-
-    }
+    private readonly HashSet<Parts> savePartsHashSet= new HashSet<Parts>();
+    public HashSet<Parts> SavePartsHashSet { get { return savePartsHashSet; } }
 
     /// <summary>
     /// HashSet에 추가해주는 함수
     /// </summary>
     public void Add(Parts parts)
     {
-        if (saveGoHashSet.Contains(parts))
+        if (savePartsHashSet.Contains(parts))
             return;
 
-        saveGoHashSet.Add(parts);
+        savePartsHashSet.Add(parts);
     }
 
     /// <summary>
@@ -26,19 +25,40 @@ public sealed class MapSaveManager
     /// </summary>
     public void Remove(Parts parts)
     {
-        if (!saveGoHashSet.Contains(parts))
+        if (!savePartsHashSet.Contains(parts))
             return;
 
-        saveGoHashSet.Remove(parts);
+        savePartsHashSet.Remove(parts);
     }
 
-    public void SaveMap()
+    /// <summary>
+    /// HashSet 클리어해주는 함수
+    /// </summary>
+    public void Clear()
     {
-
+        savePartsHashSet.Clear();
     }
 
-    public void LoadMap()
+    public void SaveMap(string path, string json)
     {
+        if (path == "")
+            return;
 
+        if (savePartsHashSet.Count == 0)
+        {
+            Debug.LogWarning("There is no data to save.");
+            return;
+        }
+
+        File.WriteAllText(path, json);
+    }
+
+    public void LoadMap(string path, Action<string> Load)
+    {
+        if (path == "")
+            return;
+
+        string json = File.ReadAllText(path);
+        Load.Invoke(json);
     }
 }

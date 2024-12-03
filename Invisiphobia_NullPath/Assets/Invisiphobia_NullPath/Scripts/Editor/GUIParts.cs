@@ -24,8 +24,7 @@ public static class GUIParts
     /// </summary>
     public static void CreateArea(Rect rect, Color color,  params Action<Rect>[] content)
     {
-        Color backgroundColor = color; 
-        GUI.color = backgroundColor; 
+        GUI.color = color; 
         GUI.Box(rect, GUIContent.none);
 
         GUI.color = Color.white; // 기본 색상 복원
