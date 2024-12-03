@@ -7,13 +7,12 @@ using System;
 using System.IO;
 using UnityEngine.UIElements;
 
-public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
+public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
 {
     private MapLayoutBuilder mapBuilder;                        //맵 gizmo 체크 class
     
     private Vector2 mapSize;                                    //맵 사이즈 저장 변수
     Rect areaRect;                                              //rect 저장 변수
-    Color areaBackgroundColor = new Color(0.9f, 0.9f, 0.9f);    //에리어 배경 색 변수
 
     private Vector2 saveScrollPos;                              // 스크롤 위치 저장 변수
     private string pickName = "";                               // 선택된 버튼의 이미지 이름 저장 변수
@@ -45,25 +44,25 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
     {
         // Normal =====================================================================
         GUILayout.Space(5f);
-        GUIParts.CreateHorizontal(MapSizeField, CreateBtn, DeleteBtn);
+        GUIParts.CreateHorizontal(MapSizeField, CreateBtn, LoadBtn, DeleteBtn);
 
         if (!editorManager.IsCreateData)
             return;
 
         // Save =======================================================================
 
-
+        SaveBtn();
 
         // ScrollView =================================================================
 
         areaRect = new Rect(10, 30, 535, 540); // 독립적인 Area
 
-        GUIParts.CreateArea(areaRect, areaBackgroundColor, RoomScrollView);
+        GUIParts.CreateArea(areaRect, new Color(0.9f, 0.9f, 0.9f), RoomScrollView);
 
         // FreView =================================================================
 
-        areaRect = new Rect(550, 30, 245, 240);
-        PickGoPreView(areaRect);
+        areaRect = new Rect(550, 30, 245, 265);
+        GUIParts.CreateArea(areaRect, Color.red, PickGoPreView);
     }
 
     protected override void OnSceneGUI(SceneView sceneView)
@@ -116,13 +115,18 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
                 return;
             }
 
-            editorManager.CreateMap(ref mapBuilder);
-
-            Run();
-            CreateGrid();
+            CreateMap();
         }
 
         GUI.enabled = true;
+    }
+
+    public void CreateMap()
+    {
+        editorManager.CreateMap(ref mapBuilder);
+
+        Run();
+        CreateGrid();
     }
 
     /// <summary>
@@ -160,6 +164,38 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
             editorManager.DeleteMap(ref mapBuilder);
             goEditor = null;
             Stop();
+        }
+
+        GUI.enabled = true;
+    }
+
+    /// <summary>
+    /// 맵 세이브 버튼
+    /// </summary>
+    private void SaveBtn()
+    {
+        Rect buttonRect = new Rect(695, 5, 100, 20);
+
+        if (GUI.Button(buttonRect, "Save"))
+        {
+            string initialFilename = "SaveData_" + DateTime.Now.ToString(("MM_dd_HH_mm_ss")) + ".json";
+
+            string path = EditorUtility.SaveFilePanel("Save File", "", initialFilename, "json");
+            saveManager.SaveMap(path);
+        }
+    }
+
+    /// <summary>
+    /// 맵 로드 버튼
+    /// </summary>
+    private void LoadBtn()
+    {
+        GUI.enabled = !editorManager.IsCreateData;
+
+        if (GUILayout.Button("Load", GUILayout.Width(100), GUILayout.Height(20)))
+        {
+            string path = EditorUtility.OpenFilePanel("Open File", "", "json");
+            saveManager.LoadMap(path, CreateMap, partsGoDict);
         }
 
         GUI.enabled = true;
@@ -221,7 +257,18 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
 
         GUIStyle gStyle = new GUIStyle();
         gStyle.normal.background = Texture2D.grayTexture;
-        goEditor.OnInteractivePreviewGUI(rect, gStyle);
+        goEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
+
+        if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
+            return;
+
+        GUIStyle styleLabel = new GUIStyle("label");
+        styleLabel.alignment = TextAnchor.UpperCenter;
+        styleLabel.normal.textColor = new Color(1, 1, 1, 0.8f);
+        styleLabel.fontSize = 20;
+
+        GUIContent label = new GUIContent(partsPrefab.gameObject.name, partsPrefab.gameObject.name);
+        EditorGUI.LabelField(new Rect(3, 237, 239, 30), label, styleLabel);
     }
 
     /// <summary>
@@ -233,6 +280,8 @@ public class MapLayoutEditor : ComstomEditor<MapLayoutEditor>
             return;
 
         GameObject partsGo = Instantiate(partsPrefab.gameObject);
+
+        partsGo.name = partsPrefab.gameObject.name;
         partsGo.transform.position = mapBuilder.HoveredPosition + Vector3.up * 0.5f;
         RoomParts roomParts = partsGo.GetComponent<RoomParts>();
 
