@@ -5,30 +5,47 @@ using UnityEngine.AI;
 
 public class FallingObstacleObject : InteractableItem
 {
-    private bool isFallen = false;
-    private float destroyDelay;
+    [Header("Obstacle Settings")]
+    public Collider obstacleCollider;
+    public NavMeshObstacle navMeshObstacle;
 
+    [SerializeField] private float destroyDelay;
+
+    private bool isFallen = false;
     public bool IsDestroyed { get; private set; } = false;
 
     public override void Interact(Player player)
     {
-        if (isFallen)
-        {
+        if (isFallen || IsDestroyed)
             return;
-        }
 
         isFallen = true;
+        ActivateObstacle();
     }
 
-    void DestroyObstacle()
+    private void ActivateObstacle()
     {
         if (!IsDestroyed)
         {
-            //GetComponent<Animator>().SetTrigger("Destroy");
-            GetComponent<Collider>().enabled = false;
-            GetComponent<NavMeshObstacle>().carving = false;
-
-            Destroy(gameObject, destroyDelay);
+            obstacleCollider.enabled = false;
+            navMeshObstacle.carving = false;
         }
+        else
+        {
+            obstacleCollider.enabled = true;
+            navMeshObstacle.carving = true;
+        }
+    }
+
+    private void DestroyObstacle()
+    {
+        if (IsDestroyed)
+            return;
+
+        IsDestroyed = true;
+        obstacleCollider.enabled = false;
+        navMeshObstacle.carving = false;
+
+        Destroy(gameObject, destroyDelay);
     }
 }
