@@ -2,13 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.VisualScripting;
-
-
-#if UNITY_EDITOR
-using UnityEditor;
-using System.Net;
-#endif
 
 public class PlayerMovement : MonoBehaviour
 {

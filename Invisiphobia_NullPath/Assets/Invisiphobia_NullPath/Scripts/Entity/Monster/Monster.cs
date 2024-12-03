@@ -15,11 +15,6 @@ public class Monster : Entity, IDetectable
         base.Init();
     }
 
-    private void Awake()
-    {
-
-    }
-
     public void Detected()
     {
 
