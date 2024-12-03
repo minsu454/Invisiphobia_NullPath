@@ -45,6 +45,21 @@ namespace Common.Path
         {
             return $"Sound/{name}";
         }
+
+        public static string MapFilePath(string name)
+        {
+            return $"Map/MapFile/{name}.json";
+        }
+
+        public static string MapMaterialPath(string name)
+        {
+            return $"Map/Material/{name}.mat";
+        }
+
+        public static string MapPartsPath(string name)
+        {
+            return $"Map/Parts/{name}.prefab";
+        }
     }
 
     public static class ScenePath
