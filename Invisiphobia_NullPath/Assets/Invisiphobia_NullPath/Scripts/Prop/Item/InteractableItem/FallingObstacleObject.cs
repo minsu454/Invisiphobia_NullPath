@@ -20,21 +20,7 @@ public class FallingObstacleObject : InteractableItem
             return;
 
         isFallen = true;
-        ActivateObstacle();
-    }
-
-    private void ActivateObstacle()
-    {
-        if (!IsDestroyed)
-        {
-            obstacleCollider.enabled = false;
-            navMeshObstacle.carving = false;
-        }
-        else
-        {
-            obstacleCollider.enabled = true;
-            navMeshObstacle.carving = true;
-        }
+        DestroyObstacle();
     }
 
     private void DestroyObstacle()
