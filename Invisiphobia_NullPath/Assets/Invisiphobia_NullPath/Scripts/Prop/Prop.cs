@@ -33,6 +33,10 @@ public class Prop : MonoBehaviour, IDetectable
 
     public void Revealed()
     {
+        if (myRenderer == null)
+        {
+            return;
+        }
         myRenderer.enabled = true;
         isRevealed = true;
     }

@@ -9,9 +9,9 @@ public class FallingObstacleObject : InteractableItem
     public Collider obstacleCollider;
     public NavMeshObstacle navMeshObstacle;
 
-    [SerializeField] private float destroyDelay;
-
     private bool isFallen = false;
+    public bool test = false;
+    [SerializeField] private bool isDestroyed = false;
 
     public override void Interact(Player player)
     {
@@ -19,14 +19,12 @@ public class FallingObstacleObject : InteractableItem
             return;
 
         isFallen = true;
-        DestroyObstacle();
+        if(isDestroyed)
+            DestroyObstacle();
     }
 
     private void DestroyObstacle()
     {
-        obstacleCollider.enabled = false;
-        navMeshObstacle.carving = false;
-
         Destroy(gameObject);
     }
 }
