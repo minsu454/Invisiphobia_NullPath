@@ -19,7 +19,11 @@ public class Detector : MonoBehaviour
     {
         if (other.TryGetComponent(out IDetectable detectable))
         {
+            if (detectable.StateType == PropStateType.Revealed)
+                return;
+
             StartTimer();
+            detectable.Detected();
             detectedObjectList.Add(detectable);
         }
     }
@@ -28,6 +32,10 @@ public class Detector : MonoBehaviour
     {
         if (other.TryGetComponent(out IDetectable detectable))
         {
+            if (detectable.StateType == PropStateType.Revealed)
+                return;
+
+            detectable.Invisible();
             detectedObjectList.Remove(detectable);
             if (detectedObjectList.Count == 0)
             {
@@ -35,7 +43,7 @@ public class Detector : MonoBehaviour
             }
         }
     }
-    
+
     bool HasLineOfSight(IDetectable target) //IDetectable과 Detecter사이에 Wall이 있는지 판단
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
@@ -61,7 +69,7 @@ public class Detector : MonoBehaviour
             currentCoroutine = StartCoroutine(CoCheckTimer());
         }
     }
-    
+
     private void StopTimer()
     {
         StopCoroutine(currentCoroutine);
@@ -73,14 +81,8 @@ public class Detector : MonoBehaviour
         while (true)
         {
             closestdistance = float.MaxValue;
-            for (int i = detectedObjectList.Count - 1 ; i >= 0; i--)
+            for (int i = detectedObjectList.Count - 1; i >= 0; i--)
             {
-                if(detectedObjectList[i] == null)
-                {
-                    detectedObjectList.RemoveAt(i);
-                    continue;
-                }
-                
                 if (HasLineOfSight(detectedObjectList[i]))
                 {
                     UpdateDistances(detectedObjectList[i], ref closestdistance);
@@ -103,7 +105,7 @@ public class Detector : MonoBehaviour
 
     private void HandleAlarm(float distance) //TODO : 조명과 오디오로 알람
     {
-        if(distance < 5f)
+        if (distance < 5f)
         {
             Debug.Log("물체가 가깝습니다!!");
         }
@@ -112,15 +114,13 @@ public class Detector : MonoBehaviour
             Debug.Log("물체가 감지되었습니다!");
         }
     }
-    
+
     public void Reveal()
     {
-        for (int i = 0; i < detectedObjectList.Count; i++)
+        for (int i = detectedObjectList.Count - 1; i >= 0; i--)
         {
-            if (HasLineOfSight(detectedObjectList[i]))
-            {
-                detectedObjectList[i].Revealed();
-            }
+            detectedObjectList[i].Revealed();
+            detectedObjectList.RemoveAt(i);
         }
     }
 }

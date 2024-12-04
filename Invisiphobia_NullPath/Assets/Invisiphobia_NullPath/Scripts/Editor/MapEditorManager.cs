@@ -9,9 +9,27 @@ public sealed class MapEditorManager
     public bool IsCreateData { get; private set; } = false;     //데이터 생성했는지 확인하는 bool 변수
 
     /// <summary>
-    /// 2D맵 생성 함수
+    /// 맵 에디터 열기 함수
     /// </summary>
-    public void CreateMap<T>(ref T builder) where T : Component
+    public void LoadMapEditor()
+    {
+        SceneEditorManager.OpenTempScene(EditorPath.useScenePath);
+        IsCreateData = true;
+    }
+
+    /// <summary>
+    /// 맵 에디터 삭제 함수
+    /// </summary>
+    public void LeaveMapEditor()
+    {
+        IsCreateData = false;
+        SceneEditorManager.CloseTempScene();
+    }
+
+    /// <summary>
+    /// 맵 에디터 열기 함수
+    /// </summary>
+    public void LoadMapEditor<T>(ref T builder) where T : Component
     {
         if (builder != null)
         {
@@ -30,9 +48,9 @@ public sealed class MapEditorManager
     }
 
     /// <summary>
-    /// 2D맵 삭제 함수
+    /// 맵 에디터 닫기 함수
     /// </summary>
-    public void DeleteMap<T>(ref T builder) where T : Component
+    public void LeaveMapEditor<T>(ref T builder) where T : Component
     {
         if (builder == null)
         {

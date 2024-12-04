@@ -109,7 +109,6 @@ public class PlayerMovement : MonoBehaviour
         Player.Instance.PlayerController.playerSprintActionEvent += Sprint;
         Player.Instance.PlayerController.playerJumpActionEvent += Jump;
         Player.Instance.PlayerController.playerCrouchActionEvent += Crouch;
-
     }
 
     private void Update()

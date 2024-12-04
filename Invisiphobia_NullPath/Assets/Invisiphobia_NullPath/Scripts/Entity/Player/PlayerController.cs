@@ -8,11 +8,13 @@ public class PlayerController : MonoBehaviour
     public KeyCode sprintKey;
     public KeyCode jumpKey;
     public KeyCode crouchKey;
+    public KeyCode interactKey;
 
     public event Action<Vector3> playerMoveActionEvent;
     public event Action playerSprintActionEvent;
     public event Action playerJumpActionEvent;
     public event Action<bool> playerCrouchActionEvent;
+    public event Action playerInteractActionEvent;
 
     public bool isSprinting = false;
     public bool isCrouched = false;
@@ -22,12 +24,14 @@ public class PlayerController : MonoBehaviour
         sprintKey = Player.Instance.PlayerMovement.sprintKey;
         jumpKey = Player.Instance.PlayerMovement.jumpKey;
         crouchKey = Player.Instance.PlayerMovement.crouchKey;
+        interactKey = Player.Instance.PlayerInteract.interactKey;
     }
     void Update()
     {
         OnPlayerSprint();
         OnPlayerJump();
         OnPlayerCrouch();
+        OnPlayerInteract();
     }
 
     private void FixedUpdate()
@@ -35,6 +39,13 @@ public class PlayerController : MonoBehaviour
         OnPlayerMove();
     }
 
+    private void OnPlayerInteract()
+    {
+        if(Input.GetKeyDown(interactKey))
+        {
+            playerInteractActionEvent.Invoke();
+        }
+    }
 
     private void OnPlayerSprint()
     {

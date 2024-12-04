@@ -1,16 +1,11 @@
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEditor.MapEditor;
 using System;
-using System.IO;
-using UnityEngine.UIElements;
-using DG.Tweening.Plugins.Core.PathCore;
 using Path = System.IO.Path;
-using Unity.VisualScripting;
 
-public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
+public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
 {
     private MapLayoutBuilder mapBuilder;    //맵 gizmo 체크 class
   
@@ -42,12 +37,15 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
 
         controller.leftMouseDownEvent += OnleftMouseDown;
         controller.rightMouseUpEvent += OnrightMouseUp;
+
+        floorMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/Lit.mat");
+        wallMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/Lit.mat");
     }
 
-    [MenuItem("Tools/MapEditor/CreateMap")]
+    [MenuItem("Tools/MapEditor/RoomLayout")]
     static void Init()
     {
-        CreateComstomWindow("Create Map", new Vector2(800f, 580f), new Vector2(800f, 580f));
+        CreateComstomWindow("Room Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
     }
 
     private void OnGUI()
@@ -382,7 +380,7 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
             return;
 
-        if (!hit.collider.TryGetComponent(out Parts parts))
+        if (!hit.collider.TryGetComponent(out IParts parts))
             return;
 
         saveManager.Remove(parts);
@@ -394,7 +392,7 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     /// </summary>
     public void CreateMap()
     {
-        editorManager.CreateMap(ref mapBuilder);
+        editorManager.LoadMapEditor(ref mapBuilder);
 
         Run();
         CreateGrid();
@@ -422,7 +420,7 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     /// </summary>
     private void Clear()
     {
-        editorManager.DeleteMap(ref mapBuilder);
+        editorManager.LeaveMapEditor(ref mapBuilder);
         saveManager.Clear();
         pickGoEditor = null;
         Stop();
@@ -435,9 +433,16 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     {
         TotalMapData totalData = new TotalMapData();
 
-        foreach (Parts parts in saveManager.SavePartsHashSet)
+        foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            RoomData roomData = new RoomData(parts.name, parts.transform.position, parts.transform.eulerAngles.y, floorMaterial.name, wallMaterial.name);
+            RoomParts roomParts = parts as RoomParts;
+            RoomData roomData = new RoomData(
+                roomParts.name,
+                roomParts.transform.position,
+                roomParts.transform.eulerAngles.y,
+                roomParts.FloorMaterial.name,
+                roomParts.WallMaterial.name);
+
             totalData.RoomDataList.Add(roomData);
         }
 
@@ -486,8 +491,8 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
 
     protected override void OnDisable()
     {
-        if (mapBuilder != null)
-            editorManager.DeleteMap(ref mapBuilder);
+        if (editorManager.IsCreateData)
+            editorManager.LeaveMapEditor(ref mapBuilder);
 
         base.OnDisable();
     }

@@ -929,6 +929,7 @@ GameObject:
   - component: {fileID: 8137840616141961899}
   - component: {fileID: 6654765116241237406}
   - component: {fileID: 7641459987775988439}
+  - component: {fileID: 2323706312342982219}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1064,11 +1065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9feb92dcd202f314ba285df73b8d1da6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerController: {fileID: 831352717650487392}
-  PlayerState: {fileID: 6654765116241237406}
-  PlayerMovement: {fileID: 8137840616141961899}
-  PlayerAnimation: {fileID: 0}
-  CameraController: {fileID: 7641459987775988439}
 --- !u!114 &831352717650487392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,6 +1080,7 @@ MonoBehaviour:
   sprintKey: 304
   jumpKey: 32
   crouchKey: 306
+  interactKey: 101
   isSprinting: 0
   isCrouched: 0
 --- !u!114 &8137840616141961899
@@ -1173,6 +1170,24 @@ MonoBehaviour:
   zoomfov: 30
   zoomStepTime: 5
   isZoomed: 0
+--- !u!114 &2323706312342982219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465329387612510816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 459bb83cc2169444f8167924a793fcda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRate: 0.05
+  maxDistance: 5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  interactKey: 101
 --- !u!1 &7639194585095114094
 GameObject:
   m_ObjectHideFlags: 0

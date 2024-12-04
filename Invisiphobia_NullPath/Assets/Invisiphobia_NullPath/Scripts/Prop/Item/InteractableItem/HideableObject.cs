@@ -2,19 +2,21 @@ using UnityEngine;
 
 public class HideableObject : InteractableItem
 {
-    private bool isHidden = false;
-    private Transform hidingSpot;
+    public bool isHidden = false;
+    public Transform hidingSpot;
 
     public override void Interact(Player player)
     {
-        if (isHidden)
+        if (!isHidden)
         {
-            isHidden = false;
+            isHidden = true;
+            Debug.Log(isHidden);
+            hidingSpot = transform;
         }
         else
         {
-            isHidden = true;
-            hidingSpot = transform;
+            isHidden = false;
+            Debug.Log(isHidden);
         }
     }
 }
