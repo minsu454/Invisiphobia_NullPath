@@ -7,6 +7,7 @@ public class TotalMapData
     public string MapName;
     public Vector2 MapSize;
     public List<RoomData> RoomDataList = new List<RoomData>();
+    public List<DecorData> DecorDataList = new List<DecorData>();
 }
 
 [Serializable]
@@ -25,5 +26,20 @@ public class RoomData
         RatateY = ratateY;
         FloorMaterialName = floorMaterialName;
         WallMaterialName = wallMaterialName;
+    }
+}
+
+[Serializable]
+public class DecorData
+{
+    public string Name;
+    public Vector3 Pos;
+    public Quaternion Rot;
+
+    public DecorData(string name, Vector3 pos, Quaternion rot)
+    {
+        Name = name;
+        Pos = pos;
+        Rot = rot;
     }
 }

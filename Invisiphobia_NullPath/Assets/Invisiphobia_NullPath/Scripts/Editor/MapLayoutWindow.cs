@@ -42,7 +42,7 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
         wallMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/Lit.mat");
     }
 
-    [MenuItem("Tools/MapEditor/RoomLayout")]
+    [MenuItem("Tools/MapEditor/Room Layout", priority = 0)]
     static void Init()
     {
         CreateComstomWindow("Room Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));

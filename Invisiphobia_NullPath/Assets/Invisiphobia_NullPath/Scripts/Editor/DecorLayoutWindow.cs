@@ -2,10 +2,8 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Codice.CM.ConfigureHelper;
-using Unity.VisualScripting;
 
-public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
+public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
 {
     private Rect areaRect;                  //rect 저장 변수
 
@@ -17,24 +15,26 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
     private bool isLoaded = false;
 
-    private Texture2D[] texture2DArr;                                                       //Parts사진 저장 배열
-    private Dictionary<string, BaseItem> partsGoDict = new Dictionary<string, BaseItem>();  //PartsGo 저장 Dictionary
+    private Texture2D[] texture2DArr;                                                           //Parts사진 저장 배열
+    private Dictionary<string, DecorParts> partsGoDict = new Dictionary<string, DecorParts>();  //PartsGo 저장 Dictionary
+
+    private TotalMapData totalData;
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
-        GUIParts.LoadAllInFolder(EditorPath.itemTexturePath, out texture2DArr);
-        GUIParts.LoadAllInFolder(EditorPath.itemPartsPath, out partsGoDict);
+        GUIParts.LoadAllInFolder(EditorPath.decorTexturePath, out texture2DArr);
+        GUIParts.LoadAllInFolder(EditorPath.decorPartsPath, out partsGoDict);
 
         string path = EditorUtility.OpenFilePanel("Open File", "", "json");
         saveManager.LoadMap(path, LoadMap);
     }
 
-    [MenuItem("Tools/MapEditor/Item Layout", priority = 2)]
+    [MenuItem("Tools/MapEditor/Decor Layout", priority = 1)]
     static void Init()
     {
-        CreateComstomWindow("Item Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
+        CreateComstomWindow("Decor Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
     }
 
     private void OnGUI()
@@ -44,7 +44,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
         // Normal =====================================================================
         GUILayout.Space(5f);
-        GUIParts.CreateHorizontal(LoadBtn, DeleteBtn);
+        GUIParts.CreateHorizontal(DeleteBtn);
 
         if (!editorManager.IsCreateData)
             return;
@@ -62,20 +62,12 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
         // PickFreView =================================================================
 
         areaRect = new Rect(550, 30, 245, 265);
-        GUIParts.CreateArea(areaRect, Color.red, PickGoPreView, SpawnItemBtn);
+        GUIParts.CreateArea(areaRect, Color.red, PickGoPreView, SpawnDecorBtn, DestroyDecorBtn);
     }
 
     protected override void OnSceneGUI(SceneView sceneView)
     {
-        Event e = controller.GetEvent();
 
-        if (e.alt || e.shift || e.control)
-        {
-            return;
-        }
-
-        Vector3 mousePosition = e.mousePosition;
-        controller.InputMouse(e);
     }
 
     /// <summary>
@@ -112,29 +104,55 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     }
 
     /// <summary>
-    /// 맵 로드 버튼
+    /// 데코 스폰 버튼
     /// </summary>
-    private void LoadBtn()
+    private void SpawnDecorBtn(Rect rect)
     {
-        GUI.enabled = !editorManager.IsCreateData;
-
-        if (GUILayout.Button("Load", GUILayout.Width(100), GUILayout.Height(20)))
+        if (GUI.Button(new Rect(42, 238, 100, 25), "Spawn"))
         {
-            string path = EditorUtility.OpenFilePanel("Open File", "", "json");
-            saveManager.LoadMap(path, LoadUnserialize);
-        }
+            if (!partsGoDict.TryGetValue(pickName, out DecorParts partsPrefab))
+                return;
 
-        GUI.enabled = true;
+            GameObject partsGo = Instantiate(partsPrefab.gameObject);
+
+            partsGo.name = partsPrefab.gameObject.name;
+            var sceneCamera = SceneView.lastActiveSceneView.camera;
+
+            if (sceneCamera != null)
+            {
+                Vector3 spawnPosition = sceneCamera.transform.position + sceneCamera.transform.forward * 5f;
+                partsGo.transform.position = spawnPosition;
+            }
+            else
+            {
+                Debug.LogWarning("Scene view camera not found.");
+                partsGo.transform.position = Vector3.zero;
+            }
+
+            DecorParts decorParts = partsGo.GetComponent<DecorParts>();
+
+            saveManager.Add(decorParts);
+        }
     }
 
     /// <summary>
-    /// 아이템 스폰 버튼
+    /// 데코 삭제 버튼
     /// </summary>
-    private void SpawnItemBtn(Rect rect)
+    private void DestroyDecorBtn(Rect rect)
     {
-        if (GUI.Button(new Rect(142, 238, 100, 25), "Spawn"))
+        if (GUI.Button(new Rect(142, 238, 100, 25), "Destroy"))
         {
+            if (Selection.activeGameObject == null)
+                return;
 
+            GameObject selectedObject = Selection.activeGameObject;
+
+            if (!selectedObject.TryGetComponent(out DecorParts parts))
+                return;
+
+
+            saveManager.Remove(parts);
+            DestroyImmediate(selectedObject);
         }
     }
 
@@ -171,7 +189,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
                         pickName = name;
                         pickIdx = index;
 
-                        if (!partsGoDict.TryGetValue(pickName, out BaseItem partsPrefab))
+                        if (!partsGoDict.TryGetValue(pickName, out DecorParts partsPrefab))
                             return;
 
                         pickGoEditor = Editor.CreateEditor(partsPrefab.gameObject);
@@ -196,7 +214,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
         gStyle.normal.background = Texture2D.grayTexture;
         pickGoEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
 
-        if (!partsGoDict.TryGetValue(pickName, out BaseItem item))
+        if (!partsGoDict.TryGetValue(pickName, out DecorParts item))
             return;
 
         GUIStyle styleLabel = new GUIStyle("label");
@@ -224,6 +242,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     {
         saveManager.Clear();
         pickGoEditor = null;
+        totalData = null;
         Stop();
         editorManager.LeaveMapEditor();
     }
@@ -233,63 +252,27 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     /// </summary>
     private string SaveSerialize(string path)
     {
-        TotalMapData totalData = new TotalMapData();
+        TotalMapData data = totalData;
 
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            RoomParts roomParts = parts as RoomParts;
-            RoomData roomData = new RoomData(
+            DecorParts roomParts = parts as DecorParts;
+            DecorData roomData = new DecorData(
                 roomParts.name,
                 roomParts.transform.position,
-                roomParts.transform.eulerAngles.y,
-                roomParts.FloorMaterial.name,
-                roomParts.WallMaterial.name);
+                roomParts.transform.rotation);
 
-            totalData.RoomDataList.Add(roomData);
+            data.DecorDataList.Add(roomData);
         }
 
-        string json = JsonUtility.ToJson(totalData);
+        string json = JsonUtility.ToJson(data);
 
         return json;
     }
 
-    /// <summary>
-    /// json 데이터 맵으로 변환 함수
-    /// </summary>
-    private void LoadUnserialize(string json)
-    {
-        TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(json);
-
-        //try
-        //{
-        //    CreateMap();
-
-        //    foreach (RoomData data in totalData.RoomDataList)
-        //    {
-        //        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.roomPartsPath}/{data.Name}.prefab");
-        //        GameObject go = Instantiate(prefab);
-
-        //        go.name = data.Name;
-        //        go.transform.position = data.Pos;
-        //        go.transform.Rotate(new Vector3(0, data.RatateY, 0));
-
-        //        RoomParts parts = go.GetComponent<RoomParts>();
-        //        Material floor = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.FloorMaterialName}.mat");
-        //        Material wall = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.WallMaterialName}.mat");
-
-        //        parts.Init(floor, wall);
-        //    }
-        //}
-        //catch
-        //{
-        //    Debug.LogWarning("This file cannot be loaded.");
-        //}
-    }
-
     private void LoadMap(string json)
     {
-        TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(json);
-
+        totalData = JsonUtility.FromJson<TotalMapData>(json);
 
         if (totalData.MapName == null)
             return;
@@ -310,6 +293,20 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
             Material wall = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.WallMaterialName}.mat");
 
             parts.Init(floor, wall);
+        }
+
+        foreach (DecorData data in totalData.DecorDataList)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.decorPartsPath}/{data.Name}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.rotation = data.Rot;
+
+            IParts parts = go.GetComponent<IParts>();
+
+            saveManager.Add(parts);
         }
 
         isLoaded = true;
