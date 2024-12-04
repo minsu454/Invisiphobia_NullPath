@@ -19,7 +19,7 @@ public class Detector : MonoBehaviour
     {
         if (other.TryGetComponent(out IDetectable detectable))
         {
-            if (detectable.StateType != PropStateType.None)
+            if (detectable.StateType == PropStateType.Revealed)
                 return;
 
             StartTimer();
