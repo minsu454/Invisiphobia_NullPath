@@ -1,212 +1,77 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace UnityMovementAI
 {
-    [RequireComponent(typeof(SteeringBasics))]
     public class WallAvoidance : MonoBehaviour
     {
-        public float maxAcceleration = 40f;
-
-        public enum WallDetection { Raycast, Spherecast }
-
-        public WallDetection wallDetection = WallDetection.Spherecast;
-
+        //LayerMask = 어떤 레이어에 물리계산을 적용할 것인가?
+        //(어떤 레이어에 대해서 충돌 검사를 할 것인가?)
+        //Physics.default~ = 모든 활성화된 레이어에 대해 레이를 검사하도록 설정.
         public LayerMask castMask = Physics.DefaultRaycastLayers;
+        private Rigidbody rb;
 
-        /// <summary>
-        /// The distance away from the collision that we wish go
-        /// </summary>
-        public float wallAvoidDistance = 0.5f;
+        //벽을 피할 때 적용할 최대 가속도.
+        public float maxAcceleration = 5f;
 
-        /// <summary>
-        /// How far ahead the ray should extend
-        /// </summary>
-        public float mainWhiskerLen = 1.25f;
+        public float wallAvoidDistance = 10f;
+        public float rayLength = 10f;
 
-        public float sideWhiskerLen = 0.701f;
+        //WallAvodiance를 적용할 오브젝트
+        Vector3 avoidanceObject;
 
-        public float sideWhiskerAngle = 45f;
-
-
-        MovementAIRigidbody rb;
-        SteeringBasics steeringBasics;
-
-        void Awake()
+        private void Start()
         {
-            rb = GetComponent<MovementAIRigidbody>();
-            steeringBasics = GetComponent<SteeringBasics>();
+            rb = GetComponent<Rigidbody>();
         }
 
-        public Vector3 GetSteering()
+        private void FixedUpdate()
         {
-            if (rb.Velocity.magnitude > 0.005f)
+            Vector3[] directions =
+                {transform.forward, -transform.forward, transform.right, -transform.right};
+
+            if (rb != null)
             {
-                return GetSteering(rb.Velocity);
-            }
-            else
-            {
-                return GetSteering(rb.RotationAsVector);
-            }
-        }
-
-        public Vector3 GetSteering(Vector3 facingDir)
-        {
-            Vector3 acceleration = Vector3.zero;
-
-            GenericCastHit hit;
-
-            /* If no collision do nothing */
-            if (!FindObstacle(facingDir, out hit))
-            {
-                return acceleration;
-            }
-
-            /* Create a target away from the wall to seek */
-            Vector3 targetPostition = hit.point + hit.normal * wallAvoidDistance;
-
-            /* If velocity and the collision normal are parallel then move the target a bit to
-             * the left or right of the normal */
-            float angle = Vector3.Angle(rb.Velocity, hit.normal);
-            if (angle > 165f)
-            {
-                Vector3 perp;
-
-                if (rb.is3D)
+                foreach (var dir in directions)
                 {
-                    perp = new Vector3(-hit.normal.z, hit.normal.y, hit.normal.x);
-                }
-                else
-                {
-                    perp = new Vector3(-hit.normal.y, hit.normal.x, hit.normal.z);
-                }
-
-                /* Add some perp displacement to the target position propotional to the angle between the wall normal
-                 * and facing dir and propotional to the wall avoidance distance (with 2f being a magic constant that
-                 * feels good) */
-                targetPostition = targetPostition + (perp * Mathf.Sin((angle - 165f) * Mathf.Deg2Rad) * 2f * wallAvoidDistance);
-            }
-
-            //SteeringBasics.debugCross(targetPostition, 0.5f, new Color(0.612f, 0.153f, 0.69f), 0.5f, false);
-
-            return steeringBasics.Seek(targetPostition, maxAcceleration);
-        }
-
-        bool FindObstacle(Vector3 facingDir, out GenericCastHit firstHit)
-        {
-            facingDir = rb.ConvertVector(facingDir).normalized;
-
-            /* Create the direction vectors */
-            Vector3[] dirs = new Vector3[3];
-            dirs[0] = facingDir;
-
-            float orientation = SteeringBasics.VectorToOrientation(facingDir, rb.is3D);
-
-            dirs[1] = SteeringBasics.OrientationToVector(orientation + sideWhiskerAngle * Mathf.Deg2Rad, rb.is3D);
-            dirs[2] = SteeringBasics.OrientationToVector(orientation - sideWhiskerAngle * Mathf.Deg2Rad, rb.is3D);
-
-            return CastWhiskers(dirs, out firstHit);
-        }
-
-        bool CastWhiskers(Vector3[] dirs, out GenericCastHit firstHit)
-        {
-            firstHit = new GenericCastHit();
-            bool foundObs = false;
-
-            for (int i = 0; i < dirs.Length; i++)
-            {
-                float dist = (i == 0) ? mainWhiskerLen : sideWhiskerLen;
-
-                GenericCastHit hit;
-
-                if (GenericCast(dirs[i], out hit, dist))
-                {
-                    foundObs = true;
-                    firstHit = hit;
-                    break;
-                }
-            }
-
-            return foundObs;
-        }
-
-        bool GenericCast(Vector3 direction, out GenericCastHit hit, float distance = Mathf.Infinity)
-        {
-            bool result = false;
-            Vector3 origin = rb.ColliderPosition;
-
-            if (rb.is3D)
-            {
-                RaycastHit h;
-
-                if (wallDetection == WallDetection.Raycast)
-                {
-                    result = Physics.Raycast(origin, direction, out h, distance, castMask.value);
-                }
-                else
-                {
-                    result = Physics.SphereCast(origin, (rb.Radius * 0.5f), direction, out h, distance, castMask.value);
-                }
-
-                hit = new GenericCastHit(h);
-
-                /* If the character is grounded and we have a result check that we've hit a wall */
-                if (!rb.canFly && result)
-                {
-                    /* If the normal is less than our slope limit then we've hit the ground and not a wall */
-                    float angle = Vector3.Angle(Vector3.up, hit.normal);
-
-                    if (angle < rb.slopeLimit)
-                    {
-                        hit.normal = rb.ConvertVector(hit.normal);
-                        result = false;
-                    }
+                    AvoidWall(dir);
                 }
             }
             else
             {
-                bool defaultQueriesStartInColliders = Physics2D.queriesStartInColliders;
-                Physics2D.queriesStartInColliders = false;
-
-                RaycastHit2D h;
-
-                if (wallDetection == WallDetection.Raycast)
-                {
-                    h = Physics2D.Raycast(origin, direction, distance, castMask.value);
-                }
-                else
-                {
-                    h = Physics2D.CircleCast(origin, (rb.Radius * 0.5f), direction, distance, castMask.value);
-                }
-
-                /* RaycastHit2D auto evaluates to true or false evidently */
-                result = (h.collider != null);
-                hit = new GenericCastHit(h);
-
-                Physics2D.queriesStartInColliders = defaultQueriesStartInColliders;
+                Debug.LogError("WallAvoidance 스크립트의 Rigidbody가 없습니다.");
             }
-
-            //Debug.DrawLine(origin, origin + direction * distance, Color.cyan, 0f, false);
-
-            return result;
         }
 
-        struct GenericCastHit
+        public Vector3 AvoidWall(Vector3 direction)
         {
-            public Vector3 point;
-            public Vector3 normal;
+            //WallAvodiance를 적용할 오브젝트 변수
+            avoidanceObject = transform.position;
 
-            public GenericCastHit(RaycastHit h)
+            //기본적으로 반환할 가속도 초기화.
+            //장애물이 없을 경우 이값을 반환
+            RaycastHit hit;
+            Vector3 accelaeartion = Vector3.zero;
+
+
+            //point = 레이가 충돌이 발생한 위치
+            //normal = 충돌이 발생한 위치로부터 이동할 법선벡터.
+            //wallAvoidDistance = 회피를 위한 거리(해당 값만큼 멀리 이동)
+
+            //avoidanceObject = 레이를 쏠 시작점(해당 스크립트가 달린 오브젝트)
+            //Physics.Raycast & out hit = 레이의 충돌이 감지되면 hit에 정보가 들어옴
+            //direction = 레이를 쏠 방향(앞뒤양옆)
+            //
+            if (Physics.Raycast(avoidanceObject, direction, out hit, rayLength, castMask))
             {
-                point = h.point;
-                normal = h.normal;
+                Vector3 targetPosition = hit.point + hit.normal * wallAvoidDistance;
+                return targetPosition * maxAcceleration;
             }
 
-            public GenericCastHit(RaycastHit2D h)
+            else
             {
-                point = h.point;
-                normal = h.normal;
-            }
+                return Vector3.zero;
+            }    
         }
     }
 }
