@@ -83,12 +83,6 @@ public class Detector : MonoBehaviour
             closestdistance = float.MaxValue;
             for (int i = detectedObjectList.Count - 1; i >= 0; i--)
             {
-                if (detectedObjectList[i] == null)
-                {
-                    detectedObjectList.RemoveAt(i);
-                    continue;
-                }
-
                 if (HasLineOfSight(detectedObjectList[i]))
                 {
                     UpdateDistances(detectedObjectList[i], ref closestdistance);
@@ -125,16 +119,8 @@ public class Detector : MonoBehaviour
     {
         for (int i = detectedObjectList.Count - 1; i >= 0; i--)
         {
-            if (detectedObjectList[i] == null)
-            {
-                detectedObjectList.RemoveAt(i);
-                continue;
-            }
-
-            if (HasLineOfSight(detectedObjectList[i]))
-            {
-                detectedObjectList[i].Revealed();
-            }
+            detectedObjectList[i].Revealed();
+            detectedObjectList.RemoveAt(i);
         }
     }
 }
