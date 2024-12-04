@@ -38,7 +38,7 @@ public class Tablet : MonoBehaviour
     {
         SetTabletState(TabletStateType.Idle);
     }
-
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab)) // Tab 키로 태블릿 활성화/비활성화
