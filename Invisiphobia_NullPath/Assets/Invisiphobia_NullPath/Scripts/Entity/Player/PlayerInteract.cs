@@ -13,21 +13,26 @@ public class PlayerInteract : MonoBehaviour
     private Vector3 screenCenterRay;//레이 중앙에서 쏘기 위한 변수
 
     [Header("InteractGameObject")]
-    public GameObject curInteractGameObject;
     private IInteractable curInteractable;
-    public TextMeshProUGUI promptText;
 
-    private new Camera camera;
+    private Camera mainCam;
+    public KeyCode interactKey = KeyCode.E;
+    Player player;
 
+    public void Init(Player player)
+    {
+        this.player = player;
+    }
     private void Start()
     {
-        camera = Camera.main;
+        mainCam = Camera.main;
         screenCenterRay = Vector3.zero;
+        Player.Instance.PlayerController.playerInteractActionEvent += OnInteraction;
     }
 
     private void Update()
     {
-        if(Time.time - lastCheckTime > checkRate)
+        if (Time.time - lastCheckTime > checkRate)
         {
             lastCheckTime = Time.time;
             PlayerInteraction();
@@ -36,43 +41,28 @@ public class PlayerInteract : MonoBehaviour
 
     private void PlayerInteraction()
     {
-        //new를 사용하지 않는 방식으로 Garbage 최소화
-        screenCenterRay.Set(Screen.width / 2, Screen.height / 2, 0);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterRay);
+        Ray ray = mainCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height /2));
         RaycastHit raycastHit;
 
         //raycastHit = 레이쏴서 충돌된 물체
-        if(Physics.Raycast(ray, out raycastHit, maxDistance, layerMask))
+        if (Physics.Raycast(ray, out raycastHit, maxDistance, layerMask))
         {
-            if(raycastHit.collider.gameObject != curInteractGameObject)
+            if (raycastHit.collider.TryGetComponent(out IInteractable interactable))
             {
-                curInteractGameObject = raycastHit.collider.gameObject;
-                curInteractable = raycastHit.collider.GetComponent<IInteractable>();
-                SetPromptText();
+                curInteractable = interactable;
             }
         }
         else
         {
-            curInteractGameObject = null;
             curInteractable = null;
-            promptText.gameObject.SetActive(false);
         }
-    }
-
-    private void SetPromptText()
-    {
-        promptText.gameObject.SetActive(true);
-        //promptText.text = curInteractable.(여기에 상호작용 시 뜰 프롬포트 추가)
     }
 
     public void OnInteraction()
     {
-        if(Input.GetKeyDown(KeyCode.E) && curInteractable != null)
+        if (curInteractable != null)
         {
-            //curInteractable.Interact();
-            curInteractGameObject = null;
-            curInteractable = null;
-            promptText.gameObject.SetActive(false);
+            curInteractable.Interact(player);
         }
     }
 }
