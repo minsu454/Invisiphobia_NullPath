@@ -9,6 +9,8 @@ public class Monster : Entity, IDetectable
 
     public bool RendererActive { get { return myRenderer.enabled; } }
 
+    public PropStateType StateType { get; protected set; } = PropStateType.None;
+
     public bool isRevealed = false;
     public override void Init()
     {
@@ -17,14 +19,12 @@ public class Monster : Entity, IDetectable
 
     public void Detected()
     {
-
+        StateType = PropStateType.Detected;
     }
 
     public void Revealed()
     {
-        //controller.isRevealed = true;
-        
-        //isRevealed = true;
+        StateType = PropStateType.Revealed;
         myRenderer.enabled = true;
 
         myController.SetState(AIStateType.Wandering);
@@ -32,6 +32,8 @@ public class Monster : Entity, IDetectable
 
     public void Invisible()
     {
+        StateType = PropStateType.None;
+
         myRenderer.enabled = false;
         myController.SetState(AIStateType.Idle);
     }

@@ -19,7 +19,11 @@ public class Detector : MonoBehaviour
     {
         if (other.TryGetComponent(out IDetectable detectable))
         {
+            if (detectable.StateType != PropStateType.None)
+                return;
+
             StartTimer();
+            detectable.Detected();
             detectedObjectList.Add(detectable);
         }
     }
@@ -28,6 +32,10 @@ public class Detector : MonoBehaviour
     {
         if (other.TryGetComponent(out IDetectable detectable))
         {
+            if (detectable.StateType == PropStateType.Revealed)
+                return;
+
+            detectable.Invisible();
             detectedObjectList.Remove(detectable);
             if (detectedObjectList.Count == 0)
             {

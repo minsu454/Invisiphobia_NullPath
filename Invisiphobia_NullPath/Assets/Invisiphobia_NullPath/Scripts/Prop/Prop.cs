@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,40 +10,37 @@ public class Prop : MonoBehaviour, IDetectable
     [SerializeField] private Collider myCollider;
     [SerializeField] private SpriteRenderer mapIcon;
 
-    [SerializeField] private bool isRevealed = false;
+    public PropStateType StateType { get; protected set; } = PropStateType.None;
+
+    private void Awake()
+    {
+        Init();
+    }
 
     /// <summary>
     /// Prop 초기화 함수
     /// </summary>
     public virtual void Init()
     {
-        
-    }
-
-    private void Awake()
-    {
         myRenderer = GetComponent<MeshRenderer>();
         myRenderer.enabled = false;
         myCollider = GetComponent<Collider>();
     }
 
-    public void Detected()
+    public virtual void Detected()
     {
-        // UI아이콘 활성화
+        StateType = PropStateType.Detected;
     }
 
-    public void Revealed()
+    public virtual void Revealed()
     {
-        if (myRenderer == null)
-        {
-            return;
-        }
+        StateType = PropStateType.Revealed;
         myRenderer.enabled = true;
-        isRevealed = true;
     }
 
-    public void Invisible()
+    public virtual void Invisible()
     {
-        throw new System.NotImplementedException();
+        StateType = PropStateType.None;
+        myRenderer.enabled = false;
     }
 }
