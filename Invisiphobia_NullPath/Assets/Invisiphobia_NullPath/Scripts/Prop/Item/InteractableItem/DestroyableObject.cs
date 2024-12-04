@@ -7,6 +7,8 @@ public class DestroyableObject : InteractableItem
 
     public override void Interact(Player player)
     {
-        
+        isDestroyed = true;
+        destroySpot = transform;
+        Destroy(gameObject);
     }
 }
