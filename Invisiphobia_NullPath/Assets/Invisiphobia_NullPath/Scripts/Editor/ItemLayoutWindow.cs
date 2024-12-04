@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Codice.CM.ConfigureHelper;
+using Unity.VisualScripting;
 
 public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 {
@@ -14,6 +15,8 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
     private Editor pickGoEditor;            //선택 오브젝트 프리뷰
 
+    private bool isLoaded = false;
+
     private Texture2D[] texture2DArr;                                                       //Parts사진 저장 배열
     private Dictionary<string, BaseItem> partsGoDict = new Dictionary<string, BaseItem>();  //PartsGo 저장 Dictionary
 
@@ -23,6 +26,9 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
         GUIParts.LoadAllInFolder(EditorPath.itemTexturePath, out texture2DArr);
         GUIParts.LoadAllInFolder(EditorPath.itemPartsPath, out partsGoDict);
+
+        string path = EditorUtility.OpenFilePanel("Open File", "", "json");
+        saveManager.LoadMap(path, LoadMap);
     }
 
     [MenuItem("Tools/MapEditor/ItemLayout")]
@@ -33,6 +39,9 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
     private void OnGUI()
     {
+        if (!isLoaded)
+            return;
+
         // Normal =====================================================================
         GUILayout.Space(5f);
         GUIParts.CreateHorizontal(LoadBtn, DeleteBtn);
@@ -125,7 +134,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     {
         if (GUI.Button(new Rect(6, 238, 31, 25), "↻"))
         {
-            
+
         }
     }
 
@@ -136,7 +145,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     {
         if (GUI.Button(new Rect(142, 238, 100, 25), "Spawn"))
         {
-            
+
         }
     }
 
@@ -262,30 +271,59 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     {
         TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(json);
 
-        try
+        //try
+        //{
+        //    CreateMap();
+
+        //    foreach (RoomData data in totalData.RoomDataList)
+        //    {
+        //        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.roomPartsPath}/{data.Name}.prefab");
+        //        GameObject go = Instantiate(prefab);
+
+        //        go.name = data.Name;
+        //        go.transform.position = data.Pos;
+        //        go.transform.Rotate(new Vector3(0, data.RatateY, 0));
+
+        //        RoomParts parts = go.GetComponent<RoomParts>();
+        //        Material floor = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.FloorMaterialName}.mat");
+        //        Material wall = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.WallMaterialName}.mat");
+
+        //        parts.Init(floor, wall);
+        //    }
+        //}
+        //catch
+        //{
+        //    Debug.LogWarning("This file cannot be loaded.");
+        //}
+    }
+
+    private void LoadMap(string json)
+    {
+        TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(json);
+
+
+        if (totalData.MapName == null)
+            return;
+
+        CreateMap();
+
+        foreach (RoomData data in totalData.RoomDataList)
         {
-            CreateMap();
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.roomPartsPath}/{data.Name}.prefab");
+            GameObject go = Instantiate(prefab);
 
-            foreach (RoomData data in totalData.RoomDataList)
-            {
-                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.roomPartsPath}/{data.Name}.prefab");
-                GameObject go = Instantiate(prefab);
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.Rotate(new Vector3(0, data.RatateY, 0));
 
-                go.name = data.Name;
-                go.transform.position = data.Pos;
-                go.transform.Rotate(new Vector3(0, data.RatateY, 0));
+            RoomParts parts = go.GetComponent<RoomParts>();
+            Material floor = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.FloorMaterialName}.mat");
+            Material wall = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.WallMaterialName}.mat");
 
-                RoomParts parts = go.GetComponent<RoomParts>();
-                Material floor = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.FloorMaterialName}.mat");
-                Material wall = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.WallMaterialName}.mat");
-
-                parts.Init(floor, wall);
-            }
+            parts.Init(floor, wall);
         }
-        catch
-        {
-            Debug.LogWarning("This file cannot be loaded.");
-        }
+
+        isLoaded = true;
     }
 
     protected override void OnDisable()
