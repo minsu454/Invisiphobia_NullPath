@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Prop : MonoBehaviour, IDetectable
 {
+    [Header("Prop")]
     [SerializeField] private MeshRenderer myRenderer;
     [SerializeField] private Collider myCollider;
     [SerializeField] private SpriteRenderer mapIcon;
 
-    public bool isRevealed = false;
+    [SerializeField] private bool isRevealed = false;
+
     /// <summary>
     /// Prop 초기화 함수
     /// </summary>

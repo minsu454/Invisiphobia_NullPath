@@ -6,13 +6,13 @@ using Object = UnityEngine.Object;
 
 public sealed class MapSaveManager
 {
-    private readonly HashSet<Parts> savePartsHashSet= new HashSet<Parts>();
-    public HashSet<Parts> SavePartsHashSet { get { return savePartsHashSet; } }
+    private readonly HashSet<IParts> savePartsHashSet= new HashSet<IParts>();
+    public HashSet<IParts> SavePartsHashSet { get { return savePartsHashSet; } }
 
     /// <summary>
     /// HashSet에 추가해주는 함수
     /// </summary>
-    public void Add(Parts parts)
+    public void Add(IParts parts)
     {
         if (savePartsHashSet.Contains(parts))
             return;
@@ -23,7 +23,7 @@ public sealed class MapSaveManager
     /// <summary>
     /// HashSet에 삭제해주는 함수
     /// </summary>
-    public void Remove(Parts parts)
+    public void Remove(IParts parts)
     {
         if (!savePartsHashSet.Contains(parts))
             return;

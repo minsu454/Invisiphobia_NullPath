@@ -37,11 +37,14 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     {
         base.OnEnable();
 
-        GUIParts.LoadAllInFolder(EditorPath.texturePath, out texture2DArr);
-        GUIParts.LoadAllInFolder(EditorPath.partsPath, out partsGoDict);
+        GUIParts.LoadAllInFolder(EditorPath.roomTexturePath, out texture2DArr);
+        GUIParts.LoadAllInFolder(EditorPath.roomPartsPath, out partsGoDict);
 
         controller.leftMouseDownEvent += OnleftMouseDown;
         controller.rightMouseUpEvent += OnrightMouseUp;
+
+        floorMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/Lit.mat");
+        wallMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/Lit.mat");
     }
 
     [MenuItem("Tools/MapEditor/CreateMap")]
@@ -382,7 +385,7 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
             return;
 
-        if (!hit.collider.TryGetComponent(out Parts parts))
+        if (!hit.collider.TryGetComponent(out IParts parts))
             return;
 
         saveManager.Remove(parts);
@@ -435,9 +438,16 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     {
         TotalMapData totalData = new TotalMapData();
 
-        foreach (Parts parts in saveManager.SavePartsHashSet)
+        foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            RoomData roomData = new RoomData(parts.name, parts.transform.position, parts.transform.eulerAngles.y, floorMaterial.name, wallMaterial.name);
+            RoomParts roomParts = parts as RoomParts;
+            RoomData roomData = new RoomData(
+                roomParts.name,
+                roomParts.transform.position,
+                roomParts.transform.eulerAngles.y,
+                roomParts.FloorMaterial.name,
+                roomParts.WallMaterial.name);
+
             totalData.RoomDataList.Add(roomData);
         }
 

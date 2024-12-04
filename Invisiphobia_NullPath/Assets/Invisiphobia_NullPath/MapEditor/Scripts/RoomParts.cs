@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomParts : Parts
+public class RoomParts : MonoBehaviour, IParts
 {
+    [SerializeField] private Vector3Int size;
+    public Vector3Int Size { get { return size; } }
+
     [SerializeField] private string description;
     public string Description { get { return description; } }
 
