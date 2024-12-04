@@ -1,8 +1,4 @@
-using UnityEditor.SceneManagement;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEditor.MapEditor;
 
 public sealed class MapEditorManager
 {

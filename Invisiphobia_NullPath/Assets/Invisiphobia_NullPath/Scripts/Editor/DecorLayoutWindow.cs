@@ -150,7 +150,6 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
             if (!selectedObject.TryGetComponent(out DecorParts parts))
                 return;
 
-
             saveManager.Remove(parts);
             DestroyImmediate(selectedObject);
         }
@@ -254,15 +253,18 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
     {
         TotalMapData data = totalData;
 
+        data.DecorDataList.Clear();
+        data.DecorDataList = new List<PointData>();
+
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            DecorParts roomParts = parts as DecorParts;
-            DecorData roomData = new DecorData(
-                roomParts.name,
-                roomParts.transform.position,
-                roomParts.transform.rotation);
+            DecorParts decorParts = parts as DecorParts;
+            PointData decorData = new PointData(
+                decorParts.name,
+                decorParts.transform.position,
+                decorParts.transform.rotation);
 
-            data.DecorDataList.Add(roomData);
+            data.DecorDataList.Add(decorData);
         }
 
         string json = JsonUtility.ToJson(data);
@@ -286,7 +288,7 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
 
             go.name = data.Name;
             go.transform.position = data.Pos;
-            go.transform.Rotate(new Vector3(0, data.RatateY, 0));
+            go.transform.rotation = data.Rot;
 
             RoomParts parts = go.GetComponent<RoomParts>();
             Material floor = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.FloorMaterialName}.mat");
@@ -295,7 +297,7 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
             parts.Init(floor, wall);
         }
 
-        foreach (DecorData data in totalData.DecorDataList)
+        foreach (PointData data in totalData.DecorDataList)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.decorPartsPath}/{data.Name}.prefab");
             GameObject go = Instantiate(prefab);

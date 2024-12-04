@@ -1,7 +1,5 @@
 using System;
-using Unity.Burst.CompilerServices;
 using UnityEditor;
-using UnityEditor.MapEditor;
 using UnityEditorInternal;
 using UnityEngine;
 

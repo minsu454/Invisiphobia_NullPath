@@ -13,13 +13,13 @@ public class RoomParts : MonoBehaviour, IParts
     [SerializeField] private List<MeshRenderer> floorList;
     [SerializeField] private List<MeshRenderer> wallList;
 
-    public Material FloorMaterial { get; private set; }
-    public Material WallMaterial { get; private set; }
+    public Material CustomFloorMaterial { get; private set; }
+    public Material CustomWallMaterial { get; private set; }
 
     public void Init(Material floor, Material wall)
     {
-        FloorMaterial = floor;
-        WallMaterial = wall;
+        CustomFloorMaterial = floor;
+        CustomWallMaterial = wall;
 
         SetFloorList(floor);
         SetWallList(wall);

@@ -1,15 +1,11 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEditor.MapEditor;
 using System;
 using Path = System.IO.Path;
 
 public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
 {
-    private MapLayoutBuilder mapBuilder;    //맵 gizmo 체크 class
-  
-    private Vector2 mapSize;                //맵 사이즈 저장 변수
     private Rect areaRect;                  //rect 저장 변수
 
     private Vector2 saveScrollPos;          //스크롤 위치 저장 변수
@@ -35,9 +31,6 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
         GUIParts.LoadAllInFolder(EditorPath.roomTexturePath, out texture2DArr);
         GUIParts.LoadAllInFolder(EditorPath.roomPartsPath, out partsGoDict);
 
-        controller.leftMouseDownEvent += OnleftMouseDown;
-        controller.rightMouseUpEvent += OnrightMouseUp;
-
         floorMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/Lit.mat");
         wallMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/Lit.mat");
     }
@@ -52,7 +45,7 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
     {
         // Normal =====================================================================
         GUILayout.Space(5f);
-        GUIParts.CreateHorizontal(MapSizeField, CreateBtn, LoadBtn, DeleteBtn);
+        GUIParts.CreateHorizontal(CreateBtn, LoadBtn, DeleteBtn);
 
         if (!editorManager.IsCreateData)
             return;
@@ -85,35 +78,7 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
 
     protected override void OnSceneGUI(SceneView sceneView)
     {
-        if (mapBuilder == null)
-            return;
-
-        mapBuilder.MapSize = mapSize;
-
-        Event e = controller.GetEvent();
-
-        if (e.alt || e.shift || e.control)
-        {
-            return;
-        }
-
-        Vector3 mousePosition = e.mousePosition;
-
-        HandleUtility.FindNearestVertex(mousePosition, mapBuilder.GridTransforms, out Vector3 nearestVertex);
-
-        mapBuilder.HoveredPosition = nearestVertex + mapBuilder.Floor;
-
-        controller.InputMouse(e);
-    }
-
-    /// <summary>
-    /// 맵 크기필드 UI 함수
-    /// </summary>
-    private void MapSizeField()
-    {
-        GUI.enabled = !editorManager.IsCreateData;
-        mapSize = EditorGUILayout.Vector2Field("", mapSize, GUILayout.Width(200));
-        GUI.enabled = true;
+        
     }
 
     /// <summary>
@@ -125,12 +90,6 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
 
         if (GUILayout.Button("Create", GUILayout.Width(100), GUILayout.Height(20)))
         {
-            if (mapSize.x <= 0 || mapSize.x % 1 != 0 || mapSize.y <= 0 || mapSize.y % 1 != 0)
-            {
-                Debug.LogWarning("Map Size Value is OutOfRange. (integer, Positive Number)");
-                return;
-            }
-
             CreateMap();
         }
 
@@ -146,11 +105,6 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
 
         if (GUILayout.Button("Delete", GUILayout.Width(100), GUILayout.Height(20)))
         {
-            if (mapSize.x <= 0 || mapSize.x % 1 != 0 || mapSize.y <= 0 || mapSize.y % 1 != 0)
-            {
-                Debug.LogWarning("Map Size Value is OutOfRange. (integer, Positive Number)");
-                return;
-            }
             Clear();
         }
 
@@ -194,7 +148,7 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
     private void MapTools(Rect rect)
     {
         GUILayout.Space(5f);
-        GUIParts.CreateHorizontal(RoomRotateBtn, UpFloorBtn, DownFloorBtn);
+        GUIParts.CreateHorizontal(RoomRotateBtn, SpawnRoomBtn, DestroyRoomBtn);
     }
 
     /// <summary>
@@ -204,30 +158,61 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
     {
         if (GUILayout.Button("↻", GUILayout.Width(25), GUILayout.Height(20)))
         {
-            mapBuilder.TileScale = new Vector3Int(mapBuilder.TileScale.z, mapBuilder.TileScale.y, mapBuilder.TileScale.x);
-            curRotateCount = ++curRotateCount % rotateMax;
+
         }
     }
 
     /// <summary>
-    /// 윗층 버튼
+    /// 방 스폰 버튼
     /// </summary>
-    private void UpFloorBtn()
+    private void SpawnRoomBtn()
     {
-        if (GUILayout.Button("▲", GUILayout.Width(25), GUILayout.Height(20)))
+        if (GUI.Button(new Rect(42, 2, 100, 25), "Spawn"))
         {
-            mapBuilder.UpFloor();
+            if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
+                return;
+
+            GameObject partsGo = Instantiate(partsPrefab.gameObject);
+
+            partsGo.name = partsPrefab.gameObject.name;
+            var sceneCamera = SceneView.lastActiveSceneView.camera;
+
+            if (sceneCamera != null)
+            {
+                Vector3 spawnPosition = sceneCamera.transform.position + sceneCamera.transform.forward * 5f;
+                partsGo.transform.position = spawnPosition;
+            }
+            else
+            {
+                Debug.LogWarning("Scene view camera not found.");
+                partsGo.transform.position = Vector3.zero;
+            }
+
+            RoomParts roomParts = partsGo.GetComponent<RoomParts>();
+
+            roomParts.Init(floorMaterial, wallMaterial);
+
+            saveManager.Add(roomParts);
         }
     }
 
     /// <summary>
-    /// 아래층 버튼
+    /// 방 삭제 버튼
     /// </summary>
-    private void DownFloorBtn()
+    private void DestroyRoomBtn()
     {
-        if (GUILayout.Button("▼", GUILayout.Width(25), GUILayout.Height(20)))
+        if (GUI.Button(new Rect(142, 2, 100, 25), "Destroy"))
         {
-            mapBuilder.DownFloor();
+            if (Selection.activeGameObject == null)
+                return;
+
+            GameObject selectedObject = Selection.activeGameObject;
+
+            if (!selectedObject.TryGetComponent(out RoomParts parts))
+                return;
+
+            saveManager.Remove(parts);
+            DestroyImmediate(selectedObject);
         }
     }
 
@@ -262,7 +247,6 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
                     {
                         string name = texture2DArr[index].name;
                         pickName = name;
-                        mapBuilder.TileScale = partsGoDict[name].Size;
                         pickIdx = index;
                         curRotateCount = 0;
 
@@ -341,78 +325,15 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
 
         wallMaterial = newMaterial;
     }
-    
-
-    /// <summary>
-    /// 왼쪽 마우스 입력 action 함수
-    /// </summary>
-    private void OnleftMouseDown(Vector3 mousePos)
-    {
-        if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
-            return;
-
-        GameObject partsGo = Instantiate(partsPrefab.gameObject);
-
-        partsGo.name = partsPrefab.gameObject.name;
-        partsGo.transform.position = mapBuilder.HoveredPosition + Vector3.up * 0.5f;
-
-        Vector3 rotateVec = new Vector3(0, rotate, 0);
-
-        for (int i = 0; i < curRotateCount; i++)
-        {
-            partsGo.transform.Rotate(rotateVec);
-        }
-
-        RoomParts roomParts = partsGo.GetComponent<RoomParts>();
-
-        roomParts.Init(floorMaterial, wallMaterial);
-
-        saveManager.Add(roomParts);
-    }
-
-    /// <summary>
-    /// 오른쪽 마우스 입력해제 action 함수
-    /// </summary>
-    private void OnrightMouseUp(Vector3 mousePos)
-    {
-        Ray ray = HandleUtility.GUIPointToWorldRay(mousePos);
-
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
-            return;
-
-        if (!hit.collider.TryGetComponent(out IParts parts))
-            return;
-
-        saveManager.Remove(parts);
-        DestroyImmediate(parts.gameObject);
-    }
 
     /// <summary>
     /// 맵 제작 함수
     /// </summary>
     public void CreateMap()
     {
-        editorManager.LoadMapEditor(ref mapBuilder);
+        editorManager.LoadMapEditor();
 
         Run();
-        CreateGrid();
-    }
-
-    /// <summary>
-    /// 클릭하기위한 바닥과 격자 띄워주는 함수
-    /// </summary>
-    public void CreateGrid()
-    {
-        GameObject background = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        background.transform.SetParent(mapBuilder.transform);
-        background.transform.position = new Vector3(0, -1, 0);
-
-        GameObject plane = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(EditorPath.planePath));
-        plane.transform.position = new Vector3(0, -0.49f, 0);
-        plane.transform.SetParent(mapBuilder.transform);
-
-        background.transform.localScale = new Vector3(mapSize.x, 1, mapSize.y);
-        plane.transform.localScale = new Vector3(mapSize.x / 10, 1, mapSize.y / 10);
     }
 
     /// <summary>
@@ -420,7 +341,7 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
     /// </summary>
     private void Clear()
     {
-        editorManager.LeaveMapEditor(ref mapBuilder);
+        editorManager.LeaveMapEditor();
         saveManager.Clear();
         pickGoEditor = null;
         Stop();
@@ -439,15 +360,14 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
             RoomData roomData = new RoomData(
                 roomParts.name,
                 roomParts.transform.position,
-                roomParts.transform.eulerAngles.y,
-                roomParts.FloorMaterial.name,
-                roomParts.WallMaterial.name);
+                roomParts.transform.rotation,
+                roomParts.CustomFloorMaterial.name,
+                roomParts.CustomWallMaterial.name);
 
             totalData.RoomDataList.Add(roomData);
         }
 
         totalData.MapName = Path.GetFileNameWithoutExtension(path);
-        totalData.MapSize = mapSize;
         string json = JsonUtility.ToJson(totalData);
 
         return json;
@@ -462,8 +382,6 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
 
         try
         {
-            mapSize = totalData.MapSize;
-
             CreateMap();
 
             foreach (RoomData data in totalData.RoomDataList)
@@ -471,7 +389,7 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
                 GameObject go = Instantiate(partsGoDict[data.Name].gameObject);
                 go.name = data.Name;
                 go.transform.position = data.Pos;
-                go.transform.Rotate(new Vector3(0, data.RatateY, 0));
+                go.transform.rotation = data.Rot;
 
                 RoomParts parts = go.GetComponent<RoomParts>();
 
@@ -492,7 +410,7 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
     protected override void OnDisable()
     {
         if (editorManager.IsCreateData)
-            editorManager.LeaveMapEditor(ref mapBuilder);
+            editorManager.LeaveMapEditor();
 
         base.OnDisable();
     }

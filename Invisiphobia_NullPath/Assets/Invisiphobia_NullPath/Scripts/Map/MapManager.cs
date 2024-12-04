@@ -25,7 +25,7 @@ public class MapManager : MonoBehaviour
                 GameObject go = ObjectManager.Instantiate(AddressablePath.MapPartsPath(data.Name));
                 go.name = data.Name;
                 go.transform.position = data.Pos;
-                go.transform.Rotate(new Vector3(0, data.RatateY, 0));
+                go.transform.rotation = data.Rot;
 
                 RoomParts parts = go.GetComponent<RoomParts>();
 
