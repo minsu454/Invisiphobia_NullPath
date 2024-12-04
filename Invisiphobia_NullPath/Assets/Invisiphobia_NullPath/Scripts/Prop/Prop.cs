@@ -9,6 +9,7 @@ public class Prop : MonoBehaviour, IDetectable
     [SerializeField] private SpriteRenderer mapIcon;
 
     public bool isRevealed = false;
+
     /// <summary>
     /// Prop 초기화 함수
     /// </summary>

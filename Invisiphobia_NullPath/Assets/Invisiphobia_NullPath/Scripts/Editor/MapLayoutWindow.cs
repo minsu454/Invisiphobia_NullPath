@@ -37,8 +37,8 @@ public class MapLayoutWindow : ComstomWindow<MapLayoutWindow>
     {
         base.OnEnable();
 
-        GUIParts.LoadAllInFolder(EditorPath.texturePath, out texture2DArr);
-        GUIParts.LoadAllInFolder(EditorPath.partsPath, out partsGoDict);
+        GUIParts.LoadAllInFolder(EditorPath.roomTexturePath, out texture2DArr);
+        GUIParts.LoadAllInFolder(EditorPath.roomPartsPath, out partsGoDict);
 
         controller.leftMouseDownEvent += OnleftMouseDown;
         controller.rightMouseUpEvent += OnrightMouseUp;
