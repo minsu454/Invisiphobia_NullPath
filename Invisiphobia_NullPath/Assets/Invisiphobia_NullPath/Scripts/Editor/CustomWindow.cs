@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public abstract class ComstomWindow<T> : EditorWindow where T : EditorWindow
+public abstract class CustomWindow<T> : EditorWindow where T : EditorWindow
 {
     protected static T window;
     protected MapEditorManager editorManager;
