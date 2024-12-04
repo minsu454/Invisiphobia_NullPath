@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Detector : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Detector : MonoBehaviour
 
     private Coroutine currentCoroutine = null;
 
+    private float closestdistance;
 
     void OnTriggerEnter(Collider other)
     {
@@ -33,7 +35,7 @@ public class Detector : MonoBehaviour
             }
         }
     }
-    
+
     bool HasLineOfSight(IDetectable target) //IDetectable과 Detecter사이에 Wall이 있는지 판단
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
@@ -59,7 +61,7 @@ public class Detector : MonoBehaviour
             currentCoroutine = StartCoroutine(CoCheckTimer());
         }
     }
-    
+
     private void StopTimer()
     {
         StopCoroutine(currentCoroutine);
@@ -70,49 +72,38 @@ public class Detector : MonoBehaviour
     {
         while (true)
         {
-            for (int i = 0; i < detectedObjectList.Count; i++)
+            closestdistance = float.MaxValue;
+            for (int i = detectedObjectList.Count - 1; i >= 0; i--)
             {
+                if (detectedObjectList[i] == null)
+                {
+                    detectedObjectList.RemoveAt(i);
+                    continue;
+                }
+
                 if (HasLineOfSight(detectedObjectList[i]))
                 {
-                    UpdateDistances();
+                    UpdateDistances(detectedObjectList[i], ref closestdistance);
                     break;
                 }
             }
+            HandleAlarm(closestdistance);
             yield return YieldCache.WaitForSeconds(updateInterval);
         }
     }
 
-    void UpdateDistances()
+    void UpdateDistances(IDetectable detectable, ref float closest)
     {
-        IDetectable closestDetectable = null;
-        float minDistance = float.MaxValue;
-
-        for (int i = 0; i < detectedObjectList.Count; i++)
+        float distance = Vector3.Distance(transform.position, detectable.transform.position);
+        if (distance < closest)
         {
-            if (detectedObjectList[i] == null)
-            {
-                throw new Exception();
-            }
-            else
-            {
-                float distance = Vector3.Distance(transform.position, detectedObjectList[i].transform.position);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    closestDetectable = detectedObjectList[i];
-                }
-            }
-        }
-
-        if (closestDetectable != null)
-        {
-            HandleAlarm(minDistance, closestDetectable);
+            closest = distance;
         }
     }
 
-    private void HandleAlarm(float distance, IDetectable detectedobject) //TODO : 조명과 오디오로 알람
+    private void HandleAlarm(float distance) //TODO : 조명과 오디오로 알람
     {
-        if(distance < 5f)
+        if (distance < 5f)
         {
             Debug.Log("물체가 가깝습니다!!");
         }
@@ -121,11 +112,17 @@ public class Detector : MonoBehaviour
             Debug.Log("물체가 감지되었습니다!");
         }
     }
-    
+
     public void Reveal()
     {
-        for (int i = 0; i < detectedObjectList.Count; i++)
+        for (int i = detectedObjectList.Count - 1; i >= 0; i--)
         {
+            if (detectedObjectList[i] == null)
+            {
+                detectedObjectList.RemoveAt(i);
+                continue;
+            }
+
             if (HasLineOfSight(detectedObjectList[i]))
             {
                 detectedObjectList[i].Revealed();
