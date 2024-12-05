@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -23,14 +21,15 @@ public class PlayerController : MonoBehaviour
     public bool isCrouched = false;
     public bool isHoldRightmouse = false;
 
-    private void Start()
+    public void Init(Player player)
     {
-        sprintKey = Player.Instance.PlayerMovement.sprintKey;
-        jumpKey = Player.Instance.PlayerMovement.jumpKey;
-        crouchKey = Player.Instance.PlayerMovement.crouchKey;
-        interactKey = Player.Instance.PlayerInteract.interactKey;
+        sprintKey = player.PlayerMovement.sprintKey;
+        jumpKey = player.PlayerMovement.jumpKey;
+        crouchKey = player.PlayerMovement.crouchKey;
+        interactKey = player.PlayerInteract.interactKey;
         //tabletKey = Player.Instance.PlayerInventory.tabletKey;
     }
+
     void Update()
     {
         OnPlayerSprint();

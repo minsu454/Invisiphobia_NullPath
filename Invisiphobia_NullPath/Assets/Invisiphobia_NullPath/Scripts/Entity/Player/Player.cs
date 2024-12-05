@@ -31,6 +31,7 @@ public class Player : Entity
     {
         Instance = this;
 
+        PlayerController.Init(this);
         PlayerInteract.Init(this);
         PlayerInventory.Init(this);
     }

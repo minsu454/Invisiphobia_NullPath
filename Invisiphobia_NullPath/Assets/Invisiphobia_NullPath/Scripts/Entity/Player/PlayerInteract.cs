@@ -74,12 +74,9 @@ public class PlayerInteract : MonoBehaviour
 
     public void OnInteraction()
     {
-        if (Input.GetKeyDown(interactKey))
+        if (curInteractable != null)
         {
-            if (curInteractable != null)
-            {
-                curInteractable.Interact(player);
-            }
+            curInteractable.Interact(player);
         }
     }
 }
