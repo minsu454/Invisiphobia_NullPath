@@ -290,6 +290,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9feb92dcd202f314ba285df73b8d1da6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 3728756059220598388}
+  playerState: {fileID: 1318178792533946083}
+  playerMovement: {fileID: 1545626162856791150}
+  playerAnimation: {fileID: 0}
+  playerInteract: {fileID: 2427159982963979397}
+  cameraController: {fileID: 4276457678832381664}
+  playerInventory: {fileID: 1277243546151011764}
 --- !u!114 &3728756059220598388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,8 +313,10 @@ MonoBehaviour:
   jumpKey: 32
   crouchKey: 306
   interactKey: 101
+  tabletKey: 0
   isSprinting: 0
   isCrouched: 0
+  isHoldRightmouse: 0
 --- !u!114 &1545626162856791150
 MonoBehaviour:
   m_ObjectHideFlags: 0
