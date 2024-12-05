@@ -1,6 +1,8 @@
-public class RescueTarget : HandheldItem
+using UnityEngine;
+
+public class RescueTarget : MonoBehaviour
 {
-    public override void Interact(Player player)
+    public void Interact(Player player)
     {
         
     }

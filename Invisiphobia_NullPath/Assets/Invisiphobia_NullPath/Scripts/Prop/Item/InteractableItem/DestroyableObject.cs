@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DestroyableObject : InteractableItem
+public class DestroyableObject : MapItem
 {
     private bool isDestroyed = false;
     private Transform destroySpot;

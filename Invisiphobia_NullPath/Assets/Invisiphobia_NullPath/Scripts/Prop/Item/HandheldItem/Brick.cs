@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Brick : HandheldItem
+public class Brick : MonoBehaviour
 {
     public float throwSpeed = 10f;
     public Transform startPosition;
@@ -9,14 +9,14 @@ public class Brick : HandheldItem
 
     public bool isHeld = false;
 
-    private Rigidbody rigidbody;
+    private Rigidbody myRigidbody;
 
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        myRigidbody = GetComponent<Rigidbody>();
     }
 
-    public override void Interact(Player player)
+    public void Interact(Player player)
     {
         transform.position = startPosition.position;
 
@@ -34,9 +34,9 @@ public class Brick : HandheldItem
             Vector3 throwDirection = ThrowDirection();
             Vector3 initialVelocity = throwDirection * throwSpeed;
 
-            rigidbody.isKinematic = false;
-            rigidbody.velocity = Vector3.zero;
-            rigidbody.AddForce(initialVelocity, ForceMode.VelocityChange);
+            myRigidbody.isKinematic = false;
+            myRigidbody.velocity = Vector3.zero;
+            myRigidbody.AddForce(initialVelocity, ForceMode.VelocityChange);
         }
     }
 

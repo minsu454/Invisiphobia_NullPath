@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HideableObject : InteractableItem
+public class HideableObject : MapItem
 {
     public bool isHidden = false;
     public Transform hidingSpot;

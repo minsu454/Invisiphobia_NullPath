@@ -3,6 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class HandheldItem : BaseItem
+public class HandheldItem : MapItem
 {
 }

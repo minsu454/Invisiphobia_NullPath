@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseItem : Prop, IInteractable, IParts
+public class MapItem : Prop, IInteractable, IParts
 {
     [Header("BaseItem")]
     public int itemId;
@@ -15,5 +15,8 @@ public abstract class BaseItem : Prop, IInteractable, IParts
         table = DataServise.GetItemTableByKey(itemId);
     }
 
-    public abstract void Interact(Player player);
+    public virtual void Interact(Player player)
+    { 
+    
+    }
 }
