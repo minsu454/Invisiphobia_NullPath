@@ -26,9 +26,9 @@ public class Tablet : MonoBehaviour
             Instance = this;
         }
 
-        controller = GetComponent<TabletController>();
-        uiController = GetComponent<TabletUIController>();
-        detector = GetComponent<Detector>();
+        //controller = GetComponent<TabletController>();
+        //uiController = GetComponent<TabletUIController>();
+        //detector = GetComponent<Detector>();
 
         OnStateChanged += controller.HandleStateChanged;
         OnStateChanged += uiController.HandleStateChanged;
