@@ -469,6 +469,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9feb92dcd202f314ba285df73b8d1da6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 3728756059579963537}
+  playerState: {fileID: 1318178792103274502}
+  playerMovement: {fileID: 1545626163283856011}
+  playerAnimation: {fileID: 0}
+  playerInteract: {fileID: 2427159983661052512}
+  cameraController: {fileID: 4276457678122723333}
+  playerInventory: {fileID: 9026476961594005675}
 --- !u!224 &555126800148971597
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1253,6 +1260,7 @@ GameObject:
   - component: {fileID: 1318178792103274502}
   - component: {fileID: 4276457678122723333}
   - component: {fileID: 2427159983661052512}
+  - component: {fileID: 9026476961594005675}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2223,6 +2231,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &9026476961594005675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4457209446711266351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5303bdb233a92a84db87f1f18835ff15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Tablet: {fileID: 5886152059710509556}
 --- !u!1 &9047743195444034414
 GameObject:
   m_ObjectHideFlags: 0
