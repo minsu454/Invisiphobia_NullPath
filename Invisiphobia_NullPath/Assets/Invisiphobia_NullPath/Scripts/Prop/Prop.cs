@@ -38,9 +38,9 @@ public class Prop : MonoBehaviour, IDetectable
         mapIcon.Detected();
     }
 
-    public virtual void Detecting(float value)
+    public virtual void Detecting()
     {
-        mapIcon.Detecting(value);
+        StateType = PropStateType.Detecting;
     }
 
     public void DetectCompleted()
@@ -51,8 +51,11 @@ public class Prop : MonoBehaviour, IDetectable
     public virtual void Revealed()
     {
         if (StateType != PropStateType.DetectCompleted)
-            Invisible();
-
+        {
+            Detected();
+            return;
+        }
+        
         StateType = PropStateType.Revealed;
         myRenderer.enabled = true;
         mapIcon.Revealed();
@@ -63,5 +66,10 @@ public class Prop : MonoBehaviour, IDetectable
         StateType = PropStateType.None;
         myRenderer.enabled = false;
             mapIcon.Invisible();
+    }
+
+    public void SetFillAmount(float value)
+    {
+        mapIcon.SetFillAmount(value);
     }
 }

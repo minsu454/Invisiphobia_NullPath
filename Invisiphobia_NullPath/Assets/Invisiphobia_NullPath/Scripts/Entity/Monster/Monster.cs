@@ -15,19 +15,21 @@ public class Monster : Entity, IDetectable
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
     public bool isRevealed = false;
+
     public override void Init()
     {
-        base.Init();
+        mapIcon.Init();
     }
 
-    public void Detected()
+    public virtual void Detected()
     {
         StateType = PropStateType.Detected;
+        mapIcon.Detected();
     }
 
-    public void Detecting(float value)
+    public virtual void Detecting()
     {
-        //mapIcon.Detecting(value);
+        StateType = PropStateType.Detecting;
     }
 
     public void DetectCompleted()
@@ -35,24 +37,30 @@ public class Monster : Entity, IDetectable
         StateType = PropStateType.DetectCompleted;
     }
 
-    public void Revealed()
+    public virtual void Revealed()
     {
         if (StateType != PropStateType.DetectCompleted)
-            Invisible();
+        {
+            Detected();
+            return;
+        }
 
         StateType = PropStateType.Revealed;
         myRenderer.enabled = true;
-
-        myController.SetState(AIStateType.Wandering);
+        mapIcon.Revealed();
     }
 
-    public void Invisible()
+    public virtual void Invisible()
     {
         StateType = PropStateType.None;
-
         myRenderer.enabled = false;
+        mapIcon.Invisible();
+
         myController.SetState(AIStateType.Idle);
     }
 
-    
+    public void SetFillAmount(float value)
+    {
+        mapIcon.SetFillAmount(value);
+    }
 }

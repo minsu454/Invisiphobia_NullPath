@@ -60,8 +60,8 @@ public class Detector : MonoBehaviour
         switch (newState)
         {
             case TabletStateType.Idle:
-                StopDetecting();
                 Reveal();
+                StopDetecting();
                 break;
             case TabletStateType.Active:
                 Detecting();
@@ -145,34 +145,52 @@ public class Detector : MonoBehaviour
         for (int i = detectedObjectList.Count - 1; i >= 0; i--)
         {
             if (detectedObjectList[i].StateType != PropStateType.DetectCompleted)
+            {
+                detectedObjectList[i].Detected();
                 continue;
+            }
 
             detectedObjectList[i].Revealed();
             detectedObjectList.RemoveAt(i);
         }
     }
 
+    /// <summary>
+    ///  감지 중 함수
+    /// </summary>
+    public void Detecting()
+    {
+        for (int i = 0; i < detectedObjectList.Count; i++)
+        {
+            detectedObjectList[i].Detecting();
+        }
+
+        coDetecting = StartCoroutine(CoDetecting());
+    }
+
+    /// <summary>
+    /// 감지 완료 함수
+    /// </summary>
     private void DetectCompleted()
     {
         for (int i = 0; i < detectedObjectList.Count; i++)
         {
-            if (detectedObjectList[i].StateType == PropStateType.Detected)
+            if (detectedObjectList[i].StateType == PropStateType.Detecting)
                 detectedObjectList[i].DetectCompleted();
         }
     }
 
-    public void Detecting()
-    {
-        coDetecting = StartCoroutine(CoDetecting());
-    }
-
-    public void StopDetecting()
+    /// <summary>
+    /// 감지 스톱 함수
+    /// </summary>
+    private void StopDetecting()
     {
         if (coDetecting == null)
             return;
 
         StopCoroutine(coDetecting);
         coDetecting = null;
+        curDetectTime = 0;
     }
 
     private IEnumerator CoDetecting()
@@ -187,12 +205,13 @@ public class Detector : MonoBehaviour
 
             for (int i = 0; i < detectedObjectList.Count; i++)
             {
-                if (detectedObjectList[i].StateType == PropStateType.Detected)
-                    detectedObjectList[i].Detecting(curDetectTime / maxDetectTime);
+                if (detectedObjectList[i].StateType == PropStateType.Detecting)
+                    detectedObjectList[i].SetFillAmount(curDetectTime / maxDetectTime);
             }
 
             yield return null;
         }
+
         DetectCompleted();
     }
 }

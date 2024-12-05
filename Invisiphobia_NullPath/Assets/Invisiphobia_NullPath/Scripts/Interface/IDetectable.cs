@@ -21,7 +21,7 @@ public interface IDetectable
     /// <summary>
     /// 감지 중일 때 실행될 로직(테블릿으로 물체 검사할 때)
     /// </summary>
-    public void Detecting(float value);
+    public void Detecting();
 
     /// <summary>
     /// 감지 완료일 때 실행될 로직(테블릿에 있는 바가 다 채워졌을 때)
@@ -37,4 +37,9 @@ public interface IDetectable
     /// 사라졌을 때 실행될 로직
     /// </summary>
     public void Invisible();
+
+    /// <summary>
+    /// 감지바 설정 함수
+    /// </summary>
+    public void SetFillAmount(float value);
 }

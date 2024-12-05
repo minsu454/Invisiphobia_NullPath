@@ -27,14 +27,8 @@ public class Player : Entity
     [SerializeField] private PlayerInventory playerInventory;
     public PlayerInventory PlayerInventory { get { return playerInventory; } }
 
-    private void Awake()
-    {
-        Init();
-    }
-
     public override void Init()
     {
-        base.Init();
         Instance = this;
 
         PlayerInteract.Init(this);

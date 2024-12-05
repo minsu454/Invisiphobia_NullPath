@@ -53,5 +53,4 @@ public class Tablet : MonoBehaviour
                 break;
         }
     }
-
 }

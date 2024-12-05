@@ -6,22 +6,19 @@ public class MapIcon : MonoBehaviour
     [SerializeField] private SpriteRenderer CompletedRenderer;
     [SerializeField] private SpriteRenderer FillAmountRenderer;
 
+    private MaterialPropertyBlock propertyBlock;
+
     public void Init()
     {
-        CompletedRenderer.color = Color.gray;
-        CompletedRenderer.gameObject.SetActive(false);
-        FillAmountRenderer.gameObject.SetActive(true);
-        FillAmountRenderer.material.SetFloat("_FillAmount", 0);
+        propertyBlock = new MaterialPropertyBlock();
+
+        ResetIcon();
     }
 
     public void Detected()
     {
         CompletedRenderer.gameObject.SetActive(true);
-    }
-
-    public void Detecting(float value)
-    {
-        FillAmountRenderer.material.SetFloat("_FillAmount", value);
+        SetFillAmount(0);
     }
 
     public void Revealed()
@@ -32,6 +29,21 @@ public class MapIcon : MonoBehaviour
 
     public void Invisible()
     {
-        Init();
+        ResetIcon();
+    }
+
+    private void ResetIcon()
+    {
+        CompletedRenderer.color = Color.gray;
+        CompletedRenderer.gameObject.SetActive(false);
+        FillAmountRenderer.gameObject.SetActive(true);
+        SetFillAmount(0);
+    }
+
+    public void SetFillAmount(float value)
+    {
+        FillAmountRenderer.GetPropertyBlock(propertyBlock);
+        propertyBlock.SetFloat("_FillAmount", value);
+        FillAmountRenderer.SetPropertyBlock(propertyBlock);
     }
 }

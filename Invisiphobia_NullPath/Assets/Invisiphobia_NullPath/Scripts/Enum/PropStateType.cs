@@ -5,6 +5,7 @@ public enum PropStateType
 {
     None = 0,
     Detected,
+    Detecting,
     DetectCompleted,
     Revealed,
 }

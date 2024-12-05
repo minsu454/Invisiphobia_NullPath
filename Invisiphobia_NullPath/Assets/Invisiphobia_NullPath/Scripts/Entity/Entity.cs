@@ -3,20 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
+    private void Awake()
+    {
+        Init();
+    }
+
     /// <summary>
     /// Entity 초기화 함수
     /// </summary>
-    public virtual void Init()
-    {
-
-    }
-
-
-}
-
-public class Controller : MonoBehaviour
-{
-
+    public abstract void Init();
 }
