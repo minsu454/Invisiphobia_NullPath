@@ -1,16 +1,7 @@
 using UnityEngine;
 
-public enum TabletStateType
-{
-    Hidden,
-    Idle,
-    Active
-}
-
 public class Tablet : MonoBehaviour 
 {
-    public static Tablet Instance { get; private set; }
-
     [SerializeField] private TabletController controller;
     [SerializeField] private TabletUIController uiController;
     [SerializeField] private Detector detector;
@@ -19,33 +10,17 @@ public class Tablet : MonoBehaviour
 
     public event System.Action<TabletStateType> OnStateChanged;
 
-    private void Awake()
+    public void Init(Player player)
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        controller.Init(this);
+        uiController.Init(this);
 
-        //controller = GetComponent<TabletController>();
-        //uiController = GetComponent<TabletUIController>();
-        //detector = GetComponent<Detector>();
-
-        OnStateChanged += controller.HandleStateChanged;
-        OnStateChanged += uiController.HandleStateChanged;
+        player.PlayerController.playerTabletActionEvent += ToggleTabletState;
     }
 
     private void Start()
     {
         SetTabletState(TabletStateType.Idle);
-    }
-    
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab)) // Tab 키로 태블릿 활성화/비활성화
-        {
-            Debug.Log("Tab키 입력");
-            ToggleTabletState();
-        }
     }
 
     //public void ActivateTablet()
