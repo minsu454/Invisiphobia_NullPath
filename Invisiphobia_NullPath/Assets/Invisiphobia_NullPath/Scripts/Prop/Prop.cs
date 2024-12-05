@@ -62,6 +62,6 @@ public class Prop : MonoBehaviour, IDetectable
     {
         StateType = PropStateType.None;
         myRenderer.enabled = false;
-        mapIcon.Invisible();
+            mapIcon.Invisible();
     }
 }
