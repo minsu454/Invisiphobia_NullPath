@@ -22,30 +22,22 @@ public class PlayerMovement : MonoBehaviour
     //Sprint = 단거리 달리기, 코드에서는 보통 스테미나가 있는 경우가 많음
     public bool isZoomed = false;
     public bool enableSprint = true;
-    public bool unlimitedSprint = false;
     public KeyCode sprintKey = KeyCode.LeftShift;
     public float sprintSpeed = 7f;
     public float sprintDuration = 5f;
-    public float sprintCooldown = .5f;
     public float sprintFOV = 80f;
     public float sprintFOVStepTime = 10f;
 
     // Sprint Bar
-    public bool useSprintBar = true;
+    [SerializeField] private Slider staminaBar;
+    [SerializeField] private CanvasGroup sprintBarCanvasGroup; // CanvasGroup 추가
     public bool hideBarWhenFull = true;
-    public Image sprintBarBG;
-    public Image sprintBar;
-    public float sprintBarWidthPercent = .3f;
-    public float sprintBarHeightPercent = .015f;
 
     // Internal Variables
-    private CanvasGroup sprintBarCG;
     public bool isSprinting = false;
-    private float sprintRemaining;
-    private float sprintBarWidth;
-    private float sprintBarHeight;
-    private bool isSprintCooldown = false;
-    private float sprintCooldownReset;
+    private float sprintRemaining = 1f;
+    private bool isBarVisible = true; // Bar 상태를 추적
+    private float fadeDuration = 0.5f; // 페이드 전환 시간
     #endregion
 
     #region Jump
@@ -93,10 +85,17 @@ public class PlayerMovement : MonoBehaviour
 
         jointOriginalPos = joint.localPosition;
 
-        if (!unlimitedSprint)
+        sprintRemaining = sprintDuration; // 스태미나 초기화
+        if (staminaBar != null)
         {
-            sprintRemaining = sprintDuration;
-            sprintCooldownReset = sprintCooldown;
+            staminaBar.maxValue = sprintDuration; // 슬라이더 최대값 설정
+            staminaBar.minValue = 0; // 슬라이더 최소값 설정
+            staminaBar.value = sprintRemaining; // 현재 스태미나 동기화
+        }
+
+        if (sprintBarCanvasGroup != null)
+        {
+            sprintBarCanvasGroup.alpha = 1; // Bar 초기 상태
         }
     }
 
@@ -109,33 +108,6 @@ public class PlayerMovement : MonoBehaviour
         Player.Instance.PlayerController.playerSprintActionEvent += Sprint;
         Player.Instance.PlayerController.playerJumpActionEvent += Jump;
         Player.Instance.PlayerController.playerCrouchActionEvent += Crouch;
-
-        sprintBarCG = GetComponentInChildren<CanvasGroup>();
-
-        if (useSprintBar)
-        {
-            sprintBarBG.gameObject.SetActive(true);
-            sprintBar.gameObject.SetActive(true);
-
-            float screenWidth = Screen.width;
-            float screenHeight = Screen.height;
-
-            sprintBarWidth = screenWidth * sprintBarWidthPercent;
-            sprintBarHeight = screenHeight * sprintBarHeightPercent;
-
-            sprintBarBG.rectTransform.sizeDelta = new Vector3(sprintBarWidth, sprintBarHeight, 0f);
-            sprintBar.rectTransform.sizeDelta = new Vector3(sprintBarWidth - 2, sprintBarHeight - 2, 0f);
-
-            if (hideBarWhenFull)
-            {
-                sprintBarCG.alpha = 0;
-            }
-        }
-        else
-        {
-            sprintBarBG.gameObject.SetActive(false);
-            sprintBar.gameObject.SetActive(false);
-        }
     }
 
     private void Update()
@@ -145,6 +117,22 @@ public class PlayerMovement : MonoBehaviour
         if (enableHeadBob)
         {
             HeadBob();
+        }
+
+        if (!isSprinting)
+        {
+            sprintRemaining += 0.1f * Time.deltaTime * 10;
+            sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintDuration);
+
+            if (sprintRemaining >= sprintDuration && hideBarWhenFull)
+            {
+                ShowSprintBar(false); // Bar 숨기기
+            }
+        }
+
+        if (sprintBarCanvasGroup != null && sprintBarCanvasGroup.alpha > 0)
+        {
+            staminaBar.value = sprintRemaining;
         }
     }
 
@@ -167,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // All movement calculations shile sprint is active
-            if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f && !isSprintCooldown)
+            if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f)
             {
                 targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
 
@@ -183,10 +171,6 @@ public class PlayerMovement : MonoBehaviour
                 if (velocityChange.x != 0 || velocityChange.z != 0)
                 {
                     isSprinting = true;
-                    //if (hideBarWhenFull && !unlimitedSprint)
-                    //{
-                    //    sprintBarCG.alpha += 5 * Time.deltaTime;
-                    //}
                 }
 
                 rb.AddForce(velocityChange, ForceMode.VelocityChange);
@@ -195,11 +179,6 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 isSprinting = false;
-
-                if (hideBarWhenFull && sprintRemaining == sprintDuration)
-                {
-                    sprintBarCG.alpha -= 3 * Time.deltaTime;
-                }
 
                 targetVelocity = transform.TransformDirection(targetVelocity) * walkSpeed;
 
@@ -222,50 +201,51 @@ public class PlayerMovement : MonoBehaviour
     {
         if (enableSprint)
         {
-            if (isSprinting)
-            {
-                isZoomed = false;
-                playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFOV, sprintFOVStepTime * Time.deltaTime);
+            ShowSprintBar(true); // Bar 표시
+            isSprinting = true;
 
-                // Drain sprint remaining while sprinting
-                if (!unlimitedSprint)
-                {
-                    sprintRemaining -= 1 * Time.deltaTime;
-                    if (sprintRemaining <= 0)
-                    {
-                        isSprinting = false;
-                        isSprintCooldown = true;
-                    }
-                }
-            }
-            else
-            {
-                // Regain sprint while not sprinting
-                sprintRemaining = Mathf.Clamp(sprintRemaining += 1 * Time.deltaTime, 0, sprintDuration);
-            }
+            isZoomed = false;
+            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFOV, sprintFOVStepTime * Time.deltaTime);
 
-            // Handles sprint cooldown 
-            // When sprint remaining == 0 stops sprint ability until hitting cooldown
-            if (isSprintCooldown)
-            {
-                sprintCooldown -= 1 * Time.deltaTime;
-                if (sprintCooldown <= 0)
-                {
-                    isSprintCooldown = false;
-                }
-            }
-            else
-            {
-                sprintCooldown = sprintCooldownReset;
-            }
+            sprintRemaining -= 0.1f * Time.deltaTime * 10;
+            sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintDuration);
 
-            // Handles sprintBar 
-            if (useSprintBar && !unlimitedSprint)
+            if (sprintRemaining <= 0)
             {
-                float sprintRemainingPercent = sprintRemaining / sprintDuration;
-                sprintBar.transform.localScale = new Vector3(sprintRemainingPercent, 1f, 1f);
+                isSprinting = false;
             }
         }
+    }
+
+    /// <summary>
+    /// Sprint Bar 표시/숨기기
+    /// </summary>
+    private void ShowSprintBar(bool show)
+    {
+        if (sprintBarCanvasGroup == null || isBarVisible == show) return;
+
+        isBarVisible = show;
+        StopAllCoroutines(); // 중복 호출 방지
+        StartCoroutine(FadeBar(show));
+    }
+
+    /// <summary>
+    /// Sprint Bar 페이드 효과
+    /// </summary>
+    private IEnumerator FadeBar(bool show)
+    {
+        float startAlpha = sprintBarCanvasGroup.alpha;
+        float targetAlpha = show ? 1 : 0;
+        float elapsedTime = 0;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            sprintBarCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+            yield return null;
+        }
+
+        sprintBarCanvasGroup.alpha = targetAlpha;
     }
     // Sets isGrounded based on a raycast sent straigth down from the player object
 
@@ -312,7 +292,7 @@ public class PlayerMovement : MonoBehaviour
 
         this.isCrouched = isCrouched;
         // 카메라의 위치를 부드럽게 전환
-        playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition,targetPosition,Time.deltaTime * crouchSpeed);
+        playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, Time.deltaTime * crouchSpeed);
     }
 
     /// <summary>
