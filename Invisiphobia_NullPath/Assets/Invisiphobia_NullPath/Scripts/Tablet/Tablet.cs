@@ -10,7 +10,7 @@ public class Tablet : MonoBehaviour
 
     public event System.Action<TabletStateType> OnStateChanged;
 
-    private void Init(Player player)
+    public void Init(Player player)
     {
         controller.Init(this);
         uiController.Init(this);

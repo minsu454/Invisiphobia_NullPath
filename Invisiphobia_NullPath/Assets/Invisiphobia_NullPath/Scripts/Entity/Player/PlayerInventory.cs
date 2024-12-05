@@ -13,9 +13,10 @@ public class PlayerInventory : MonoBehaviour
 
     //private HashSet<> bagSet;     생성해줄 아이템
 
-    public void Init()
+    public void Init(Player player)
     {
         maxCount += handCount;
+        Tablet.Init(player);
     }
 
     /// <summary>

@@ -6,13 +6,26 @@ public class Player : Entity
 {
     public static Player Instance;
 
-    public PlayerController PlayerController {  get; private set; }
-    public PlayerState PlayerState { get; private set; }
-    public PlayerMovement PlayerMovement { get; private set; }
-    public PlayerAnimation PlayerAnimation { get; private set; }
-    public PlayerInteract PlayerInteract { get; private set; }
-    public CameraController CameraController { get; private set; }
-    public PlayerInventory PlayerInventory { get; private set; }
+    [SerializeField] private PlayerController playerController;
+    public PlayerController PlayerController { get { return playerController; } }
+
+    [SerializeField] private PlayerState playerState;
+    public PlayerState PlayerState { get { return playerState; } }
+
+    [SerializeField] private PlayerMovement playerMovement;
+    public PlayerMovement PlayerMovement { get { return playerMovement; } }
+
+    [SerializeField] private PlayerAnimation playerAnimation;
+    public PlayerAnimation PlayerAnimation { get { return playerAnimation; } }
+
+    [SerializeField] private PlayerInteract playerInteract;
+    public PlayerInteract PlayerInteract { get { return playerInteract; } }
+
+    [SerializeField] private CameraController cameraController;
+    public CameraController CameraController { get { return cameraController; } }
+
+    [SerializeField] private PlayerInventory playerInventory;
+    public PlayerInventory PlayerInventory { get { return playerInventory; } }
 
     private void Awake()
     {
@@ -23,14 +36,9 @@ public class Player : Entity
     {
         base.Init();
         Instance = this;
-        PlayerController = GetComponent<PlayerController>();
-        PlayerState = GetComponent<PlayerState>();
-        PlayerMovement = GetComponent<PlayerMovement>();
-        PlayerAnimation = GetComponent<PlayerAnimation>();
-        CameraController = GetComponent<CameraController>();
-        PlayerInteract = GetComponent<PlayerInteract>();
-        PlayerInventory = GetComponent<PlayerInventory>();
+
         PlayerInteract.Init(this);
+        PlayerInventory.Init(this);
     }
 
 }
