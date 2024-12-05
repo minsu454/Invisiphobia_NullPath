@@ -19,7 +19,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     private bool isLoaded = false;
 
     private Texture2D[] texture2DArr;                                                       //Parts사진 저장 배열
-    private Dictionary<string, MapItem> partsGoDict = new Dictionary<string, MapItem>();  //PartsGo 저장 Dictionary
+    private Dictionary<string, BaseItem> partsGoDict = new Dictionary<string, BaseItem>();  //PartsGo 저장 Dictionary
 
     private TotalMapData totalData;
 
@@ -113,7 +113,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     {
         if (GUI.Button(new Rect(42, 238, 100, 25), "Spawn"))
         {
-            if (!partsGoDict.TryGetValue(pickName, out MapItem partsPrefab))
+            if (!partsGoDict.TryGetValue(pickName, out BaseItem partsPrefab))
                 return;
 
             GameObject partsGo = Instantiate(partsPrefab.gameObject);
@@ -132,7 +132,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
                 partsGo.transform.position = Vector3.zero;
             }
 
-            MapItem itemParts = partsGo.GetComponent<MapItem>();
+            BaseItem itemParts = partsGo.GetComponent<BaseItem>();
 
             saveManager.Add(itemParts);
         }
@@ -150,7 +150,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
             GameObject selectedObject = Selection.activeGameObject;
 
-            if (!selectedObject.TryGetComponent(out MapItem parts))
+            if (!selectedObject.TryGetComponent(out BaseItem parts))
                 return;
 
 
@@ -192,7 +192,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
                         pickName = name;
                         pickIdx = index;
 
-                        if (!partsGoDict.TryGetValue(pickName, out MapItem partsPrefab))
+                        if (!partsGoDict.TryGetValue(pickName, out BaseItem partsPrefab))
                             return;
 
                         pickGoEditor = Editor.CreateEditor(partsPrefab.gameObject);
@@ -217,7 +217,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
         gStyle.normal.background = Texture2D.grayTexture;
         pickGoEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
 
-        if (!partsGoDict.TryGetValue(pickName, out MapItem item))
+        if (!partsGoDict.TryGetValue(pickName, out BaseItem item))
             return;
 
         GUIStyle styleLabel = new GUIStyle("label");
@@ -262,7 +262,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            MapItem itemParts = parts as MapItem;
+            BaseItem itemParts = parts as BaseItem;
             PointData itemData = new PointData(
                 itemParts.name,
                 itemParts.transform.position,

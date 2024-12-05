@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Battery : MapItem
+public class Battery : BaseItem
 {
     [Header("Battery Settings")]
     public float dischargeRate = 1f; // 초당 감소량

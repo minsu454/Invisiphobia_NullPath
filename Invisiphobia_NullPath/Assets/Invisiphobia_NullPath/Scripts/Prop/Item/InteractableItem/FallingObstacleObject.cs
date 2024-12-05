@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class FallingObstacleObject : MapItem
+public class FallingObstacleObject : BaseItem
 {
     private bool isFallen = false;
     [SerializeField] private bool isDestroyed = false;

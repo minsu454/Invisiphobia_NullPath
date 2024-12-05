@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandheldItem : MapItem
+public class HandheldItem : BaseItem
 {
+    public override void Interact(Player player)
+    {
+        
+    }
 }
