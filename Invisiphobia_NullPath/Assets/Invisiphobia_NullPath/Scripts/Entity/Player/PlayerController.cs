@@ -9,15 +9,19 @@ public class PlayerController : MonoBehaviour
     public KeyCode jumpKey;
     public KeyCode crouchKey;
     public KeyCode interactKey;
+    public KeyCode tabletKey;
 
     public event Action<Vector3> playerMoveActionEvent;
     public event Action playerSprintActionEvent;
     public event Action playerJumpActionEvent;
     public event Action<bool> playerCrouchActionEvent;
     public event Action playerInteractActionEvent;
+    public event Action playerTabletActionEvent;
+    public event Action playerThrowActionEvent;
 
     public bool isSprinting = false;
     public bool isCrouched = false;
+    public bool isHoldRightmouse = false;
 
     private void Start()
     {
@@ -25,6 +29,7 @@ public class PlayerController : MonoBehaviour
         jumpKey = Player.Instance.PlayerMovement.jumpKey;
         crouchKey = Player.Instance.PlayerMovement.crouchKey;
         interactKey = Player.Instance.PlayerInteract.interactKey;
+        //tabletKey = Player.Instance.PlayerInventory.tabletKey;
     }
     void Update()
     {
@@ -32,6 +37,8 @@ public class PlayerController : MonoBehaviour
         OnPlayerJump();
         OnPlayerCrouch();
         OnPlayerInteract();
+        OnPlayerTablet();
+        OnPlayerThrow();
     }
 
     private void FixedUpdate()
@@ -47,6 +54,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnPlayerTablet()
+    {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            playerTabletActionEvent.Invoke();
+        }
+    }
     private void OnPlayerSprint()
     {
         if (Input.GetKeyDown(sprintKey))
@@ -89,6 +103,23 @@ public class PlayerController : MonoBehaviour
            isCrouched = false;
        }
        playerCrouchActionEvent.Invoke(isCrouched);
+    }
+
+    private void OnPlayerThrow()
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            isHoldRightmouse = true;
+        }
+        else if(Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            isHoldRightmouse = false;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Mouse0) && isHoldRightmouse == true)
+        {
+            playerThrowActionEvent.Invoke();
+        }
     }
 
 }

@@ -109,6 +109,33 @@ public class PlayerMovement : MonoBehaviour
         Player.Instance.PlayerController.playerSprintActionEvent += Sprint;
         Player.Instance.PlayerController.playerJumpActionEvent += Jump;
         Player.Instance.PlayerController.playerCrouchActionEvent += Crouch;
+
+        sprintBarCG = GetComponentInChildren<CanvasGroup>();
+
+        if (useSprintBar)
+        {
+            sprintBarBG.gameObject.SetActive(true);
+            sprintBar.gameObject.SetActive(true);
+
+            float screenWidth = Screen.width;
+            float screenHeight = Screen.height;
+
+            sprintBarWidth = screenWidth * sprintBarWidthPercent;
+            sprintBarHeight = screenHeight * sprintBarHeightPercent;
+
+            sprintBarBG.rectTransform.sizeDelta = new Vector3(sprintBarWidth, sprintBarHeight, 0f);
+            sprintBar.rectTransform.sizeDelta = new Vector3(sprintBarWidth - 2, sprintBarHeight - 2, 0f);
+
+            if (hideBarWhenFull)
+            {
+                sprintBarCG.alpha = 0;
+            }
+        }
+        else
+        {
+            sprintBarBG.gameObject.SetActive(false);
+            sprintBar.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -169,10 +196,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 isSprinting = false;
 
-                //if (hideBarWhenFull && sprintRemaining == sprintDuration)
-                //{
-                //    sprintBarCG.alpha -= 3 * Time.deltaTime;
-                //}
+                if (hideBarWhenFull && sprintRemaining == sprintDuration)
+                {
+                    sprintBarCG.alpha -= 3 * Time.deltaTime;
+                }
 
                 targetVelocity = transform.TransformDirection(targetVelocity) * walkSpeed;
 
@@ -233,11 +260,11 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // Handles sprintBar 
-            //if (useSprintBar && !unlimitedSprint)
-            //{
-            //    float sprintRemainingPercent = sprintRemaining / sprintDuration;
-            //    sprintBar.transform.localScale = new Vector3(sprintRemainingPercent, 1f, 1f);
-            //}
+            if (useSprintBar && !unlimitedSprint)
+            {
+                float sprintRemainingPercent = sprintRemaining / sprintDuration;
+                sprintBar.transform.localScale = new Vector3(sprintRemainingPercent, 1f, 1f);
+            }
         }
     }
     // Sets isGrounded based on a raycast sent straigth down from the player object
