@@ -7,9 +7,9 @@ public class PlayerInventory : MonoBehaviour
     private int maxCount = 0;
     private const int handCount = 2;
 
-    public Tablet Tablet { get; private set; }
+    [SerializeField] private Tablet Tablet;
     private List<HandheldItem> handList = new List<HandheldItem>(2);
-    private List<HandheldItem> bagList;
+    private List<HandheldItem> bagList = new List<HandheldItem>();
 
     //private HashSet<> bagSet;     생성해줄 아이템
 

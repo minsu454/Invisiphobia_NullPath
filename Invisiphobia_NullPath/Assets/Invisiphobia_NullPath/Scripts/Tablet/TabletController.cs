@@ -12,6 +12,11 @@ public class TabletController : MonoBehaviour
 
     private TabletStateType state;
 
+    public void Init(Tablet tablet)
+    {
+        tablet.OnStateChanged += HandleStateChanged;
+    }
+
     private void Update()
     {
         MoveTabletPosition();
