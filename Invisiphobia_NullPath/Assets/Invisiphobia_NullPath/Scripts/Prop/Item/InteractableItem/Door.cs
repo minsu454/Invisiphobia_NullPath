@@ -1,56 +1,52 @@
+
 using System.Collections;
 using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
     private bool isOpen = false; // 문이 열린 상태인지 확인하는 변수
+    float elapsedTime = 0f;
+    Quaternion startRotation;
+    Quaternion endRotation;
 
+    public void Awake()
+    {
+        startRotation = transform.rotation;
+        endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
+    }
     public void Interact(Player player)
     {
+        if ((elapsedTime != 0))
+        {
+            return;
+        }
+
         if (isOpen)
         {
-            StartCoroutine(CloseDoor());
+            StartCoroutine(DoorInteract(endRotation, startRotation, 1f)); // 닫기 동작
         }
         else
         {
-            StartCoroutine(OpenDoor());
+            StartCoroutine(DoorInteract(startRotation, endRotation, 1f)); // 열기 동작
         }
     }
 
-    private IEnumerator OpenDoor()
+    private IEnumerator DoorInteract(Quaternion a, Quaternion b, float timeToAnimate)
     {
-        float timeToOpen = 1f; // 문이 열리는 데 걸리는 시간
-        float elapsedTime = 0f;
-        Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(0, 90, 0); // 문이 90도 회전할 목표 회전값
+        elapsedTime = 0f;
 
-        while (elapsedTime < timeToOpen)
+        while (elapsedTime < timeToAnimate)
         {
-            transform.rotation = Quaternion.Slerp(startRotation, endRotation, (elapsedTime / timeToOpen));
+            transform.rotation = Quaternion.Slerp(a, b, (elapsedTime / timeToAnimate));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        elapsedTime = 0f;
 
-        transform.rotation = endRotation; // 정확한 목표 회전값으로 설정
-        isOpen = true; // 문이 열렸음을 표시
-    }
+        transform.rotation = b; // 정확한 목표 회전값으로 설정
 
-    private IEnumerator CloseDoor()
-    {
-        float timeToClose = 1f; // 문이 닫히는 데 걸리는 시간
-        float elapsedTime = 0f;
-        Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(0, 0, 0); // 문을 원래 상태로 되돌리는 목표 회전값
-
-        while (elapsedTime < timeToClose)
-        {
-            transform.rotation = Quaternion.Slerp(startRotation, endRotation, (elapsedTime / timeToClose));
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.rotation = endRotation; // 정확한 목표 회전값으로 설정
-        isOpen = false; // 문이 닫혔음을 표시
+        // 문 상태 업데이트
+        isOpen = startRotation != transform.rotation;
     }
 }
 
