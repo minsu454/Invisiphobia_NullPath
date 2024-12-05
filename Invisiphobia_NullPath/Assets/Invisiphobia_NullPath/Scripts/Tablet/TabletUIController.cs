@@ -12,7 +12,7 @@ public class TabletUIController : MonoBehaviour
 
     public void Init(Tablet tablet)
     {
-        tablet.OnStateChanged += HandleStateChanged;
+        tablet.OnStateChangedEvent += HandleStateChanged;
     }
 
     public void HandleStateChanged(TabletStateType newState)
@@ -20,10 +20,10 @@ public class TabletUIController : MonoBehaviour
         switch (newState)
         {
             case TabletStateType.Idle:
-                mapCam.orthographicSize = idleMapSize;
+                //mapCam.orthographicSize = idleMapSize;
                 break;
             case TabletStateType.Active:
-                mapCam.orthographicSize = activeMapSize;
+                //mapCam.orthographicSize = activeMapSize;
                 break;
         }
     }

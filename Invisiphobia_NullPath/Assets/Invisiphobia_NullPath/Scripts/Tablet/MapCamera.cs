@@ -3,7 +3,7 @@ using UnityEngine;
 public class MapCamera : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
-    private float height = 20f;
+    private float height = 50f;
 
     public void LateUpdate()
     {

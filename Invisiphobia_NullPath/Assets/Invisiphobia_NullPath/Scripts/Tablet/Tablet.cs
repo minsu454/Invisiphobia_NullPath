@@ -1,26 +1,39 @@
+using System.Collections;
 using UnityEngine;
 
 public class Tablet : MonoBehaviour 
 {
+    [Header("Controller")]
     [SerializeField] private TabletController controller;
     [SerializeField] private TabletUIController uiController;
+
+    [Header("Detecting")]
     [SerializeField] private Detector detector;
 
-    public TabletStateType state {  get; private set; }
+    private TabletStateType stateType = TabletStateType.Idle;
+    public TabletStateType state {
+        get { return stateType; }
+        private set
+        {
+            if (state == value)
+            {
+                return;
+            }
 
-    public event System.Action<TabletStateType> OnStateChanged;
+            stateType = value;
+            OnStateChangedEvent?.Invoke(stateType);
+        }
+    }
+
+    public event System.Action<TabletStateType> OnStateChangedEvent;
 
     public void Init(Player player)
     {
         controller.Init(this);
         uiController.Init(this);
+        detector.Init(this);
 
         player.PlayerController.playerTabletActionEvent += ToggleTabletState;
-    }
-
-    private void Start()
-    {
-        SetTabletState(TabletStateType.Idle);
     }
 
     //public void ActivateTablet()
@@ -30,23 +43,14 @@ public class Tablet : MonoBehaviour
 
     private void ToggleTabletState()
     {
-        if(state == TabletStateType.Idle)
+        switch (state)
         {
-            SetTabletState(TabletStateType.Active);
-        }
-        else if(state == TabletStateType.Active)
-        {
-            detector.Reveal();
-            SetTabletState(TabletStateType.Idle);
-        }
-    }
-
-    private void SetTabletState(TabletStateType newState)
-    {
-        if (state != newState)
-        {
-            state = newState;
-            OnStateChanged?.Invoke(newState);
+            case TabletStateType.Idle:
+                state = TabletStateType.Active;
+                break;
+            case TabletStateType.Active:
+                state = TabletStateType.Idle;
+                break;
         }
     }
 

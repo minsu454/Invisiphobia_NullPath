@@ -11,10 +11,22 @@ public interface IDetectable
     /// </summary>
     public PropStateType StateType { get; }
 
+    public MapIcon MapIcon { get; }
+
     /// <summary>
     /// 감지될때 실행될 로직(아직 투명하지만 알람은 울릴때)
     /// </summary>
     public void Detected();
+
+    /// <summary>
+    /// 감지 중일 때 실행될 로직(테블릿으로 물체 검사할 때)
+    /// </summary>
+    public void Detecting(float value);
+
+    /// <summary>
+    /// 감지 완료일 때 실행될 로직(테블릿에 있는 바가 다 채워졌을 때)
+    /// </summary>
+    public void DetectCompleted();
 
     /// <summary>
     /// 드러날때 실행될 로직(태블릿에서 확인해서 투명화 해제)

@@ -2,6 +2,7 @@ using Common.Yield;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tripolygon.UModeler.UI.Controls;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,15 @@ public class Detector : MonoBehaviour
 
     private float closestdistance;
 
+    private Coroutine coDetecting;
+    private float curDetectTime = 0;
+    [SerializeField] private float maxDetectTime = 2f;
+
+    public void Init(Tablet tablet)
+    {
+        tablet.OnStateChangedEvent += HandleStateChanged;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out IDetectable detectable))
@@ -26,6 +36,7 @@ public class Detector : MonoBehaviour
             detectable.Detected();
             detectedObjectList.Add(detectable);
         }
+
     }
 
     void OnTriggerExit(Collider other)
@@ -44,7 +55,21 @@ public class Detector : MonoBehaviour
         }
     }
 
-    bool HasLineOfSight(IDetectable target) //IDetectable과 Detecter사이에 Wall이 있는지 판단
+    public void HandleStateChanged(TabletStateType newState)
+    {
+        switch (newState)
+        {
+            case TabletStateType.Idle:
+                StopDetecting();
+                Reveal();
+                break;
+            case TabletStateType.Active:
+                Detecting();
+                break;
+        }
+    }
+
+    private bool HasLineOfSight(IDetectable target) //IDetectable과 Detecter사이에 Wall이 있는지 판단
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -94,7 +119,7 @@ public class Detector : MonoBehaviour
         }
     }
 
-    void UpdateDistances(IDetectable detectable, ref float closest)
+    private void UpdateDistances(IDetectable detectable, ref float closest)
     {
         float distance = Vector3.Distance(transform.position, detectable.transform.position);
         if (distance < closest)
@@ -115,12 +140,59 @@ public class Detector : MonoBehaviour
         }
     }
 
-    public void Reveal()
+    private void Reveal()
     {
         for (int i = detectedObjectList.Count - 1; i >= 0; i--)
         {
+            if (detectedObjectList[i].StateType != PropStateType.DetectCompleted)
+                continue;
+
             detectedObjectList[i].Revealed();
             detectedObjectList.RemoveAt(i);
         }
+    }
+
+    private void DetectCompleted()
+    {
+        for (int i = 0; i < detectedObjectList.Count; i++)
+        {
+            if (detectedObjectList[i].StateType == PropStateType.Detected)
+                detectedObjectList[i].DetectCompleted();
+        }
+    }
+
+    public void Detecting()
+    {
+        coDetecting = StartCoroutine(CoDetecting());
+    }
+
+    public void StopDetecting()
+    {
+        if (coDetecting == null)
+            return;
+
+        StopCoroutine(coDetecting);
+        coDetecting = null;
+    }
+
+    private IEnumerator CoDetecting()
+    {
+        while (true)
+        {
+            curDetectTime += Time.deltaTime;
+            if (curDetectTime >= maxDetectTime)
+            {
+                break;
+            }
+
+            for (int i = 0; i < detectedObjectList.Count; i++)
+            {
+                if (detectedObjectList[i].StateType == PropStateType.Detected)
+                    detectedObjectList[i].Detecting(curDetectTime / maxDetectTime);
+            }
+
+            yield return null;
+        }
+        DetectCompleted();
     }
 }

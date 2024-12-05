@@ -9,6 +9,9 @@ public class Monster : Entity, IDetectable
 
     public bool RendererActive { get { return myRenderer.enabled; } }
 
+    MapIcon IDetectable.MapIcon => mapIcon;
+    [SerializeField] private MapIcon mapIcon;
+
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
     public bool isRevealed = false;
@@ -22,8 +25,21 @@ public class Monster : Entity, IDetectable
         StateType = PropStateType.Detected;
     }
 
+    public void Detecting(float value)
+    {
+        //mapIcon.Detecting(value);
+    }
+
+    public void DetectCompleted()
+    {
+        StateType = PropStateType.DetectCompleted;
+    }
+
     public void Revealed()
     {
+        if (StateType != PropStateType.DetectCompleted)
+            Invisible();
+
         StateType = PropStateType.Revealed;
         myRenderer.enabled = true;
 
@@ -37,4 +53,6 @@ public class Monster : Entity, IDetectable
         myRenderer.enabled = false;
         myController.SetState(AIStateType.Idle);
     }
+
+    
 }

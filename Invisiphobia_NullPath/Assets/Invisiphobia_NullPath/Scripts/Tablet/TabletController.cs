@@ -14,7 +14,7 @@ public class TabletController : MonoBehaviour
 
     public void Init(Tablet tablet)
     {
-        tablet.OnStateChanged += HandleStateChanged;
+        tablet.OnStateChangedEvent += HandleStateChanged;
     }
 
     private void Update()
