@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.CullingGroup;
 
 public class TabletUIController : MonoBehaviour
 {
@@ -9,17 +10,21 @@ public class TabletUIController : MonoBehaviour
     [SerializeField] private float idleMapSize;
     [SerializeField] private float activeMapSize;
 
-    //[SerializeField] private 
+    public void Init(Tablet tablet)
+    {
+        tablet.OnStateChanged += HandleStateChanged;
+    }
 
     public void HandleStateChanged(TabletStateType newState)
     {
-        if(newState == TabletStateType.Idle)
+        switch (newState)
         {
-            mapCam.orthographicSize = idleMapSize;
-        }
-        else if (newState == TabletStateType.Active)
-        {
-            mapCam.orthographicSize = activeMapSize;
+            case TabletStateType.Idle:
+                mapCam.orthographicSize = idleMapSize;
+                break;
+            case TabletStateType.Active:
+                mapCam.orthographicSize = activeMapSize;
+                break;
         }
     }
 

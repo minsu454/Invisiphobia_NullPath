@@ -7,15 +7,16 @@ public class PlayerInventory : MonoBehaviour
     private int maxCount = 0;
     private const int handCount = 2;
 
-    public Tablet Tablet { get; private set; }
+    [SerializeField] private Tablet Tablet;
     private List<HandheldItem> handList = new List<HandheldItem>(2);
-    private List<HandheldItem> bagList;
+    private List<HandheldItem> bagList = new List<HandheldItem>();
 
     //private HashSet<> bagSet;     생성해줄 아이템
 
-    public void Init()
+    public void Init(Player player)
     {
         maxCount += handCount;
+        Tablet.Init(player);
     }
 
     /// <summary>
@@ -39,30 +40,52 @@ public class PlayerInventory : MonoBehaviour
 
         int temp = (int)type + curCount;
 
-        if (temp > maxCount)
-            RemoveItem();
-
         item.gameObject.SetActive(false);
+
+        if (temp > maxCount)
+            OverHandItem(temp);
+
         handList.Add(item);
+
         curCount = temp;
 
         //Todo
     }
 
+    private int OverHandItem(int temp)
+    {
+        if (handList.Count == 0)
+        {
+            return temp;
+        }
+
+        if (handList.Count == handCount)
+        {
+            RemoveItem();
+        }
+
+        RemoveItem();
+
+        temp = maxCount;
+
+        return temp;
+    }
+
     /// <summary>
     /// 아이템 삭제 함수
     /// </summary>
-    public void RemoveItem()
+    private void RemoveItem()
     {
-        if (handList.Count == 0)
-            return;
-
-        //Todo
-
-        HandheldItem item = handList[0];
-        item.gameObject.SetActive(true);
-
+        DropItem();
         handList.RemoveAt(0);
+    }
+
+    private void DropItem() 
+    { 
+        HandheldItem item;
+
+        item = handList[0];
+        item.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -70,6 +93,6 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void SetBag(HandheldItem item, DesignEnums.ItemCarryType type)
     {
-        
+
     }
 }
