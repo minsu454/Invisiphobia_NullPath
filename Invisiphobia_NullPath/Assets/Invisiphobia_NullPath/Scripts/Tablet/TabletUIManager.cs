@@ -1,11 +1,9 @@
-using System.Collections;
 using UnityEngine;
-using static UnityEngine.CullingGroup;
+using UnityEngine.UI;
 
-public class TabletUIController : MonoBehaviour
+public class TabletUIManager : MonoBehaviour
 {
     [SerializeField] private Camera mapCam;
-    private bool isActive = false;
 
     [SerializeField] private float idleMapSize;
     [SerializeField] private float activeMapSize;
@@ -28,9 +26,4 @@ public class TabletUIController : MonoBehaviour
                 break;
         }
     }
-
-    //public IEnumerable CoSwitchScreen()
-    //{
-
-    //}
 }

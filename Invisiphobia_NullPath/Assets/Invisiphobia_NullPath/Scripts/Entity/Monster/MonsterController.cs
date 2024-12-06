@@ -183,7 +183,7 @@ public class MonsterController : MonoBehaviour
             wanderingCount--;
             canWander = true;
         }));
-
+        
     }
 
     bool IsPlayerInFieldOfView()

@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class Tablet : MonoBehaviour 
@@ -9,6 +10,7 @@ public class Tablet : MonoBehaviour
 
     [Header("Detecting")]
     [SerializeField] private Detector detector;
+    [SerializeField] private PhotoShooter photoShooter;
 
     private TabletStateType stateType = TabletStateType.Idle;
     public TabletStateType state {
@@ -35,11 +37,6 @@ public class Tablet : MonoBehaviour
 
         player.PlayerController.playerTabletActionEvent += ToggleTabletState;
     }
-
-    //public void ActivateTablet()
-    //{
-    //    uiController.ApplyMapSize();
-    //}
 
     private void ToggleTabletState()
     {
