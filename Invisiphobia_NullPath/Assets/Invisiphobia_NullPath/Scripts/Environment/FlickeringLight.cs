@@ -1,10 +1,11 @@
+using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FlickeringLight : MonoBehaviour
 {
-    [SerializeField] private Light light;
+    [SerializeField] private Light mylight;
 
     [SerializeField] private float minTime = 0.05f;
     [SerializeField] private float maxTime = 1.0f;
@@ -14,7 +15,7 @@ public class FlickeringLight : MonoBehaviour
 
     private void Start()
     {
-        if (light != null)
+        if (mylight != null)
         {
             StartCoroutine(CoLightFliker());
         }
@@ -30,16 +31,15 @@ public class FlickeringLight : MonoBehaviour
         {
             float waitTime = Random.Range(minTime, maxTime);
 
-            light.intensity = Random.Range(minIntensity, maxIntensity);
+            mylight.intensity = Random.Range(minIntensity, maxIntensity);
 
             if (Random.value > 0.7f)
             {
-                light.enabled = false;
-                yield return new WaitForSeconds(waitTime);
-                light.enabled = true;
+                mylight.enabled = false;
+                yield return YieldCache.WaitForSeconds(waitTime);
+                mylight.enabled = true;
             }
-            yield return new WaitForSeconds(waitTime);
+            yield return YieldCache.WaitForSeconds(waitTime);
         }
-
     }
 }
