@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,12 +34,12 @@ public class PlayerInventory : MonoBehaviour
     /// <summary>
     /// 아이템 설정 함수
     /// </summary>
-    public void SetHand(HandheldItem item, DesignEnums.ItemCarryType type)
+    public void SetHand(HandheldItem item, ItemTable table)
     {
-        if (type == DesignEnums.ItemCarryType.None)
+        if (table.itemCarryType == DesignEnums.ItemCarryType.None)
             return;
 
-        int temp = (int)type + curCount;
+        int temp = (int)table.itemCarryType + curCount;
 
         item.gameObject.SetActive(false);
 
@@ -50,6 +51,31 @@ public class PlayerInventory : MonoBehaviour
         curCount = temp;
 
         //Todo
+        Debug.Log(table.name);
+    }
+
+    public void SetHand(HandheldItem item, ItemTable table, GameObject handPrefab)
+    {
+        if (table.itemCarryType == DesignEnums.ItemCarryType.None)
+            return;
+
+        int temp = (int)table.itemCarryType + curCount;
+
+        item.gameObject.SetActive(false);
+
+        if (temp > maxCount)
+            OverHandItem(temp);
+
+        handList.Add(item);
+
+        curCount = temp;
+
+        //Todo
+        GameObject go = Instantiate(handPrefab);
+        ThrowObject brick = go.GetComponent<ThrowObject>();
+        brick.Interact(Player.Instance); // interact -> init
+        //interact - action
+        Debug.Log(table.name);
     }
 
     private int OverHandItem(int temp)

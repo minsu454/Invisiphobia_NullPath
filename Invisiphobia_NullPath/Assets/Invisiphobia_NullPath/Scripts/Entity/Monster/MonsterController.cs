@@ -19,9 +19,9 @@ public class MonsterController : MonoBehaviour
     [Header("Wandering")]
     [SerializeField] private float minWanderDistance;
     [SerializeField] private float maxWanderDistance;
-    private int wanderingCount;
     [SerializeField] private int minWanderingCount;
     [SerializeField] private int maxWanderingCount;
+    private int wanderingCount;
 
 
     [Header("Combat")]
@@ -109,11 +109,13 @@ public class MonsterController : MonoBehaviour
 
             // 이동 횟수를 모두 소진하면 투명화 상태로 전환
             if (wanderingCount <= 0)
+            {
                 ResetCycle();
+            }
         }
     }
 
-    private void LookingAtPlayerUpdate()
+    private void LookingAtPlayerUpdate()    // 플레이어를 바라봄
     {
         if (playerDistance > lookAtPlayerDistance)
         {
@@ -127,7 +129,7 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    void AttackingUpdate()
+    void AttackingUpdate()  // 공격
     {
         if (playerDistance < detectDistance)
         {
@@ -144,7 +146,7 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    void FleeingUpdate()
+    void FleeingUpdate()    // 도망
     {
         if (agent.remainingDistance < 0.1f)
         {
@@ -152,6 +154,7 @@ public class MonsterController : MonoBehaviour
         }
         else
         {
+            ResetCycle();
             SetState(AIStateType.Wandering);
         }
     }
@@ -159,16 +162,17 @@ public class MonsterController : MonoBehaviour
     void ResetWanderingCount()
     {
         wanderingCount = Random.Range(minWanderingCount, maxWanderingCount);
+        Debug.Log(wanderingCount);
     }
 
     void ResetCycle()
     {
-        Debug.Log(wanderingCount);
-        monster.Invisible();
+        SetState(AIStateType.Idle);
         StopCoroutine(timer);
         timer = null;
         ResetWanderingCount();
         canWander = true;
+        monster.Invisible();
     }
 
     void WanderToNewLocation()
