@@ -1329,6 +1329,7 @@ GameObject:
   - component: {fileID: 28679198280587046}
   - component: {fileID: 4256380139216936845}
   - component: {fileID: 6691129942439025569}
+  - component: {fileID: 5682667684117343006}
   m_Layer: 0
   m_Name: Grounds
   m_TagString: Untagged
@@ -1424,6 +1425,27 @@ MonoBehaviour:
   destroyCombinedChildren: 0
   folderPath: Prefabs/CombinedMeshes
   meshFiltersToSkip: []
+--- !u!65 &5682667684117343006
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6399505647104826747}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 12, y: 8.881784e-17, z: 12}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6473090785212546166
 GameObject:
   m_ObjectHideFlags: 0
