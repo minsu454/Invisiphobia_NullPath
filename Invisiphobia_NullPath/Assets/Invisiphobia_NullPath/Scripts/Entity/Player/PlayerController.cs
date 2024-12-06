@@ -16,10 +16,18 @@ public class PlayerController : MonoBehaviour
     public event Action playerInteractActionEvent;
     public event Action playerTabletActionEvent;
     public event Action playerThrowActionEvent;
+    public event Action<int> TabletSwitchActionEvent;
 
     public bool isSprinting = false;
     public bool isCrouched = false;
     public bool isHoldRightmouse = false;
+
+    private readonly KeyCode[] alphaKeyArr = new KeyCode[]
+    {
+        KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3,
+    };
+    private const int alphaKeyNum = (int)KeyCode.Alpha1;
+
 
     public void Init(Player player)
     {
@@ -38,6 +46,7 @@ public class PlayerController : MonoBehaviour
         OnPlayerInteract();
         OnPlayerTablet();
         OnPlayerThrow();
+        OnTabletSwitch();
     }
 
     private void FixedUpdate()
@@ -45,6 +54,16 @@ public class PlayerController : MonoBehaviour
         OnPlayerMove();
     }
 
+    private void OnTabletSwitch()
+    {
+        foreach (KeyCode keyCode in alphaKeyArr)
+        {
+            if(Input.GetKeyDown(keyCode))
+            {
+                TabletSwitchActionEvent.Invoke((int)keyCode - alphaKeyNum);
+            }
+        }
+    }
     private void OnPlayerInteract()
     {
         if(Input.GetKeyDown(interactKey))
