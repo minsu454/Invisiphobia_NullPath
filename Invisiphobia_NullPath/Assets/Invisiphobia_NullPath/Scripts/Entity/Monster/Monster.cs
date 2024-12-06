@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Monster : Entity, IDetectable
 {
-    [SerializeField] private MonsterController myController;
-    [SerializeField] private MeshRenderer myRenderer;
+    [SerializeField] public MonsterController myController;
+    [SerializeField] public MeshRenderer myRenderer;
 
     public bool RendererActive { get { return myRenderer.enabled; } }
 
     MapIcon IDetectable.MapIcon => mapIcon;
-    [SerializeField] private MapIcon mapIcon;
+    [SerializeField] public MapIcon mapIcon;
 
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
@@ -21,23 +21,23 @@ public class Monster : Entity, IDetectable
         mapIcon.Init();
     }
 
-    public virtual void Detected()
+    public virtual void Detected() // 디텍터에 감지되었을 때
     {
         StateType = PropStateType.Detected;
         mapIcon.Detected();
     }
 
-    public virtual void Detecting()
+    public virtual void Detecting() // 감지되는 중(원돌아가는거)
     {
         StateType = PropStateType.Detecting;
     }
 
-    public void DetectCompleted()
+    public void DetectCompleted() // 원이 다 찼을 때
     {
         StateType = PropStateType.DetectCompleted;
     }
 
-    public virtual void Revealed()
+    public virtual void Revealed() // 태블릿 내릴때
     {
         if (StateType != PropStateType.DetectCompleted)
         {
@@ -48,18 +48,18 @@ public class Monster : Entity, IDetectable
         StateType = PropStateType.Revealed;
         myRenderer.enabled = true;
         mapIcon.Revealed();
+
+        myController.SetState(AIStateType.Wandering);
     }
 
-    public virtual void Invisible()
+    public virtual void Invisible() // 초기화 - 감지범위 벗어났을 때
     {
         StateType = PropStateType.None;
-        myRenderer.enabled = false;
         mapIcon.Invisible();
-
-        myController.SetState(AIStateType.Idle);
+        myRenderer.enabled = false;
     }
 
-    public void SetFillAmount(float value)
+    public void SetFillAmount(float value) // 돌아가는 바
     {
         mapIcon.SetFillAmount(value);
     }

@@ -144,15 +144,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30ce0dc97f05d043bdd9e3d338cdfba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 4
+  walkSpeed: 5
+  runSpeed: 3
   detectDistance: 10
   safeDistance: 20
   lookAtPlayerDistance: 15
   minWanderDistance: 5
   maxWanderDistance: 10
-  minWanderingCount: 2
-  maxWanderingCount: 3
+  minWanderingCount: 3
+  maxWanderingCount: 10
   attackDistance: 0
 --- !u!114 &2683954283993833379
 MonoBehaviour:
@@ -193,7 +193,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
