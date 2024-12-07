@@ -1,5 +1,3 @@
-using Cysharp.Threading.Tasks.Triggers;
-using Tripolygon.UModelerX.Runtime.MessagePack.Resolvers;
 using UnityEngine;
 
 public class PlayerAnimation : AnimationController
