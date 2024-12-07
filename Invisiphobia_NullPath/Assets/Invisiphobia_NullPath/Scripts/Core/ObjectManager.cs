@@ -13,22 +13,24 @@ namespace Common.Objects
         /// <summary>
         /// 비동기로 오브젝트 추가해주는 함수
         /// </summary>
-        public static async UniTask Add(string label)
+        public static async UniTask<bool> Add(string label)
         {
             var list = await AddressableAssets.LoadDataWithLabelAsync(label);
 
-            try
+            //try
+            //{
+            foreach (var item in list)
             {
-                foreach (var item in list)
-                {
-                    Object obj = await AddressableAssets.LoadDataAsync<Object>(item.PrimaryKey);
-                    objectContainerDict.Add(item.PrimaryKey, obj);
-                }
+                Object obj = await AddressableAssets.LoadDataAsync<Object>(item.PrimaryKey);
+                objectContainerDict.Add(item.PrimaryKey, obj);
             }
-            catch
-            {
+            //}
+            //catch
+            //{
 
-            }
+            //}
+            Debug.Log("gu");
+            return true;
         }
 
         /// <summary>

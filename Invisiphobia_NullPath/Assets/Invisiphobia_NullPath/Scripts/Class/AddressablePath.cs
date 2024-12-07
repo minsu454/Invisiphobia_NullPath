@@ -58,7 +58,7 @@ namespace Common.Path
 
         public static string MapPartsPath(string name)
         {
-            return $"Map/Parts/{name}.prefab";
+            return $"Map/RoomParts/{name}.prefab";
         }
     }
 

@@ -15,7 +15,7 @@ public class MapManager : MonoBehaviour
 
     public void Map()
     {
-        TextAsset asset = ObjectManager.Return<TextAsset>(AddressablePath.MapFilePath("Test"));
+        TextAsset asset = ObjectManager.Return<TextAsset>(AddressablePath.MapFilePath("Floor01"));
         TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(asset.text);
 
         try
