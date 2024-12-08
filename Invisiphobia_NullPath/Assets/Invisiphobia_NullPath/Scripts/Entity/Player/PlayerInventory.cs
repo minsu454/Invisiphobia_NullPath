@@ -8,9 +8,6 @@ public class PlayerInventory : MonoBehaviour
     private int maxCount = 0;
     private const int handCount = 2;
 
-    [SerializeField] private Transform leftHandTr;
-    [SerializeField] private Transform rightHandTr;
-
     [SerializeField] private Tablet Tablet;
     private List<InHandItem> handList = new List<InHandItem>(2);
 
@@ -54,8 +51,7 @@ public class PlayerInventory : MonoBehaviour
         curCount = temp;
 
         //Todo
-        GameObject go = Instantiate(handPrefab);
-        go.transform.parent = rightHandTr;
+        GameObject go = Instantiate(handPrefab, transform);
     }
 
     private int OverHandItem(int temp)
