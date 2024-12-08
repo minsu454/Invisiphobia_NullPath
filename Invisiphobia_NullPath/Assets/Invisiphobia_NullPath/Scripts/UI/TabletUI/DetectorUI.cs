@@ -3,26 +3,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Detector : MonoBehaviour
+public class DetectorUI : WorldUI
 {
-    [SerializeField] private List<IDetectable> detectedObjectList = new List<IDetectable>();
-
+    [Header("Detector")]
+    [SerializeField] private TriggerDetector detector;
+    private List<IDetectable> detectedObjectList = new List<IDetectable>();
     private float updateInterval = 1f;
-
-    private Coroutine currentCoroutine = null;
-
     private float closestdistance;
+
+    private Coroutine timer = null;
 
     private Coroutine coDetecting;
     private float curDetectTime = 0;
     [SerializeField] private float maxDetectTime = 2f;
 
-    public void Init(Tablet tablet)
+    private int layerMask;
+
+    public override void Init(IActiveStatable subject)
     {
-        tablet.OnStateChangedEvent += HandleStateChanged;
+        layerMask = LayerMask.GetMask("Wall");
+
+        detector.EnterEvent += TriggerEnter;
+        detector.ExitEvent += TriggerExit;
     }
 
-    void OnTriggerEnter(Collider other)
+    public override void Subscribe(IActiveStatable subject)
+    {
+        subject.BasicStateEvent += Reveal;
+        subject.BasicStateEvent += StopDetecting;
+
+        subject.ActiveStateEvent += Detecting;
+    }
+
+    public override void Unsubscribe(IActiveStatable subject)
+    {
+        Reveal();
+        StopDetecting();
+
+        subject.BasicStateEvent -= Reveal;
+        subject.BasicStateEvent -= StopDetecting;
+
+        subject.ActiveStateEvent -= Detecting;
+        gameObject.SetActive(false);
+    }
+
+    private void TriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out IDetectable detectable))
         {
@@ -36,7 +61,7 @@ public class Detector : MonoBehaviour
 
     }
 
-    void OnTriggerExit(Collider other)
+    private void TriggerExit(Collider other)
     {
         if (other.TryGetComponent(out IDetectable detectable))
         {
@@ -56,11 +81,10 @@ public class Detector : MonoBehaviour
     {
         switch (newState)
         {
-            case TabletStateType.Idle:
-                Reveal();
-                StopDetecting();
+            case TabletStateType.Basic:
+                
                 break;
-            case TabletStateType.Active:
+            case TabletStateType.Activate:
                 Detecting();
                 break;
         }
@@ -70,8 +94,6 @@ public class Detector : MonoBehaviour
     {
         Vector3 direction = (target.transform.position - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, target.transform.position);
-
-        int layerMask = LayerMask.GetMask("Wall");
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, direction, out hit, distance, layerMask))
@@ -86,16 +108,16 @@ public class Detector : MonoBehaviour
 
     private void StartTimer()
     {
-        if (currentCoroutine == null)
+        if (timer == null)
         {
-            currentCoroutine = StartCoroutine(CoCheckTimer());
+            timer = StartCoroutine(CoCheckTimer());
         }
     }
 
     private void StopTimer()
     {
-        StopCoroutine(currentCoroutine);
-        currentCoroutine = null;
+        StopCoroutine(timer);
+        timer = null;
     }
 
     private IEnumerator CoCheckTimer()

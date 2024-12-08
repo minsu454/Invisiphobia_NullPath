@@ -19,17 +19,12 @@ public class TabletUIController : MonoBehaviour
     {
         switch (newState)
         {
-            case TabletStateType.Idle:
+            case TabletStateType.Basic:
                 //mapCam.orthographicSize = idleMapSize;
                 break;
-            case TabletStateType.Active:
+            case TabletStateType.Activate:
                 //mapCam.orthographicSize = activeMapSize;
                 break;
         }
     }
-
-    //public IEnumerable CoSwitchScreen()
-    //{
-
-    //}
 }

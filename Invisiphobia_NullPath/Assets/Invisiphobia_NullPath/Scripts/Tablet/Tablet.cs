@@ -7,10 +7,11 @@ public class Tablet : MonoBehaviour
     [SerializeField] private TabletController controller;
     [SerializeField] private TabletUIController uiController;
 
-    [Header("Detecting")]
-    [SerializeField] private Detector detector;
+    [Header("Managerr")]
+    [SerializeField] private TabletUIManager manager;
 
-    private TabletStateType stateType = TabletStateType.Idle;
+    public event System.Action<TabletStateType> OnStateChangedEvent;
+    private TabletStateType stateType = TabletStateType.Basic;
     public TabletStateType state {
         get { return stateType; }
         private set
@@ -25,32 +26,38 @@ public class Tablet : MonoBehaviour
         }
     }
 
-    public event System.Action<TabletStateType> OnStateChangedEvent;
-
     public void Init(Player player)
     {
+        manager.Init(this);
+
         controller.Init(this);
         uiController.Init(this);
-        detector.Init(this);
 
         player.PlayerController.playerTabletActionEvent += ToggleTabletState;
+        player.PlayerController.tabletSwitchActionEvent += OnSwitchTabletScreen;
     }
 
-    //public void ActivateTablet()
-    //{
-    //    uiController.ApplyMapSize();
-    //}
-
+    /// <summary>
+    /// 스텟 바꿔주는 함수
+    /// </summary>
     private void ToggleTabletState()
     {
         switch (state)
         {
-            case TabletStateType.Idle:
-                state = TabletStateType.Active;
+            case TabletStateType.Basic:
+                state = TabletStateType.Activate;
                 break;
-            case TabletStateType.Active:
-                state = TabletStateType.Idle;
+            case TabletStateType.Activate:
+                state = TabletStateType.Basic;
                 break;
         }
+    }
+
+    /// <summary>
+    /// tablet 스크린 변환 함수
+    /// </summary>
+    private void OnSwitchTabletScreen(int num)
+    {
+        manager.ChoiceIdx = num;
     }
 }

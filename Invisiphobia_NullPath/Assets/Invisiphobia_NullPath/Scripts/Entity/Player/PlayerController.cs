@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public event Action playerInteractActionEvent;
     public event Action playerTabletActionEvent;
     public event Action playerThrowActionEvent;
-    public event Action<int> TabletSwitchActionEvent;
+    public event Action<int> tabletSwitchActionEvent;
 
     public bool isSprinting = false;
     public bool isCrouched = false;
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         {
             if(Input.GetKeyDown(keyCode))
             {
-                TabletSwitchActionEvent.Invoke((int)keyCode - alphaKeyNum);
+                tabletSwitchActionEvent.Invoke((int)keyCode - alphaKeyNum);
             }
         }
     }

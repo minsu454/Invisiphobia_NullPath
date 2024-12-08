@@ -1,6 +1,6 @@
-﻿public enum TabletStateType
+public enum TabletStateType
 {
     Hidden,
-    Idle,
-    Active
+    Basic,
+    Activate
 }
