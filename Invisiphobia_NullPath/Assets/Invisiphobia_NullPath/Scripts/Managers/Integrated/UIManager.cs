@@ -2,10 +2,8 @@ using Common.Assets;
 using Common.Objects;
 using Common.Path;
 using Common.SceneEx;
-using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public sealed class UIManager : MonoBehaviour, IInit
 {
@@ -45,17 +43,13 @@ public sealed class UIManager : MonoBehaviour, IInit
     }
 
     /// <summary>
-    /// 씬 로드 시 해당 Scene에 메인 UI 배치 함수
+    /// 팝업 제작 함수
     /// </summary>
-    public async UniTask CreatePopup<T>(PopupOption option = null) where T : BasePopupUI
+    public void CreatePopup<T>(PopupOption option = null) where T : BasePopupUI
     {
-        GameObject prefab = await AddressableAssets.InstantiateAsync(AddressablePath.UIPath(typeof(T).Name));
+        GameObject prefab = ObjectManager.Return<GameObject>(AddressablePath.UIPath(typeof(T).Name));
 
-        if (prefab == null)
-        {
-            Debug.LogError($"Addressable is Not Found GameObject : {name}");
-            return;
-        }
+        GameObject uiGo = Instantiate(prefab);
 
         if (!prefab.TryGetComponent(out T popupUI))
         {
@@ -65,6 +59,24 @@ public sealed class UIManager : MonoBehaviour, IInit
 
         showList.Add(popupUI);
         popupUI.Init(option);
+    }
+
+    /// <summary>
+    /// 월드에서 쓸 UI 반환 함수
+    /// </summary>
+    public T CreateWorldUI<T>() where T : WorldUI
+    {
+        GameObject prefab = ObjectManager.Return<GameObject>(AddressablePath.UIPath(typeof(T).Name));
+
+        GameObject uiGo = Instantiate(prefab);
+
+        if (!prefab.TryGetComponent(out T worldUI))
+        {
+            Debug.LogError($"GameObject Is Not BaseSceneUI Inheritance : {prefab}");
+            return null;
+        }
+
+        return worldUI;
     }
 
     public void ClosePopup()
