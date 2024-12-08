@@ -153,7 +153,7 @@ public class DetectorUI : WorldUI
         {
             Debug.Log("물체가 가깝습니다!!");
         }
-        else if (distance < 10f)
+        else
         {
             Debug.Log("물체가 감지되었습니다!");
         }

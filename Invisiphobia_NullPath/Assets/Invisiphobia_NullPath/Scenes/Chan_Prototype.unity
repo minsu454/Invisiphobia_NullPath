@@ -2620,6 +2620,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926610328}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &964972816 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5321862783327684382, guid: e32cab2bbbe23344c8898d77f918fe7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3436676708531762673}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76586809859ca124eaf504a207eba048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &995672689
 GameObject:
   m_ObjectHideFlags: 0
@@ -3781,6 +3793,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1556377171 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7321221235226786683, guid: e32cab2bbbe23344c8898d77f918fe7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3436676708531762673}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8462884978bf652469ca08960201f23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1580826490
 GameObject:
   m_ObjectHideFlags: 0
@@ -6804,14 +6828,29 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 300067176763403870, guid: e32cab2bbbe23344c8898d77f918fe7d,
         type: 3}
+      propertyPath: worldUIList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 300067176763403870, guid: e32cab2bbbe23344c8898d77f918fe7d,
+        type: 3}
+      propertyPath: worldUIList.Array.data[0]
+      value: 
+      objectReference: {fileID: 964972816}
+    - target: {fileID: 300067176763403870, guid: e32cab2bbbe23344c8898d77f918fe7d,
+        type: 3}
       propertyPath: worldUIList.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1556377171}
     - target: {fileID: 1523642967706972423, guid: e32cab2bbbe23344c8898d77f918fe7d,
         type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4561124220602882622, guid: e32cab2bbbe23344c8898d77f918fe7d,
+        type: 3}
+      propertyPath: m_Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: c2c1b05cbec484af59dbad0093e9ed9b, type: 3}
     - target: {fileID: 4727694276283040253, guid: e32cab2bbbe23344c8898d77f918fe7d,
         type: 3}
       propertyPath: mapCam
