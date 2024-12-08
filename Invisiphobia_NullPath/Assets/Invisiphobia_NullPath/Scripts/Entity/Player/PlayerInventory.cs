@@ -8,15 +8,18 @@ public class PlayerInventory : MonoBehaviour
     private int maxCount = 0;
     private const int handCount = 2;
 
+    [SerializeField] private Transform leftHandTr;
+    [SerializeField] private Transform rightHandTr;
+
     [SerializeField] private Tablet Tablet;
-    private List<ThrowItem> handList = new List<ThrowItem>(2);
-    private List<ThrowItem> bagList = new List<ThrowItem>();
+    private List<InHandItem> handList = new List<InHandItem>(2);
 
     //private HashSet<> bagSet;     생성해줄 아이템
 
     public void Init(Player player)
     {
         maxCount += handCount;
+
         Tablet.Init(player);
     }
 
@@ -34,27 +37,7 @@ public class PlayerInventory : MonoBehaviour
     /// <summary>
     /// 아이템 설정 함수
     /// </summary>
-    public void SetHand(ThrowItem item, ItemTable table)
-    {
-        if (table.itemCarryType == DesignEnums.ItemCarryType.None)
-            return;
-
-        int temp = (int)table.itemCarryType + curCount;
-
-        item.gameObject.SetActive(false);
-
-        if (temp > maxCount)
-            OverHandItem(temp);
-
-        handList.Add(item);
-
-        curCount = temp;
-
-        //Todo
-        Debug.Log(table.name);
-    }
-
-    public void SetHand(ThrowItem item, ItemTable table, GameObject handPrefab)
+    public void SetHand(InHandItem item, ItemTable table, GameObject handPrefab)
     {
         if (table.itemCarryType == DesignEnums.ItemCarryType.None)
             return;
@@ -72,24 +55,18 @@ public class PlayerInventory : MonoBehaviour
 
         //Todo
         GameObject go = Instantiate(handPrefab);
-        ThrowObject brick = go.GetComponent<ThrowObject>();
-        brick.Interact(Player.Instance); // interact -> init
-        //interact - action
-        Debug.Log(table.name);
+        go.transform.parent = rightHandTr;
     }
 
     private int OverHandItem(int temp)
     {
-        if (handList.Count == 0)
-        {
-            return temp;
-        }
-
         if (handList.Count == handCount)
         {
+            DropItem();
             RemoveItem();
         }
 
+        DropItem();
         RemoveItem();
 
         temp = maxCount;
@@ -100,25 +77,26 @@ public class PlayerInventory : MonoBehaviour
     /// <summary>
     /// 아이템 삭제 함수
     /// </summary>
-    private void RemoveItem()
+    public void RemoveItem()
     {
+        if (handList.Count == 0)
+            return;
+
         DropItem();
         handList.RemoveAt(0);
-    }
 
-    private void DropItem() 
-    { 
-        ThrowItem item;
+        //if(handList.Count != 0)
 
-        item = handList[0];
-        item.gameObject.SetActive(true);
     }
 
     /// <summary>
-    /// 아이템 설정 함수
+    /// 아이템 바닥에 버리는 함수
     /// </summary>
-    public void SetBag(ThrowItem item, DesignEnums.ItemCarryType type)
+    private void DropItem() 
     {
+        InHandItem item;
 
+        item = handList[0];
+        item.gameObject.SetActive(true);
     }
 }
