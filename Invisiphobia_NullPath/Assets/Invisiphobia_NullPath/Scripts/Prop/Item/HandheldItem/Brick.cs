@@ -31,12 +31,7 @@ public class Brick : MonoBehaviour
         {
             isHeld = false;
             // 던지기
-            Vector3 throwDirection = ThrowDirection();
-            Vector3 initialVelocity = throwDirection * throwSpeed;
-
-            myRigidbody.isKinematic = false;
-            myRigidbody.velocity = Vector3.zero;
-            myRigidbody.AddForce(initialVelocity, ForceMode.VelocityChange);
+            
         }
     }
 
