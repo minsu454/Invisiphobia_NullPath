@@ -9,9 +9,6 @@ public class Player : Entity
     [SerializeField] private PlayerController playerController;
     public PlayerController PlayerController { get { return playerController; } }
 
-    [SerializeField] private PlayerState playerState;
-    public PlayerState PlayerState { get { return playerState; } }
-
     [SerializeField] private PlayerMovement playerMovement;
     public PlayerMovement PlayerMovement { get { return playerMovement; } }
 

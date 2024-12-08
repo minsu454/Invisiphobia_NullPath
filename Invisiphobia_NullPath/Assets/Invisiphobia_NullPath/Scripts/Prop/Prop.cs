@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Prop : MonoBehaviour, IDetectable
 {
@@ -17,7 +18,8 @@ public class Prop : MonoBehaviour, IDetectable
 
     private void Awake()
     {
-        Init();
+        if (SceneManager.GetActiveScene().name != "InGame")
+            Init();
     }
 
     /// <summary>
@@ -25,9 +27,7 @@ public class Prop : MonoBehaviour, IDetectable
     /// </summary>
     public virtual void Init()
     {
-        myRenderer = GetComponent<MeshRenderer>();
         myRenderer.enabled = false;
-        myCollider = GetComponent<Collider>();
 
         mapIcon.Init();
     }

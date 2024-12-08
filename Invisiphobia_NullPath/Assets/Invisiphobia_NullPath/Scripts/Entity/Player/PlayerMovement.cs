@@ -28,8 +28,8 @@ public class PlayerMovement : MonoBehaviour
     public float sprintFOVStepTime = 10f;
 
     // Sprint Bar
-    [SerializeField] private Slider staminaBar;
-    [SerializeField] private CanvasGroup sprintBarCanvasGroup; // CanvasGroup 추가
+    private Slider staminaBar;
+    private CanvasGroup sprintBarCanvasGroup; // CanvasGroup 추가
     public bool hideBarWhenFull = true;
 
     // Internal Variables
@@ -83,6 +83,20 @@ public class PlayerMovement : MonoBehaviour
 
         jointOriginalPos = joint.localPosition;
 
+        playerCamera = player.CameraController.playerCamera;
+        isZoomed = player.CameraController.isZoomed;
+
+        player.PlayerController.playerMoveActionEvent += Move;
+        player.PlayerController.playerSprintActionEvent += Sprint;
+        player.PlayerController.playerJumpActionEvent += Jump;
+        player.PlayerController.playerCrouchActionEvent += Crouch;
+    }
+
+    public void SetUI(Slider staminaBar, CanvasGroup sprintBarCanvasGroup)
+    {
+        this.staminaBar = staminaBar;
+        this.sprintBarCanvasGroup = sprintBarCanvasGroup;
+
         sprintRemaining = sprintDuration; // 스태미나 초기화
         if (staminaBar != null)
         {
@@ -95,14 +109,6 @@ public class PlayerMovement : MonoBehaviour
         {
             sprintBarCanvasGroup.alpha = 1; // Bar 초기 상태
         }
-
-        playerCamera = player.CameraController.playerCamera;
-        isZoomed = player.CameraController.isZoomed;
-
-        player.PlayerController.playerMoveActionEvent += Move;
-        player.PlayerController.playerSprintActionEvent += Sprint;
-        player.PlayerController.playerJumpActionEvent += Jump;
-        player.PlayerController.playerCrouchActionEvent += Crouch;
     }
 
     private void Update()

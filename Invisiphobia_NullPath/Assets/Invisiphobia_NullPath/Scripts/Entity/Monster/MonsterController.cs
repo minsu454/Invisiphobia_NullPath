@@ -31,8 +31,9 @@ public class MonsterController : MonoBehaviour
     private float playerDistance;
     private bool isHiding;
 
+    [Header("NavMeshAgent")]
+    [SerializeField]private NavMeshAgent agent;
     private Transform playerTransform;
-    private NavMeshAgent agent;
 
     private Monster monster;
     private Coroutine timer;
