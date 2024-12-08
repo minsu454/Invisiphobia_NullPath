@@ -10,13 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Item
+  m_Name: Entity
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: Entity
   m_Data:
     m_SerializedData: []
   m_GUID: 258020d38dd5f9a42868aa6a6c2463a4
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: e32cab2bbbe23344c8898d77f918fe7d
+    m_Address: Entity/Player
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGame
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8d53e569ee1c80d41b8faf3395611543, type: 2}
   m_SchemaSet:

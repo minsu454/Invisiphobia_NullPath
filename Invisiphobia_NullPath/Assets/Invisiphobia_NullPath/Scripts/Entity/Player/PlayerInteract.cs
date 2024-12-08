@@ -16,18 +16,16 @@ public class PlayerInteract : MonoBehaviour
     private IInteractable curInteractable;
 
     private Camera mainCam;
-    public KeyCode interactKey = KeyCode.E;
-    Player player;
+    private Player player;
 
     public void Init(Player player)
     {
-        this.player = player;
-    }
-    private void Start()
-    {
         mainCam = Camera.main;
         screenCenterRay = Vector3.zero;
-        Player.Instance.PlayerController.playerInteractActionEvent += OnInteraction;
+
+        this.player = player;
+
+        player.PlayerController.playerInteractActionEvent += OnInteraction;
     }
 
     private void Update()

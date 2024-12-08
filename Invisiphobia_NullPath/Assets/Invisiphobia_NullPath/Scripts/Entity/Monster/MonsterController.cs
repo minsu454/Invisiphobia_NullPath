@@ -38,11 +38,14 @@ public class MonsterController : MonoBehaviour
     private Coroutine timer;
     private bool canWander = true;
 
-    void Start()
+    public void Init(Monster monster)
     {
-        agent = GetComponent<NavMeshAgent>();
-        monster = GetComponent<Monster>();
+        this.monster = monster;
         playerTransform = Player.Instance.transform;
+    }
+
+    private void Start()
+    {
         SetState(AIStateType.Idle);
         ResetWanderingCount();
     }

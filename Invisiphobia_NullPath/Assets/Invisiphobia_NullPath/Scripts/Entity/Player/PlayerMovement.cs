@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
     //Sprint = 단거리 달리기, 코드에서는 보통 스테미나가 있는 경우가 많음
     public bool isZoomed = false;
     public bool enableSprint = true;
-    public KeyCode sprintKey = KeyCode.LeftShift;
     public float sprintSpeed = 7f;
     public float sprintDuration = 5f;
     public float sprintFOV = 80f;
@@ -43,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
     #region Jump
 
     public bool enableJump = true;
-    public KeyCode jumpKey = KeyCode.Space;
     public float jumpPower = 5f;
     public bool isJumping = false;
     // Internal Variables
@@ -53,7 +51,6 @@ public class PlayerMovement : MonoBehaviour
 
     #region Crouch
 
-    public KeyCode crouchKey = KeyCode.LeftControl;
     public float speedReduction = .5f;
     public bool holdToCrouch = true;
     [SerializeField] private float crouchHeight = 0.3f;
@@ -78,7 +75,8 @@ public class PlayerMovement : MonoBehaviour
     private float timer = 0;
 
     #endregion
-    private void Awake()
+
+    public void Init(Player player)
     {
         standingPosition = playerCamera.transform.localPosition;
         crouchingPosition = standingPosition - new Vector3(0f, crouchHeight, 0f);
@@ -97,17 +95,14 @@ public class PlayerMovement : MonoBehaviour
         {
             sprintBarCanvasGroup.alpha = 1; // Bar 초기 상태
         }
-    }
 
-    private void Start()
-    {
-        playerCamera = Player.Instance.CameraController.playerCamera;
-        isZoomed = Player.Instance.CameraController.isZoomed;
+        playerCamera = player.CameraController.playerCamera;
+        isZoomed = player.CameraController.isZoomed;
 
-        Player.Instance.PlayerController.playerMoveActionEvent += Move;
-        Player.Instance.PlayerController.playerSprintActionEvent += Sprint;
-        Player.Instance.PlayerController.playerJumpActionEvent += Jump;
-        Player.Instance.PlayerController.playerCrouchActionEvent += Crouch;
+        player.PlayerController.playerMoveActionEvent += Move;
+        player.PlayerController.playerSprintActionEvent += Sprint;
+        player.PlayerController.playerJumpActionEvent += Jump;
+        player.PlayerController.playerCrouchActionEvent += Crouch;
     }
 
     private void Update()
@@ -155,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // All movement calculations shile sprint is active
-            if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f)
+            if (enableSprint && sprintRemaining > 0f)
             {
                 targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
 

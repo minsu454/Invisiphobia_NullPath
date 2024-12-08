@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public KeyCode sprintKey;
-    public KeyCode jumpKey;
-    public KeyCode crouchKey;
-    public KeyCode interactKey;
-    public KeyCode tabletKey;
+    private KeyCode sprintKey = KeyCode.LeftShift;
+    public KeyCode jumpKey = KeyCode.Space;
+    private KeyCode crouchKey = KeyCode.LeftControl;
+    private KeyCode interactKey = KeyCode.E;
+    private KeyCode tabletKey = KeyCode.Tab;
 
     public event Action<Vector3> playerMoveActionEvent;
     public event Action playerSprintActionEvent;
@@ -31,11 +31,7 @@ public class PlayerController : MonoBehaviour
 
     public void Init(Player player)
     {
-        sprintKey = player.PlayerMovement.sprintKey;
-        jumpKey = player.PlayerMovement.jumpKey;
-        crouchKey = player.PlayerMovement.crouchKey;
-        interactKey = player.PlayerInteract.interactKey;
-        //tabletKey = Player.Instance.PlayerInventory.tabletKey;
+
     }
 
     void Update()
@@ -74,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerTablet()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if(Input.GetKeyDown(tabletKey))
         {
             playerTabletActionEvent.Invoke();
         }

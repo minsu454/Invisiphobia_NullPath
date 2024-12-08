@@ -67,19 +67,20 @@ public class CameraController : MonoBehaviour
 
     #endregion
 
-    private void Awake()
+    public void Init(Player player)
     {
         //에임 오브젝트에 이미지 컴포넌트를 자식으로 붙여라.
         crosshairObject = GetComponentInChildren<Image>();
         // Set internal variables
         //fov 변수에 플레이어 카메라의 fieldOfView 기능을 추가해라
         playerCamera.fieldOfView = fov;
+
+        isSprinting = player.PlayerMovement.isSprinting;
     }
 
     void Start()
     {
-        isSprinting = Player.Instance.PlayerMovement.isSprinting;
-
+        
         //커서 잠금 기능(인게임에서 마우스 안나오게)
         if (lockCursor)
         {

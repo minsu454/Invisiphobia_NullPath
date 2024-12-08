@@ -18,7 +18,14 @@ public class Monster : Entity, IDetectable
 
     public override void Init()
     {
+        //mapIcon.Init();
+        //myController.Init(this);
+    }
+
+    private void Start()
+    {
         mapIcon.Init();
+        myController.Init(this);
     }
 
     public virtual void Detected()

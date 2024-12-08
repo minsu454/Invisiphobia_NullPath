@@ -46,19 +46,52 @@ namespace Common.Path
             return $"Sound/{name}";
         }
 
+        /// <summary>
+        /// 맵 파일 경로 반환 함수
+        /// </summary>
         public static string MapFilePath(string name)
         {
             return $"Map/MapFile/{name}.json";
         }
 
+        /// <summary>
+        /// 맵 머터리얼 반환 함수
+        /// </summary>
         public static string MapMaterialPath(string name)
         {
             return $"Map/Material/{name}.mat";
         }
 
-        public static string MapPartsPath(string name)
+        /// <summary>
+        /// 룸 파츠 경로 반환 함수
+        /// </summary>
+        public static string RoomPartsPath(string name)
         {
             return $"Map/RoomParts/{name}.prefab";
+        }
+
+        /// <summary>
+        /// 데코 파츠 경로 반환 함수
+        /// </summary>
+        public static string DecorPartsPath(string name)
+        {
+            return $"Map/DecorParts/{name}.prefab";
+        }
+
+        /// <summary>
+        /// 아이템 경로 반환 함수
+        /// </summary>
+        public static string ItemPartsPath(string name)
+        {
+            return $"Map/ItemParts/{name}.prefab";
+        }
+
+        /// <summary>
+        /// Entity 경로 반환 함수
+        /// </summary>
+        public static string EntityPath(string name)
+        {
+            return $"Entity/{name}";
         }
     }
 

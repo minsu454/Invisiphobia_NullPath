@@ -33,6 +33,8 @@ public class Player : Entity
 
         PlayerController.Init(this);
         PlayerInteract.Init(this);
+        PlayerMovement.Init(this);
+        CameraController.Init(this);
         PlayerInventory.Init(this);
     }
 
