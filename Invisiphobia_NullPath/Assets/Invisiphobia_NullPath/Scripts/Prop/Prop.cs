@@ -5,7 +5,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Prop : MonoBehaviour, IDetectable
+public class Prop : MonoBehaviour, IDetectable, IParts
 {
     [Header("Prop")]
     [SerializeField] private MeshRenderer myRenderer;
