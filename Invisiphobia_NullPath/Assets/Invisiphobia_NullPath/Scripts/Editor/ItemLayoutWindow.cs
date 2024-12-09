@@ -19,7 +19,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     private bool isLoaded = false;
 
     private Texture2D[] texture2DArr;                                                       //Parts사진 저장 배열
-    private Dictionary<string, BaseItem> partsGoDict = new Dictionary<string, BaseItem>();  //PartsGo 저장 Dictionary
+    private Dictionary<string, Prop> partsGoDict = new Dictionary<string, Prop>();  //PartsGo 저장 Dictionary
 
     private TotalMapData totalData;
 
@@ -113,7 +113,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     {
         if (GUI.Button(new Rect(42, 238, 100, 25), "Spawn"))
         {
-            if (!partsGoDict.TryGetValue(pickName, out BaseItem partsPrefab))
+            if (!partsGoDict.TryGetValue(pickName, out Prop partsPrefab))
                 return;
 
             GameObject partsGo = Instantiate(partsPrefab.gameObject);
@@ -192,7 +192,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
                         pickName = name;
                         pickIdx = index;
 
-                        if (!partsGoDict.TryGetValue(pickName, out BaseItem partsPrefab))
+                        if (!partsGoDict.TryGetValue(pickName, out Prop partsPrefab))
                             return;
 
                         pickGoEditor = Editor.CreateEditor(partsPrefab.gameObject);
@@ -217,7 +217,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
         gStyle.normal.background = Texture2D.grayTexture;
         pickGoEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
 
-        if (!partsGoDict.TryGetValue(pickName, out BaseItem item))
+        if (!partsGoDict.TryGetValue(pickName, out Prop item))
             return;
 
         GUIStyle styleLabel = new GUIStyle("label");

@@ -234,6 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6416116467284947428}
+  - component: {fileID: -5383348655881300584}
   m_Layer: 0
   m_Name: CeilingLight_Scripted
   m_TagString: Untagged
@@ -258,6 +259,18 @@ Transform:
   - {fileID: 7347465742404928004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &-5383348655881300584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4537256051090284072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b0901b8600de343a1af0699fb705a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4685958318899317427
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,11 +454,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bbcf6b62be12c40ae4e74fd9270770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 6933146299352618773}
+  mylight: {fileID: 0}
   minTime: 0.05
   maxTime: 0.5
   minIntensity: 0.5
   maxIntensity: 4
+  middleJoint: {fileID: 0}
+  checkDistance: 5
+  triggerDetector: {fileID: 0}
 --- !u!1 &7964275368738976107
 GameObject:
   m_ObjectHideFlags: 0
