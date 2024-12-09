@@ -56,4 +56,6 @@ public class MapIcon : MonoBehaviour
         propertyBlock.SetFloat("_FillAmount", value);
         FillAmountRenderer.SetPropertyBlock(propertyBlock);
     }
+
+
 }
