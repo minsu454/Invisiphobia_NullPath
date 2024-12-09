@@ -8,6 +8,10 @@ public abstract class BaseItem : Prop, IInteractable
     [Header("BaseItem")]
     public int itemId;
     protected ItemTable table;
+    public ItemTable Table
+    {
+        get { return table; }
+    }
 
     public override void Init()
     {

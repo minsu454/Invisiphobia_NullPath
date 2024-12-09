@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class RescueTarget : MonoBehaviour
+public class RescueTarget : InHandItem
 {
-    public void Interact(Player player)
+    public override void Interact(Player player)
     {
-        
+        player.PlayerInventory.SetHand(this, prefab);
     }
 }

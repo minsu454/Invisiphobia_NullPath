@@ -6,6 +6,11 @@ public class ThrowItem : InHandItem
     [SerializeField] private Rigidbody myRb;
     [SerializeField] private float throwSpeed = 10f;
 
+    public override void Interact(Player player)
+    {
+        player.PlayerInventory.SetHand(this, prefab);
+    }
+
     public void Throw()
     {
         Vector3 throwDirection = ThrowDirection();

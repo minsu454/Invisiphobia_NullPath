@@ -90,8 +90,13 @@ public class Prop : MonoBehaviour, IDetectable, IParts
         mapIcon.SetFillAmount(value);
     }
 
+    public void IconActive(bool active)
+    {
+        mapIcon.gameObject.SetActive(active);
+    }
+
     private void OnDisable()
     {
-        mapIcon.gameObject.SetActive(false);
+        IconActive(false);
     }
 }

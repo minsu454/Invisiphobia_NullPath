@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -9,9 +11,10 @@ public class PlayerInventory : MonoBehaviour
     private const int handCount = 2;
 
     [SerializeField] private Tablet Tablet;
-    private List<InHandItem> handList = new List<InHandItem>(2);
 
-    //private HashSet<> bagSet;     생성해줄 아이템
+    private readonly Stack<InHandItem> groundItemStack = new Stack<InHandItem>(2);
+    private readonly Stack<GameObject> handItemStack = new Stack<GameObject>(2);
+    private readonly Stack<Action> interactStack = new Stack<Action>(2);
 
     public void Init(Player player)
     {
@@ -20,69 +23,56 @@ public class PlayerInventory : MonoBehaviour
         Tablet.Init(player);
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            DropItem();
+        }
+    }
+
     /// <summary>
     /// 테블릿 설정 함수
     /// </summary>
-    public void SetTablet(Tablet tablet)
+    public void SetTablet()
     {
-        if (tablet != null)
-            return;
-
-        Tablet = tablet;
+        
     }
 
     /// <summary>
     /// 아이템 설정 함수
     /// </summary>
-    public void SetHand(InHandItem item, ItemTable table, GameObject handPrefab)
+    public void SetHand(InHandItem item, GameObject handPrefab, Action interact = null)
     {
-        if (table.itemCarryType == DesignEnums.ItemCarryType.None)
+        if (item.Table.itemCarryType == DesignEnums.ItemCarryType.None)
             return;
-
-        int temp = (int)table.itemCarryType + curCount;
 
         item.gameObject.SetActive(false);
 
-        if (temp > maxCount)
-            OverHandItem(temp);
-
-        handList.Add(item);
-
-        curCount = temp;
+        CleanInventory(item);
+        groundItemStack.Push(item);
 
         //Todo
         GameObject go = Instantiate(handPrefab, transform);
+        handItemStack.Push(go);
+        interactStack.Push(interact);
     }
 
-    private int OverHandItem(int temp)
+    private void CleanInventory(InHandItem item)
     {
-        if (handList.Count == handCount)
+        int temp = (int)item.Table.itemCarryType + curCount;
+        
+        if (temp <= maxCount)
         {
-            DropItem();
-            RemoveItem();
+            curCount = temp;
+            return;
         }
 
-        DropItem();
-        RemoveItem();
-
-        temp = maxCount;
-
-        return temp;
-    }
-
-    /// <summary>
-    /// 아이템 삭제 함수
-    /// </summary>
-    public void RemoveItem()
-    {
-        if (handList.Count == 0)
-            return;
-
-        DropItem();
-        handList.RemoveAt(0);
-
-        //if(handList.Count != 0)
-
+        while (temp <= maxCount)
+        {
+            DropItem();
+            temp = (int)item.Table.itemCarryType + curCount;
+        }
     }
 
     /// <summary>
@@ -90,9 +80,27 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     private void DropItem() 
     {
-        InHandItem item;
+        if (!groundItemStack.TryPeek(out InHandItem item))
+            return;
 
-        item = handList[0];
+        item = groundItemStack.Peek();
         item.gameObject.SetActive(true);
+        item.IconActive(true);
+        item.transform.position = transform.position + transform.forward;
+
+        GameObject handGo = handItemStack.Pop();
+        Destroy(handGo);
+
+        curCount -= (int)item.Table.itemCarryType;
+
+        RemoveItem();
+    }
+
+    /// <summary>
+    /// 아이템 삭제 함수
+    /// </summary>
+    private void RemoveItem()
+    {
+        groundItemStack.Pop();
     }
 }
