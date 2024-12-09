@@ -49,6 +49,8 @@ public class Monster : Entity, IDetectable
         StateType = PropStateType.Revealed;
         myRenderer.enabled = true;
         mapIcon.Revealed();
+
+        myController.SetState(AIStateType.Wandering);
     }
 
     public virtual void Invisible()
@@ -58,6 +60,7 @@ public class Monster : Entity, IDetectable
         mapIcon.Invisible();
 
         myController.SetState(AIStateType.Idle);
+        myRenderer.enabled = false;
     }
 
     public void SetFillAmount(float value)
