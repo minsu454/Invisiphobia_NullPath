@@ -8,8 +8,7 @@ using UnityEngine.SceneManagement;
 public class Prop : MonoBehaviour, IDetectable, IParts
 {
     [Header("Prop")]
-    [SerializeField] private MeshRenderer myRenderer;
-    [SerializeField] private Collider myCollider;
+    [SerializeField] private MeshRenderer[] myRenderer;
 
     MapIcon IDetectable.MapIcon => mapIcon;
     [SerializeField] private MapIcon mapIcon;
@@ -27,7 +26,10 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     /// </summary>
     public virtual void Init()
     {
-        myRenderer.enabled = false;
+        for (int i = 0; i < myRenderer.Length; i++)
+        {
+            myRenderer[i].enabled = false;
+        }
 
         mapIcon.Init();
     }
@@ -57,15 +59,22 @@ public class Prop : MonoBehaviour, IDetectable, IParts
         }
         
         StateType = PropStateType.Revealed;
-        myRenderer.enabled = true;
+
+        for (int i = 0; i < myRenderer.Length; i++)
+        {
+            myRenderer[i].enabled = true;
+        }
         mapIcon.Revealed();
     }
 
     public virtual void Invisible()
     {
         StateType = PropStateType.None;
-        myRenderer.enabled = false;
-            mapIcon.Invisible();
+        for (int i = 0; i < myRenderer.Length; i++)
+        {
+            myRenderer[i].enabled = false;
+        }
+        mapIcon.Invisible();
     }
 
     public void SetFillAmount(float value)
