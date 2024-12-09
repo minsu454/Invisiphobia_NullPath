@@ -8,11 +8,12 @@ using UnityEngine.SceneManagement;
 public class Prop : MonoBehaviour, IDetectable, IParts
 {
     [Header("Prop")]
-    [SerializeField] private MeshRenderer myRenderer;
-    [SerializeField] private Collider myCollider;
+    [SerializeField] private MeshRenderer[] myRendererArr;
+
+    [SerializeField] private GameObject mapIconPrefab;
 
     MapIcon IDetectable.MapIcon => mapIcon;
-    [SerializeField] private MapIcon mapIcon;
+    private MapIcon mapIcon;
 
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
@@ -27,9 +28,15 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     /// </summary>
     public virtual void Init()
     {
-        myRenderer.enabled = false;
+        foreach (MeshRenderer renderer in myRendererArr)
+        {
+            renderer.enabled = false;
+        }
+        
+        GameObject go = Instantiate(mapIconPrefab);
+        mapIcon = go.GetComponent<MapIcon>();
 
-        mapIcon.Init();
+        mapIcon.Init(transform);
     }
 
     public virtual void Detected()
@@ -57,19 +64,34 @@ public class Prop : MonoBehaviour, IDetectable, IParts
         }
         
         StateType = PropStateType.Revealed;
-        myRenderer.enabled = true;
+
+        foreach (MeshRenderer renderer in myRendererArr)
+        {
+            renderer.enabled = true;
+        }
+
         mapIcon.Revealed();
     }
 
     public virtual void Invisible()
     {
         StateType = PropStateType.None;
-        myRenderer.enabled = false;
-            mapIcon.Invisible();
+
+        foreach (MeshRenderer renderer in myRendererArr)
+        {
+            renderer.enabled = false;
+        }
+
+        mapIcon.Invisible();
     }
 
     public void SetFillAmount(float value)
     {
         mapIcon.SetFillAmount(value);
+    }
+
+    private void OnDisable()
+    {
+        mapIcon.gameObject.SetActive(false);
     }
 }
