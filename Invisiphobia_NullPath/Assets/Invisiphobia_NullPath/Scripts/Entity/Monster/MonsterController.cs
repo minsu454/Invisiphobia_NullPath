@@ -1,5 +1,6 @@
 using Common.Timer;
 using Common.Yield;
+using DG.Tweening.Plugins.Options;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,7 @@ public class MonsterController : MonoBehaviour
 
     [Header("Combat")]
     [SerializeField] private float attackDistance;
-    private const float fieldOfView = 120f;
+    private const float fieldOfView = 180f;
 
     private float playerDistance;
     private bool isHiding;
@@ -37,6 +38,7 @@ public class MonsterController : MonoBehaviour
     [Header("NavMeshAgent")]
     [SerializeField] private NavMeshAgent agent;
     private Transform playerTransform;
+    private NavMeshHit hit;
 
     public Vector3 monsterSpawnPoint { get; private set; }
 
@@ -49,12 +51,14 @@ public class MonsterController : MonoBehaviour
         this.monster = monster;
         monsterSpawnPoint = transform.position;
         playerTransform = Player.Instance.transform;
+        SetState(AIStateType.Idle);
+        ResetWanderingCount();
     }
 
     private void Start()
     {
-        SetState(AIStateType.Idle);
-        ResetWanderingCount();
+        //SetState(AIStateType.Idle);
+        //ResetWanderingCount();
     }
 
     void Update()
@@ -79,6 +83,12 @@ public class MonsterController : MonoBehaviour
                 SetStun();
                 break;
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            StartCoroutine(SetStun());
+            //FleeFromPlayer();
+        }
     }
 
     public void SetState(AIStateType state)
@@ -95,6 +105,9 @@ public class MonsterController : MonoBehaviour
             case AIStateType.Attacking:
             case AIStateType.Fleeing:
                 agent.speed = runSpeed;
+                break;
+            case AIStateType.Stun:
+                agent.speed = 0f;
                 break;
         }
     }
@@ -123,8 +136,9 @@ public class MonsterController : MonoBehaviour
             // 이동 횟수를 모두 소진하면 투명화 상태로 전환
             if (wanderingCount <= 0)
             {
-                ResetCycle();
+                SetStun();
                 ResetToSpawnPoint();
+                ResetCycle();
             }
         }
     }
@@ -190,6 +204,28 @@ public class MonsterController : MonoBehaviour
         agent.Warp(monsterSpawnPoint);
     }
 
+    void FleeFromPlayer()
+    {
+        Vector3 directionToPlayer = playerTransform.position - transform.position;
+        Vector3 oppositeDirection = -directionToPlayer.normalized;
+
+        Vector3 movePosition = Vector3.zero;
+        float moveDistance = Random.Range(minWanderDistance, maxWanderDistance);
+
+        Vector3 targetPosition = transform.position + oppositeDirection * moveDistance;
+
+        if(NavMesh.SamplePosition(targetPosition, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            movePosition = hit.position;
+        }
+
+        if(movePosition != Vector3.zero)
+        {
+            agent.SetDestination(movePosition);
+            agent.speed = runSpeed;
+        }
+    }
+
     void ResetWanderingCount()
     {
         wanderingCount = Random.Range(minWanderingCount, maxWanderingCount);
@@ -225,8 +261,6 @@ public class MonsterController : MonoBehaviour
 
     Vector3 GetFleeLocation()
     {
-        NavMeshHit hit;
-
         int i = 0;
         do
         {
@@ -241,8 +275,6 @@ public class MonsterController : MonoBehaviour
 
     Vector3 GetWanderLocation()
     {
-        NavMeshHit hit;
-
         int i = 0;
         do
         {
