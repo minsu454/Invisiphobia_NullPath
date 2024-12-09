@@ -73,9 +73,9 @@ namespace Common.Path
         /// <summary>
         /// 데코 파츠 경로 반환 함수
         /// </summary>
-        public static string DecorPartsPath(string name)
+        public static string DecoPartsPath(string name)
         {
-            return $"Map/DecorParts/{name}.prefab";
+            return $"Map/DecoParts/{name}.prefab";
         }
 
         /// <summary>

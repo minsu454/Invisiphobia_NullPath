@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
+public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
 {
     private Rect areaRect;                  //rect 저장 변수
 
@@ -16,7 +16,7 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
     private bool isLoaded = false;
 
     private Texture2D[] texture2DArr;                                                           //Parts사진 저장 배열
-    private Dictionary<string, DecorParts> partsGoDict = new Dictionary<string, DecorParts>();  //PartsGo 저장 Dictionary
+    private Dictionary<string, DecoParts> partsGoDict = new Dictionary<string, DecoParts>();  //PartsGo 저장 Dictionary
 
     private TotalMapData totalData;
 
@@ -31,10 +31,10 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
         saveManager.LoadMap(path, LoadMap);
     }
 
-    [MenuItem("Tools/MapEditor/Decor Layout", priority = 1)]
+    [MenuItem("Tools/MapEditor/Deco Layout", priority = 1)]
     static void Init()
     {
-        CreateComstomWindow("Decor Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
+        CreateComstomWindow("Deco Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
     }
 
     private void OnGUI()
@@ -110,7 +110,7 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
     {
         if (GUI.Button(new Rect(42, 238, 100, 25), "Spawn"))
         {
-            if (!partsGoDict.TryGetValue(pickName, out DecorParts partsPrefab))
+            if (!partsGoDict.TryGetValue(pickName, out DecoParts partsPrefab))
                 return;
 
             GameObject partsGo = Instantiate(partsPrefab.gameObject);
@@ -129,7 +129,7 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
                 partsGo.transform.position = Vector3.zero;
             }
 
-            DecorParts decorParts = partsGo.GetComponent<DecorParts>();
+            DecoParts decorParts = partsGo.GetComponent<DecoParts>();
 
             saveManager.Add(decorParts);
         }
@@ -147,7 +147,7 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
 
             GameObject selectedObject = Selection.activeGameObject;
 
-            if (!selectedObject.TryGetComponent(out DecorParts parts))
+            if (!selectedObject.TryGetComponent(out DecoParts parts))
                 return;
 
             saveManager.Remove(parts);
@@ -188,7 +188,7 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
                         pickName = name;
                         pickIdx = index;
 
-                        if (!partsGoDict.TryGetValue(pickName, out DecorParts partsPrefab))
+                        if (!partsGoDict.TryGetValue(pickName, out DecoParts partsPrefab))
                             return;
 
                         pickGoEditor = Editor.CreateEditor(partsPrefab.gameObject);
@@ -213,7 +213,7 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
         gStyle.normal.background = Texture2D.grayTexture;
         pickGoEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
 
-        if (!partsGoDict.TryGetValue(pickName, out DecorParts item))
+        if (!partsGoDict.TryGetValue(pickName, out DecoParts item))
             return;
 
         GUIStyle styleLabel = new GUIStyle("label");
@@ -258,7 +258,7 @@ public class DecorLayoutWindow : CustomWindow<DecorLayoutWindow>
 
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            DecorParts decorParts = parts as DecorParts;
+            DecoParts decorParts = parts as DecoParts;
             PointData decorData = new PointData(
                 decorParts.name,
                 decorParts.transform.position,

@@ -53,7 +53,7 @@ public class MapManager : MonoBehaviour
     {
         foreach (PointData data in dataList)
         {
-            GameObject go = ObjectManager.Instantiate(AddressablePath.DecorPartsPath(data.Name));
+            GameObject go = ObjectManager.Instantiate(AddressablePath.DecoPartsPath(data.Name));
 
             go.name = data.Name;
             go.transform.position = data.Pos;

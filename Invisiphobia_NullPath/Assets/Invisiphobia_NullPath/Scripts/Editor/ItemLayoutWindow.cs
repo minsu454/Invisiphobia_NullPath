@@ -150,7 +150,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
             GameObject selectedObject = Selection.activeGameObject;
 
-            if (!selectedObject.TryGetComponent(out BaseItem parts))
+            if (!selectedObject.TryGetComponent(out Prop parts))
                 return;
 
 
