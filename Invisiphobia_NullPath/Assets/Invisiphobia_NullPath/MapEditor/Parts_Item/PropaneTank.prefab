@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7c07bb464e2156546b684271e2c7af3f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.295
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7c07bb464e2156546b684271e2c7af3f,
         type: 3}
@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7c07bb464e2156546b684271e2c7af3f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.598
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7c07bb464e2156546b684271e2c7af3f,
         type: 3}
@@ -83,10 +83,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: PropaneTank
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7c07bb464e2156546b684271e2c7af3f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7c07bb464e2156546b684271e2c7af3f,
+        type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 5070335883911553309}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7c07bb464e2156546b684271e2c7af3f,
         type: 3}
       insertIndex: -1
@@ -94,7 +103,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7c07bb464e2156546b684271e2c7af3f,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7336042786190673656}
+      addedObject: {fileID: 2958707159602918066}
   m_SourcePrefab: {fileID: 100100000, guid: 7c07bb464e2156546b684271e2c7af3f, type: 3}
 --- !u!1 &69962181286584392 stripped
 GameObject:
@@ -102,6 +111,24 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 880990195799907609}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5070335883911553309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69962181286584392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb4c7f9d50a4f04684cc065a6285a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRendererArr:
+  - {fileID: 2015486501942706589}
+  mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
+    type: 3}
+  itemId: 1202
+  prefab: {fileID: 7989867922128901368, guid: ebb396961eaacaf4f97a068d03854930, type: 3}
 --- !u!65 &4228375724251478252
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -121,24 +148,35 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3060562, y: 0.44919512, z: 0.30513632}
-  m_Center: {x: -0.000021517277, y: 0.22273128, z: 0.00004093349}
---- !u!114 &7336042786190673656
-MonoBehaviour:
+  m_Size: {x: 0.306, y: 0.4492, z: 0.3}
+  m_Center: {x: 0, y: 0.222, z: 0}
+--- !u!54 &2958707159602918066
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 69962181286584392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a037063af09735459e4ed4e71107728, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myRendererArr:
-  - {fileID: 2015486501942706589}
-  mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
-    type: 3}
+  serializedVersion: 4
+  m_Mass: 2
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!23 &2015486501942706589 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 7c07bb464e2156546b684271e2c7af3f,
