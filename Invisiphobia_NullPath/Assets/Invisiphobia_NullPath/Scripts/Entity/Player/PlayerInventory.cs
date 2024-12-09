@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -12,21 +13,17 @@ public class PlayerInventory : MonoBehaviour
 
     private readonly Stack<InHandItem> groundItemStack = new Stack<InHandItem>(2);
     private readonly Stack<GameObject> handItemStack = new Stack<GameObject>(2);
-    private readonly Stack<Action> interactStack = new Stack<Action>(2);
+    private readonly Stack<Action<Transform>> interactStack = new Stack<Action<Transform>>(2);
 
     public void Init(Player player)
     {
         maxCount += handCount;
 
         Tablet.Init(player);
-    }
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            DropItem();
-        }
+        player.PlayerController.playerPutDownActionEvent += DropItem;
+        player.PlayerController.playerZoomClickActionEvent += OnZoomClick;
+        //player.PlayerController.playerClickActionEvent += ;
     }
 
     /// <summary>
@@ -40,7 +37,7 @@ public class PlayerInventory : MonoBehaviour
     /// <summary>
     /// 아이템 설정 함수
     /// </summary>
-    public void SetHand(InHandItem item, GameObject handPrefab, Action interact = null)
+    public void SetHand(InHandItem item, GameObject handPrefab, Action<Transform> interact = null)
     {
         if (item.Table.itemCarryType == DesignEnums.ItemCarryType.None)
             return;
@@ -92,13 +89,9 @@ public class PlayerInventory : MonoBehaviour
         if (!groundItemStack.TryPeek(out InHandItem item))
             return;
 
-        item = groundItemStack.Peek();
         item.gameObject.SetActive(true);
         item.IconActive(true);
         item.transform.position = transform.position + transform.forward;
-
-        GameObject handGo = handItemStack.Pop();
-        Destroy(handGo);
 
         curCount -= (int)item.Table.itemCarryType;
 
@@ -111,5 +104,34 @@ public class PlayerInventory : MonoBehaviour
     private void RemoveItem()
     {
         groundItemStack.Pop();
+        interactStack.Pop();
+
+        GameObject handGo = handItemStack.Pop();
+        Destroy(handGo);
+    }
+
+    private void OnZoomClick()
+    {
+        if (!interactStack.TryPeek(out Action<Transform> action))
+            return;
+
+        if (action == null)
+            return;
+
+
+        InHandItem item = groundItemStack.Peek();
+
+        item = groundItemStack.Peek();
+        item.gameObject.SetActive(true);
+        item.IconActive(true);
+        item.transform.position = transform.position + transform.forward;
+
+        curCount -= (int)item.Table.itemCarryType;
+
+        RemoveItem();
+
+        action?.Invoke(transform);
+
+        SetTabletHidden();
     }
 }

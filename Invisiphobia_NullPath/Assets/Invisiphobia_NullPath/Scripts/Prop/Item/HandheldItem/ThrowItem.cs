@@ -11,20 +11,17 @@ public class ThrowItem : InHandItem
         player.PlayerInventory.SetHand(this, prefab, Throw);
     }
 
-    public void Throw()
+    public void Throw(Transform playerTr)
     {
-        Vector3 throwDirection = ThrowDirection();
+        Vector3 throwDirection = ThrowDirection(Camera.main.transform.forward);
         Vector3 initialVelocity = throwDirection * throwSpeed;
 
-        myRb.isKinematic = false;
         myRb.velocity = Vector3.zero;
-        myRb.AddForce(initialVelocity, ForceMode.VelocityChange);
+        myRb.AddForce(initialVelocity, ForceMode.Impulse);
     }
 
-    private Vector3 ThrowDirection()
+    private Vector3 ThrowDirection(Vector3 direction)
     {
-        Vector3 direction = transform.forward;
-
         direction.y += 0.3f;    // 포물선
         return direction.normalized;
     }

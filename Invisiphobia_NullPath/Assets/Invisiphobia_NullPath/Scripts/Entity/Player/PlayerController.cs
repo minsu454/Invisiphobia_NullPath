@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     public event Action<bool> playerCrouchActionEvent;
     public event Action playerInteractActionEvent;
     public event Action playerTabletActionEvent;
-    public event Action playerThrowActionEvent;
+    public event Action playerZoomClickActionEvent;
+    public event Action playerClickActionEvent;
     public event Action<int> tabletSwitchActionEvent;
     public event Action playerPutDownActionEvent;
 
@@ -43,7 +44,8 @@ public class PlayerController : MonoBehaviour
         OnPlayerCrouch();
         OnPlayerInteract();
         OnPlayerTablet();
-        OnPlayerThrow();
+        OnPlayerClick();
+        OnZoomClick();
         OnTabletSwitch();
         OnPlayerPutDown();
     }
@@ -123,9 +125,9 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// 물건 던지는 함수
+    /// 줌 클릭 함수
     /// </summary>
-    private void OnPlayerThrow()
+    private void OnZoomClick()
     {
         if(Input.GetKeyDown(KeyCode.Mouse1))
         {
@@ -138,7 +140,18 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Mouse0) && isHoldRightmouse == true)
         {
-            playerThrowActionEvent?.Invoke();
+            playerZoomClickActionEvent?.Invoke();
+        }
+    }
+
+    /// <summary>
+    /// 마우스 클릭 함수
+    /// </summary>
+    private void OnPlayerClick()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isHoldRightmouse)
+        {
+            playerClickActionEvent?.Invoke();
         }
     }
 
