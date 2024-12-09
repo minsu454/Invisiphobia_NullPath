@@ -9,6 +9,10 @@ public class Door : MonoBehaviour, IInteractable
     Quaternion startRotation;
     Quaternion endRotation;
 
+    [Header("Door Settings")]
+    public GameObject player;
+    public GameObject door;
+
     public void Awake()
     {
         startRotation = transform.rotation;
@@ -21,14 +25,45 @@ public class Door : MonoBehaviour, IInteractable
             return;
         }
 
+        if(IsPlayerBehind())
+        {
+            if(isOpen == true)
+            {
+                StartCoroutine(DoorInteract(endRotation, startRotation, 1f)); // 닫기 동작
+                //문을 닫을 때 나올 소리
+                return;
+            }
+            else
+            {
+                Debug.Log("문을 열 수 없는 각도입니다");
+                return;
+            }
+        }
+
         if (isOpen)
         {
             StartCoroutine(DoorInteract(endRotation, startRotation, 1f)); // 닫기 동작
+            //문을 닫을 때 나올 소리
         }
         else
         {
             StartCoroutine(DoorInteract(startRotation, endRotation, 1f)); // 열기 동작
+            //문을 열 때 나올 소리
         }
+    }
+    private bool IsPlayerBehind()
+    {
+        // 문의 앞 방향(Forward) 벡터
+        Vector3 doorBehind = -door.transform.forward;
+
+        // 플레이어와 문의 상대 위치 벡터
+        Vector3 playerToDoor = player.transform.position - door.transform.position;
+
+        // 내적 계산
+        float dotProduct = Vector3.Dot(doorBehind.normalized, playerToDoor.normalized);
+
+        // dotProduct가 0보다 크면 플레이어가 문 뒤쪽에 있음
+        return dotProduct > 0;
     }
 
     private IEnumerator DoorInteract(Quaternion a, Quaternion b, float timeToAnimate)
