@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private KeyCode crouchKey = KeyCode.LeftControl;
     private KeyCode interactKey = KeyCode.E;
     private KeyCode tabletKey = KeyCode.Tab;
+    private KeyCode putdownKey = KeyCode.Q;
 
     public event Action<Vector3> playerMoveActionEvent;
     public event Action playerSprintActionEvent;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public event Action playerTabletActionEvent;
     public event Action playerThrowActionEvent;
     public event Action<int> tabletSwitchActionEvent;
+    public event Action playerPutDownActionEvent;
 
     public bool isSprinting = false;
     public bool isCrouched = false;
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
         OnPlayerTablet();
         OnPlayerThrow();
         OnTabletSwitch();
+        OnPlayerPutDown();
     }
 
     private void FixedUpdate()
@@ -119,6 +122,9 @@ public class PlayerController : MonoBehaviour
        playerCrouchActionEvent.Invoke(isCrouched);
     }
 
+    /// <summary>
+    /// 물건 던지는 함수
+    /// </summary>
     private void OnPlayerThrow()
     {
         if(Input.GetKeyDown(KeyCode.Mouse1))
@@ -136,6 +142,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnPlayerPutDown()
+    {
+        if(Input.GetKeyDown(putdownKey))
+        {
+            playerPutDownActionEvent.Invoke();
+        }
+    }
 }
 
 
