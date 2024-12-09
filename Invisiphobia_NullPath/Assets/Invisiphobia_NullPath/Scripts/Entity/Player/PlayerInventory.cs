@@ -36,10 +36,10 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void SetHand(InHandItem item, ItemTable table, GameObject handPrefab)
     {
-        if (table.type == DesignEnums.ItemCarryType.None)
+        if (table.itemCarryType == DesignEnums.ItemCarryType.None)
             return;
 
-        int temp = (int)table.type + curCount;
+        int temp = (int)table.itemCarryType + curCount;
 
         item.gameObject.SetActive(false);
 
