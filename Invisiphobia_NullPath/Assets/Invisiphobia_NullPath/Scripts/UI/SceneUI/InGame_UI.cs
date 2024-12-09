@@ -1,5 +1,6 @@
 using Common.SceneEx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InGame_UI : BaseSceneUI
@@ -8,6 +9,13 @@ public class InGame_UI : BaseSceneUI
     [SerializeField] private CanvasGroup sprintBarCanvasGroup; // CanvasGroup 추가
     public bool hideBarWhenFull = true;
 
+    public void Start()
+    {
+        if(SceneManager.GetActiveScene().name != "InGame")
+        {
+            Init();
+        }
+    }
     public override void Init()
     {
         base.Init();

@@ -22,14 +22,15 @@ public class PlayerMovement : MonoBehaviour
     //Sprint = 단거리 달리기, 코드에서는 보통 스테미나가 있는 경우가 많음
     public bool isZoomed = false;
     public bool enableSprint = true;
+    public KeyCode sprintKey = KeyCode.LeftShift;
     public float sprintSpeed = 7f;
     public float sprintDuration = 5f;
     public float sprintFOV = 80f;
     public float sprintFOVStepTime = 10f;
 
     // Sprint Bar
-    private Slider staminaBar;
-    private CanvasGroup sprintBarCanvasGroup; // CanvasGroup 추가
+    [SerializeField] private Slider staminaBar;
+    [SerializeField] private CanvasGroup sprintBarCanvasGroup; // CanvasGroup 추가
     public bool hideBarWhenFull = true;
 
     // Internal Variables
@@ -42,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
     #region Jump
 
     public bool enableJump = true;
+    public KeyCode jumpKey = KeyCode.Space;
     public float jumpPower = 5f;
     public bool isJumping = false;
     // Internal Variables
@@ -51,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     #region Crouch
 
+    public KeyCode crouchKey = KeyCode.LeftControl;
     public float speedReduction = .5f;
     public bool holdToCrouch = true;
     [SerializeField] private float crouchHeight = 0.3f;
@@ -156,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // All movement calculations shile sprint is active
-            if (enableSprint && sprintRemaining > 0f)
+            if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f)
             {
                 targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
 
