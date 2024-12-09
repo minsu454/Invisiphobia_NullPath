@@ -11,8 +11,10 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     [SerializeField] private MeshRenderer myRenderer;
     [SerializeField] private Collider myCollider;
 
+    [SerializeField] private GameObject mapIconPrefab;
+
     MapIcon IDetectable.MapIcon => mapIcon;
-    [SerializeField] private MapIcon mapIcon;
+    private MapIcon mapIcon;
 
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
@@ -29,7 +31,10 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     {
         myRenderer.enabled = false;
 
-        mapIcon.Init();
+        GameObject go = Instantiate(mapIconPrefab);
+        mapIcon = go.GetComponent<MapIcon>();
+
+        mapIcon.Init(transform);
     }
 
     public virtual void Detected()
@@ -65,7 +70,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     {
         StateType = PropStateType.None;
         myRenderer.enabled = false;
-            mapIcon.Invisible();
+        mapIcon.Invisible();
     }
 
     public void SetFillAmount(float value)

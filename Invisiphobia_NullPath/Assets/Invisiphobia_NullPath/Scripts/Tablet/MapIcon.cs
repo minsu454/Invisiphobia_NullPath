@@ -1,17 +1,27 @@
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class MapIcon : MonoBehaviour
 {
+    [SerializeField] private Transform targetTr;
+
     [SerializeField] private SpriteRenderer CompletedRenderer;
     [SerializeField] private SpriteRenderer FillAmountRenderer;
 
     private MaterialPropertyBlock propertyBlock;
 
-    public void Init()
+    private void Awake()
     {
         propertyBlock = new MaterialPropertyBlock();
+    }
 
+    private void Update()
+    {
+        transform.position = targetTr.position + (Vector3.up * 30);
+    }
+
+    public void Init(Transform targetTr)
+    {
+        this.targetTr = targetTr;
         ResetIcon();
     }
 
