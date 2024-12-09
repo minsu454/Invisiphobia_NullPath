@@ -31,7 +31,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9164784034293231420}
-  - {fileID: 5489207600766562057}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7455430681340513417
@@ -46,9 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0b0003435ff0c41b4abb653a2afdb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myRenderer: {fileID: 8718423334508404280}
-  myCollider: {fileID: 5358991248005243467}
-  mapIcon: {fileID: 5502034144437366941}
+  myRendererArr:
+  - {fileID: 8718423334508404280}
+  mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
+    type: 3}
   itemId: 0
   prefab: {fileID: 0}
 --- !u!1 &7790549936459229979
@@ -156,89 +156,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8424919, y: 2.832715, z: 4.927501}
   m_Center: {x: -0.1806585, y: 0.05495204, z: 0.013902067}
---- !u!1001 &5884193040347500344
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2277196875332531690}
-    m_Modifications:
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
-        type: 3}
-      propertyPath: m_Name
-      value: Icon
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 619ea374204f11a4bbda9f0c6a485186, type: 3}
---- !u!4 &5489207600766562057 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
-    type: 3}
-  m_PrefabInstance: {fileID: 5884193040347500344}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5502034144437366941 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2158346289081712549, guid: 619ea374204f11a4bbda9f0c6a485186,
-    type: 3}
-  m_PrefabInstance: {fileID: 5884193040347500344}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de685da8c6bb0d04eab376575047986b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

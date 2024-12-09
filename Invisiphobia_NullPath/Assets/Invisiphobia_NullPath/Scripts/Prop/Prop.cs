@@ -8,10 +8,12 @@ using UnityEngine.SceneManagement;
 public class Prop : MonoBehaviour, IDetectable, IParts
 {
     [Header("Prop")]
-    [SerializeField] private MeshRenderer[] myRenderer;
+    [SerializeField] private MeshRenderer[] myRendererArr;
+
+    [SerializeField] private GameObject mapIconPrefab;
 
     MapIcon IDetectable.MapIcon => mapIcon;
-    [SerializeField] private MapIcon mapIcon;
+    private MapIcon mapIcon;
 
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
@@ -26,12 +28,15 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     /// </summary>
     public virtual void Init()
     {
-        for (int i = 0; i < myRenderer.Length; i++)
+        foreach (MeshRenderer renderer in myRendererArr)
         {
-            myRenderer[i].enabled = false;
+            renderer.enabled = false;
         }
+        
+        GameObject go = Instantiate(mapIconPrefab);
+        mapIcon = go.GetComponent<MapIcon>();
 
-        mapIcon.Init();
+        mapIcon.Init(transform);
     }
 
     public virtual void Detected()
@@ -60,25 +65,33 @@ public class Prop : MonoBehaviour, IDetectable, IParts
         
         StateType = PropStateType.Revealed;
 
-        for (int i = 0; i < myRenderer.Length; i++)
+        foreach (MeshRenderer renderer in myRendererArr)
         {
-            myRenderer[i].enabled = true;
+            renderer.enabled = true;
         }
+
         mapIcon.Revealed();
     }
 
     public virtual void Invisible()
     {
         StateType = PropStateType.None;
-        for (int i = 0; i < myRenderer.Length; i++)
+
+        foreach (MeshRenderer renderer in myRendererArr)
         {
-            myRenderer[i].enabled = false;
+            renderer.enabled = false;
         }
+
         mapIcon.Invisible();
     }
 
     public void SetFillAmount(float value)
     {
         mapIcon.SetFillAmount(value);
+    }
+
+    private void OnDisable()
+    {
+        mapIcon.gameObject.SetActive(false);
     }
 }

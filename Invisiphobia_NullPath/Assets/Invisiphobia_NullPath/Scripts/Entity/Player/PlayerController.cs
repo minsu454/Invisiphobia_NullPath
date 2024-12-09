@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Mouse0) && isHoldRightmouse == true)
         {
-            playerThrowActionEvent.Invoke();
+            playerThrowActionEvent?.Invoke();
         }
     }
 

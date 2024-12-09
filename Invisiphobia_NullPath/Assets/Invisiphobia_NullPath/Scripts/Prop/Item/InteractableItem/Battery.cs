@@ -1,3 +1,4 @@
+using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class Battery : BaseItem
     {
         while (currentCharge > 0)
         {
-            yield return new WaitForSeconds(1f);
+            yield return YieldCache.WaitForSeconds(1f);
             currentCharge -= dischargeRate;
             currentCharge = Mathf.Clamp(currentCharge, 0, maxCharge);
         }
