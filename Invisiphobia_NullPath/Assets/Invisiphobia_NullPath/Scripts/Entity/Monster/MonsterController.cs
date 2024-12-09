@@ -1,13 +1,15 @@
 using Common.Timer;
+using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class MonsterController : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField]private float walkSpeed;
+    [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
 
     [Header("AI")]
@@ -30,10 +32,13 @@ public class MonsterController : MonoBehaviour
 
     private float playerDistance;
     private bool isHiding;
+    private bool isStunned = false;
 
     [Header("NavMeshAgent")]
-    [SerializeField]private NavMeshAgent agent;
+    [SerializeField] private NavMeshAgent agent;
     private Transform playerTransform;
+
+    public Vector3 monsterSpawnPoint { get; private set; }
 
     private Monster monster;
     private Coroutine timer;
@@ -42,6 +47,7 @@ public class MonsterController : MonoBehaviour
     public void Init(Monster monster)
     {
         this.monster = monster;
+        monsterSpawnPoint = transform.position;
         playerTransform = Player.Instance.transform;
     }
 
@@ -68,6 +74,9 @@ public class MonsterController : MonoBehaviour
                 break;
             case AIStateType.Fleeing:
                 FleeingUpdate();
+                break;
+            case AIStateType.Stun:
+                SetStun();
                 break;
         }
     }
@@ -97,7 +106,7 @@ public class MonsterController : MonoBehaviour
             return;
         }
 
-        if (playerDistance < detectDistance && !isHiding) // 플레이어가 감지 범위 안에 있고 숨지 않은 경우
+        if (playerDistance < detectDistance && !isHiding && IsPlayerInFieldOfView()) // 플레이어가 감지 범위 안에 있고 숨지 않은 경우
         {
             SetState(AIStateType.Attacking);
         }
@@ -113,7 +122,10 @@ public class MonsterController : MonoBehaviour
 
             // 이동 횟수를 모두 소진하면 투명화 상태로 전환
             if (wanderingCount <= 0)
+            {
                 ResetCycle();
+                ResetToSpawnPoint();
+            }
         }
     }
 
@@ -158,6 +170,23 @@ public class MonsterController : MonoBehaviour
         {
             SetState(AIStateType.Wandering);
         }
+    }
+
+    private IEnumerator SetStun()
+    {
+        if (isStunned) yield break;
+
+        isStunned = true;
+        SetState(AIStateType.Stun);
+        yield return YieldCache.WaitForSeconds(2f);
+
+        isStunned = false;
+        SetState(AIStateType.Wandering);
+    }
+
+    void ResetToSpawnPoint()
+    {
+        agent.Warp(monsterSpawnPoint);
     }
 
     void ResetWanderingCount()
