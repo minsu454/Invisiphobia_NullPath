@@ -8,7 +8,7 @@ public class ThrowItem : InHandItem
 
     public override void Interact(Player player)
     {
-        player.PlayerInventory.SetHand(this, prefab);
+        player.PlayerInventory.SetHand(this, prefab, Throw);
     }
 
     public void Throw()

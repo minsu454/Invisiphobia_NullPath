@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -51,6 +49,7 @@ public class PlayerInventory : MonoBehaviour
 
         CleanInventory(item);
         groundItemStack.Push(item);
+        SetTabletHidden();
 
         //Todo
         GameObject go = Instantiate(handPrefab, transform);
@@ -68,11 +67,21 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
-        while (temp <= maxCount)
+        while (temp > maxCount)
         {
             DropItem();
             temp = (int)item.Table.itemCarryType + curCount;
         }
+
+        curCount = temp;
+    }
+
+    private void SetTabletHidden()
+    {
+        if (curCount == maxCount)
+            Tablet.Hidden();
+        else
+            Tablet.UnHidden();
     }
 
     /// <summary>

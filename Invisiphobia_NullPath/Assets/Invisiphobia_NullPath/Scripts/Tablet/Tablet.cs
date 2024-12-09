@@ -12,11 +12,11 @@ public class Tablet : MonoBehaviour
 
     public event System.Action<TabletStateType> OnStateChangedEvent;
     private TabletStateType stateType = TabletStateType.Basic;
-    public TabletStateType state {
+    public TabletStateType State {
         get { return stateType; }
         private set
         {
-            if (state == value)
+            if (stateType == value)
             {
                 return;
             }
@@ -42,15 +42,27 @@ public class Tablet : MonoBehaviour
     /// </summary>
     private void ToggleTabletState()
     {
-        switch (state)
+        switch (State)
         {
             case TabletStateType.Basic:
-                state = TabletStateType.Activate;
+                State = TabletStateType.Activate;
                 break;
             case TabletStateType.Activate:
-                state = TabletStateType.Basic;
+                State = TabletStateType.Basic;
+                break;
+            default:
                 break;
         }
+    }
+
+    public void Hidden()
+    {
+        State = TabletStateType.Hidden;
+    }
+
+    public void UnHidden()
+    {
+        State = TabletStateType.Basic;
     }
 
     /// <summary>
