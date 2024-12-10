@@ -277,21 +277,32 @@ public class MonsterController : MonoBehaviour
         return angle < fieldOfView * 0.5f;
     }
 
-    Vector3 GetFleeLocation()
+    Vector3 GetWanderLocation()
     {
-        int i = 0;
-        do
+        for (int i = 0; i < 30; i++) // 최대 30번만 시도
         {
-            NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * safeDistance), out hit, maxWanderDistance, NavMesh.AllAreas);
-            i++;
-            if (i == 30)
-                break;
-        } while (GetDestinationAngle(hit.position) > 90 || playerDistance < safeDistance);
+            Vector3 randomPoint = transform.position + (Random.onUnitSphere * Random.Range(minWanderDistance, maxWanderDistance));
+            randomPoint.y = transform.position.y; // 같은 높이로 설정
 
-        return hit.position;
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, maxWanderDistance, NavMesh.AllAreas))
+            {
+                NavMeshPath path = new NavMeshPath();
+                if (agent.CalculatePath(hit.position, path) && path.status == NavMeshPathStatus.PathComplete)
+                {
+                    float pathLength = GetPathLength(path);
+
+                    if (pathLength >= minWanderDistance && pathLength <= maxWanderDistance)
+                    {
+                        return hit.position;
+                    }
+                }
+            }
+        }
+
+        return transform.position; // 위치 찾기 실패하면 현재 위치 반환..
     }
 
-    Vector3 GetWanderLocation()
+    Vector3 GetFleeLocation()
     {
         int i = 0;
         do
@@ -302,7 +313,22 @@ public class MonsterController : MonoBehaviour
                 break;
         } while (Vector3.Distance(transform.position, hit.position) < detectDistance);
 
-        return hit.position;
+        return hit.position; // 위치 찾기 실패하면 현재 위치 반환..
+    }
+
+    float GetPathLength(NavMeshPath path)
+    {
+        float totalLength = 0f;
+
+        if (path.corners.Length < 2)    // 코너(좌표)가 2개 미만이면 거리가 없음
+            return totalLength;
+
+        for (int i = 0; i < path.corners.Length - 1; i++)   // 코너 간 거리 계산
+        {
+            totalLength += Vector3.Distance(path.corners[i], path.corners[i + 1]);  // totalLength에 거리 더해서 총 경로 길이 반환
+        }
+
+        return totalLength;
     }
 
     float GetDestinationAngle(Vector3 targetPos)
