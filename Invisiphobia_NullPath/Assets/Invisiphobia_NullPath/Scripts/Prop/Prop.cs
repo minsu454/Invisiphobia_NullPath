@@ -19,11 +19,13 @@ public class Prop : MonoBehaviour, IDetectable, IParts
 
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
+    #region Test
     private void Awake()
     {
         if (SceneManager.GetActiveScene().name != "InGame")
             Init();
     }
+    #endregion
 
     /// <summary>
     /// Prop 초기화 함수

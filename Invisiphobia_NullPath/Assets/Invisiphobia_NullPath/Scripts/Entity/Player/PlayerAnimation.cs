@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerAnimation : AnimationController
 {
-    private static readonly int isWalking = Animator.StringToHash("isWalking");
-    private static readonly int Running = Animator.StringToHash("Running");
-    private static readonly int isHiding = Animator.StringToHash("isHiding");
-    private static readonly int die = Animator.StringToHash("die");
+    private readonly int isWalking = Animator.StringToHash("isWalking");
+    private readonly int Running = Animator.StringToHash("Running");
+    private readonly int isHiding = Animator.StringToHash("isHiding");
+    private readonly int die = Animator.StringToHash("die");
 
     private readonly float magnitudeThreshold = 0.5f;
     protected override void Awake()

@@ -24,11 +24,13 @@ public class Monster : Entity, IDetectable
         //myController.Init(this);
     }
 
+    #region Test
     private void Start()
     {
         mapIcon.Init(transform);
         myController.Init(this);
     }
+    #endregion
 
     public virtual void Detected()
     {

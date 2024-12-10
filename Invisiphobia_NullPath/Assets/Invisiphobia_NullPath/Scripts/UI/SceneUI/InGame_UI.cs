@@ -9,6 +9,7 @@ public class InGame_UI : BaseSceneUI
     [SerializeField] private CanvasGroup sprintBarCanvasGroup; // CanvasGroup 추가
     public bool hideBarWhenFull = true;
 
+    #region Test
     public void Start()
     {
         if(SceneManager.GetActiveScene().name != "InGame")
@@ -16,6 +17,8 @@ public class InGame_UI : BaseSceneUI
             Init();
         }
     }
+    #endregion
+
     public override void Init()
     {
         base.Init();

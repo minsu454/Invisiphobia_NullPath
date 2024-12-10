@@ -11,10 +11,14 @@ public class EntityManager : MonoBehaviour
     public Player Player { get; private set; }
     private readonly HashSet<Monster> monsterHashSet = new HashSet<Monster>();
 
+    #region Test
+    public List<Monster> monster;
+
     public void Awake()
     {
         Instance = this;
     }
+    #endregion
 
     public void Init(TotalMapData totalData)
     {
