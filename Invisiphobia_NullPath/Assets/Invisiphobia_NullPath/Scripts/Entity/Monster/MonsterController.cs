@@ -79,6 +79,8 @@ public class MonsterController : MonoBehaviour
             case AIStateType.Fleeing:
                 FleeingUpdate();
                 break;
+            case AIStateType.MonsterFleeing:
+                break;
             case AIStateType.Stun:
                 SetStun();
                 break;
@@ -86,8 +88,10 @@ public class MonsterController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            StartCoroutine(SetStun());
-            //FleeFromPlayer();
+            if (aiState != AIStateType.MonsterFleeing)
+            {
+                FleeFromPlayer();
+            }
         }
     }
 
@@ -104,6 +108,7 @@ public class MonsterController : MonoBehaviour
                 break;
             case AIStateType.Attacking:
             case AIStateType.Fleeing:
+            case AIStateType.MonsterFleeing:
                 agent.speed = runSpeed;
                 break;
             case AIStateType.Stun:
@@ -136,8 +141,8 @@ public class MonsterController : MonoBehaviour
             // 이동 횟수를 모두 소진하면 투명화 상태로 전환
             if (wanderingCount <= 0)
             {
-                SetStun();
-                ResetToSpawnPoint();
+                //SetStun();
+                //ResetToSpawnPoint();
                 ResetCycle();
             }
         }
@@ -159,7 +164,7 @@ public class MonsterController : MonoBehaviour
 
     void AttackingUpdate()
     {
-        if (playerDistance < detectDistance)
+        if (playerDistance < detectDistance && aiState != AIStateType.MonsterFleeing)
         {
             NavMeshPath path = new NavMeshPath();
             if (agent.CalculatePath(playerTransform.position, path))
@@ -182,7 +187,7 @@ public class MonsterController : MonoBehaviour
         }
         else
         {
-            ResetCycle();
+            ResetWanderingCount();
             SetState(AIStateType.Wandering);
         }
     }
@@ -202,28 +207,37 @@ public class MonsterController : MonoBehaviour
     void ResetToSpawnPoint()
     {
         agent.Warp(monsterSpawnPoint);
+        ResetCycle();
     }
 
     void FleeFromPlayer()
     {
+        SetState(AIStateType.MonsterFleeing);
         Vector3 directionToPlayer = playerTransform.position - transform.position;
-        Vector3 oppositeDirection = -directionToPlayer.normalized;
+        directionToPlayer.y = 0;
+        directionToPlayer.Normalize();
 
-        Vector3 movePosition = Vector3.zero;
-        float moveDistance = Random.Range(minWanderDistance, maxWanderDistance);
+        Vector3 fleeDirection = Quaternion.Euler(0, Random.Range(-150, 150), 0) * directionToPlayer;  // 반대 방향 계산
 
-        Vector3 targetPosition = transform.position + oppositeDirection * moveDistance;
+        float fleeDistance = Random.Range(minWanderDistance, maxWanderDistance);    // 도망칠 거리 계산
+        Vector3 fleeTarget = transform.position + fleeDirection * fleeDistance;
 
-        if(NavMesh.SamplePosition(targetPosition, out hit, 1.0f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(fleeTarget, out NavMeshHit hit, fleeDistance, NavMesh.AllAreas))
         {
-            movePosition = hit.position;
+            agent.SetDestination(hit.position);
+            StartCoroutine(FleeAndTransitionToWandering()); // 도망 후 상태 전환 처리
+        }
+    }
+
+    private IEnumerator FleeAndTransitionToWandering()
+    {
+        while (agent.pathPending || agent.remainingDistance > 0.1f)
+        {
+            yield return null;
         }
 
-        if(movePosition != Vector3.zero)
-        {
-            agent.SetDestination(movePosition);
-            agent.speed = runSpeed;
-        }
+        LookingAtPlayerUpdate();
+        ResetToSpawnPoint();
     }
 
     void ResetWanderingCount()
@@ -234,11 +248,15 @@ public class MonsterController : MonoBehaviour
     void ResetCycle()
     {
         SetState(AIStateType.Idle);
-        StopCoroutine(timer);
+        if (timer != null)
+        {
+            StopCoroutine(timer);
+        }
         timer = null;
         ResetWanderingCount();
         canWander = true;
-        monster.Invisible();
+        //monster.Invisible();
+        monster.ResetCycle();
     }
 
     void WanderToNewLocation()

@@ -62,10 +62,14 @@ public class Monster : Entity, IDetectable
     public virtual void Invisible()
     {
         StateType = PropStateType.None;
-        myRenderer.enabled = false;
-        mapIcon.Invisible();
+        //mapIcon.Invisible();
+        //myRenderer.enabled = false;
+        ResetCycle();
+    }
 
-        myController.SetState(AIStateType.Idle);
+    public void ResetCycle()
+    {
+        mapIcon.Invisible();
         myRenderer.enabled = false;
     }
 
