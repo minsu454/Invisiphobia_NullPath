@@ -14,6 +14,8 @@ public class Monster : Entity, IDetectable
 
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
+    public bool IsDetectTablet { get; set; }
+
     public bool isRevealed = false;
 
     public override void Init()
@@ -62,16 +64,22 @@ public class Monster : Entity, IDetectable
     public virtual void Invisible()
     {
         StateType = PropStateType.None;
-        //mapIcon.Invisible();
-        //myRenderer.enabled = false;
-        ResetCycle();
+        mapIcon.Invisible();
+        myRenderer.enabled = false;
     }
 
     public void ResetCycle()
     {
-        mapIcon.Invisible();
-        mapIcon.Detected();
-        myRenderer.enabled = false;
+        if (IsDetectTablet)
+        {
+            mapIcon.Invisible();
+            myRenderer.enabled = false;
+            Detected();
+        }
+        else
+        {
+            Invisible();
+        }
     }
 
     public void SetFillAmount(float value)

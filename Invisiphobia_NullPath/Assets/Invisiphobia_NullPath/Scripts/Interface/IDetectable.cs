@@ -14,6 +14,11 @@ public interface IDetectable
     public MapIcon MapIcon { get; }
 
     /// <summary>
+    /// 감지되었을 때(리스트에 추가되었을 때)확인 bool 변수
+    /// </summary>
+    public bool IsDetectTablet { get; set; }
+
+    /// <summary>
     /// 감지될때 실행될 로직(아직 투명하지만 알람은 울릴때)
     /// </summary>
     public void Detected();

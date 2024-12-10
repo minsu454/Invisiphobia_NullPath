@@ -15,6 +15,8 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     MapIcon IDetectable.MapIcon => mapIcon;
     private MapIcon mapIcon;
 
+    public bool IsDetectTablet { get; set; }
+
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
     private void Awake()
