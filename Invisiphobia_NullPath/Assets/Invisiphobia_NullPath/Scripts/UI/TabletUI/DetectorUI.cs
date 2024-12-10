@@ -76,12 +76,12 @@ public class DetectorUI : WorldUI<TabletStateType>
         if (other.TryGetComponent(out IDetectable detectable))
         {
             detectedObjectList.Remove(detectable);
+            detectable.IsDetectTablet = false;
 
             if (detectable.StateType == PropStateType.Revealed)
                 return;
 
             detectable.Invisible();
-            detectable.IsDetectTablet = false;
         }
     }
 

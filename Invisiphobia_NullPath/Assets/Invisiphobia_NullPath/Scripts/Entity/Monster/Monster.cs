@@ -64,18 +64,22 @@ public class Monster : Entity, IDetectable
     public virtual void Invisible()
     {
         StateType = PropStateType.None;
-        //mapIcon.Invisible();
-        //myRenderer.enabled = false;
         mapIcon.Invisible();
         myRenderer.enabled = false;
-        //ResetCycle();
-
     }
 
     public void ResetCycle()
     {
-        Invisible();
-        Detected();
+        if (IsDetectTablet)
+        {
+            mapIcon.Invisible();
+            myRenderer.enabled = false;
+            Detected();
+        }
+        else
+        {
+            Invisible();
+        }
     }
 
     public void SetFillAmount(float value)
