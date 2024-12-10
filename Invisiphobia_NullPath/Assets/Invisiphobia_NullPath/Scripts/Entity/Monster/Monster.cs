@@ -14,6 +14,8 @@ public class Monster : Entity, IDetectable
 
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
+    public bool IsDetectTablet { get; set; }
+
     public bool isRevealed = false;
 
     public override void Init()

@@ -64,6 +64,7 @@ public class DetectorUI : WorldUI<TabletStateType>
                 detectable.Detected();
 
             detectedObjectList.Add(detectable);
+            detectable.IsDetectTablet = true;
         }
     }
 
@@ -80,6 +81,7 @@ public class DetectorUI : WorldUI<TabletStateType>
                 return;
 
             detectable.Invisible();
+            detectable.IsDetectTablet = false;
         }
     }
 
