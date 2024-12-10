@@ -85,14 +85,6 @@ public class MonsterController : MonoBehaviour
                 SetStun();
                 break;
         }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            if (aiState != AIStateType.MonsterFleeing)
-            {
-                FleeFromPlayer();
-            }
-        }
     }
 
     public void SetState(AIStateType state)
@@ -210,7 +202,7 @@ public class MonsterController : MonoBehaviour
         ResetCycle();
     }
 
-    void FleeFromPlayer()
+    public void FleeFromPlayer()
     {
         SetState(AIStateType.MonsterFleeing);
         Vector3 directionToPlayer = playerTransform.position - transform.position;
