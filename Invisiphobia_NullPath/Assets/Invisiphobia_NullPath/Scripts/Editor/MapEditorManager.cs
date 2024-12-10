@@ -9,7 +9,7 @@ public sealed class MapEditorManager
     /// </summary>
     public void LoadMapEditor()
     {
-        SceneEditorManager.OpenTempScene(EditorPath.useScenePath);
+        SceneEditorManager.OpenTempScene(EditorPath.UseScenePath);
         IsCreateData = true;
     }
 
@@ -33,7 +33,7 @@ public sealed class MapEditorManager
             return;
         }
 
-        SceneEditorManager.OpenTempScene(EditorPath.useScenePath);
+        SceneEditorManager.OpenTempScene(EditorPath.UseScenePath);
 
         GameObject go = new GameObject("Map");
         builder = go.AddComponent<T>();

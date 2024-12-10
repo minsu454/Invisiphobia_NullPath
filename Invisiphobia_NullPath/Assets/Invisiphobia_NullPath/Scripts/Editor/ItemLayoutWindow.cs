@@ -24,8 +24,8 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     {
         base.OnEnable();
 
-        GUIParts.LoadAllInFolder(EditorPath.itemTexturePath, out texture2DArr);
-        GUIParts.LoadAllInFolder(EditorPath.itemPartsPath, out partsGoDict);
+        GUIParts.LoadAllInFolder(EditorPath.ItemTexturePath, out texture2DArr);
+        GUIParts.LoadAllInFolder(EditorPath.ItemPartsPath, out partsGoDict);
 
         string path = EditorUtility.OpenFilePanel("Open File", "", "json");
         saveManager.LoadMap(path, LoadMap);
@@ -284,7 +284,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
         foreach (RoomData data in totalData.RoomDataList)
         {
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.roomPartsPath}/{data.Name}.prefab");
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.RoomPartsPath}/{data.Name}.prefab");
             GameObject go = Instantiate(prefab);
 
             go.name = data.Name;
@@ -300,7 +300,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
         foreach (PointData data in totalData.DecorDataList)
         {
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.decorPartsPath}/{data.Name}.prefab");
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.DecoPartsPath}/{data.Name}.prefab");
             GameObject go = Instantiate(prefab);
 
             go.name = data.Name;
@@ -310,7 +310,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
         foreach (PointData data in totalData.ItemDataList)
         {
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.itemPartsPath}/{data.Name}.prefab");
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
             GameObject go = Instantiate(prefab);
 
             go.name = data.Name;
