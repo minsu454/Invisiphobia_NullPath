@@ -43,7 +43,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable
     }
 
     /// <summary>
-    /// 
+    /// 타블렛 상태 변환 시 실행 함수
     /// </summary>
     private void OnStateChanged(TabletStateType type)
     {
@@ -58,6 +58,9 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable
         }
     }
 
+    /// <summary>
+    /// 타블렛 스크린 전환 함수
+    /// </summary>
     private void SwitchTabletScreen(int num)
     {
         worldUIList[ChoiceIdx].Unsubscribe(this);
