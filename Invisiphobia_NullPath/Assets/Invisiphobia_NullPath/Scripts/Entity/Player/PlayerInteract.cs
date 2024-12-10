@@ -37,7 +37,7 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    private void PlayerInteraction()
+    public void PlayerInteraction()
     {
         Ray ray = mainCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
         RaycastHit raycastHit;
@@ -76,5 +76,14 @@ public class PlayerInteract : MonoBehaviour
         {
             curInteractable.Interact(player);
         }
+    }
+
+    public Vector3 GetRayDirection()
+    {
+        // 플레이어가 현재 화면 중간을 기준으로 쏘는 레이의 방향을 반환
+        Camera mainCam = Camera.main;
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        Ray ray = mainCam.ScreenPointToRay(screenCenter);
+        return ray.direction;
     }
 }

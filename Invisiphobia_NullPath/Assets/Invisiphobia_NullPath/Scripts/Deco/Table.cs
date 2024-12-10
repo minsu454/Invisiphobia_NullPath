@@ -1,0 +1,81 @@
+using UnityEngine;
+using System.Collections;
+using Common.Yield;
+
+public class Table : MonoBehaviour, IInteractable
+{
+    [SerializeField] private GameObject drawer1; // 서랍 1 오브젝트
+    [SerializeField] private GameObject drawer2; // 서랍 2 오브젝트
+    [SerializeField] private float openPositionZ = 0.5f; // 서랍이 열릴 때의 위치 (Z축)
+    [SerializeField] private float moveSpeed = 2f; // 서랍 이동 속도
+
+    private bool isDrawer1Open = false;
+    private bool isDrawer2Open = false;
+    private bool isCoroutineRunning = false;
+    public void Interact(Player player)
+    {
+        if (isCoroutineRunning)
+        {
+            return;
+        }
+
+        // 플레이어가 쏘는 레이의 충돌 지점을 기준으로 판단
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            // 테이블이 레이의 충돌 지점이라면 해당 방향을 계산
+            Vector3 hitPoint = hit.point;
+            Vector3 tableCenter = transform.position;
+
+            // 충돌 지점이 테이블의 중심보다 왼쪽인지 오른쪽인지 판단
+            if (hitPoint.x < tableCenter.x)
+            {
+                // 충돌 지점이 테이블의 왼쪽이면 drawer1을 다룬다
+                if (!isDrawer1Open)
+                {
+                    StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer1));
+                    isDrawer1Open = true;
+                    Debug.Log("Drawer 1 opened.");
+                }
+                else
+                {
+                    StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, Vector3.zero, drawer1));
+                    isDrawer1Open = false;
+                    Debug.Log("Drawer 1 closed.");
+                }
+            }
+            else
+            {
+                // 충돌 지점이 테이블의 오른쪽이면 drawer2를 다룬다
+                if (!isDrawer2Open)
+                {
+                    StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer2));
+                    isDrawer2Open = true;
+                    Debug.Log("Drawer 2 opened.");
+                }
+                else
+                {
+                    StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, Vector3.zero, drawer2));
+                    isDrawer2Open = false;
+                    Debug.Log("Drawer 2 closed.");
+                }
+            }
+        }
+    }
+
+    private IEnumerator CoMoveDrawer(Vector3 fromPosition, Vector3 toPosition, GameObject drawer)
+    {
+        isCoroutineRunning = true;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < 1f)
+        {
+            drawer.transform.localPosition = Vector3.Lerp(fromPosition, toPosition, elapsedTime);
+            elapsedTime += Time.deltaTime * moveSpeed;
+            yield return null;
+        }
+        drawer.transform.localPosition = toPosition; // 최종 위치 보장
+        yield return YieldCache.WaitForSeconds(0.2f);
+        isCoroutineRunning = false;
+    }
+}
