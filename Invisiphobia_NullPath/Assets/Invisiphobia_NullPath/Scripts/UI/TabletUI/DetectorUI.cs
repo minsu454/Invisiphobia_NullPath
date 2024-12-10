@@ -19,6 +19,11 @@ public class DetectorUI : WorldUI
 
     private int layerMask;
 
+    private void OnEnable()
+    {
+        StartTimer();
+    }
+
     public override void Init(IActiveStatable subject)
     {
         layerMask = LayerMask.GetMask("Wall");
@@ -44,6 +49,7 @@ public class DetectorUI : WorldUI
         subject.BasicStateEvent -= StopDetecting;
 
         subject.ActiveStateEvent -= Detecting;
+
         gameObject.SetActive(false);
     }
 
@@ -54,11 +60,9 @@ public class DetectorUI : WorldUI
             if (detectable.StateType == PropStateType.Revealed)
                 return;
 
-            StartTimer();
             detectable.Detected();
             detectedObjectList.Add(detectable);
         }
-
     }
 
     private void TriggerExit(Collider other)
@@ -116,6 +120,9 @@ public class DetectorUI : WorldUI
 
     private void StopTimer()
     {
+        if (timer == null)
+            return;
+
         StopCoroutine(timer);
         timer = null;
     }
@@ -232,5 +239,10 @@ public class DetectorUI : WorldUI
         }
 
         DetectCompleted();
+    }
+
+    private void OnDisable()
+    {
+        StopTimer();
     }
 }
