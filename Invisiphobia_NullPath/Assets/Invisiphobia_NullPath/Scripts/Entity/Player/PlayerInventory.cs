@@ -96,6 +96,7 @@ public class PlayerInventory : MonoBehaviour
         curCount -= (int)item.Table.itemCarryType;
 
         RemoveItem();
+        SetTabletHidden();
     }
 
     /// <summary>
