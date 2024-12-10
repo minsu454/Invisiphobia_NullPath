@@ -1,24 +1,23 @@
 using Common.Objects;
 using Common.Path;
+using Common.StringEx;
 using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    public void Init()
+    public void Init(TotalMapData totalData)
     {
         new GameObject("-------------Map--------------");
-        Map();
+        Map(totalData);
     }
 
-    private void Map()
+    private void Map(TotalMapData totalData)
     {
-        TextAsset asset = ObjectManager.Return<TextAsset>(AddressablePath.MapFilePath("Floor01"));
-        TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(asset.text);
-
         try
         {
             Room(totalData.RoomDataList);
@@ -65,13 +64,6 @@ public class MapManager : MonoBehaviour
     {
         foreach (PointData data in dataList)
         {
-            if (data.Name == "PlayerStarter")
-            {
-                InGameLoader.Instance.Player.transform.position = data.Pos;
-                InGameLoader.Instance.Player.transform.rotation = data.Rot;
-                continue;
-            }
-
             GameObject go = ObjectManager.Instantiate(AddressablePath.ItemPartsPath(data.Name));
 
             go.name = data.Name;
