@@ -259,7 +259,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
 
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            BaseItem itemParts = parts as BaseItem;
+            Prop itemParts = parts as Prop;
             PointData itemData = new PointData(
                 itemParts.name,
                 itemParts.transform.position,
