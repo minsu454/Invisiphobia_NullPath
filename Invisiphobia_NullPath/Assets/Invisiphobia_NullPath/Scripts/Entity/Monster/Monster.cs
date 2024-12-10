@@ -70,6 +70,7 @@ public class Monster : Entity, IDetectable
     public void ResetCycle()
     {
         mapIcon.Invisible();
+        mapIcon.Detected();
         myRenderer.enabled = false;
     }
 
