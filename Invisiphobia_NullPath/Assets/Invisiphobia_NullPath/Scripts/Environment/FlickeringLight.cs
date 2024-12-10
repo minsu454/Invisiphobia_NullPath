@@ -14,6 +14,9 @@ public class FlickeringLight : MonoBehaviour
     public GameObject middleJoint;
     public float checkDistance = 5f;
     [SerializeField] TriggerDetector triggerDetector;
+
+    [SerializeField] private Rigidbody lampRigidbody; // 전등의 Rigidbody
+    [SerializeField] private float forceAmount = 10f; // 가할 힘의 크기
     /// <summary>
     /// 기준 거리 내에 있는 오브젝트를 반환
     /// </summary>
@@ -22,11 +25,6 @@ public class FlickeringLight : MonoBehaviour
     private void Start()
     {
         triggerDetector.EnterEvent += TriggerEnter;
-
-        if (mylight != null)
-        {
-            StartCoroutine(CoLightFliker());
-        }
     }
 
     public void TriggerEnter(Collider other)
@@ -34,7 +32,18 @@ public class FlickeringLight : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             middleJoint.SetActive(false);
+            if (lampRigidbody != null)
+            {
+                Vector3 downwardForce = Vector3.down * forceAmount;
+                lampRigidbody.AddForce(downwardForce, ForceMode.Force); // ForceMode를 필요에 따라 조정
+            }
+
+            if (mylight != null)
+            {
+                StartCoroutine(CoLightFliker());
+            }
         }
+
     }
 
     /// <summary>
