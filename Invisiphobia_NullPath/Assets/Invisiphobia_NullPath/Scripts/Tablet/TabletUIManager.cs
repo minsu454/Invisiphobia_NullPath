@@ -5,9 +5,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TabletUIManager : MonoBehaviour, IActiveStatable
+public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 {
-    [SerializeField] private List<WorldUI> worldUIList = new List<WorldUI>();
+    [SerializeField] private List<WorldUI<TabletStateType>> worldUIList = new List<WorldUI<TabletStateType>>();
     private int choiceIdx = 0;
     public int ChoiceIdx
     {
@@ -25,10 +25,11 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable
 
     public event Action BasicStateEvent;
     public event Action ActiveStateEvent;
+    public event Action<TabletStateType> ShotEvent;
 
     public void Init(Tablet tablet)
     {
-        foreach (WorldUI worldUI in worldUIList)
+        foreach (WorldUI<TabletStateType> worldUI in worldUIList)
         {
             worldUI.Init(this);
             worldUI.gameObject.SetActive(false);
@@ -40,6 +41,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable
         worldUIList[choiceIdx].Subscribe(this);
 
         tablet.OnStateChangedEvent += OnStateChanged;
+        tablet.OnShotEvent += OnShot;
     }
 
     /// <summary>
@@ -69,5 +71,10 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable
         worldUIList[num].Subscribe(this);
 
         choiceIdx = num;
+    }
+
+    private void OnShot(TabletStateType type)
+    {
+        ShotEvent?.Invoke(type);
     }
 }

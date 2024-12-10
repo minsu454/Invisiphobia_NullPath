@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectorUI : WorldUI
+public class DetectorUI : WorldUI<TabletStateType>
 {
     [Header("Detector")]
     [SerializeField] private TriggerDetector detector;                          //외부 콜라이더 Trigger 변수
@@ -24,7 +24,7 @@ public class DetectorUI : WorldUI
         StartTimer();
     }
 
-    public override void Init(IActiveStatable subject)
+    public override void Init(IActiveStatable<TabletStateType> subject)
     {
         layerMask = LayerMask.GetMask("Wall");
 
@@ -32,7 +32,7 @@ public class DetectorUI : WorldUI
         detector.ExitEvent += TriggerExit;
     }
 
-    public override void Subscribe(IActiveStatable subject)
+    public override void Subscribe(IActiveStatable<TabletStateType> subject)
     {
         subject.BasicStateEvent += Reveal;
         subject.BasicStateEvent += StopDetecting;
@@ -40,7 +40,7 @@ public class DetectorUI : WorldUI
         subject.ActiveStateEvent += Detecting;
     }
 
-    public override void Unsubscribe(IActiveStatable subject)
+    public override void Unsubscribe(IActiveStatable<TabletStateType> subject)
     {
         Reveal();
         StopDetecting();

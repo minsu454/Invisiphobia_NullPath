@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
 public class Tablet : MonoBehaviour 
@@ -10,7 +10,8 @@ public class Tablet : MonoBehaviour
     [Header("Managerr")]
     [SerializeField] private TabletUIManager manager;
 
-    public event System.Action<TabletStateType> OnStateChangedEvent;
+    public event Action<TabletStateType> OnStateChangedEvent;
+    public event Action<TabletStateType> OnShotEvent;
     private TabletStateType stateType = TabletStateType.Basic;
     public TabletStateType State {
         get { return stateType; }
@@ -35,6 +36,7 @@ public class Tablet : MonoBehaviour
 
         player.PlayerController.playerTabletActionEvent += ToggleTabletState;
         player.PlayerController.tabletSwitchActionEvent += OnSwitchTabletScreen;
+        player.PlayerController.playerClickActionEvent += OnClick;
     }
 
     /// <summary>
@@ -71,5 +73,10 @@ public class Tablet : MonoBehaviour
     private void OnSwitchTabletScreen(int num)
     {
         manager.ChoiceIdx = num;
+    }
+
+    private void OnClick()
+    {
+        OnShotEvent.Invoke(State);
     }
 }
