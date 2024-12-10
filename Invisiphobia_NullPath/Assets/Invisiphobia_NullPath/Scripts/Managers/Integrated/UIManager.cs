@@ -2,6 +2,7 @@ using Common.Assets;
 using Common.Objects;
 using Common.Path;
 using Common.SceneEx;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -64,7 +65,7 @@ public sealed class UIManager : MonoBehaviour, IInit
     /// <summary>
     /// 월드에서 쓸 UI 반환 함수
     /// </summary>
-    public T CreateWorldUI<T>() where T : WorldUI
+    public T CreateWorldUI<T, U>() where T : WorldUI<U> where U : Enum
     {
         GameObject prefab = ObjectManager.Return<GameObject>(AddressablePath.UIPath(typeof(T).Name));
 
