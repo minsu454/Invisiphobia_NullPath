@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
+public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
 {
     private Rect areaRect;                  //rect 저장 변수
 
@@ -31,10 +31,10 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
         saveManager.LoadMap(path, LoadMap);
     }
 
-    [MenuItem("Tools/MapEditor/Item Layout", priority = 2)]
+    [MenuItem("Tools/MapEditor/EntityLayout", priority = 3)]
     static void Init()
     {
-        CreateComstomWindow("Item Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
+        CreateComstomWindow("Entity Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
     }
 
     private void OnGUI()
