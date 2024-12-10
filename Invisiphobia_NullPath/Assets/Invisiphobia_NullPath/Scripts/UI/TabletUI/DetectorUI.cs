@@ -60,10 +60,9 @@ public class DetectorUI : WorldUI<TabletStateType>
     {
         if (other.TryGetComponent(out IDetectable detectable))
         {
-            if (detectable.StateType == PropStateType.Revealed)
-                return;
+            if (detectable.StateType != PropStateType.Revealed)
+                detectable.Detected();
 
-            detectable.Detected();
             detectedObjectList.Add(detectable);
         }
     }
@@ -75,15 +74,12 @@ public class DetectorUI : WorldUI<TabletStateType>
     {
         if (other.TryGetComponent(out IDetectable detectable))
         {
+            detectedObjectList.Remove(detectable);
+
             if (detectable.StateType == PropStateType.Revealed)
                 return;
 
             detectable.Invisible();
-            detectedObjectList.Remove(detectable);
-            if (detectedObjectList.Count == 0)
-            {
-                StopTimer();
-            }
         }
     }
 
@@ -139,6 +135,9 @@ public class DetectorUI : WorldUI<TabletStateType>
             closestdistance = float.MaxValue;
             for (int i = detectedObjectList.Count - 1; i >= 0; i--)
             {
+                if (detectedObjectList[i].StateType == PropStateType.Revealed)
+                    continue;
+
                 if (HasLineOfSight(detectedObjectList[i]))
                 {
                     UpdateDistances(detectedObjectList[i], ref closestdistance);
@@ -184,14 +183,15 @@ public class DetectorUI : WorldUI<TabletStateType>
     {
         for (int i = detectedObjectList.Count - 1; i >= 0; i--)
         {
-            if (detectedObjectList[i].StateType != PropStateType.DetectCompleted)
+            if (detectedObjectList[i].StateType == PropStateType.Revealed)
+                continue;
+            else if (detectedObjectList[i].StateType == PropStateType.DetectCompleted)
             {
-                detectedObjectList[i].Detected();
+                detectedObjectList[i].Revealed();
                 continue;
             }
 
-            detectedObjectList[i].Revealed();
-            detectedObjectList.RemoveAt(i);
+            detectedObjectList[i].Detected();
         }
     }
 
@@ -202,6 +202,9 @@ public class DetectorUI : WorldUI<TabletStateType>
     {
         for (int i = 0; i < detectedObjectList.Count; i++)
         {
+            if (detectedObjectList[i].StateType == PropStateType.Revealed)
+                continue;
+
             detectedObjectList[i].Detecting();
         }
 
