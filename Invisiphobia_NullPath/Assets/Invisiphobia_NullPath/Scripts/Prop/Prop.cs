@@ -92,7 +92,8 @@ public class Prop : MonoBehaviour, IDetectable, IParts
 
     public void IconActive(bool active)
     {
-        mapIcon.gameObject.SetActive(active);
+        if(mapIcon != null)
+            mapIcon.gameObject.SetActive(active);
     }
 
     private void OnDisable()
