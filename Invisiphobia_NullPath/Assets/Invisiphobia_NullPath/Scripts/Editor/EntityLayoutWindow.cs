@@ -2,6 +2,7 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Common.StringEx;
 
 public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
 {
@@ -16,7 +17,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
     private bool isLoaded = false;
 
     private Texture2D[] texture2DArr;                                                       //Parts사진 저장 배열
-    private Dictionary<string, Prop> partsGoDict = new Dictionary<string, Prop>();  //PartsGo 저장 Dictionary
+    private Dictionary<string, EntityParts> partsGoDict = new Dictionary<string, EntityParts>();  //PartsGo 저장 Dictionary
 
     private TotalMapData totalData;
 
@@ -24,8 +25,8 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
     {
         base.OnEnable();
 
-        GUIParts.LoadAllInFolder(EditorPath.ItemTexturePath, out texture2DArr);
-        GUIParts.LoadAllInFolder(EditorPath.ItemPartsPath, out partsGoDict);
+        GUIParts.LoadAllInFolder(EditorPath.EntityTexturePath, out texture2DArr);
+        GUIParts.LoadAllInFolder(EditorPath.EntityPartsPath, out partsGoDict);
 
         string path = EditorUtility.OpenFilePanel("Open File", "", "json");
         saveManager.LoadMap(path, LoadMap);
@@ -110,7 +111,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
     {
         if (GUI.Button(new Rect(42, 238, 100, 25), "Spawn"))
         {
-            if (!partsGoDict.TryGetValue(pickName, out Prop partsPrefab))
+            if (!partsGoDict.TryGetValue(pickName, out EntityParts partsPrefab))
                 return;
 
             GameObject partsGo = Instantiate(partsPrefab.gameObject);
@@ -129,9 +130,9 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
                 partsGo.transform.position = Vector3.zero;
             }
 
-            BaseItem itemParts = partsGo.GetComponent<BaseItem>();
+            EntityParts entityParts = partsGo.GetComponent<EntityParts>();
 
-            saveManager.Add(itemParts);
+            saveManager.Add(entityParts);
         }
     }
 
@@ -147,7 +148,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
 
             GameObject selectedObject = Selection.activeGameObject;
 
-            if (!selectedObject.TryGetComponent(out Prop parts))
+            if (!selectedObject.TryGetComponent(out EntityParts parts))
                 return;
 
 
@@ -189,7 +190,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
                         pickName = name;
                         pickIdx = index;
 
-                        if (!partsGoDict.TryGetValue(pickName, out Prop partsPrefab))
+                        if (!partsGoDict.TryGetValue(pickName, out EntityParts partsPrefab))
                             return;
 
                         pickGoEditor = Editor.CreateEditor(partsPrefab.gameObject);
@@ -214,7 +215,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
         gStyle.normal.background = Texture2D.grayTexture;
         pickGoEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
 
-        if (!partsGoDict.TryGetValue(pickName, out Prop item))
+        if (!partsGoDict.TryGetValue(pickName, out EntityParts item))
             return;
 
         GUIStyle styleLabel = new GUIStyle("label");
@@ -254,18 +255,29 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
     {
         TotalMapData data = totalData;
 
-        data.ItemDataList.Clear();
-        data.ItemDataList = new List<PointData>();
+        data.EntityData.monsterDataList.Clear();
+        data.EntityData.monsterDataList = new List<PointData>();
 
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            BaseItem itemParts = parts as BaseItem;
-            PointData itemData = new PointData(
-                itemParts.name,
-                itemParts.transform.position,
-                itemParts.transform.rotation);
+            EntityParts entityParts = parts as EntityParts;
 
-            data.ItemDataList.Add(itemData);
+            if (entityParts.name.ToFirstName("_") == "Player")
+            {
+                data.EntityData.playerData = new PointData(
+                entityParts.name,
+                entityParts.transform.position,
+                entityParts.transform.rotation);
+            }
+            else
+            {
+                PointData monsterData = new PointData(
+                entityParts.name,
+                entityParts.transform.position,
+                entityParts.transform.rotation);
+
+                data.EntityData.monsterDataList.Add(monsterData);
+            }
         }
 
         string json = JsonUtility.ToJson(data);
@@ -311,6 +323,29 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
         foreach (PointData data in totalData.ItemDataList)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.rotation = data.Rot;
+        }
+
+        { 
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{totalData.EntityData.playerData}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = totalData.EntityData.playerData.Name;
+            go.transform.position = totalData.EntityData.playerData.Pos;
+            go.transform.rotation = totalData.EntityData.playerData.Rot;
+
+            IParts parts = go.GetComponent<IParts>();
+
+            saveManager.Add(parts);
+        }
+
+        foreach (PointData data in totalData.EntityData.monsterDataList)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{data.Name}.prefab");
             GameObject go = Instantiate(prefab);
 
             go.name = data.Name;

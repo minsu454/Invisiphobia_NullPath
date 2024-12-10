@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
-    public Player Player;
+    public EntityManager EntityManager;
 
     private const string volumePath = "Volume/GeneralVolume";
 
     protected override void InitScene()
     {
+        TextAsset asset = ObjectManager.Return<TextAsset>(AddressablePath.MapFilePath("Floor01"));
+        TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(asset.text);
+
         CreateVolume();
-        CreatePlayer();
-        CreateMapManager();
+        CreateMapManager(totalData);
     }
 
     private void CreateVolume()
@@ -20,18 +22,20 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         ObjectManager.Instantiate(volumePath);
     }
 
-    private void CreatePlayer()
+    private void CreateEntityManager(TotalMapData totalData)
     {
-        GameObject go = ObjectManager.Instantiate(AddressablePath.EntityPath("Player"));
-        Player = go.GetComponent<Player>();
+        GameObject go = new GameObject("MapManager");
+        EntityManager entityManager = go.AddComponent<EntityManager>();
+
+        entityManager.Init(totalData);
     }
 
-    private void CreateMapManager()
+    private void CreateMapManager(TotalMapData totalData)
     {
         GameObject go = new GameObject("MapManager");
         MapManager mapManager = go.AddComponent<MapManager>();
 
-        mapManager.Init();
+        mapManager.Init(totalData);
     }
 
 
