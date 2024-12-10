@@ -64,14 +64,16 @@ public class Monster : Entity, IDetectable
         StateType = PropStateType.None;
         //mapIcon.Invisible();
         //myRenderer.enabled = false;
-        ResetCycle();
+        mapIcon.Invisible();
+        myRenderer.enabled = false;
+        //ResetCycle();
+
     }
 
     public void ResetCycle()
     {
-        mapIcon.Invisible();
-        mapIcon.Detected();
-        myRenderer.enabled = false;
+        Invisible();
+        Detected();
     }
 
     public void SetFillAmount(float value)
