@@ -2,8 +2,9 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Common.StringEx;
 
-public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
+public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
 {
     private Rect areaRect;                  //rect 저장 변수
 
@@ -15,8 +16,8 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
 
     private bool isLoaded = false;
 
-    private Texture2D[] texture2DArr;                                                           //Parts사진 저장 배열
-    private Dictionary<string, DecoParts> partsGoDict = new Dictionary<string, DecoParts>();  //PartsGo 저장 Dictionary
+    private Texture2D[] texture2DArr;                                                       //Parts사진 저장 배열
+    private Dictionary<string, EntityParts> partsGoDict = new Dictionary<string, EntityParts>();  //PartsGo 저장 Dictionary
 
     private TotalMapData totalData;
 
@@ -24,17 +25,17 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
     {
         base.OnEnable();
 
-        GUIParts.LoadAllInFolder(EditorPath.DecoTexturePath, out texture2DArr);
-        GUIParts.LoadAllInFolder(EditorPath.DecoPartsPath, out partsGoDict);
+        GUIParts.LoadAllInFolder(EditorPath.EntityTexturePath, out texture2DArr);
+        GUIParts.LoadAllInFolder(EditorPath.EntityPartsPath, out partsGoDict);
 
         string path = EditorUtility.OpenFilePanel("Open File", "", "json");
         saveManager.LoadMap(path, LoadMap);
     }
 
-    [MenuItem("Tools/MapEditor/Deco Layout", priority = 1)]
+    [MenuItem("Tools/MapEditor/EntityLayout", priority = 3)]
     static void Init()
     {
-        CreateComstomWindow("Deco Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
+        CreateComstomWindow("Entity Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
     }
 
     private void OnGUI()
@@ -110,7 +111,7 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
     {
         if (GUI.Button(new Rect(42, 238, 100, 25), "Spawn"))
         {
-            if (!partsGoDict.TryGetValue(pickName, out DecoParts partsPrefab))
+            if (!partsGoDict.TryGetValue(pickName, out EntityParts partsPrefab))
                 return;
 
             GameObject partsGo = Instantiate(partsPrefab.gameObject);
@@ -129,9 +130,9 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
                 partsGo.transform.position = Vector3.zero;
             }
 
-            DecoParts decorParts = partsGo.GetComponent<DecoParts>();
+            EntityParts entityParts = partsGo.GetComponent<EntityParts>();
 
-            saveManager.Add(decorParts);
+            saveManager.Add(entityParts);
         }
     }
 
@@ -147,8 +148,9 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
 
             GameObject selectedObject = Selection.activeGameObject;
 
-            if (!selectedObject.TryGetComponent(out DecoParts parts))
+            if (!selectedObject.TryGetComponent(out EntityParts parts))
                 return;
+
 
             saveManager.Remove(parts);
             DestroyImmediate(selectedObject);
@@ -188,7 +190,7 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
                         pickName = name;
                         pickIdx = index;
 
-                        if (!partsGoDict.TryGetValue(pickName, out DecoParts partsPrefab))
+                        if (!partsGoDict.TryGetValue(pickName, out EntityParts partsPrefab))
                             return;
 
                         pickGoEditor = Editor.CreateEditor(partsPrefab.gameObject);
@@ -213,7 +215,7 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
         gStyle.normal.background = Texture2D.grayTexture;
         pickGoEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
 
-        if (!partsGoDict.TryGetValue(pickName, out DecoParts item))
+        if (!partsGoDict.TryGetValue(pickName, out EntityParts item))
             return;
 
         GUIStyle styleLabel = new GUIStyle("label");
@@ -253,18 +255,29 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
     {
         TotalMapData data = totalData;
 
-        data.DecorDataList.Clear();
-        data.DecorDataList = new List<PointData>();
+        data.EntityData.monsterDataList.Clear();
+        data.EntityData.monsterDataList = new List<PointData>();
 
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            DecoParts decorParts = parts as DecoParts;
-            PointData decorData = new PointData(
-                decorParts.name,
-                decorParts.transform.position,
-                decorParts.transform.rotation);
+            EntityParts entityParts = parts as EntityParts;
 
-            data.DecorDataList.Add(decorData);
+            if (entityParts.name.ToFirstName("_") == "Player")
+            {
+                data.EntityData.playerData = new PointData(
+                entityParts.name,
+                entityParts.transform.position,
+                entityParts.transform.rotation);
+            }
+            else
+            {
+                PointData monsterData = new PointData(
+                entityParts.name,
+                entityParts.transform.position,
+                entityParts.transform.rotation);
+
+                data.EntityData.monsterDataList.Add(monsterData);
+            }
         }
 
         string json = JsonUtility.ToJson(data);
@@ -300,6 +313,39 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
         foreach (PointData data in totalData.DecorDataList)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.DecoPartsPath}/{data.Name}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.rotation = data.Rot;
+        }
+
+        foreach (PointData data in totalData.ItemDataList)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.rotation = data.Rot;
+        }
+
+        { 
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{totalData.EntityData.playerData}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = totalData.EntityData.playerData.Name;
+            go.transform.position = totalData.EntityData.playerData.Pos;
+            go.transform.rotation = totalData.EntityData.playerData.Rot;
+
+            IParts parts = go.GetComponent<IParts>();
+
+            saveManager.Add(parts);
+        }
+
+        foreach (PointData data in totalData.EntityData.monsterDataList)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{data.Name}.prefab");
             GameObject go = Instantiate(prefab);
 
             go.name = data.Name;

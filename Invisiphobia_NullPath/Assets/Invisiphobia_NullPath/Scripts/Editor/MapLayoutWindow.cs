@@ -28,8 +28,8 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
     {
         base.OnEnable();
 
-        GUIParts.LoadAllInFolder(EditorPath.roomTexturePath, out texture2DArr);
-        GUIParts.LoadAllInFolder(EditorPath.roomPartsPath, out partsGoDict);
+        GUIParts.LoadAllInFolder(EditorPath.RoomTexturePath, out texture2DArr);
+        GUIParts.LoadAllInFolder(EditorPath.RoomPartsPath, out partsGoDict);
 
         floorMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/Lit.mat");
         wallMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/Lit.mat");
