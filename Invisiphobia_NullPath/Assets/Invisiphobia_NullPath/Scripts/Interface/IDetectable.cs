@@ -44,6 +44,11 @@ public interface IDetectable
     public void Invisible();
 
     /// <summary>
+    /// 감지대상이 벽뒤에있는지 아이콘 설정해주는 로직
+    /// </summary>
+    public void SetMapIconToWall(bool active);
+
+    /// <summary>
     /// 감지바 설정 함수
     /// </summary>
     public void SetFillAmount(float value);

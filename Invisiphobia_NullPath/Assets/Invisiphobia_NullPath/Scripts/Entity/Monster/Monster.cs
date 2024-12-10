@@ -90,4 +90,16 @@ public class Monster : Entity, IDetectable
     {
         mapIcon.SetFillAmount(value);
     }
+
+    public void SetMapIconToWall(bool active)
+    {
+        if (active)
+        {
+            mapIcon.Detected();
+        }
+        else
+        {
+            mapIcon.Invisible();
+        }
+    }
 }

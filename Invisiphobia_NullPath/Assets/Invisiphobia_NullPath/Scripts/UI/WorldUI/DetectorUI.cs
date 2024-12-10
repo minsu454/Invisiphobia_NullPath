@@ -8,7 +8,7 @@ public class DetectorUI : WorldUI<TabletStateType>
     [Header("Detector")]
     [SerializeField] private TriggerDetector detector;                          //외부 콜라이더 Trigger 변수
     private List<IDetectable> detectedObjectList = new List<IDetectable>();     //감지한 객체 리스트
-    private float updateInterval = 1f;                                          //코루틴 업데이트 주기 변수
+    private float updateInterval = 0.5f;                                          //코루틴 업데이트 주기 변수
     private float closestdistance;                                              //업데이트 때 제일 가까운 거리 저장 변수
 
     private Coroutine timer = null;                                             //코루틴 타이머 변수
@@ -61,7 +61,14 @@ public class DetectorUI : WorldUI<TabletStateType>
         if (other.TryGetComponent(out IDetectable detectable))
         {
             if (detectable.StateType != PropStateType.Revealed)
+            {
                 detectable.Detected();
+
+                if (HasLineOfSight(detectable))
+                {
+                    detectable.SetMapIconToWall(false);
+                }
+            }
 
             detectedObjectList.Add(detectable);
             detectable.IsDetectTablet = true;
@@ -90,18 +97,16 @@ public class DetectorUI : WorldUI<TabletStateType>
     /// </summary>
     private bool HasLineOfSight(IDetectable target)
     {
-        Vector3 direction = (target.transform.position - transform.position).normalized;
-        float distance = Vector3.Distance(transform.position, target.transform.position);
+        Vector3 direction = (target.transform.position - detector.transform.position).normalized;
+        float distance = Vector3.Distance(detector.transform.position, target.transform.position);
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit, distance, layerMask))
-        {
-            return false;
-        }
-        else
+        if (Physics.Raycast(detector.transform.position, direction, out hit, distance, layerMask))
         {
             return true;
         }
+
+        return false;
     }
 
     /// <summary>
@@ -135,17 +140,22 @@ public class DetectorUI : WorldUI<TabletStateType>
         while (true)
         {
             closestdistance = float.MaxValue;
-            for (int i = detectedObjectList.Count - 1; i >= 0; i--)
+
+            for (int i = 0; i < detectedObjectList.Count; i++)
             {
                 if (detectedObjectList[i].StateType == PropStateType.Revealed)
                     continue;
 
                 if (HasLineOfSight(detectedObjectList[i]))
                 {
-                    UpdateDistances(detectedObjectList[i], ref closestdistance);
-                    break;
+                    detectedObjectList[i].SetMapIconToWall(false);
+                    continue;
                 }
+
+                detectedObjectList[i].SetMapIconToWall(true);
+                UpdateDistances(detectedObjectList[i], ref closestdistance);
             }
+
             HandleAlarm(closestdistance);
             yield return YieldCache.WaitForSeconds(updateInterval);
         }
@@ -205,6 +215,9 @@ public class DetectorUI : WorldUI<TabletStateType>
         for (int i = 0; i < detectedObjectList.Count; i++)
         {
             if (detectedObjectList[i].StateType == PropStateType.Revealed)
+                continue;
+
+            if (HasLineOfSight(detectedObjectList[i]))
                 continue;
 
             detectedObjectList[i].Detecting();
