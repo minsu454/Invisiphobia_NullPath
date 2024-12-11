@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        OnPlayerMove();
         OnPlayerSprint();
         OnPlayerJump();
         OnPlayerCrouch();
@@ -48,11 +49,6 @@ public class PlayerController : MonoBehaviour
         OnZoomClick();
         OnTabletSwitch();
         OnPlayerPutDown();
-    }
-
-    private void FixedUpdate()
-    {
-        OnPlayerMove();
     }
 
     private void OnTabletSwitch()
@@ -107,7 +103,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerMove()
     {
-        Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 targetVelocity = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         playerMoveActionEvent.Invoke(targetVelocity);
     }
 
