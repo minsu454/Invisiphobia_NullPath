@@ -11,7 +11,7 @@ namespace Common.Pool
         public readonly string poolName;                                            //이름
         public readonly Stack<GameObject> objectStack = new Stack<GameObject>();    //스텍
         public readonly GameObject bassPrefab;                                      //기본 프리팹
-        public readonly Transform poolTr;                                           //생성 위치
+        public readonly Transform poolTr;                                           //생성 주체자
 
         public ObjectPool(string poolName, GameObject bassPrefab, Transform poolTr, int preloadCount)
         {
@@ -59,15 +59,10 @@ namespace Common.Pool
         /// </summary>
         public GameObject GetObject()
         {
-            GameObject go;
-
-            if (objectStack.Count == 0)
+            if (!objectStack.TryPeek(out GameObject go))
             {
+                Debug.LogWarning($"ObjectPool CreateImpl : {poolName}");
                 go = CreateImpl();
-            }
-            else
-            {
-                go = objectStack.Pop();
             }
 
             return go;
@@ -79,9 +74,10 @@ namespace Common.Pool
         public void ReturnObject(GameObject go)
         {
             if (go == null)
-            {
                 return;
-            }
+
+            if (objectStack.Contains(go))
+                return;
 
             go.transform.parent = poolTr;
             objectStack.Push(go);
@@ -94,9 +90,9 @@ namespace Common.Pool
     public sealed class ObjectPool<T> where T : Component, IObjectPoolable<T>
     {
         public readonly string poolName;                                            //이름
-        public readonly Queue<T> objectQueue = new Queue<T>();                      //스텍
+        public readonly Stack<T> objectStack = new Stack<T>();                      //스텍
         public readonly GameObject bassPrefab;                                      //기본 프리팹
-        public readonly Transform poolTr;                                           //생성 위치
+        public readonly Transform poolTr;                                           //생성 주체자
 
         public ObjectPool(string poolName, GameObject bassPrefab, Transform poolTr, int preloadCount)
         {
@@ -123,7 +119,7 @@ namespace Common.Pool
             for (int i = 0; i < preloadCount; i++)
             {
                 T component = CreateImpl();
-                objectQueue.Enqueue(component);
+                objectStack.Push(component);
             }
 
             return true;
@@ -153,19 +149,12 @@ namespace Common.Pool
         /// </summary>
         public T GetObject()
         {
-            T component;
-
-            if (objectQueue.Peek().gameObject.activeInHierarchy)
+            if (!objectStack.TryPop(out T component))
             {
                 Debug.LogWarning($"ObjectPool CreateImpl : {poolName}");
                 component = CreateImpl();
             }
-            else
-            {
-                component = objectQueue.Dequeue();
-            }
 
-            objectQueue.Enqueue(component);
             return component;
         }
 
@@ -177,8 +166,12 @@ namespace Common.Pool
             if (pool == null)
                 return;
 
+            if (objectStack.Contains(pool))
+                return;
+
             pool.transform.SetParent(poolTr);
             pool.gameObject.SetActive(false);
+            objectStack.Push(pool);
         }
     }
 }
