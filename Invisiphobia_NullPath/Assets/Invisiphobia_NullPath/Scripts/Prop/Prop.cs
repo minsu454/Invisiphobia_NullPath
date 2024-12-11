@@ -100,6 +100,18 @@ public class Prop : MonoBehaviour, IDetectable, IParts
             mapIcon.gameObject.SetActive(active);
     }
 
+    public void SetMapIconToWall(bool active)
+    {
+        if (active)
+        {
+            mapIcon.Detected();
+        }
+        else
+        {
+            mapIcon.Invisible();
+        }
+    }
+
     private void OnDisable()
     {
         IconActive(false);

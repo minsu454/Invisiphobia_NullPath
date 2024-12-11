@@ -42,13 +42,9 @@ public class PlayerInteract : MonoBehaviour
         Ray ray = mainCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
         RaycastHit raycastHit;
 
-        // 레이를 디버그 로그로 시각화
-        Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.green, checkRate);
-
         // 레이캐스트 시각적으로 표시 (초록색은 닿지 않았을 때, 빨간색은 닿았을 때)
         if (Physics.Raycast(ray, out raycastHit, maxDistance, layerMask))
         {
-            Debug.Log("Hit detected: " + raycastHit.collider.name);
             if (raycastHit.collider.TryGetComponent(out IInteractable interactable))
             {
                 curInteractable = interactable;
@@ -65,8 +61,6 @@ public class PlayerInteract : MonoBehaviour
         else
         {
             curInteractable = null;
-            // 레이가 어떤 것도 닿지 않았을 때 초록색으로 표시
-            Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.green, checkRate);
         }
     }
 
