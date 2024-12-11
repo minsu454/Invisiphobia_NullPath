@@ -28,6 +28,9 @@ public class CameraUI : WorldUI<TabletStateType>
     {
         coProgress = StartCoroutine(CoProgress());
 
+        subject.BasicStateEvent += OnBasicState;
+        subject.ActiveStateEvent += OnActiveState;
+
         subject.ShotEvent += OnShot;
     }
 
@@ -35,6 +38,9 @@ public class CameraUI : WorldUI<TabletStateType>
     {
         if (coProgress != null)
             StopCoroutine(coProgress);
+
+        subject.BasicStateEvent -= OnBasicState;
+        subject.ActiveStateEvent -= OnActiveState;
 
         subject.ShotEvent -= OnShot;
 
@@ -74,11 +80,20 @@ public class CameraUI : WorldUI<TabletStateType>
         coProgress = StartCoroutine(CoProgress());
     }
 
+    private void OnBasicState()
+    {
+        progressBackground.SetActive(true);
+    }
+
+    private void OnActiveState()
+    {
+        progressBackground.SetActive(false);
+    }
+
     private IEnumerator CoProgress()
     {
         ResetProgress();
         
-        progressBackground.SetActive(true);
         while (true)
         {
             curProgressTime += Time.deltaTime;
@@ -93,7 +108,6 @@ public class CameraUI : WorldUI<TabletStateType>
         }
 
         isShotable = true;
-        progressBackground.SetActive(false);
     }
 
     private void ResetProgress()
