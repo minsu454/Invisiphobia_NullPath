@@ -38,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isExhausted = false;
     private float recoveryDelay = 2f; // 회복 지연 시간 (초 단위)
     private float recoveryTimer = 0f; // 회복 타이머 변수
-    private bool isTired = false;
 
     // Sprint Bar
     [SerializeField] private Slider staminaBar;
@@ -201,9 +200,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (sprintRemaining <= 0)
             {
-                isTired = true;
                 isSprinting = false;
-                Invoke("StaminaRecovery", 2f);
 
                 if (!isExhausted)
                 {
@@ -220,9 +217,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void StaminaRecovery()
     {
-        if (!isSprinting && sprintRemaining > 0f)
+        if (!isSprinting)
         {
-            isTired = false;
             sprintRemaining += 0.1f * Time.deltaTime * 10;
             sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintDuration);
 
