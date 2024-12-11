@@ -126,9 +126,37 @@ public sealed class SoundManager : MonoBehaviour, IInit
     }
 
     /// <summary>
-    /// 3D 플레이 함수(원근감 사운드)
+    /// 3D 플레이 함수(원근감 사운드 : 일반)
     /// </summary>
-    public void SFX3DPlay(AudioClip clip, Transform playTr, float maxDistance = 15f)
+    public void SFX3DPlay(AudioClip clip, Transform playTr)
+    {
+        SoundPlayer soundPlayer = soundPool.GetObject();
+        soundPlayer.SetDelay(clip.length);
+        soundPlayer.SetMaxDistance(15);
+        soundPlayer.SetSound3D(playTr);
+        soundPlayer.gameObject.SetActive(true);
+
+        soundPlayer.Play(clip);
+    }
+
+    /// <summary>
+    /// 3D 플레이 함수(원근감 사운드 : 사운드 최대거리 설정 가능)
+    /// </summary>
+    public void SFX3DPlay(AudioClip clip, Transform playTr, float maxDistance)
+    {
+        SoundPlayer soundPlayer = soundPool.GetObject();
+        soundPlayer.SetDelay(clip.length);
+        soundPlayer.SetMaxDistance(15);
+        soundPlayer.SetSound3D(playTr);
+        soundPlayer.gameObject.SetActive(true);
+
+        soundPlayer.Play(clip);
+    }
+
+    /// <summary>
+    /// 3D 플레이 함수(원근감 사운드 : 피치 사용여부, 사운드 최대거리 설정 가능)
+    /// </summary>
+    public void SFX3DPlay(AudioClip clip, Transform playTr, bool usePich, float maxDistance)
     {
         SoundPlayer soundPlayer = soundPool.GetObject();
         soundPlayer.SetDelay(clip.length);
