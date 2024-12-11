@@ -8,6 +8,7 @@ public class MapIcon : MonoBehaviour
     [SerializeField] private SpriteRenderer FillAmountRenderer;
 
     private MaterialPropertyBlock propertyBlock;
+    private float y = 15;
 
     private void Awake()
     {
@@ -16,7 +17,7 @@ public class MapIcon : MonoBehaviour
 
     private void Update()
     {
-        transform.position = targetTr.position + (Vector3.up * 30);
+        transform.position = targetTr.position + (Vector3.up * y);
     }
 
     public void Init(Transform targetTr)

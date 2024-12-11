@@ -246,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
         // 타이머가 간격을 초과했는지 확인
         if (footstepTimer >= currentStepInterval)
         {
-            Managers.Sound.SFX3DPlay(footClip, footTr);
+            Managers.Sound.SFX3DPlay(footClip, footTr, true, 15);
             footstepTimer = 0f; // 타이머 초기화
         }
     }

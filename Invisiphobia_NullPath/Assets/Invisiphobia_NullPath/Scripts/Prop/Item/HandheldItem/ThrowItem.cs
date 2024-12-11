@@ -13,6 +13,7 @@ public class ThrowItem : InHandItem
 
     public void Throw(Transform playerTr)
     {
+        transform.position = Camera.main.transform.forward + playerTr.position;
         Vector3 throwDirection = ThrowDirection(Camera.main.transform.forward);
         Vector3 initialVelocity = throwDirection * throwSpeed;
 

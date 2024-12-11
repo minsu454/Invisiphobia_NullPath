@@ -91,7 +91,7 @@ public class PlayerInventory : MonoBehaviour
 
         item.gameObject.SetActive(true);
         item.IconActive(true);
-        item.transform.position = transform.position + transform.forward;
+        item.transform.position = Camera.main.transform.forward + transform.position;
 
         curCount -= (int)item.Table.itemCarryType;
 
