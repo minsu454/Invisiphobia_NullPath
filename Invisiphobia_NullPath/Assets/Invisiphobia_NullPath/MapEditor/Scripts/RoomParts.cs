@@ -10,13 +10,15 @@ public class RoomParts : MonoBehaviour, IParts
     [SerializeField] private List<MeshRenderer> floorList;
     [SerializeField] private List<MeshRenderer> wallList;
 
-    public Material CustomFloorMaterial { get; private set; }
-    public Material CustomWallMaterial { get; private set; }
+    private Material customFloorMaterial;
+    private Material customWallMaterial;
+    public Material CustomFloorMaterial { get { return customFloorMaterial; } }
+    public Material CustomWallMaterial { get { return customWallMaterial; } }
 
     public void Init(Material floor, Material wall)
     {
-        CustomFloorMaterial = floor;
-        CustomWallMaterial = wall;
+        customFloorMaterial = floor;
+        customWallMaterial = wall;
 
         SetFloorList(floor);
         SetWallList(wall);
@@ -26,7 +28,7 @@ public class RoomParts : MonoBehaviour, IParts
     {
         foreach (var floor in floorList)
         {
-            floor.material = material;
+            floor.sharedMaterial = material;
         }
     }
 
@@ -34,7 +36,7 @@ public class RoomParts : MonoBehaviour, IParts
     {
         foreach (var wall in wallList)
         {
-            wall.material = material;
+            wall.sharedMaterial = material;
         }
     }
 }
