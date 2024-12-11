@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed = 3f;
     public float maxVelocityChange = 10f;
 
-    [SerializeField] private AudioSource footstepAudioSource; // 발소리를 재생할 오디오 소스
     [SerializeField] private AudioClip footClip; // 걷기 발소리
     [SerializeField] private AudioClip hardBreathingClip;
     [SerializeField] private Transform footTr;
@@ -104,10 +103,6 @@ public class PlayerMovement : MonoBehaviour
         player.PlayerController.playerSprintActionEvent += Sprint;
         player.PlayerController.playerJumpActionEvent += Jump;
         player.PlayerController.playerCrouchActionEvent += Crouch;
-
-        footstepAudioSource = gameObject.AddComponent<AudioSource>();
-        footstepAudioSource.clip = footClip;
-        footstepAudioSource.loop = false; // 루프 금지
     }
 
     public void SetUI(Slider staminaBar, CanvasGroup sprintBarCanvasGroup)
