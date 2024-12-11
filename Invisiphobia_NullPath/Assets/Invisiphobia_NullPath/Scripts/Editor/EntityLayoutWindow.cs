@@ -330,9 +330,11 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
             go.transform.rotation = data.Rot;
         }
 
-        { 
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{totalData.EntityData.playerData}.prefab");
-            GameObject go = Instantiate(prefab);
+
+            GameObject playerprefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{totalData.EntityData.playerData}.prefab");
+        if (playerprefab != null)
+        {
+            GameObject go = Instantiate(playerprefab);
 
             go.name = totalData.EntityData.playerData.Name;
             go.transform.position = totalData.EntityData.playerData.Pos;
