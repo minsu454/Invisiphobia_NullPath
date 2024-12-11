@@ -10,7 +10,6 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     [Header("Prop")]
     [SerializeField] private MeshRenderer[] myRendererArr;
 
-    [SerializeField] private GameObject mapIconPrefab;
 
     MapIcon IDetectable.MapIcon => mapIcon;
     private MapIcon mapIcon;
@@ -20,6 +19,9 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
     #region Test
+    [Header("MapIcon")]
+    [SerializeField] private GameObject mapIconPrefab;
+
     private void Awake()
     {
         if (SceneManager.GetActiveScene().name != "InGame")

@@ -17,20 +17,16 @@ public class Monster : Entity, IDetectable
     public MonsterState MyState { get { return myState; } }
 
     MapIcon IDetectable.MapIcon => mapIcon;
-    [SerializeField] private MapIcon mapIcon;
+    private MapIcon mapIcon;
 
     public PropStateType StateType { get; protected set; } = PropStateType.None;
 
     public bool IsDetectTablet { get; set; }
 
-    public override void Init()
-    {
-        //myState.Init(this);
-        //mapIcon.Init(transform);
-        //myController.Init(this);
-    }
+    #region Test(우선순위 문제)
+    [Header("MapIcon")]
+    [SerializeField] private GameObject mapIconPrefab;
 
-    #region Test
     private void Start()
     {
         myState.Init(this);
@@ -38,6 +34,16 @@ public class Monster : Entity, IDetectable
         myController.Init(this);
     }
     #endregion
+
+    public override void Init()
+    {
+        //myState.Init(this);
+        //mapIcon.Init(transform);
+        //myController.Init(this);
+
+        GameObject go = Instantiate(mapIconPrefab);
+        mapIcon = go.GetComponent<MapIcon>();
+    }
 
     public virtual void Detected()
     {

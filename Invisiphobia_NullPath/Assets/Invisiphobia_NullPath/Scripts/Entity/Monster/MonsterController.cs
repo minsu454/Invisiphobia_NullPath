@@ -59,12 +59,6 @@ public abstract class MonsterController : MonoBehaviour
         monster.MyState.FleeingEvent += FleeingUpdate;
     }
 
-    private void Start()
-    {
-        //SetState(AIStateType.Idle);
-        //ResetWanderingCount();
-    }
-
     void Update()
     {
         playerDistance = Vector3.Distance(transform.position, playerTransform.position);
