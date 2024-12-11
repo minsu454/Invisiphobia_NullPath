@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,10 @@ public class Monster : Entity, IDetectable
 
     public bool RendererActive { get { return myRenderer.enabled; } }
 
+    public AIStateType aiState;
+    [SerializeField] private MonsterState myState;
+    public MonsterState MyState { get { return myState; } }
+
     MapIcon IDetectable.MapIcon => mapIcon;
     [SerializeField] private MapIcon mapIcon;
 
@@ -18,10 +23,9 @@ public class Monster : Entity, IDetectable
 
     public bool IsDetectTablet { get; set; }
 
-    public bool isRevealed = false;
-
     public override void Init()
     {
+        //myState.Init(this);
         //mapIcon.Init(transform);
         //myController.Init(this);
     }
@@ -29,6 +33,7 @@ public class Monster : Entity, IDetectable
     #region Test
     private void Start()
     {
+        myState.Init(this);
         mapIcon.Init(transform);
         myController.Init(this);
     }
@@ -62,7 +67,7 @@ public class Monster : Entity, IDetectable
         myRenderer.enabled = true;
         mapIcon.Revealed();
 
-        myController.SetState(AIStateType.Wandering);
+        aiState = AIStateType.Wandering;
     }
 
     public virtual void Invisible()

@@ -67,7 +67,7 @@ public class CameraUI : WorldUI<TabletStateType>
                 continue;
             }
 
-            monster.MyController.FleeFromPlayer();
+            monster.MyController.PlayerAttackMonster();
         }
 
         isShotable = false;

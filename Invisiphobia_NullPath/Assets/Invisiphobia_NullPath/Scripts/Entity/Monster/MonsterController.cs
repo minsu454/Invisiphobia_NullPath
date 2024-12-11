@@ -7,52 +7,56 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class MonsterController : MonoBehaviour
+public abstract class MonsterController : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] private float walkSpeed;
-    [SerializeField] private float runSpeed;
+    [SerializeField] protected float walkSpeed;
+    [SerializeField] protected float runSpeed;
 
     [Header("AI")]
-    [SerializeField] private float detectDistance;
-    [SerializeField] private float safeDistance;
-    [SerializeField] private float lookAtPlayerDistance;
-    private AIStateType aiState;
+    [SerializeField] protected float detectDistance;
+    [SerializeField] protected float safeDistance;
+    [SerializeField] protected float lookAtPlayerDistance;
 
     [Header("Wandering")]
-    [SerializeField] private float minWanderDistance;
-    [SerializeField] private float maxWanderDistance;
-    [SerializeField] private int minWanderingCount;
-    [SerializeField] private int maxWanderingCount;
-    private int wanderingCount;
+    [SerializeField] protected float minWanderDistance;
+    [SerializeField] protected float maxWanderDistance;
+    [SerializeField] protected int minWanderingCount;
+    [SerializeField] protected int maxWanderingCount;
+    protected int wanderingCount;
 
 
     [Header("Combat")]
-    [SerializeField] private float attackDistance;
-    private const float fieldOfView = 180f;
+    [SerializeField] protected float attackDistance;
+    protected const float fieldOfView = 180f;
 
-    private float playerDistance;
-    private bool isHiding;
-    private bool isStunned = false;
+    protected float playerDistance;
+    protected bool isHiding;
+    protected bool isAlwaysAttacking; // boss만 true
 
     [Header("NavMeshAgent")]
-    [SerializeField] private NavMeshAgent agent;
-    private Transform playerTransform;
-    private NavMeshHit hit;
+    [SerializeField] protected NavMeshAgent agent;
+    protected Transform playerTransform;
+    protected NavMeshHit hit;
 
     public Vector3 monsterSpawnPoint { get; private set; }
 
-    private Monster monster;
+    protected Monster monster;
     private Coroutine timer;
-    private bool canWander = true;
+    protected bool canWander = true;
 
-    public void Init(Monster monster)
+    public virtual void Init(Monster monster)
     {
         this.monster = monster;
         monsterSpawnPoint = transform.position;
         playerTransform = Player.Instance.transform;
-        SetState(AIStateType.Idle);
+        monster.aiState = AIStateType.Idle;
         ResetWanderingCount();
+
+        monster.MyState.IdleEvent += LookingAtPlayerUpdate;
+        monster.MyState.WanderingEvent += PassiveUpdate;
+        monster.MyState.AttackingEvent += AttackingUpdate;
+        monster.MyState.FleeingEvent += FleeingUpdate;
     }
 
     private void Start()
@@ -64,49 +68,6 @@ public class MonsterController : MonoBehaviour
     void Update()
     {
         playerDistance = Vector3.Distance(transform.position, playerTransform.position);
-
-        switch (aiState)
-        {
-            case AIStateType.Idle:
-                LookingAtPlayerUpdate();
-                break;
-            case AIStateType.Wandering:
-                PassiveUpdate();
-                break;
-            case AIStateType.Attacking:
-                AttackingUpdate();
-                break;
-            case AIStateType.Fleeing:
-                FleeingUpdate();
-                break;
-            case AIStateType.MonsterFleeing:
-                break;
-            case AIStateType.Stun:
-                SetStun();
-                break;
-        }
-    }
-
-    public void SetState(AIStateType state)
-    {
-        if (aiState == state)
-            return;
-
-        aiState = state;
-        switch (aiState)
-        {
-            case AIStateType.Wandering:
-                agent.speed = walkSpeed;
-                break;
-            case AIStateType.Attacking:
-            case AIStateType.Fleeing:
-            case AIStateType.MonsterFleeing:
-                agent.speed = runSpeed;
-                break;
-            case AIStateType.Stun:
-                agent.speed = 0f;
-                break;
-        }
     }
 
     void PassiveUpdate()
@@ -118,14 +79,16 @@ public class MonsterController : MonoBehaviour
 
         if (playerDistance < detectDistance && !isHiding && IsPlayerInFieldOfView()) // 플레이어가 감지 범위 안에 있고 숨지 않은 경우
         {
-            SetState(AIStateType.Attacking);
+            monster.aiState = AIStateType.Attacking;
+            agent.speed = runSpeed;
         }
-        else if ((isHiding || playerDistance > detectDistance) && aiState != AIStateType.Wandering) // 플레이어를 놓친 경우 Wandering으로 전환
+        else if ((isHiding || playerDistance > detectDistance) && monster.aiState != AIStateType.Wandering) // 플레이어를 놓친 경우 Wandering으로 전환
         {
-            SetState(AIStateType.Wandering);
+            monster.aiState = AIStateType.Wandering;
+            agent.speed = walkSpeed;
         }
 
-        if (AIStateType.Wandering == aiState && agent.remainingDistance < 0.1f && canWander)
+        if (AIStateType.Wandering == monster.aiState && agent.remainingDistance < 0.1f && canWander)
         {
             canWander = false;
             WanderToNewLocation();  // 새 위치로 이동
@@ -140,11 +103,12 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    private void LookingAtPlayerUpdate()
+    protected void LookingAtPlayerUpdate()
     {
         if (playerDistance > lookAtPlayerDistance)
         {
-            SetState(AIStateType.Wandering);
+            monster.aiState = AIStateType.Wandering;
+            agent.speed = walkSpeed;
         }
         else
         {
@@ -156,7 +120,7 @@ public class MonsterController : MonoBehaviour
 
     void AttackingUpdate()
     {
-        if (playerDistance < detectDistance && aiState != AIStateType.MonsterFleeing)
+        if (playerDistance < detectDistance && monster.aiState != AIStateType.MonsterFleeing)
         {
             NavMeshPath path = new NavMeshPath();
             if (agent.CalculatePath(playerTransform.position, path))
@@ -167,7 +131,8 @@ public class MonsterController : MonoBehaviour
         else
         {
             agent.SetDestination(transform.position);
-            SetState(AIStateType.Wandering);
+            monster.aiState = AIStateType.Wandering;
+            agent.speed = walkSpeed;
         }
     }
 
@@ -180,57 +145,18 @@ public class MonsterController : MonoBehaviour
         else
         {
             ResetWanderingCount();
-            SetState(AIStateType.Wandering);
+            monster.aiState = AIStateType.Wandering;
+            agent.speed = walkSpeed;
         }
     }
 
-    private IEnumerator SetStun()
-    {
-        if (isStunned) yield break;
-
-        isStunned = true;
-        SetState(AIStateType.Stun);
-        yield return YieldCache.WaitForSeconds(2f);
-
-        isStunned = false;
-        SetState(AIStateType.Wandering);
-    }
-
-    void ResetToSpawnPoint()
+    protected void ResetToSpawnPoint()
     {
         agent.Warp(monsterSpawnPoint);
         ResetCycle();
     }
 
-    public void FleeFromPlayer()
-    {
-        SetState(AIStateType.MonsterFleeing);
-        Vector3 directionToPlayer = playerTransform.position - transform.position;
-        directionToPlayer.y = 0;
-        directionToPlayer.Normalize();
-
-        Vector3 fleeDirection = Quaternion.Euler(0, Random.Range(-150, 150), 0) * directionToPlayer;  // 반대 방향 계산
-
-        float fleeDistance = Random.Range(minWanderDistance, maxWanderDistance);    // 도망칠 거리 계산
-        Vector3 fleeTarget = transform.position + fleeDirection * fleeDistance;
-
-        if (NavMesh.SamplePosition(fleeTarget, out NavMeshHit hit, fleeDistance, NavMesh.AllAreas))
-        {
-            agent.SetDestination(hit.position);
-            StartCoroutine(FleeAndTransitionToWandering()); // 도망 후 상태 전환 처리
-        }
-    }
-
-    private IEnumerator FleeAndTransitionToWandering()
-    {
-        while (agent.pathPending || agent.remainingDistance > 0.1f)
-        {
-            yield return null;
-        }
-
-        LookingAtPlayerUpdate();
-        ResetToSpawnPoint();
-    }
+    public abstract void PlayerAttackMonster();
 
     void ResetWanderingCount()
     {
@@ -239,7 +165,7 @@ public class MonsterController : MonoBehaviour
 
     void ResetCycle()
     {
-        SetState(AIStateType.Idle);
+        monster.aiState = AIStateType.Idle;
         if (timer != null)
         {
             StopCoroutine(timer);
@@ -305,10 +231,10 @@ public class MonsterController : MonoBehaviour
                 break;
         } while (Vector3.Distance(transform.position, hit.position) < detectDistance);
 
-        return hit.position; // 위치 찾기 실패하면 현재 위치 반환..
+        return hit.position;
     }
 
-    float GetPathLength(NavMeshPath path)
+    protected float GetPathLength(NavMeshPath path)
     {
         float totalLength = 0f;
 
