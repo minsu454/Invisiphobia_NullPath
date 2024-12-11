@@ -14,6 +14,7 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(asset.text);
 
         CreateVolume();
+        CreateEntityManager(totalData);
         CreateMapManager(totalData);
     }
 

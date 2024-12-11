@@ -27,8 +27,9 @@ public class EntityManager : MonoBehaviour
 
     private void Setting(EntityData entityData)
     {
-        { 
-            GameObject go = ObjectManager.Instantiate(AddressablePath.EntityPath(entityData.playerData.Name));
+        {
+            string name = entityData.playerData.Name.ToFirstName("_");
+            GameObject go = ObjectManager.Instantiate(AddressablePath.EntityPath(name));
 
             go.name = entityData.playerData.Name;
             go.transform.position = entityData.playerData.Pos;
