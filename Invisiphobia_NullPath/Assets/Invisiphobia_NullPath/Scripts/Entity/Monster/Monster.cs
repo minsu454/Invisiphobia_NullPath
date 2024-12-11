@@ -5,6 +5,8 @@ using UnityEngine;
 public class Monster : Entity, IDetectable
 {
     [SerializeField] private MonsterController myController;
+    public MonsterController MyController { get { return myController; } }
+
     [SerializeField] private MeshRenderer myRenderer;
 
     public bool RendererActive { get { return myRenderer.enabled; } }
@@ -24,11 +26,13 @@ public class Monster : Entity, IDetectable
         //myController.Init(this);
     }
 
+    #region Test
     private void Start()
     {
         mapIcon.Init(transform);
         myController.Init(this);
     }
+    #endregion
 
     public virtual void Detected()
     {
@@ -85,5 +89,17 @@ public class Monster : Entity, IDetectable
     public void SetFillAmount(float value)
     {
         mapIcon.SetFillAmount(value);
+    }
+
+    public void SetMapIconToWall(bool active)
+    {
+        if (active)
+        {
+            mapIcon.Detected();
+        }
+        else
+        {
+            mapIcon.Invisible();
+        }
     }
 }

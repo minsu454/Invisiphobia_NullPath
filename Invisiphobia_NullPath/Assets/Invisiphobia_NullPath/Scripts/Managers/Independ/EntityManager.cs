@@ -9,12 +9,16 @@ public class EntityManager : MonoBehaviour
     public static EntityManager Instance;
 
     public Player Player { get; private set; }
-    private readonly HashSet<Monster> monsterHashSet = new HashSet<Monster>();
+    private readonly List<Monster> monsterList = new List<Monster>();
+
+    #region Test
+    public List<Monster> monsterTestList;
 
     public void Awake()
     {
         Instance = this;
     }
+    #endregion
 
     public void Init(TotalMapData totalData)
     {
@@ -50,17 +54,17 @@ public class EntityManager : MonoBehaviour
 
     private void AddMonster(Monster monster)
     {
-        if (monsterHashSet.Contains(monster))
+        if (monsterList.Contains(monster))
             return;
         
-        monsterHashSet.Add(monster);
+        monsterList.Add(monster);
     }
 
     private void RemoveMonster(Monster monster)
     {
-        if (!monsterHashSet.Contains(monster))
+        if (!monsterList.Contains(monster))
             return;
         
-        monsterHashSet.Remove(monster);
+        monsterList.Remove(monster);
     }
 }

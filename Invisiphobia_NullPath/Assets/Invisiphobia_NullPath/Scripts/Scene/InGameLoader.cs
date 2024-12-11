@@ -37,6 +37,4 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
 
         mapManager.Init(totalData);
     }
-
-
 }
