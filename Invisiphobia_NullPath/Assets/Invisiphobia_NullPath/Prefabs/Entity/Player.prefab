@@ -246,7 +246,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 2
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -564,7 +564,6 @@ MonoBehaviour:
   playerCanMove: 1
   walkSpeed: 3
   maxVelocityChange: 10
-  footstepAudioSource: {fileID: 0}
   footClip: {fileID: 8300000, guid: 2f5794cb62cadd24186d22210e468fd1, type: 3}
   hardBreathingClip: {fileID: 8300000, guid: df53e77beb074c948802b8ae0134374a, type: 3}
   footTr: {fileID: 6859347766490515549}
@@ -808,7 +807,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 500
+  far clip plane: 200
   field of view: 90
   orthographic: 0
   orthographic size: 5
@@ -1762,7 +1761,7 @@ PrefabInstance:
     - target: {fileID: 488377813114035556, guid: 7438d71f20bb8ce409f59e515034d759,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 49
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 488377813114035556, guid: 7438d71f20bb8ce409f59e515034d759,
         type: 3}
@@ -1803,6 +1802,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533006244080152455, guid: 7438d71f20bb8ce409f59e515034d759,
+        type: 3}
+      propertyPath: far clip plane
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5173528853906005052, guid: 7438d71f20bb8ce409f59e515034d759,
         type: 3}
