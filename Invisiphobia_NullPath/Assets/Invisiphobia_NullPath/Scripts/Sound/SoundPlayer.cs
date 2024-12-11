@@ -1,7 +1,5 @@
 using Common.Timer;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundPlayer : MonoBehaviour, IObjectPoolable<SoundPlayer>
@@ -27,6 +25,12 @@ public class SoundPlayer : MonoBehaviour, IObjectPoolable<SoundPlayer>
     public void SetMaxDistance(float maxDistance)
     {
         audioSource.maxDistance = maxDistance;
+    }
+
+    public void SetRandomPitch()
+    {
+        float random = UnityEngine.Random.Range(-0.1f, 0.1f);
+        audioSource.pitch = 1 + random;
     }
 
     /// <summary>

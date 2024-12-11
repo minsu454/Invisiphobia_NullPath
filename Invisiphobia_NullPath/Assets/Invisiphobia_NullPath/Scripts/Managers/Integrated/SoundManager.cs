@@ -161,6 +161,10 @@ public sealed class SoundManager : MonoBehaviour, IInit
         SoundPlayer soundPlayer = soundPool.GetObject();
         soundPlayer.SetDelay(clip.length);
         soundPlayer.SetMaxDistance(maxDistance);
+
+        if (usePich)
+            soundPlayer.SetRandomPitch();
+
         soundPlayer.SetSound3D(playTr);
         soundPlayer.gameObject.SetActive(true);
 
