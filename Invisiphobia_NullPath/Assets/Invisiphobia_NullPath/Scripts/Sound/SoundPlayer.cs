@@ -24,6 +24,11 @@ public class SoundPlayer : MonoBehaviour, IObjectPoolable<SoundPlayer>
         this.delay = delay;
     }
 
+    public void SetMaxDistance(float maxDistance)
+    {
+        audioSource.maxDistance = maxDistance;
+    }
+
     /// <summary>
     /// 2D 사운드 설정 함수
     /// </summary>

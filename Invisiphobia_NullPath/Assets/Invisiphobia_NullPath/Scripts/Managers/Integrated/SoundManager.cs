@@ -128,10 +128,11 @@ public sealed class SoundManager : MonoBehaviour, IInit
     /// <summary>
     /// 3D 플레이 함수(원근감 사운드)
     /// </summary>
-    public void SFX3DPlay(AudioClip clip, Transform playTr)
+    public void SFX3DPlay(AudioClip clip, Transform playTr, float maxDistance = 15f)
     {
         SoundPlayer soundPlayer = soundPool.GetObject();
         soundPlayer.SetDelay(clip.length);
+        soundPlayer.SetMaxDistance(maxDistance);
         soundPlayer.SetSound3D(playTr);
         soundPlayer.gameObject.SetActive(true);
 
