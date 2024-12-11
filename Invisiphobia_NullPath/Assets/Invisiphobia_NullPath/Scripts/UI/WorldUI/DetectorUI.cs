@@ -143,8 +143,10 @@ public class DetectorUI : WorldUI<TabletStateType>
 
             for (int i = 0; i < detectedObjectList.Count; i++)
             {
-                if (detectedObjectList[i].StateType == PropStateType.Revealed)
+                if (detectedObjectList[i].StateType != PropStateType.Detected)
+                {
                     continue;
+                }
 
                 if (HasLineOfSight(detectedObjectList[i]))
                 {
@@ -182,7 +184,7 @@ public class DetectorUI : WorldUI<TabletStateType>
         {
             Debug.Log("물체가 가깝습니다!!");
         }
-        else
+        else if (distance < 10f)
         {
             Debug.Log("물체가 감지되었습니다!");
         }
