@@ -11,9 +11,17 @@ public class PlayerMovement : MonoBehaviour
 
     #region Movement Variables
     public bool playerCanMove = true;
-    public float walkSpeed = 5f;
+    public float walkSpeed = 3f;
     public float maxVelocityChange = 10f;
 
+    [SerializeField] private AudioSource footstepAudioSource; // 발소리를 재생할 오디오 소스
+    [SerializeField] private AudioClip footClip; // 걷기 발소리
+    [SerializeField] private AudioClip hardBreathingClip;
+    [SerializeField] private Transform footTr;
+
+    [SerializeField] private float walkstepInterval = 0.7f; // 걷는 발소리 간격 (초 단위)
+    [SerializeField] private float sprintstepInterval = 0.3f; // 달리는 발소리 간격 (초 단위)
+    private float footstepTimer = 0f; // 타이머 변수
     // Internal Variables
     private bool isWalking = false;
     #endregion
@@ -27,6 +35,10 @@ public class PlayerMovement : MonoBehaviour
     public float sprintDuration = 5f;
     public float sprintFOV = 80f;
     public float sprintFOVStepTime = 10f;
+    private bool isExhausted = false;
+    private float recoveryDelay = 2f; // 회복 지연 시간 (초 단위)
+    private float recoveryTimer = 0f; // 회복 타이머 변수
+    private bool isTired = false;
 
     // Sprint Bar
     [SerializeField] private Slider staminaBar;
@@ -93,6 +105,10 @@ public class PlayerMovement : MonoBehaviour
         player.PlayerController.playerSprintActionEvent += Sprint;
         player.PlayerController.playerJumpActionEvent += Jump;
         player.PlayerController.playerCrouchActionEvent += Crouch;
+
+        footstepAudioSource = gameObject.AddComponent<AudioSource>();
+        footstepAudioSource.clip = footClip;
+        footstepAudioSource.loop = false; // 루프 금지
     }
 
     public void SetUI(Slider staminaBar, CanvasGroup sprintBarCanvasGroup)
@@ -123,21 +139,7 @@ public class PlayerMovement : MonoBehaviour
             HeadBob();
         }
 
-        if (!isSprinting)
-        {
-            sprintRemaining += 0.1f * Time.deltaTime * 10;
-            sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintDuration);
-
-            if (sprintRemaining >= sprintDuration && hideBarWhenFull)
-            {
-                ShowSprintBar(false); // Bar 숨기기
-            }
-        }
-
-        if (sprintBarCanvasGroup != null && sprintBarCanvasGroup.alpha > 0)
-        {
-            staminaBar.value = sprintRemaining;
-        }
+        StaminaRecovery();
     }
 
     /// <summary>
@@ -147,8 +149,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerCanMove)
         {
-            // Checks if player is walking and isGrounded
-            // Will allow head bob
             if (targetVelocity.x != 0 || targetVelocity.z != 0 && isGrounded)
             {
                 isWalking = true;
@@ -158,43 +158,28 @@ public class PlayerMovement : MonoBehaviour
                 isWalking = false;
             }
 
-            // All movement calculations shile sprint is active
             if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f)
             {
-                targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
-
-                // Apply a force that attempts to reach our target velocity
-                Vector3 velocity = rb.velocity;
-                Vector3 velocityChange = (targetVelocity - velocity);
-                velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-                velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-                velocityChange.y = 0;
-
-                // Player is only moving when valocity change != 0
-                // Makes sure fov change only happens during movement
-                if (velocityChange.x != 0 || velocityChange.z != 0)
-                {
-                    isSprinting = true;
-                }
-
-                rb.AddForce(velocityChange, ForceMode.VelocityChange);
+                targetVelocity = transform.TransformDirection(targetVelocity.normalized) * sprintSpeed;
+                isSprinting = true;
             }
-            // All movement calculations while walking
             else
             {
+                targetVelocity = transform.TransformDirection(targetVelocity.normalized) * walkSpeed;
                 isSprinting = false;
-
-                targetVelocity = transform.TransformDirection(targetVelocity) * walkSpeed;
-
-                // Apply a force that attempts to reach our target velocity
-                Vector3 velocity = rb.velocity;
-                Vector3 velocityChange = (targetVelocity - velocity);
-                velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-                velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-                velocityChange.y = 0;
-
-                rb.AddForce(velocityChange, ForceMode.VelocityChange);
             }
+
+            // Apply movement force
+            Vector3 velocity = rb.velocity;
+            Vector3 velocityChange = (targetVelocity - velocity);
+            velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+            velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+            velocityChange.y = 0;
+
+            rb.AddForce(velocityChange, ForceMode.VelocityChange);
+
+            // 발소리 업데이트
+            UpdateFootstepSound();
         }
     }
 
@@ -216,11 +201,64 @@ public class PlayerMovement : MonoBehaviour
 
             if (sprintRemaining <= 0)
             {
+                isTired = true;
                 isSprinting = false;
+                Invoke("StaminaRecovery", 2f);
+
+                if (!isExhausted)
+                {
+                    Managers.Sound.SFX3DPlay(hardBreathingClip, footTr);
+                    isExhausted = true;
+                }
+            }
+            else
+            {
+                isExhausted = false;
             }
         }
     }
 
+    private void StaminaRecovery()
+    {
+        if (!isSprinting && sprintRemaining > 0f)
+        {
+            isTired = false;
+            sprintRemaining += 0.1f * Time.deltaTime * 10;
+            sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintDuration);
+
+            if (sprintRemaining >= sprintDuration && hideBarWhenFull)
+            {
+                ShowSprintBar(false); // Bar 숨기기
+            }
+        }
+
+        if (sprintBarCanvasGroup != null && sprintBarCanvasGroup.alpha > 0)
+        {
+            staminaBar.value = sprintRemaining;
+        }
+    }
+    private void UpdateFootstepSound()
+    {
+        // 걷거나 달리는 상태가 아닐 때 타이머 초기화
+        if (!isWalking && !isSprinting)
+        {
+            footstepTimer = 0f;
+            return;
+        }
+
+        // 현재 발소리 간격 설정: 걷기와 달리기 간격 구분
+        float currentStepInterval = isSprinting ? sprintstepInterval : walkstepInterval;
+
+        // 타이머 갱신
+        footstepTimer += Time.deltaTime;
+
+        // 타이머가 간격을 초과했는지 확인
+        if (footstepTimer >= currentStepInterval)
+        {
+            Managers.Sound.SFX3DPlay(footClip, footTr);
+            footstepTimer = 0f; // 타이머 초기화
+        }
+    }
     /// <summary>
     /// Sprint Bar 표시/숨기기
     /// </summary>

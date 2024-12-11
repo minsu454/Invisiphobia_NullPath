@@ -324,10 +324,11 @@ GameObject:
   - component: {fileID: 4306155527416280851}
   - component: {fileID: 749029545554300671}
   - component: {fileID: 1921161741646838213}
-  - component: {fileID: 8942700053724335515}
   - component: {fileID: 6213999383182059277}
   - component: {fileID: 6311472913506903352}
   - component: {fileID: 7631016905733749519}
+  - component: {fileID: 8638043869034486825}
+  - component: {fileID: 6342831034005390108}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -353,6 +354,7 @@ Transform:
   - {fileID: 8773975088314024428}
   - {fileID: 6186641417728173025}
   - {fileID: 2421160397847653746}
+  - {fileID: 6859347766490515549}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8391362251847706114
@@ -468,7 +470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 1921161741646838213}
-  playerMovement: {fileID: 8942700053724335515}
+  playerMovement: {fileID: 6342831034005390108}
   playerAnimation: {fileID: 0}
   playerInteract: {fileID: 6311472913506903352}
   cameraController: {fileID: 6213999383182059277}
@@ -489,49 +491,6 @@ MonoBehaviour:
   isSprinting: 0
   isCrouched: 0
   isHoldRightmouse: 0
---- !u!114 &8942700053724335515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1523642967706972423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17230d0151f9b654cb4dc929d460b7d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 4306155527416280851}
-  playerCamera: {fileID: 202032549367577605}
-  playerCanMove: 1
-  walkSpeed: 2
-  maxVelocityChange: 12
-  isZoomed: 0
-  enableSprint: 1
-  sprintKey: 304
-  sprintSpeed: 5
-  sprintDuration: 10
-  sprintFOV: 80
-  sprintFOVStepTime: 10
-  staminaBar: {fileID: 0}
-  sprintBarCanvasGroup: {fileID: 0}
-  hideBarWhenFull: 1
-  isSprinting: 0
-  enableJump: 1
-  jumpKey: 32
-  jumpPower: 8
-  isJumping: 0
-  isGrounded: 0
-  crouchKey: 306
-  speedReduction: 0.5
-  holdToCrouch: 1
-  crouchHeight: 0.1
-  crouchSpeed: 5
-  isCrouched: 0
-  enableHeadBob: 1
-  joint: {fileID: 2421160397847653746}
-  bobSpeed: 10
-  bobAmount: {x: 0.005, y: 0.01, z: 0.005}
 --- !u!114 &6213999383182059277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,7 +534,7 @@ MonoBehaviour:
   maxDistance: 5
   layerMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 4294967295
 --- !u!114 &7631016905733749519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,6 +548,182 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Tablet: {fileID: 1651746121999186473}
+--- !u!82 &8638043869034486825
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523642967706972423}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2f5794cb62cadd24186d22210e468fd1, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &6342831034005390108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523642967706972423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17230d0151f9b654cb4dc929d460b7d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 4306155527416280851}
+  playerCamera: {fileID: 202032549367577605}
+  playerCanMove: 1
+  walkSpeed: 3
+  maxVelocityChange: 10
+  footstepAudioSource: {fileID: 8638043869034486825}
+  footClip: {fileID: 8300000, guid: 2f5794cb62cadd24186d22210e468fd1, type: 3}
+  hardBreathingClip: {fileID: 8300000, guid: df53e77beb074c948802b8ae0134374a, type: 3}
+  footTr: {fileID: 6859347766490515549}
+  walkstepInterval: 0.7
+  sprintstepInterval: 0.3
+  isZoomed: 0
+  enableSprint: 1
+  sprintKey: 304
+  sprintSpeed: 7
+  sprintDuration: 5
+  sprintFOV: 80
+  sprintFOVStepTime: 10
+  staminaBar: {fileID: 0}
+  sprintBarCanvasGroup: {fileID: 0}
+  hideBarWhenFull: 1
+  isSprinting: 0
+  enableJump: 1
+  jumpKey: 32
+  jumpPower: 5
+  isJumping: 0
+  isGrounded: 0
+  crouchKey: 306
+  speedReduction: 0.5
+  holdToCrouch: 1
+  crouchHeight: 0.3
+  crouchSpeed: 5
+  isCrouched: 0
+  enableHeadBob: 1
+  joint: {fileID: 8773975088314024428}
+  bobSpeed: 10
+  bobAmount: {x: 0.05, y: 0.01, z: 0.01}
+--- !u!1 &2680458868927029667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6859347766490515549}
+  m_Layer: 0
+  m_Name: FootTr
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6859347766490515549
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2680458868927029667}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9014576998322085675}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3139478293162221397
 GameObject:
   m_ObjectHideFlags: 0
