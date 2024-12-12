@@ -9,7 +9,7 @@ using System.IO;
 using UnityEngine;
 
 [Serializable]
-public class ItemTable
+public class InteractTextTable
 {
     /// <summary>
     /// ID
@@ -17,57 +17,32 @@ public class ItemTable
     public int key;
 
     /// <summary>
-    /// 아이템이름
+    /// 상호작용
     /// </summary>
-    public string name;
+    public string interactText;
 
     /// <summary>
-    /// 언어별이름
+    /// 영어
     /// </summary>
-    public int itemName;
+    public string english;
 
     /// <summary>
-    /// 설명
+    /// 한국어
     /// </summary>
-    public int description;
-
-    /// <summary>
-    /// 경로
-    /// </summary>
-    public string path;
-
-    /// <summary>
-    /// 사용횟수
-    /// </summary>
-    public int useCount;
-
-    /// <summary>
-    /// 아이템타입
-    /// </summary>
-    public DesignEnums.ItemCarryType itemCarryType;
-
-    /// <summary>
-    /// 상호작용텍스트
-    /// </summary>
-    public List<int> interactText;
-
-    /// <summary>
-    /// 동작텍스트(-1은 사용안함)
-    /// </summary>
-    public int actionText;
+    public string korean;
 
 }
-public class ItemTableLoader
+public class InteractTextTableLoader
 {
-    public List<ItemTable> ItemsList { get; private set; }
-    public Dictionary<int, ItemTable> ItemsDict { get; private set; }
+    public List<InteractTextTable> ItemsList { get; private set; }
+    public Dictionary<int, InteractTextTable> ItemsDict { get; private set; }
 
-    public ItemTableLoader(string path = "JSON/ItemTable")
+    public InteractTextTableLoader(string path = "JSON/InteractTextTable")
     {
         string jsonData;
         jsonData = Resources.Load<TextAsset>(path).text;
         ItemsList = JsonUtility.FromJson<Wrapper>(jsonData).Items;
-        ItemsDict = new Dictionary<int, ItemTable>();
+        ItemsDict = new Dictionary<int, InteractTextTable>();
         foreach (var item in ItemsList)
         {
             ItemsDict.Add(item.key, item);
@@ -77,10 +52,10 @@ public class ItemTableLoader
     [Serializable]
     private class Wrapper
     {
-        public List<ItemTable> Items;
+        public List<InteractTextTable> Items;
     }
 
-    public ItemTable GetByKey(int key)
+    public InteractTextTable GetByKey(int key)
     {
         if (ItemsDict.ContainsKey(key))
         {
@@ -88,7 +63,7 @@ public class ItemTableLoader
         }
         return null;
     }
-    public ItemTable GetByIndex(int index)
+    public InteractTextTable GetByIndex(int index)
     {
         if (index >= 0 && index < ItemsList.Count)
         {
