@@ -170,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 velocityChange = targetVelocity - new Vector3(velocity.x, 0, velocity.z);
 
             // 변화량 제한
-            //velocityChange = Vector3.ClampMagnitude(velocityChange, maxVelocityChange);
+            velocityChange = Vector3.ClampMagnitude(velocityChange, maxVelocityChange);
 
             // 기존 Y축 속도를 유지
             velocityChange.y = 0;
