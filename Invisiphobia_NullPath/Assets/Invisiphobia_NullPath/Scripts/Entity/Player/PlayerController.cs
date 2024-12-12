@@ -39,7 +39,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        OnPlayerMove();
         OnPlayerSprint();
         OnPlayerJump();
         OnPlayerCrouch();
@@ -49,6 +48,11 @@ public class PlayerController : MonoBehaviour
         OnZoomClick();
         OnTabletSwitch();
         OnPlayerPutDown();
+    }
+
+    private void FixedUpdate()
+    {
+        OnPlayerMove();
     }
 
     private void OnTabletSwitch()
