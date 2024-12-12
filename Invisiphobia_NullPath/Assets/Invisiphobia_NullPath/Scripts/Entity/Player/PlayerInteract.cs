@@ -49,11 +49,13 @@ public class PlayerInteract : MonoBehaviour
             {
                 curInteractable = interactable;
                 // 충돌된 경우 빨간색으로 표시
+                Debug.DrawRay(ray.origin, ray.direction * raycastHit.distance, Color.red);
             }
             else
             {
                 curInteractable = null;
                 // 충돌한 객체가 IInteractable이 아닌 경우 초록색으로 표시
+                Debug.DrawRay(ray.origin, ray.direction * raycastHit.distance, Color.green);
             }
         }
         else

@@ -9,8 +9,8 @@ public class PlayerInventory : MonoBehaviour
     private int maxCount = 0;
     private const int handCount = 2;
 
-    [SerializeField] private Tablet Tablet;
-
+    [SerializeField] private Tablet tablet;
+    public Tablet Tablet {  get { return tablet; } }
     private readonly Stack<InHandItem> groundItemStack = new Stack<InHandItem>(2);
     private readonly Stack<GameObject> handItemStack = new Stack<GameObject>(2);
     private readonly Stack<Action<Transform>> interactStack = new Stack<Action<Transform>>(2);
@@ -19,7 +19,7 @@ public class PlayerInventory : MonoBehaviour
     {
         maxCount += handCount;
 
-        Tablet.Init(player);
+        tablet.Init(player);
 
         player.PlayerController.playerPutDownActionEvent += DropItem;
         player.PlayerController.playerZoomClickActionEvent += OnZoomClick;
@@ -76,9 +76,9 @@ public class PlayerInventory : MonoBehaviour
     private void SetTabletHidden()
     {
         if (curCount == maxCount)
-            Tablet.Hidden();
+            tablet.Hidden();
         else
-            Tablet.UnHidden();
+            tablet.UnHidden();
     }
 
     /// <summary>
