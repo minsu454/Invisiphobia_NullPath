@@ -19,6 +19,8 @@ public abstract class BaseItem : Prop, IInteractable
     protected string actionText;
     public string ActionText { get { return actionText; } }
 
+    public bool IsReveal => StateType == PropStateType.Revealed;
+
     public override void Init()
     {
         base.Init();

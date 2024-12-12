@@ -46,23 +46,25 @@ public class PlayerInteract : MonoBehaviour
         RaycastHit raycastHit;
 
         // 레이캐스트 시각적으로 표시 (초록색은 닿지 않았을 때, 빨간색은 닿았을 때)
-        if (Physics.Raycast(ray, out raycastHit, maxDistance, layerMask))
-        {
-            if (raycastHit.collider.TryGetComponent(out IInteractable interactable))
-            {
-                curInteractable = interactable;
-                // 충돌된 경우 빨간색으로 표시
-            }
-            else
-            {
-                curInteractable = null;
-                // 충돌한 객체가 IInteractable이 아닌 경우 초록색으로 표시
-            }
-        }
-        else
+        if (!Physics.Raycast(ray, out raycastHit, maxDistance, layerMask))
         {
             curInteractable = null;
+            return;
         }
+
+        if (!raycastHit.collider.TryGetComponent(out IInteractable interactable))
+        {
+            curInteractable = null;
+            return;
+        }
+
+        if(!interactable.IsReveal)
+        {
+            curInteractable = null;
+            return;
+        }
+
+        curInteractable = interactable;
     }
 
     public void OnInteraction()

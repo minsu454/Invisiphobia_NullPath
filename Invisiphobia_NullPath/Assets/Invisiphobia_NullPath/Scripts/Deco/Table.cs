@@ -24,6 +24,8 @@ public class Table : MonoBehaviour, IInteractable
     protected string actionText;
     public string ActionText { get { return actionText; } }
 
+    public bool IsReveal => true;
+
     private bool isDrawer1Open = false;
     private bool isDrawer2Open = false;
     private bool isCoroutineRunning = false;
@@ -31,6 +33,7 @@ public class Table : MonoBehaviour, IInteractable
     private void Awake()
     {
         //Todo
+        //actionText = DataServise.GetInteractText(ItemTable.interactText);
         actionText = DataServise.GetInteractText(ItemTable.actionText);
     }
 

@@ -24,6 +24,8 @@ public class Door : MonoBehaviour, IInteractable
     protected string actionText;
     public string ActionText { get { return actionText; } }
 
+    public bool IsReveal => true;
+
     [Header("Door Settings")]
     public GameObject player;
     public GameObject door;
