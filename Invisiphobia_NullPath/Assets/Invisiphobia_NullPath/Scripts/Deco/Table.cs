@@ -31,7 +31,7 @@ public class Table : MonoBehaviour, IInteractable
     private void Awake()
     {
         //Todo
-        actionText = DataServise.GetItemText(ItemTable.actionText);
+        actionText = DataServise.GetInteractText(ItemTable.actionText);
     }
 
     public void Interact(Player player)

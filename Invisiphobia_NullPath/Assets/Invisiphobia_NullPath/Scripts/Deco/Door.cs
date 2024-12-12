@@ -33,8 +33,8 @@ public class Door : MonoBehaviour, IInteractable
         startRotation = transform.rotation;
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
 
-        interactText = DataServise.GetItemText(ItemTable.interactText[0]);
-        actionText = DataServise.GetItemText(ItemTable.actionText);
+        interactText = DataServise.GetInteractText(ItemTable.interactText[0]);
+        actionText = DataServise.GetInteractText(ItemTable.actionText);
     }
     public void Interact(Player player)
     {
