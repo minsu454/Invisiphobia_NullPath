@@ -1,4 +1,5 @@
 
+using Common.Data;
 using System.Collections;
 using UnityEngine;
 
@@ -17,6 +18,12 @@ public class Door : MonoBehaviour, IInteractable
         get { return itemTable; }
     }
 
+    protected string interactText;
+    public string InteractText { get { return interactText; } }
+
+    protected string actionText;
+    public string ActionText { get { return actionText; } }
+
     [Header("Door Settings")]
     public GameObject player;
     public GameObject door;
@@ -25,6 +32,9 @@ public class Door : MonoBehaviour, IInteractable
     {
         startRotation = transform.rotation;
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
+
+        interactText = DataServise.GetItemText(ItemTable.interactText[0]);
+        actionText = DataServise.GetItemText(ItemTable.actionText);
     }
     public void Interact(Player player)
     {

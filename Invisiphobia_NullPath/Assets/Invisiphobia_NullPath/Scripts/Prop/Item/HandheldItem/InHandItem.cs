@@ -1,3 +1,4 @@
+using Common.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,4 +8,12 @@ public abstract class InHandItem : BaseItem
 {
     [Header("Hand GameObject")]
     public GameObject prefab;
+
+    public override void Init()
+    {
+        base.Init();
+
+        interactText = DataServise.GetItemText(ItemTable.interactText[0]);
+        actionText = ItemTable.actionText != -1 ? DataServise.GetItemText(ItemTable.actionText) : "";
+    }
 }

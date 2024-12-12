@@ -1,3 +1,4 @@
+using Common.Data;
 using Common.SceneEx;
 using TMPro;
 using UnityEngine;
@@ -44,7 +45,8 @@ public class InGame_UI : BaseSceneUI
     private void SetInteractDescriptionKey(IInteractable interact)
     {
         if (interact == null)
-            return;
-        //interact.ItemTable.
+            interactDescriptionKeyText.text = "";
+        else
+            interactDescriptionKeyText.text = interact.InteractText;
     }
 }

@@ -1,3 +1,4 @@
+using Common.Data;
 using UnityEngine;
 
 public class ThrowItem : InHandItem
@@ -5,6 +6,11 @@ public class ThrowItem : InHandItem
     [Header("ThrowItem")]
     [SerializeField] private Rigidbody myRb;
     [SerializeField] private float throwSpeed = 10f;
+
+    public override void Init()
+    {
+        base.Init();
+    }
 
     public override void Interact(Player player)
     {

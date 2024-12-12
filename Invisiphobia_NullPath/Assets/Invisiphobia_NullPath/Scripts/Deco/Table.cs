@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Common.Yield;
+using Common.Data;
 
 public class Table : MonoBehaviour, IInteractable
 {
@@ -17,9 +18,22 @@ public class Table : MonoBehaviour, IInteractable
         get { return itemTable; }
     }
 
+    protected string interactText = "[E]";
+    public string InteractText { get { return interactText; } }
+
+    protected string actionText;
+    public string ActionText { get { return actionText; } }
+
     private bool isDrawer1Open = false;
     private bool isDrawer2Open = false;
     private bool isCoroutineRunning = false;
+
+    private void Awake()
+    {
+        //Todo
+        actionText = DataServise.GetItemText(ItemTable.actionText);
+    }
+
     public void Interact(Player player)
     {
         if (isCoroutineRunning)

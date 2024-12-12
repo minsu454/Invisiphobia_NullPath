@@ -13,6 +13,12 @@ public abstract class BaseItem : Prop, IInteractable
         get { return itemTable; }
     }
 
+    protected string interactText;
+    public string InteractText { get { return interactText; } }
+
+    protected string actionText;
+    public string ActionText { get { return actionText; } }
+
     public override void Init()
     {
         base.Init();
