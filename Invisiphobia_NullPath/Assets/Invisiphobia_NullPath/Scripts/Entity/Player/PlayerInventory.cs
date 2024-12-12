@@ -39,7 +39,7 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void SetHand(InHandItem item, GameObject handPrefab, Action<Transform> interact = null)
     {
-        if (item.Table.itemCarryType == DesignEnums.ItemCarryType.None)
+        if (item.ItemTable.itemCarryType == DesignEnums.ItemCarryType.None)
             return;
 
         item.gameObject.SetActive(false);
@@ -56,7 +56,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void CleanInventory(InHandItem item)
     {
-        int temp = (int)item.Table.itemCarryType + curCount;
+        int temp = (int)item.ItemTable.itemCarryType + curCount;
         
         if (temp <= maxCount)
         {
@@ -67,7 +67,7 @@ public class PlayerInventory : MonoBehaviour
         while (temp > maxCount)
         {
             DropItem();
-            temp = (int)item.Table.itemCarryType + curCount;
+            temp = (int)item.ItemTable.itemCarryType + curCount;
         }
 
         curCount = temp;
@@ -93,7 +93,7 @@ public class PlayerInventory : MonoBehaviour
         item.IconActive(true);
         item.transform.position = Camera.main.transform.forward + transform.position;
 
-        curCount -= (int)item.Table.itemCarryType;
+        curCount -= (int)item.ItemTable.itemCarryType;
 
         RemoveItem();
         SetTabletHidden();
@@ -127,7 +127,7 @@ public class PlayerInventory : MonoBehaviour
         item.IconActive(true);
         item.transform.position = transform.position + transform.forward;
 
-        curCount -= (int)item.Table.itemCarryType;
+        curCount -= (int)item.ItemTable.itemCarryType;
 
         RemoveItem();
 

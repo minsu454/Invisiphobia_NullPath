@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,6 +15,7 @@ public class PlayerInteract : MonoBehaviour
 
     [Header("InteractGameObject")]
     private IInteractable curInteractable;
+    public Action<IInteractable> interactUIEvent;
 
     private Camera mainCam;
     private Player player;
@@ -34,6 +36,7 @@ public class PlayerInteract : MonoBehaviour
         {
             lastCheckTime = Time.time;
             PlayerInteraction();
+            interactUIEvent?.Invoke(curInteractable);
         }
     }
 

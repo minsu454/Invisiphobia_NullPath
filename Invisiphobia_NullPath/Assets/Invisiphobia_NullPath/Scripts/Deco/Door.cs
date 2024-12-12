@@ -9,6 +9,14 @@ public class Door : MonoBehaviour, IInteractable
     Quaternion startRotation;
     Quaternion endRotation;
 
+    [Header("Table")]
+    [SerializeField] private int itemId;
+    protected ItemTable itemTable;
+    public ItemTable ItemTable
+    {
+        get { return itemTable; }
+    }
+
     [Header("Door Settings")]
     public GameObject player;
     public GameObject door;

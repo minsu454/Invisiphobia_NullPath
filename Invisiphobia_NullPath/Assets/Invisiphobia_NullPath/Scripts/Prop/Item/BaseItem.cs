@@ -5,18 +5,18 @@ using UnityEngine;
 
 public abstract class BaseItem : Prop, IInteractable
 {
-    [Header("BaseItem")]
-    public int itemId;
-    protected ItemTable table;
-    public ItemTable Table
+    [Header("Table")]
+    [SerializeField] private int itemId;
+    protected ItemTable itemTable;
+    public ItemTable ItemTable
     {
-        get { return table; }
+        get { return itemTable; }
     }
 
     public override void Init()
     {
         base.Init();
-        table = DataServise.GetItemTableByKey(itemId);
+        itemTable = DataServise.GetItemTableByKey(itemId);
     }
 
     public abstract void Interact(Player player);

@@ -9,6 +9,14 @@ public class Table : MonoBehaviour, IInteractable
     [SerializeField] private float openPositionZ = 0.5f; // 서랍이 열릴 때의 위치 (Z축)
     [SerializeField] private float moveSpeed = 2f; // 서랍 이동 속도
 
+    [Header("Table")]
+    [SerializeField] private int itemId;
+    protected ItemTable itemTable;
+    public ItemTable ItemTable
+    {
+        get { return itemTable; }
+    }
+
     private bool isDrawer1Open = false;
     private bool isDrawer2Open = false;
     private bool isCoroutineRunning = false;
