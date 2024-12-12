@@ -26,6 +26,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     public event Action BasicStateEvent;
     public event Action ActiveStateEvent;
     public event Action<TabletStateType> ShotEvent;
+    private event Action hiddenEvent;
 
     public void Init(Tablet tablet)
     {
@@ -42,6 +43,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 
         tablet.OnStateChangedEvent += OnStateChanged;
         tablet.OnShotEvent += OnShot;
+        hiddenEvent += tablet.UnHidden;
     }
 
     /// <summary>
@@ -69,6 +71,8 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 
         worldUIList[num].gameObject.SetActive(true);
         worldUIList[num].Subscribe(this);
+
+        hiddenEvent.Invoke();
 
         choiceIdx = num;
     }
