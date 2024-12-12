@@ -9,7 +9,7 @@ public class PlayerInventory : MonoBehaviour
     private int maxCount = 0;
     private const int handCount = 2;
 
-    [SerializeField] private Tablet Tablet;
+    public Tablet Tablet;
 
     private readonly Stack<InHandItem> groundItemStack = new Stack<InHandItem>(2);
     private readonly Stack<GameObject> handItemStack = new Stack<GameObject>(2);
@@ -80,7 +80,7 @@ public class PlayerInventory : MonoBehaviour
         else
             Tablet.UnHidden();
     }
-
+        
     /// <summary>
     /// 아이템 바닥에 버리는 함수
     /// </summary>
