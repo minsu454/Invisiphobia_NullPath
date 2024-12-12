@@ -1960,6 +1960,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4098747518400105341}
   - component: {fileID: -6687839809086936297}
+  - component: {fileID: 2108843116386663232}
+  - component: {fileID: 5267282598805666961}
   m_Layer: 0
   m_Name: Vent_CeilingStr02
   m_TagString: Untagged
@@ -2003,6 +2005,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bf6b77e9ee51243a4b119e19326345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &2108843116386663232
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8234707520143567480}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5107484, y: 0.5621717, z: 1}
+  m_Center: {x: 0.25018764, y: -0.0072170496, z: 0}
+--- !u!65 &5267282598805666961
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8234707520143567480}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.8090487, y: 0.6776426, z: 1}
+  m_Center: {x: 1.6550875, y: -0.632686, z: 0}
 --- !u!1 &8258121133249096952
 GameObject:
   m_ObjectHideFlags: 0
