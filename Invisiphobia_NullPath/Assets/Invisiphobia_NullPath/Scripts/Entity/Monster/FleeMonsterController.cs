@@ -4,12 +4,9 @@ using UnityEngine.AI;
 
 public class FleeMonsterController : MonsterController
 {
-    [Header("Wandering")]
-    [SerializeField] protected float minWanderDistance;
-    [SerializeField] protected float maxWanderDistance;
-    [SerializeField] protected int minWanderingCount;
-    [SerializeField] protected int maxWanderingCount;
-    protected int wanderingCount;
+    [Header("Fleeing")]
+    [SerializeField] protected float minDistance;
+    [SerializeField] protected float maxDistance;
 
     public override void Init(Monster monster)
     {
@@ -28,7 +25,7 @@ public class FleeMonsterController : MonsterController
 
         Vector3 fleeDestination = GetSafeFleeDestination();
 
-        if (NavMesh.SamplePosition(fleeDestination, out NavMeshHit hit, maxWanderDistance, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(fleeDestination, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position); // 
             StartCoroutine(FleeAndTransitionToWandering());
@@ -48,14 +45,14 @@ public class FleeMonsterController : MonsterController
 
     Vector3 GetSafeFleeDestination()    // 도망 위치 계산
     {
-        const int maxAttempts = 30;
+        const int angleStep = 10;
         Vector3 bestDestination = transform.position;
         float maxDistanceFromPlayer = 0f;
 
-        for (int i = 0; i < maxAttempts; i++)
+        for (float angle = -100; angle <= 100; angle += angleStep)
         {
-            Vector3 randomDirection = GetRandomDirection();
-            Vector3 potentialDestination = transform.position + randomDirection * maxWanderDistance;
+            Vector3 fleeDirection = Quaternion.Euler(0, angle, 0) * -transform.forward;
+            Vector3 potentialDestination = transform.position + fleeDirection * maxDistance;
 
             if (!TryGetValidNavMeshPosition(potentialDestination, out Vector3 navMeshPosition))
                 continue;
@@ -66,13 +63,19 @@ public class FleeMonsterController : MonsterController
             if (!IsValidPathLength(navMeshPosition, out float pathLength))
                 continue;
 
-            // 플레이어로부터 가장 멀어진 위치
+            // 플레이어로부터 가장 먼 위치 계산
             float distanceFromPlayer = Vector3.Distance(navMeshPosition, targetTransform.position);
+
             if (distanceFromPlayer > maxDistanceFromPlayer)
             {
                 maxDistanceFromPlayer = distanceFromPlayer;
                 bestDestination = navMeshPosition;
             }
+        }
+
+        if (bestDestination == transform.position)
+        {
+            bestDestination = monsterSpawnPoint;
         }
 
         return bestDestination;
@@ -88,7 +91,7 @@ public class FleeMonsterController : MonsterController
     // NavMesh 위치 확인
     bool TryGetValidNavMeshPosition(Vector3 position, out Vector3 navMeshPosition)
     {
-        if (NavMesh.SamplePosition(position, out NavMeshHit hit, maxWanderDistance, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(position, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
         {
             navMeshPosition = hit.position;
             return true;
@@ -101,8 +104,9 @@ public class FleeMonsterController : MonsterController
     bool IsValidFleeAngle(Vector3 position)
     {
         Vector3 directionToPlayer = (targetTransform.position - position).normalized;
-        float angleToPlayer = Vector3.Angle(-transform.forward, directionToPlayer);
-        return angleToPlayer > 90;
+        float signedAngleToPlayer = Vector3.SignedAngle(-transform.forward, directionToPlayer, Vector3.up); // 도망중에는 찍히지 않도록 하던가, 플레이어가 보는 방향의 범위와 몬스터가 바라보는방향의 범위 비교하던가..
+
+        return signedAngleToPlayer > -105 && signedAngleToPlayer < 105;
     }
 
     // 경로 길이 확인
@@ -112,7 +116,7 @@ public class FleeMonsterController : MonsterController
         if (NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, path))
         {
             pathLength = GetPathLength(path);
-            return pathLength >= minWanderDistance && pathLength <= maxWanderDistance;
+            return pathLength <= maxDistance;
         }
         pathLength = 0f;
         return false;
