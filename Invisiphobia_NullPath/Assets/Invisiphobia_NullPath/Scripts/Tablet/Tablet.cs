@@ -10,6 +10,10 @@ public class Tablet : MonoBehaviour
     [Header("Managerr")]
     [SerializeField] private TabletUIManager manager;
 
+    [Header("Battery Settings")]
+    [SerializeField] private float maxCharge = 100f;
+    [SerializeField] private float currentCharge;    
+
     public event Action<TabletStateType> OnStateChangedEvent;
     public event Action<TabletStateType> OnShotEvent;
     private TabletStateType stateType = TabletStateType.Basic;
@@ -66,6 +70,25 @@ public class Tablet : MonoBehaviour
     {
         State = TabletStateType.Basic;
     }
+
+
+    #region 배터리관련
+    public float GetCurrentCharge()
+    {
+        return currentCharge;
+    }
+
+    public float GetMaxCharge()
+    {
+        return maxCharge;
+    }
+
+    public void SetCurrentCharge(float value)
+    {
+        currentCharge = value;
+        // UI 업데이트
+    }
+    #endregion
 
     /// <summary>
     /// tablet 스크린 변환 함수
