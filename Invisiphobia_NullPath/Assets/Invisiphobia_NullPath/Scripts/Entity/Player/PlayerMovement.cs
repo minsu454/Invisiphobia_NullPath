@@ -35,8 +35,9 @@ public class PlayerMovement : MonoBehaviour
     public float sprintFOV = 80f;
     public float sprintFOVStepTime = 10f;
     private bool isExhausted = false;
-    private float recoveryDelay = 2f; // 회복 지연 시간 (초 단위)
+    private float recoveryDelay = 5f; // 회복 지연 시간 (초 단위)
     private float recoveryTimer = 0f; // 회복 타이머 변수
+    private bool isHardBreathingPlayed = false;
 
     // Sprint Bar
     [SerializeField] private Slider staminaBar;
@@ -203,10 +204,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 isSprinting = false;
 
-                if (!isExhausted)
+                if (!isExhausted && !isHardBreathingPlayed)
                 {
                     Managers.Sound.SFX3DPlay(hardBreathingClip, footTr);
                     isExhausted = true;
+                    isHardBreathingPlayed = true; // 사운드 실행 플래그 설정
+                    recoveryTimer = recoveryDelay; // 회복 지연 타이머 초기화
                 }
             }
             else
@@ -216,10 +219,30 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 스테미너 회복 함수
+    /// </summary>
     private void StaminaRecovery()
     {
         if (!isSprinting)
         {
+            if (isExhausted)
+            {
+                // 딜레이가 진행 중일 때는 회복 중단
+                if (recoveryTimer > 0f)
+                {
+                    recoveryTimer -= Time.deltaTime;
+                    return; // 딜레이 중이므로 회복 로직 종료
+                }
+                else
+                {
+                    // 지연 시간이 끝나면 회복 시작
+                    isExhausted = false;
+                    isHardBreathingPlayed = false; // 사운드 플래그 초기화
+                }
+            }
+
+            // 회복 로직
             sprintRemaining += 0.1f * Time.deltaTime * 10;
             sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintDuration);
 
@@ -243,17 +266,20 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // 현재 발소리 간격 설정: 걷기와 달리기 간격 구분
-        float currentStepInterval = isSprinting ? sprintstepInterval : walkstepInterval;
-
-        // 타이머 갱신
-        footstepTimer += Time.deltaTime;
-
-        // 타이머가 간격을 초과했는지 확인
-        if (footstepTimer >= currentStepInterval)
+        if(isGrounded)
         {
-            Managers.Sound.SFX3DPlay(footClip, footTr, true, 15);
-            footstepTimer = 0f; // 타이머 초기화
+            // 현재 발소리 간격 설정: 걷기와 달리기 간격 구분
+            float currentStepInterval = isSprinting ? sprintstepInterval : walkstepInterval;
+
+            // 타이머 갱신
+            footstepTimer += Time.deltaTime;
+
+            // 타이머가 간격을 초과했는지 확인
+            if (footstepTimer >= currentStepInterval)
+            {
+                Managers.Sound.SFX3DPlay(footClip, footTr, true, 15);
+                footstepTimer = 0f; // 타이머 초기화
+            }
         }
     }
     /// <summary>
@@ -299,7 +325,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
-            Debug.DrawRay(origin, direction * distance, Color.red);
             isGrounded = true;
         }
         else
