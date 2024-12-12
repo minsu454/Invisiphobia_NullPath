@@ -165,10 +165,16 @@ public class PlayerMovement : MonoBehaviour
 
             // Apply movement force
             Vector3 velocity = rb.velocity;
-            Vector3 velocityChange = (targetVelocity - velocity);
-            velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-            velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+
+            // X, Z축 속도만 변경
+            Vector3 velocityChange = targetVelocity - new Vector3(velocity.x, 0, velocity.z);
+
+            // 변화량 제한
+            //velocityChange = Vector3.ClampMagnitude(velocityChange, maxVelocityChange);
+
+            // 기존 Y축 속도를 유지
             velocityChange.y = 0;
+
 
             rb.AddForce(velocityChange, ForceMode.VelocityChange);
 
