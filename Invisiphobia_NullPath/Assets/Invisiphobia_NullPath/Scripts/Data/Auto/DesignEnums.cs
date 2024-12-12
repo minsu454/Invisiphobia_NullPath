@@ -13,11 +13,4 @@ public static class DesignEnums
         English = 0,
         Korean = 1,
     }
-    public enum GetKeyType
-    {
-        None = 0,
-        E = 1,
-        LeftMouse = 2,
-        Tab = 3,
-    }
 }
