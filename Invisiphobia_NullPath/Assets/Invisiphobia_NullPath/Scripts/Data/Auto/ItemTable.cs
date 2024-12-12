@@ -47,9 +47,14 @@ public class ItemTable
     public DesignEnums.ItemCarryType itemCarryType;
 
     /// <summary>
-    /// 키입력타입
+    /// 상호작용텍스트
     /// </summary>
-    public DesignEnums.GetKeyType getKeyType;
+    public List<int> interactText;
+
+    /// <summary>
+    /// 동작텍스트(-1은 사용안함)
+    /// </summary>
+    public int actionText;
 
 }
 public class ItemTableLoader
