@@ -4,16 +4,33 @@ using UnityEngine.AI;
 
 public class FleeMonsterController : MonsterController
 {
+    [Header("Wandering")]
+    [SerializeField] protected float minWanderDistance;
+    [SerializeField] protected float maxWanderDistance;
+    [SerializeField] protected int minWanderingCount;
+    [SerializeField] protected int maxWanderingCount;
+    protected int wanderingCount;
+
+    public override void Init(Monster monster)
+    {
+        base.Init(monster);
+        SetTarget(Player.Instance.transform);
+
+        agent.speed = runSpeed;
+
+        monster.MyState.IdleEvent += LookingAtPlayerUpdate;
+        monster.MyState.WanderingEvent += OnWanderingUpdate;
+    }
+
     public override void PlayerAttackMonster()
     {
         monster.aiState = AIStateType.MonsterFleeing;
-        agent.speed = runSpeed;
 
         Vector3 fleeDestination = GetSafeFleeDestination();
 
         if (NavMesh.SamplePosition(fleeDestination, out NavMeshHit hit, maxWanderDistance, NavMesh.AllAreas))
         {
-            agent.SetDestination(hit.position);
+            agent.SetDestination(hit.position); // 
             StartCoroutine(FleeAndTransitionToWandering());
         }
     }
@@ -25,8 +42,8 @@ public class FleeMonsterController : MonsterController
             yield return null;
         }
 
-        LookingAtPlayerUpdate();
         ResetToSpawnPoint();
+        LookingAtPlayerUpdate();
     }
 
     Vector3 GetSafeFleeDestination()    // 도망 위치 계산
@@ -50,7 +67,7 @@ public class FleeMonsterController : MonsterController
                 continue;
 
             // 플레이어로부터 가장 멀어진 위치
-            float distanceFromPlayer = Vector3.Distance(navMeshPosition, playerTransform.position);
+            float distanceFromPlayer = Vector3.Distance(navMeshPosition, targetTransform.position);
             if (distanceFromPlayer > maxDistanceFromPlayer)
             {
                 maxDistanceFromPlayer = distanceFromPlayer;
@@ -83,7 +100,7 @@ public class FleeMonsterController : MonsterController
     // 플레이어를 지나치지 않도록 각도 설정(플레이어를 바라본 180도를 제외하도록)
     bool IsValidFleeAngle(Vector3 position)
     {
-        Vector3 directionToPlayer = (playerTransform.position - position).normalized;
+        Vector3 directionToPlayer = (targetTransform.position - position).normalized;
         float angleToPlayer = Vector3.Angle(-transform.forward, directionToPlayer);
         return angleToPlayer > 90;
     }
@@ -99,5 +116,56 @@ public class FleeMonsterController : MonsterController
         }
         pathLength = 0f;
         return false;
+    }
+
+    protected override void AttackingUpdate()
+    {
+        NavMeshPath path = new NavMeshPath();
+        if (agent.CalculatePath(targetTransform.position, path))
+        {
+            agent.SetDestination(targetTransform.position);
+        }
+    }
+
+    protected void ResetToSpawnPoint()
+    {
+        agent.Warp(monsterSpawnPoint);
+        ResetCycle();
+    }
+
+    protected void LookingAtPlayerUpdate()
+    {
+        if (targetDistance < lookAtPlayerDistance)
+        {
+            Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
+    }
+
+    protected float GetPathLength(NavMeshPath path)
+    {
+        float totalLength = 0f;
+
+        if (path.corners.Length < 2)    // 코너(좌표)가 2개 미만이면 거리가 없음
+            return totalLength;
+
+        for (int i = 0; i < path.corners.Length - 1; i++)   // 코너 간 거리 계산
+        {
+            totalLength += Vector3.Distance(path.corners[i], path.corners[i + 1]);  // totalLength에 거리 더해서 총 경로 길이 반환
+        }
+
+        return totalLength;
+    }
+
+    void ResetCycle()
+    {
+        monster.aiState = AIStateType.Idle;
+        monster.ResetCycle();
+    }
+
+    void OnWanderingUpdate()
+    {
+        monster.aiState = AIStateType.Attacking;
     }
 }
