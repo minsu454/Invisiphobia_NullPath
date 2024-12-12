@@ -17,7 +17,6 @@ public class Battery : InHandItem
     void ReplaceBattery(Transform playerTr)
     {
         Player player = playerTr.GetComponent<Player>();
-
         if (player == null)
         {
             Debug.LogWarning("이시끼 어디갔어.");
@@ -39,6 +38,7 @@ public class Battery : InHandItem
         tablet.SetCurrentCharge(batteryRatio * tabletMaxCharge); 
         currentCharge = tabletRatio * maxCharge;
 
+        transform.position = Camera.main.transform.forward + playerTr.position;
         Debug.Log(currentCharge);
     }
 
