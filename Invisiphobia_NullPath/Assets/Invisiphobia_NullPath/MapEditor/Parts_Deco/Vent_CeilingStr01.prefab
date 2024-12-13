@@ -68,6 +68,7 @@ GameObject:
   - component: {fileID: 3469051689419408048}
   - component: {fileID: 7636792726084756009}
   - component: {fileID: 6765057847578033762}
+  - component: {fileID: -4203658882831398058}
   m_Layer: 0
   m_Name: Vent_CeilingStr01
   m_TagString: Untagged
@@ -139,6 +140,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7042055, y: 0.6013195, z: 11.995865}
   m_Center: {x: -0.00000047683716, y: -0.000000029802322, z: -3.9803743}
+--- !u!208 &-4203658882831398058
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666793209684127067}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.35210276, y: 0.30065975, z: 5.99793}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.0000004768372, y: -0.00000002980232, z: -3.980374}
+  m_TimeToStationary: 0.5
 --- !u!1 &967828152072766517
 GameObject:
   m_ObjectHideFlags: 0

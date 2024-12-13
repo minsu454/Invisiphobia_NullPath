@@ -3045,6 +3045,7 @@ GameObject:
   - component: {fileID: 4065062503606392344}
   - component: {fileID: 1188322228105076587}
   - component: {fileID: 5709537640850142476}
+  - component: {fileID: -4282256470991011506}
   m_Layer: 0
   m_Name: WallPipe_Bot01
   m_TagString: Untagged
@@ -3214,6 +3215,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bf6b77e9ee51243a4b119e19326345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!208 &-4282256470991011506
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826789738071508528}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.12640356, y: 0.24557765, z: 5.60242}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.09730422, y: -0.3162167, z: -1.035469}
+  m_TimeToStationary: 0.5
 --- !u!1 &1837173798466529172
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5318638092800617703}
   - component: {fileID: 5747596180363731067}
+  - component: {fileID: -3862628505413747090}
   m_Layer: 0
   m_Name: ConcreteColumn_01
   m_TagString: Untagged
@@ -54,6 +55,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.904488, y: 4.181272, z: 0.77224153}
   m_Center: {x: -0.43714955, y: 2.0167649, z: 0.011020571}
+--- !u!208 &-3862628505413747090
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3396759400315526872}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.452244, y: 2.090636, z: 0.38612074}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.4371496, y: 2.016765, z: 0.01102057}
+  m_TimeToStationary: 0.5
 --- !u!1001 &6977169698285154023
 PrefabInstance:
   m_ObjectHideFlags: 0
