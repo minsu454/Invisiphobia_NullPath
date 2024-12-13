@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 {
     [SerializeField] private List<WorldUI<TabletStateType>> worldUIList = new List<WorldUI<TabletStateType>>();
+
+    [SerializeField] private Image batteryBar; 
     private int choiceIdx = 0;
     public int ChoiceIdx
     {
@@ -80,5 +82,10 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     private void OnShot(TabletStateType type)
     {
         ShotEvent?.Invoke(type);
+    }
+
+    public void UpdateBattery(float amount)
+    {
+        batteryBar.fillAmount = amount;
     }
 }

@@ -19,6 +19,7 @@ public class Tablet : MonoBehaviour
     [SerializeField] private float currentCharge;
     [SerializeField] private float consumptionRate;
     [SerializeField] private float consumptionAmount;
+    private Coroutine myCoroutine;
 
     private bool isCharged = true;
 
@@ -105,8 +106,22 @@ public class Tablet : MonoBehaviour
             isCharged = true;
             OnSwitchTabletScreen(0);
         }
+        Consomtion();
+        UpdateBatteryUI();
         // UI 업데이트
-        StartCoroutine(CoConsumption());
+    }
+
+    private void Consomtion()
+    {
+        if(myCoroutine == null)
+        {
+            myCoroutine = StartCoroutine(CoConsumption());
+        }
+        else
+        {
+            StopCoroutine(myCoroutine);
+            myCoroutine = StartCoroutine(CoConsumption());
+        } 
     }
 
     private IEnumerator CoConsumption()
@@ -115,12 +130,17 @@ public class Tablet : MonoBehaviour
         {
             yield return YieldCache.WaitForSeconds(consumptionRate);
             currentCharge -= consumptionAmount;
-
-            Debug.Log($"Battery Charge: {currentCharge}/{maxCharge}");
+            UpdateBatteryUI();
         }
-
         OffScreen();
         // 배터리고갈함수
+    }
+
+    public void UpdateBatteryUI()
+    {
+        float amount = Mathf.Clamp01(currentCharge / maxCharge);
+
+        manager.UpdateBattery(amount);
     }
 
     private void OffScreen()
