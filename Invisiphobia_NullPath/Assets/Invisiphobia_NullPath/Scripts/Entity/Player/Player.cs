@@ -26,6 +26,9 @@ public class Player : Entity
     [SerializeField] private PlayerInventory playerInventory;
     public PlayerInventory PlayerInventory { get { return playerInventory; } }
 
+    [SerializeField] private PlayerState playerState;
+    public PlayerState PlayerState { get { return playerState; } }
+
     public override void Init()
     {
         Instance = this;
@@ -35,6 +38,7 @@ public class Player : Entity
         PlayerMovement.Init(this);
         CameraController.Init(this);
         PlayerInventory.Init(this);
+        PlayerState.Init(this);
     }
 
 }
