@@ -113,6 +113,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 938870914933870990}
   m_SourcePrefab: {fileID: 100100000, guid: 1c6fe7c5f06969d4784db021dab979a3, type: 3}
+--- !u!23 &4862090031674802784 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 1c6fe7c5f06969d4784db021dab979a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6104638908133498596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5995049506132867343 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1c6fe7c5f06969d4784db021dab979a3,
@@ -137,7 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0973cbb27c119ef4989707267ceee9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myRendererArr: []
+  myRendererArr:
+  - {fileID: 4862090031674802784}
   mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
   itemId: 1001
