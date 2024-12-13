@@ -17,6 +17,7 @@ public class Door : MonoBehaviour, IInteractable
     [Header("Door")]
     [SerializeField] private int itemId;
     protected ItemTable itemTable;
+    private Transform playerTr;
     public ItemTable ItemTable
     {
         get { return itemTable; }
@@ -30,14 +31,30 @@ public class Door : MonoBehaviour, IInteractable
 
     public bool IsReveal => true;
 
-    public void Awake()
+    public void Start()
     {
+        playerTr = Player.Instance.transform;
         startRotation = transform.rotation;
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
 
         itemTable = DataService.GetItemTableByKey(itemId);
         interactText = DataService.GetInteractText(ItemTable.interactText[0]);
         //actionText = DataService.GetInteractText(ItemTable.actionText);
+    }
+    private void Update()
+    {
+        if (IsPlayerBehind(playerTr))
+        {
+            if (isOpen == false)
+            {
+                interactText = "";
+                return;
+            }
+        }
+        else
+        {
+            interactText = DataService.GetInteractText(ItemTable.interactText[isOpen ? 1 : 0]);
+        }
     }
     public void Interact(Player player)
     {
@@ -48,9 +65,9 @@ public class Door : MonoBehaviour, IInteractable
 
         if(IsPlayerBehind(player.transform))
         {
-            if(isOpen == true)
+            if(isOpen == false)
             {
-                StartCoroutine(DoorInteract(endRotation, startRotation, 1f)); // 닫기 동작
+                interactText = "";
                 return;
             }
         }
