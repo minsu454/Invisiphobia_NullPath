@@ -5892,6 +5892,7 @@ GameObject:
   - component: {fileID: 1689464630011104564}
   - component: {fileID: -1886189634676448748}
   - component: {fileID: 2724886382721200980}
+  - component: {fileID: -844198739248701728}
   m_Layer: 0
   m_Name: CeilingPipe_A03
   m_TagString: Untagged
@@ -5975,6 +5976,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.35998863, y: 0.062918425, z: 1.9873214}
   m_Center: {x: -0.051332146, y: -0.0010923147, z: 0.20969653}
+--- !u!208 &-844198739248701728
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8866301670683005405}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.1799943, y: 0.03145921, z: 0.9936605}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.05133215, y: -0.001092315, z: 0.2096965}
+  m_TimeToStationary: 0.5
 --- !u!1 &9037345195633672523
 GameObject:
   m_ObjectHideFlags: 0

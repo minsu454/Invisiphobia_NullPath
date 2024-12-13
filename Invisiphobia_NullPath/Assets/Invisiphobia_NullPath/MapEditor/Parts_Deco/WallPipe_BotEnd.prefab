@@ -94,6 +94,8 @@ GameObject:
   - component: {fileID: 4818154688844169009}
   - component: {fileID: 4941830239768692334}
   - component: {fileID: -9004555871348231177}
+  - component: {fileID: -2345271633463372815}
+  - component: {fileID: 7972865295056068824}
   m_Layer: 0
   m_Name: WallPipe_BotEnd
   m_TagString: Untagged
@@ -146,6 +148,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bf6b77e9ee51243a4b119e19326345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!208 &-2345271633463372815
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095728360268867918}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.09742155, y: 0.14921525, z: 0.1397983}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.01647985, y: -0.1012332, z: -0.04708517}
+  m_TimeToStationary: 0.5
+--- !u!65 &7972865295056068824
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095728360268867918}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.19484311, y: 0.29843047, z: 0.27959657}
+  m_Center: {x: 0.01647985, y: -0.1012332, z: -0.047085166}
 --- !u!1 &1235355782479139663
 GameObject:
   m_ObjectHideFlags: 0

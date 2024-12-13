@@ -31,7 +31,7 @@ public class EntityManager : MonoBehaviour
             string name = entityData.playerData.Name.ToFirstName("_");
             GameObject go = ObjectManager.Instantiate(AddressablePath.EntityPath(name));
 
-            go.name = entityData.playerData.Name;
+            go.name = name;
             go.transform.position = entityData.playerData.Pos;
             go.transform.rotation = entityData.playerData.Rot;
 
@@ -43,7 +43,7 @@ public class EntityManager : MonoBehaviour
             string name = data.Name.ToFirstName("_");
             GameObject go = ObjectManager.Instantiate(AddressablePath.EntityPath(name));
 
-            go.name = data.Name;
+            go.name = name;
             go.transform.position = data.Pos;
             go.transform.rotation = data.Rot;
 

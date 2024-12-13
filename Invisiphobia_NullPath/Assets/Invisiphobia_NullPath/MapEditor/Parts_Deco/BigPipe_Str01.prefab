@@ -1276,6 +1276,7 @@ GameObject:
   - component: {fileID: 3954907721146722536}
   - component: {fileID: 1545223272891340156}
   - component: {fileID: 5586268951737131799}
+  - component: {fileID: -4178803063325904583}
   m_Layer: 0
   m_Name: BigPipe_Str01
   m_TagString: Untagged
@@ -1340,6 +1341,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.19858688, y: 0.2212069, z: 4.0699306}
   m_Center: {x: -0.00000014901161, y: -0.0016157627, z: 0.64307}
+--- !u!208 &-4178803063325904583
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3332919062557647694}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.09929345, y: 0.11060345, z: 2.0349655}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.0000001490116, y: -0.001615763, z: 0.64307}
+  m_TimeToStationary: 0.5
 --- !u!1 &3345030181721726002
 GameObject:
   m_ObjectHideFlags: 0

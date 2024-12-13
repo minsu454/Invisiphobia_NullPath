@@ -331,7 +331,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
         }
 
 
-            GameObject playerprefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{totalData.EntityData.playerData}.prefab");
+        GameObject playerprefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{totalData.EntityData.playerData.Name}.prefab");
         if (playerprefab != null)
         {
             GameObject go = Instantiate(playerprefab);
