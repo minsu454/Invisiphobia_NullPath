@@ -15,7 +15,7 @@ public class StunMonsterController : MonsterController
     [SerializeField] protected float detectDistance;
     protected int wanderingCount;
     protected bool canWander = true;
-    
+
     [Header("Combat")]
     protected const float fieldOfView = 180f;
 
@@ -72,20 +72,21 @@ public class StunMonsterController : MonsterController
     {
         if (!playerMovement.playerCanMove)
         {
-            if (targetDistance < hideAttackDistance)
+            if (targetDistance < hideAttackDistance)    // 너무 가까이 있을 때 숨어서 주금
             {
                 playerState.Die();
                 isHiding = false;
             }
-            else
-            {
-                isHiding = true;
+            isHiding = true;
 
-                monster.aiState = AIStateType.Wandering;
-            }
+            monster.aiState = AIStateType.Wandering;
         }
-        
-        if (targetDistance < detectDistance && monster.aiState != AIStateType.MonsterFleeing)
+        else
+        {
+            isHiding = false;
+        }
+
+        if (targetDistance < detectDistance && monster.aiState != AIStateType.MonsterFleeing && !isHiding)
         {
             NavMeshPath path = new NavMeshPath();
             if (agent.CalculatePath(targetTransform.position, path))
@@ -98,6 +99,12 @@ public class StunMonsterController : MonsterController
             agent.SetDestination(transform.position);
             monster.aiState = AIStateType.Wandering;
             agent.speed = walkSpeed;
+        }
+
+        if (targetDistance < 2f)     // 닿으면 주금
+        {
+            agent.speed = 0f;
+            playerState.Die();
         }
     }
 
@@ -113,7 +120,7 @@ public class StunMonsterController : MonsterController
             return;
         }
 
-        if (targetDistance < detectDistance && !isHiding && IsPlayerInFieldOfView()) // 플레이어가 감지 범위 안에 있고 숨지 않은 경우
+        if (targetDistance < detectDistance && playerMovement.playerCanMove && IsPlayerInFieldOfView()) // 플레이어가 감지 범위 안에 있고 숨지 않은 경우
         {
             monster.aiState = AIStateType.Attacking;
             agent.speed = runSpeed;

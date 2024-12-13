@@ -1,12 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Playables;
 
 public class FleeMonsterController : MonsterController
 {
     [Header("Fleeing")]
     [SerializeField] protected float minDistance;
     [SerializeField] protected float maxDistance;
+
+    public PlayerState playerState;
 
     public override void Init(Monster monster)
     {
@@ -128,6 +131,11 @@ public class FleeMonsterController : MonsterController
         if (agent.CalculatePath(targetTransform.position, path))
         {
             agent.SetDestination(targetTransform.position);
+        }
+
+        if (targetDistance < 1f)     // 닿으면 주금
+        {
+            playerState.Die();
         }
     }
 

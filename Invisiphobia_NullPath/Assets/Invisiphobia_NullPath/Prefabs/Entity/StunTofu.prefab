@@ -203,12 +203,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 2
   runSpeed: 3
-  detectDistance: 10
-  safeDistance: 20
   lookAtPlayerDistance: 15
+  agent: {fileID: 6287637833325675167}
   minWanderDistance: 10
   maxWanderDistance: 15
-  minWanderingCount: 6
-  maxWanderingCount: 12
-  attackDistance: 1
-  agent: {fileID: 6287637833325675167}
+  minWanderingCount: 4
+  maxWanderingCount: 8
+  detectDistance: 10
+  playerMovement: {fileID: 0}
+  playerState: {fileID: 0}
