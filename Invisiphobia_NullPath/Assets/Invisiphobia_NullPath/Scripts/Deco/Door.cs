@@ -10,7 +10,7 @@ public class Door : MonoBehaviour, IInteractable
     Quaternion startRotation;
     Quaternion endRotation;
 
-    [Header("Table")]
+    [Header("Door")]
     [SerializeField] private int itemId;
     protected ItemTable itemTable;
     public ItemTable ItemTable
@@ -31,8 +31,9 @@ public class Door : MonoBehaviour, IInteractable
         startRotation = transform.rotation;
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
 
-        interactText = DataServise.GetInteractText(ItemTable.interactText[0]);
-        actionText = DataServise.GetInteractText(ItemTable.actionText);
+        itemTable = DataService.GetItemTableByKey(itemId);
+        interactText = DataService.GetInteractText(ItemTable.interactText[0]);
+        //actionText = DataService.GetInteractText(ItemTable.actionText);
     }
     public void Interact(Player player)
     {
@@ -46,12 +47,6 @@ public class Door : MonoBehaviour, IInteractable
             if(isOpen == true)
             {
                 StartCoroutine(DoorInteract(endRotation, startRotation, 1f)); // 닫기 동작
-                //문을 닫을 때 나올 소리
-                return;
-            }
-            else
-            {
-                Debug.Log("문을 열 수 없는 각도입니다");
                 return;
             }
         }
@@ -98,6 +93,7 @@ public class Door : MonoBehaviour, IInteractable
 
         // 문 상태 업데이트
         isOpen = startRotation != transform.rotation;
+        interactText = DataService.GetInteractText(ItemTable.interactText[isOpen? 1:0]);
     }
 }
 

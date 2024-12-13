@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Common.Data;
 
 public class HideableObject : BaseItem
 {
@@ -8,6 +9,11 @@ public class HideableObject : BaseItem
     public float hideSpeed = 2f; // 숨는 속도
     private Vector3 originalPosition;  // 원래 위치
 
+    public override void Init()
+    {
+        base.Init();
+        interactText = DataService.GetInteractText(ItemTable.interactText[0]);
+    }
     public override void Interact(Player player)
     {
         if (!isHidden)
@@ -15,11 +21,13 @@ public class HideableObject : BaseItem
             isHidden = true;
             originalPosition = player.transform.position;
 
+            interactText = DataService.GetInteractText(ItemTable.interactText[1]);
             StartCoroutine(Hide(player));
         }
         else
         {
             isHidden = false;
+            interactText = DataService.GetInteractText(ItemTable.interactText[0]);
             StartCoroutine(Out(player));
         }
     }

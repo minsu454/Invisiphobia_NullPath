@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using Common.Yield;
 using Common.Data;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 public class Table : MonoBehaviour, IInteractable
 {
@@ -29,12 +31,38 @@ public class Table : MonoBehaviour, IInteractable
     private bool isDrawer1Open = false;
     private bool isDrawer2Open = false;
     private bool isCoroutineRunning = false;
+    private bool isHit = false;
 
+    private string[] tableArr = new string[2];
     private void Awake()
     {
-        //Todo
-        //actionText = DataServise.GetInteractText(ItemTable.interactText);
-        actionText = DataServise.GetInteractText(ItemTable.actionText);
+        itemTable = DataService.GetItemTableByKey(itemId);
+        //actionText = DataServise.GetInteractText(ItemTable.actionText);
+        for(int i = 0; i < itemTable.interactText.Count; i++)
+        {
+            tableArr[i] = DataService.GetInteractText(ItemTable.interactText[0]);
+        }
+    }
+
+    private void Update()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            // 테이블이 레이의 충돌 지점이라면 해당 방향을 계산
+            Vector3 hitPoint = hit.point;
+            Vector3 tableCenter = transform.position;
+
+            // 충돌 지점이 테이블의 중심보다 왼쪽인지 오른쪽인지 판단
+            if (hitPoint.x < tableCenter.x)
+            {
+                interactText = tableArr[0];
+            }
+            else
+            {
+                interactText = tableArr[1];
+            }
+        }
     }
 
     public void Interact(Player player)
@@ -60,13 +88,13 @@ public class Table : MonoBehaviour, IInteractable
                 {
                     StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer1));
                     isDrawer1Open = true;
-                    Debug.Log("Drawer 1 opened.");
+                    tableArr[0] = DataService.GetInteractText(ItemTable.interactText[1]);
                 }
                 else
                 {
                     StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, Vector3.zero, drawer1));
                     isDrawer1Open = false;
-                    Debug.Log("Drawer 1 closed.");
+                    tableArr[0] = DataService.GetInteractText(ItemTable.interactText[0]);
                 }
             }
             else
@@ -76,13 +104,13 @@ public class Table : MonoBehaviour, IInteractable
                 {
                     StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer2));
                     isDrawer2Open = true;
-                    Debug.Log("Drawer 2 opened.");
+                    tableArr[1] = DataService.GetInteractText(ItemTable.interactText[1]);
                 }
                 else
                 {
                     StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, Vector3.zero, drawer2));
                     isDrawer2Open = false;
-                    Debug.Log("Drawer 2 closed.");
+                    tableArr[1] = DataService.GetInteractText(ItemTable.interactText[0]);
                 }
             }
         }

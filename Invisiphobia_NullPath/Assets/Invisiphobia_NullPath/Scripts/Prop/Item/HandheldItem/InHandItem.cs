@@ -13,7 +13,7 @@ public abstract class InHandItem : BaseItem
     {
         base.Init();
 
-        interactText = DataServise.GetInteractText(ItemTable.interactText[0]);
-        actionText = ItemTable.actionText != -1 ? DataServise.GetInteractText(ItemTable.actionText) : "";
+        interactText = DataService.GetInteractText(ItemTable.interactText[0]);
+        actionText = ItemTable.actionText != -1 ? DataService.GetInteractText(ItemTable.actionText) : "";
     }
 }
