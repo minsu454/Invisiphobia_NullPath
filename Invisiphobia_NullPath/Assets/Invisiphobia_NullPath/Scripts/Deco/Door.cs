@@ -26,10 +26,6 @@ public class Door : MonoBehaviour, IInteractable
 
     public bool IsReveal => true;
 
-    [Header("Door Settings")]
-    public GameObject player;
-    public GameObject door;
-
     public void Awake()
     {
         startRotation = transform.rotation;
@@ -45,7 +41,7 @@ public class Door : MonoBehaviour, IInteractable
             return;
         }
 
-        if(IsPlayerBehind())
+        if(IsPlayerBehind(player.transform))
         {
             if(isOpen == true)
             {
@@ -71,13 +67,13 @@ public class Door : MonoBehaviour, IInteractable
             //문을 열 때 나올 소리
         }
     }
-    private bool IsPlayerBehind()
+    private bool IsPlayerBehind(Transform playerTransform)
     {
         // 문의 앞 방향(Forward) 벡터
-        Vector3 doorBehind = -door.transform.forward;
+        Vector3 doorBehind = -transform.forward;
 
         // 플레이어와 문의 상대 위치 벡터
-        Vector3 playerToDoor = player.transform.position - door.transform.position;
+        Vector3 playerToDoor = playerTransform.position - transform.position;
 
         // 내적 계산
         float dotProduct = Vector3.Dot(doorBehind.normalized, playerToDoor.normalized);
