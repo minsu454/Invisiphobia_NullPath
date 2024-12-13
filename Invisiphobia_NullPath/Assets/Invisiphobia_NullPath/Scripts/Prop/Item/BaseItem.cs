@@ -24,7 +24,7 @@ public abstract class BaseItem : Prop, IInteractable
     public override void Init()
     {
         base.Init();
-        itemTable = DataServise.GetItemTableByKey(itemId);
+        itemTable = DataService.GetItemTableByKey(itemId);
     }
 
     public abstract void Interact(Player player);

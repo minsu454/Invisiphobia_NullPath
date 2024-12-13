@@ -9,7 +9,7 @@ public class FallingObstacleObject : BaseItem
     public override void Init()
     {
         base.Init();
-        interactText = DataServise.GetInteractText(ItemTable.interactText[0]);
+        interactText = DataService.GetInteractText(ItemTable.interactText[0]);
     }
 
     public override void Interact(Player player)

@@ -1,6 +1,9 @@
+using static UnityEditor.Progress;
+using Unity.VisualScripting;
+
 namespace Common.Data
 {
-    public static class DataServise
+    public static class DataService
     {
         private static ItemTableLoader itemLoader = new ItemTableLoader();
         private static ItemTextTableLoader itemTextLoader = new ItemTextTableLoader();
