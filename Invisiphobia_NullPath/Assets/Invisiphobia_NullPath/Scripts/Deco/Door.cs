@@ -30,7 +30,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public bool IsReveal => true;
 
-    public void Awake()
+    public void Start()
     {
         startRotation = transform.rotation;
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
