@@ -1,5 +1,9 @@
+using Common.Yield;
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Tablet : MonoBehaviour 
 {
@@ -7,12 +11,16 @@ public class Tablet : MonoBehaviour
     [SerializeField] private TabletController controller;
     [SerializeField] private TabletUIController uiController;
 
-    [Header("Managerr")]
+    [Header("Manager")]
     [SerializeField] private TabletUIManager manager;
 
     [Header("Battery Settings")]
     [SerializeField] private float maxCharge = 100f;
-    [SerializeField] private float currentCharge;    
+    [SerializeField] private float currentCharge;
+    [SerializeField] private float consumptionRate;
+    [SerializeField] private float consumptionAmount;
+
+    private bool isCharged = true;
 
     public event Action<TabletStateType> OnStateChangedEvent;
     public event Action<TabletStateType> OnShotEvent;
@@ -41,6 +49,12 @@ public class Tablet : MonoBehaviour
         player.PlayerController.playerTabletActionEvent += ToggleTabletState;
         player.PlayerController.tabletSwitchActionEvent += OnSwitchTabletScreen;
         player.PlayerController.playerClickActionEvent += OnClick;
+
+        SetCurrentCharge(maxCharge);
+    }
+
+    private void Start()
+    {
     }
 
     /// <summary>
@@ -71,7 +85,6 @@ public class Tablet : MonoBehaviour
         State = TabletStateType.Basic;
     }
 
-
     #region 배터리관련
     public float GetCurrentCharge()
     {
@@ -86,7 +99,34 @@ public class Tablet : MonoBehaviour
     public void SetCurrentCharge(float value)
     {
         currentCharge = value;
+      if(currentCharge > 0 && !isCharged)
+        {
+            //manager.ChoiceIdx = 0;
+            isCharged = true;
+            OnSwitchTabletScreen(0);
+        }
         // UI 업데이트
+        StartCoroutine(CoConsumption());
+    }
+
+    private IEnumerator CoConsumption()
+    {
+        while(currentCharge > 0)
+        {
+            yield return YieldCache.WaitForSeconds(consumptionRate);
+            currentCharge -= consumptionAmount;
+
+            Debug.Log($"Battery Charge: {currentCharge}/{maxCharge}");
+        }
+
+        OffScreen();
+        // 배터리고갈함수
+    }
+
+    private void OffScreen()
+    {
+        isCharged = false;
+        manager.ChoiceIdx = 3;
     }
     #endregion
 
@@ -95,7 +135,10 @@ public class Tablet : MonoBehaviour
     /// </summary>
     private void OnSwitchTabletScreen(int num)
     {
-        manager.ChoiceIdx = num;
+        if (isCharged)
+        {
+            manager.ChoiceIdx = num;
+        }
     }
 
     private void OnClick()
