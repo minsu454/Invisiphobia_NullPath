@@ -499,6 +499,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8087926749238842568}
   - component: {fileID: -3892024072071887264}
+  - component: {fileID: -2611589033392626714}
+  - component: {fileID: 4518950127046839282}
   m_Layer: 0
   m_Name: MidPipe_Sin02
   m_TagString: Untagged
@@ -537,6 +539,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bf6b77e9ee51243a4b119e19326345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!208 &-2611589033392626714
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300200175055683299}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.2953007, y: 1.474149, z: 0.15883495}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.145366, y: -0.5433192, z: -0.008899927}
+  m_TimeToStationary: 0.5
+--- !u!65 &4518950127046839282
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300200175055683299}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.59060144, y: 2.9482975, z: 0.31766987}
+  m_Center: {x: -0.14536595, y: -0.5433192, z: -0.008899927}
 --- !u!1 &4670158066724844339
 GameObject:
   m_ObjectHideFlags: 0

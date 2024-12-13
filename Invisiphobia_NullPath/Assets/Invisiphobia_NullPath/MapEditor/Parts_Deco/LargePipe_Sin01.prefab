@@ -1001,6 +1001,7 @@ GameObject:
   - component: {fileID: 7586294771820857236}
   - component: {fileID: -3167125782792350225}
   - component: {fileID: 3364573488378038209}
+  - component: {fileID: 1977691564962553193}
   m_Layer: 0
   m_Name: LargePipe_Sin01
   m_TagString: Untagged
@@ -1061,6 +1062,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 6.0088196, z: 1}
   m_Center: {x: 0, y: 1.2342796, z: 0}
+--- !u!208 &1977691564962553193
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4820610995598216445}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 3.00441, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.23428, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5228838651190044886
 GameObject:
   m_ObjectHideFlags: 0

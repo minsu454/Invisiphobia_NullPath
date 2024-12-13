@@ -778,6 +778,7 @@ GameObject:
   - component: {fileID: 365151279807313229}
   - component: {fileID: -6588719839293417980}
   - component: {fileID: 1270361625433958448}
+  - component: {fileID: 6212169220877456746}
   m_Layer: 0
   m_Name: BigPipe_Cor01
   m_TagString: Untagged
@@ -839,6 +840,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.4739301, y: 0.21046817, z: 0.20807266}
   m_Center: {x: -1.1451303, y: -0.0010308027, z: 0.19600391}
+--- !u!208 &6212169220877456746
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2919389689717898063}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.236965, y: 0.1052341, z: 0.10403635}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -1.14513, y: -0.001030803, z: 0.1960039}
+  m_TimeToStationary: 0.5
 --- !u!1 &3063139283445625870
 GameObject:
   m_ObjectHideFlags: 0
