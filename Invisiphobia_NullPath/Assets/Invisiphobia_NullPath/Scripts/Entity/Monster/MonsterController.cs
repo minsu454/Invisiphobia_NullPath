@@ -14,7 +14,6 @@ public abstract class MonsterController : MonoBehaviour
     [SerializeField] protected float runSpeed;
 
     [Header("AI")]
-    [SerializeField] protected float detectDistance;
     [SerializeField] protected float lookAtPlayerDistance;
 
     protected float targetDistance;
@@ -53,5 +52,15 @@ public abstract class MonsterController : MonoBehaviour
     float GetDestinationAngle(Vector3 targetPos)
     {
         return Vector3.Angle(transform.position - targetTransform.position, transform.position + targetPos);
+    }
+
+    protected void LookingAtPlayerUpdate()
+    {
+        if (targetDistance < lookAtPlayerDistance)
+        {
+            Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
     }
 }

@@ -137,16 +137,6 @@ public class FleeMonsterController : MonsterController
         ResetCycle();
     }
 
-    protected void LookingAtPlayerUpdate()
-    {
-        if (targetDistance < lookAtPlayerDistance)
-        {
-            Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-        }
-    }
-
     protected float GetPathLength(NavMeshPath path)
     {
         float totalLength = 0f;
