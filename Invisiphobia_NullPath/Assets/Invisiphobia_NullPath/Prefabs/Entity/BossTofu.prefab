@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 5019535998496919285}
   - component: {fileID: 8091559577636130200}
   - component: {fileID: 4839788166591512720}
+  - component: {fileID: 1684470755454141422}
   m_Layer: 7
   m_Name: BossTofu
-  m_TagString: Untagged
+  m_TagString: InvisibleObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,9 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b30199a7c623614f8630c1fd20c6d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myController: {fileID: 0}
-  myRenderer: {fileID: 0}
-  aiState: 2
+  myController: {fileID: 1684470755454141422}
+  myRenderer: {fileID: 6004605984093350722}
+  aiState: 0
   myState: {fileID: 8091559577636130200}
   mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
@@ -160,3 +161,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1684470755454141422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4508549742041511250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d71ff11784c75e4598996753abbb4c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 2
+  runSpeed: 4
+  lookAtPlayerDistance: 20
+  agent: {fileID: 8298885052277154144}

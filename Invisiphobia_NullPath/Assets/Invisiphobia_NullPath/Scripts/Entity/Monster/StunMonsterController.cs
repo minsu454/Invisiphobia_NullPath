@@ -12,6 +12,7 @@ public class StunMonsterController : MonsterController
     [SerializeField] protected float maxWanderDistance;
     [SerializeField] protected int minWanderingCount;
     [SerializeField] protected int maxWanderingCount;
+    [SerializeField] protected float detectDistance;
     protected int wanderingCount;
     protected bool canWander = true;
     
@@ -217,15 +218,5 @@ public class StunMonsterController : MonsterController
     {
         agent.Warp(monsterSpawnPoint);
         ResetCycle();
-    }
-
-    protected void LookingAtPlayerUpdate()
-    {
-        if (targetDistance < lookAtPlayerDistance)
-        {
-            Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-        }
     }
 }

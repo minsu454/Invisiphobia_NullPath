@@ -6,6 +6,11 @@ public class BossMonsterController : MonsterController
     {
         base.Init(monster);
         SetTarget(Player.Instance.transform);
+
+        agent.speed = runSpeed;
+
+        monster.MyState.IdleEvent += LookingAtPlayerUpdate;
+        monster.MyState.WanderingEvent += OnAttackingUpdate;
     }
 
     public override void PlayerAttackMonster()
@@ -15,9 +20,15 @@ public class BossMonsterController : MonsterController
     protected override void AttackingUpdate()
     {
         NavMeshPath path = new NavMeshPath();
+        
         if (agent.CalculatePath(targetTransform.position, path))
         {
             agent.SetDestination(targetTransform.position);
         }
+    }
+
+    void OnAttackingUpdate()
+    {
+        monster.aiState = AIStateType.Attacking;
     }
 }
