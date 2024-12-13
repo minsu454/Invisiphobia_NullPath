@@ -10,7 +10,7 @@ namespace Common.Data
 
         public static void Init()
         {
-            playerLoader.Language = DesignEnums.LanguageType.Korean;
+            playerLoader.Language = DesignEnums.LanguageType.English;
         }
 
         /// <summary>
