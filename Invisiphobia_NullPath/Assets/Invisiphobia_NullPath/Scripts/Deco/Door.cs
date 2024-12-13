@@ -2,6 +2,7 @@
 using Common.Data;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Door : MonoBehaviour, IInteractable
 {
@@ -9,6 +10,9 @@ public class Door : MonoBehaviour, IInteractable
     float elapsedTime = 0f;
     Quaternion startRotation;
     Quaternion endRotation;
+
+    [Header("NavMesh")]
+    [SerializeField] private NavMeshObstacle obstacle;
 
     [Header("Door")]
     [SerializeField] private int itemId;

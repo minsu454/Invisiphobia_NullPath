@@ -19,16 +19,23 @@ public class StunMonsterController : MonsterController
     [Header("Combat")]
     protected const float fieldOfView = 180f;
 
+    private float hideAttackDistance = 5f;   // 숨었을 때 공격 범위
+
     private Coroutine timer;
     protected NavMeshHit hit;
+    public PlayerMovement playerMovement;
+    public PlayerState playerState;
 
     private bool isStunned = false;
-    protected bool isHiding;
+    protected bool isHiding = false;
 
     public override void Init(Monster monster)
     {
         base.Init(monster);
         SetTarget(Player.Instance.transform);
+        playerMovement = Player.Instance.PlayerMovement;
+        playerState = Player.Instance.PlayerState;
+
         monster.MyState.StunEvent += SetStun;
 
         ResetWanderingCount();
@@ -63,6 +70,17 @@ public class StunMonsterController : MonsterController
 
     protected override void AttackingUpdate()
     {
+        if (!playerMovement.playerCanMove)
+        {
+            if(targetDistance < hideAttackDistance)
+            {
+                playerState.Die();
+            }
+            isHiding = true;
+
+            monster.aiState = AIStateType.Wandering;
+        }
+        
         if (targetDistance < detectDistance && monster.aiState != AIStateType.MonsterFleeing)
         {
             NavMeshPath path = new NavMeshPath();

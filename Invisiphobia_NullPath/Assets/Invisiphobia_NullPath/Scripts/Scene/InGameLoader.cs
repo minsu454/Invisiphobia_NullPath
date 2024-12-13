@@ -1,12 +1,14 @@
 using Common.Objects;
 using Common.Path;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
     public EntityManager EntityManager;
 
     private const string volumePath = "Volume/GeneralVolume";
+    private const string navMeshBakerPath = "NavMesh/NavMeshBaker";
 
     protected override void InitScene()
     {
@@ -16,11 +18,20 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         CreateVolume();
         CreateEntityManager(totalData);
         CreateMapManager(totalData);
+        CreateNavMeshBaker();
     }
 
     private void CreateVolume()
     {
         ObjectManager.Instantiate(volumePath);
+    }
+
+    private void CreateNavMeshBaker()
+    {
+        GameObject go = ObjectManager.Instantiate(navMeshBakerPath);
+        NavMeshBaker navMeshBaker = go.GetComponent<NavMeshBaker>();
+
+        navMeshBaker.Init();
     }
 
     private void CreateEntityManager(TotalMapData totalData)

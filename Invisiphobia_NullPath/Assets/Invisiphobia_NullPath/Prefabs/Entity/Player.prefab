@@ -229,7 +229,7 @@ MonoBehaviour:
   maxCharge: 100
   currentCharge: 100
   consumptionRate: 0.1
-  consumptionAmount: 0.1
+  consumptionAmount: 1
 --- !u!1 &1243065022983902853
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +377,7 @@ GameObject:
   - component: {fileID: 6311472913506903352}
   - component: {fileID: 7631016905733749519}
   - component: {fileID: 6342831034005390108}
+  - component: {fileID: 5631550134507055850}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -523,6 +524,7 @@ MonoBehaviour:
   playerInteract: {fileID: 6311472913506903352}
   cameraController: {fileID: 6213999383182059277}
   playerInventory: {fileID: 7631016905733749519}
+  playerState: {fileID: 5631550134507055850}
 --- !u!114 &1921161741646838213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,6 +646,18 @@ MonoBehaviour:
   joint: {fileID: 8773975088314024428}
   bobSpeed: 10
   bobAmount: {x: 0.005, y: 0.02, z: 0.005}
+--- !u!114 &5631550134507055850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523642967706972423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caaf1889be6209c47a6a183bb92371ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2680458868927029667
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,7 +962,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 7423
+    m_Bits: 13567
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
