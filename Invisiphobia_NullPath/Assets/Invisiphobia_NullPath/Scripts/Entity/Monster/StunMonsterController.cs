@@ -72,13 +72,17 @@ public class StunMonsterController : MonsterController
     {
         if (!playerMovement.playerCanMove)
         {
-            if(targetDistance < hideAttackDistance)
+            if (targetDistance < hideAttackDistance)
             {
                 playerState.Die();
+                isHiding = false;
             }
-            isHiding = true;
+            else
+            {
+                isHiding = true;
 
-            monster.aiState = AIStateType.Wandering;
+                monster.aiState = AIStateType.Wandering;
+            }
         }
         
         if (targetDistance < detectDistance && monster.aiState != AIStateType.MonsterFleeing)
@@ -128,7 +132,7 @@ public class StunMonsterController : MonsterController
             // 이동 횟수를 모두 소진하면 투명화 상태로 전환
             if (wanderingCount <= 0)
             {
-                ResetCycle();
+                ResetToSpawnPoint();
             }
         }
     }
