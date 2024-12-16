@@ -29,6 +29,11 @@ public sealed class Managers : MonoBehaviour
         SceneJobLoader.Init();
     }
 
+    private void Start()
+    {
+        instance.soundManager.OnStart();
+    }
+
     /// <summary>
     /// 매니저 생성 함수
     /// </summary>
