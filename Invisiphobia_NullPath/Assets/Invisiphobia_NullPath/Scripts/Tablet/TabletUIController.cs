@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using static UnityEngine.CullingGroup;
 
 public class TabletUIController : MonoBehaviour
 {
@@ -20,10 +18,10 @@ public class TabletUIController : MonoBehaviour
         switch (newState)
         {
             case TabletStateType.Basic:
-                //mapCam.orthographicSize = idleMapSize;
+                mapCam.orthographicSize = idleMapSize;
                 break;
             case TabletStateType.Activate:
-                //mapCam.orthographicSize = activeMapSize;
+                mapCam.orthographicSize = activeMapSize;
                 break;
         }
     }

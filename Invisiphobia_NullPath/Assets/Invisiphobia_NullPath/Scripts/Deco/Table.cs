@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections;
 using Common.Yield;
 using Common.Data;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 public class Table : MonoBehaviour, IInteractable
 {
