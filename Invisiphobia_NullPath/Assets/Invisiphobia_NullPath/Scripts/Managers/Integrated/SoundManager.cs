@@ -45,6 +45,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
         }
 
         bgmSource.clip = clip;
+        bgmSource.Play();
     }
 
     /// <summary>
@@ -61,7 +62,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
                 return;
             }
 
-            SetVolume(type, PlayerPrefs.GetFloat(name));
+            SetVolume(type, PlayerPrefs.GetFloat(name, 1));
         }
     }
 
