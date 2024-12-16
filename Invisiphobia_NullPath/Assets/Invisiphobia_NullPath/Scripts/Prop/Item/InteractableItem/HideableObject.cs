@@ -22,12 +22,14 @@ public class HideableObject : BaseItem
             originalPosition = player.transform.position;
 
             interactText = DataService.GetInteractText(ItemTable.interactText[1]);
+            Player.Instance.PlayerMovement.enableHeadBob = false;
             StartCoroutine(Hide(player));
         }
         else
         {
             isHidden = false;
             interactText = DataService.GetInteractText(ItemTable.interactText[0]);
+            Player.Instance.PlayerMovement.enableHeadBob = true;
             StartCoroutine(Out(player));
         }
     }
