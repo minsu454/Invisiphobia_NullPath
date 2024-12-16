@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class CameraUI : WorldUI<TabletStateType>
 {
+    [SerializeField] private Image activeButton;
+    [SerializeField] private Color32 uiColor;
+
     [SerializeField] private GameObject progressBackground;         //진행 바 배경 변수
     [SerializeField] private Image progressBar;                     //진행 바 변수
 
@@ -32,6 +35,8 @@ public class CameraUI : WorldUI<TabletStateType>
         subject.ActiveStateEvent += OnActiveState;
 
         subject.ShotEvent += OnShot;
+
+        activeButton.color = Color.white;
     }
 
     public override void Unsubscribe(IActiveStatable<TabletStateType> subject)
@@ -44,7 +49,9 @@ public class CameraUI : WorldUI<TabletStateType>
 
         subject.ShotEvent -= OnShot;
 
-        gameObject.SetActive(false);    
+        gameObject.SetActive(false);
+
+        activeButton.color = uiColor;
     }
 
     private void OnShot(TabletStateType type)

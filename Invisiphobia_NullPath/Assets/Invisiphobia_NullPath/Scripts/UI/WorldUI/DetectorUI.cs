@@ -2,9 +2,13 @@ using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DetectorUI : WorldUI<TabletStateType>
 {
+    [SerializeField] private Image activeButton;
+    [SerializeField] private Color32 uiColor;
+
     [Header("Detector")]
     [SerializeField] private TriggerDetector detector;                          //외부 콜라이더 Trigger 변수
     private List<IDetectable> detectedObjectList = new List<IDetectable>();     //감지한 객체 리스트
@@ -38,6 +42,8 @@ public class DetectorUI : WorldUI<TabletStateType>
         subject.BasicStateEvent += StopDetecting;
 
         subject.ActiveStateEvent += Detecting;
+
+        activeButton.color = Color.white;
     }
 
     public override void Unsubscribe(IActiveStatable<TabletStateType> subject)
@@ -51,6 +57,8 @@ public class DetectorUI : WorldUI<TabletStateType>
         subject.ActiveStateEvent -= Detecting;
 
         gameObject.SetActive(false);
+
+        activeButton.color = uiColor;
     }
 
     /// <summary>
