@@ -307,7 +307,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
             Material floor = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.FloorMaterialName}.mat");
             Material wall = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.WallMaterialName}.mat");
 
-            parts.Init(floor, wall);
+            parts.Init(floor, wall);    
         }
 
         foreach (PointData data in totalData.DecorDataList)

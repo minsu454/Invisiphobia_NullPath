@@ -34,10 +34,10 @@ public class Player : Entity
         Instance = this;
 
         PlayerController.Init(this);
-        PlayerInteract.Init(this);
-        PlayerMovement.Init(this);
-        CameraController.Init(this);
         PlayerInventory.Init(this);
+        PlayerMovement.Init(this);
+        PlayerInteract.Init(this);
+        CameraController.Init(this);
         PlayerState.Init(this);
     }
 
