@@ -11,6 +11,7 @@ public class TabletUIController : MonoBehaviour
     public void Init(Tablet tablet)
     {
         tablet.OnStateChangedEvent += HandleStateChanged;
+        mapCam.orthographicSize = idleMapSize;
     }
 
     public void HandleStateChanged(TabletStateType newState)
