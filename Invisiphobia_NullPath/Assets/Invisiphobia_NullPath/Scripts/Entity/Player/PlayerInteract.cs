@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ public class PlayerInteract : MonoBehaviour
     [Header("InteractGameObject")]
     private IInteractable curInteractable;
     public Action<IInteractable> interactUIEvent;
+    private bool useInHandItemInteractUI = true;
 
     private Camera mainCam;
     private Player player;
@@ -28,6 +30,7 @@ public class PlayerInteract : MonoBehaviour
         this.player = player;
 
         player.PlayerController.playerInteractActionEvent += OnInteraction;
+        player.PlayerInventory.UseEvent += OnUseInHandItemInteractUI;
     }
 
     private void Update()
@@ -64,6 +67,9 @@ public class PlayerInteract : MonoBehaviour
             return;
         }
 
+        if (!useInHandItemInteractUI && interactable is BaseItem)
+            return;
+
         curInteractable = interactable;
     }
 
@@ -73,6 +79,11 @@ public class PlayerInteract : MonoBehaviour
         {
             curInteractable.Interact(player);
         }
+    }
+
+    private void OnUseInHandItemInteractUI(bool use)
+    {
+        useInHandItemInteractUI = !use;
     }
 
     public Vector3 GetRayDirection()

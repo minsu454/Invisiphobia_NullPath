@@ -11,6 +11,18 @@ public class PlayerInventory : MonoBehaviour
 
     public Tablet Tablet;
 
+    private bool isNotUse = false;
+    public bool IsNotUse
+    {
+        get { return isNotUse; }
+        set
+        {
+            isNotUse = value;
+            UseEvent?.Invoke(isNotUse);
+        }
+    }
+    public event Action<bool> UseEvent;
+
     private readonly Stack<InHandItem> groundItemStack = new Stack<InHandItem>(2);
     private readonly Stack<GameObject> handItemStack = new Stack<GameObject>(2);
     private readonly Stack<Action<Transform>> interactStack = new Stack<Action<Transform>>(2);
@@ -23,7 +35,6 @@ public class PlayerInventory : MonoBehaviour
 
         player.PlayerController.playerPutDownActionEvent += DropItem;
         player.PlayerController.playerZoomClickActionEvent += OnZoomClick;
-        //player.PlayerController.playerClickActionEvent += ;
     }
 
     /// <summary>
@@ -40,6 +51,9 @@ public class PlayerInventory : MonoBehaviour
     public void SetHand(InHandItem item, GameObject handPrefab, Action<Transform> interact = null)
     {
         if (item.ItemTable.itemCarryType == DesignEnums.ItemCarryType.None)
+            return;
+
+        if (IsNotUse)
             return;
 
         item.gameObject.SetActive(false);
@@ -86,6 +100,9 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     private void DropItem() 
     {
+        if (IsNotUse)
+            return;
+
         if (!groundItemStack.TryPeek(out InHandItem item))
             return;
 
@@ -111,6 +128,9 @@ public class PlayerInventory : MonoBehaviour
         Destroy(handGo);
     }
 
+    /// <summary>
+    /// 줌클릭 실행 이벤트 함수
+    /// </summary>
     private void OnZoomClick()
     {
         if (!interactStack.TryPeek(out Action<Transform> action))
@@ -134,5 +154,15 @@ public class PlayerInventory : MonoBehaviour
         action?.Invoke(transform);
 
         SetTabletHidden();
+    }
+
+    /// <summary>
+    /// 인벤토리 클리어
+    /// </summary>
+    private void Clear()
+    {
+        groundItemStack.Clear();
+        handItemStack.Clear();
+        interactStack.Clear();
     }
 }
