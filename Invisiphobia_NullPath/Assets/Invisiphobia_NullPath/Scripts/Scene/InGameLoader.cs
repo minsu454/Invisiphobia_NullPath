@@ -36,7 +36,7 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
 
     private void CreateEntityManager(TotalMapData totalData)
     {
-        GameObject go = new GameObject("MapManager");
+        GameObject go = new GameObject("EntityManager");
         EntityManager entityManager = go.AddComponent<EntityManager>();
 
         entityManager.Init(totalData);
