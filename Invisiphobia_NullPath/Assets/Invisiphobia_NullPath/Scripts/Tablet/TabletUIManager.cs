@@ -13,7 +13,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     [SerializeField] private List<WorldUI<TabletStateType>> worldUIList = new List<WorldUI<TabletStateType>>();
 
     [SerializeField] private Volume volume;
-    [SerializeField] private LimitlessGlitch8 glitch;
+    private LimitlessGlitch8 glitch;
 
     [SerializeField] private Image batteryBar; 
     private int choiceIdx = 0;
@@ -54,12 +54,13 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         hiddenEvent += tablet.UnHidden;
 
         #region Test
-        if (SceneManager.GetActiveScene().name != "InGame")
+        if (SceneManager.GetActiveScene().name == "InGame")
         {
             volume = InGameLoader.Instance.Volume;
-            volume.profile.TryGet(out glitch);
         }
         #endregion
+
+        volume.profile.TryGet(out glitch);
     }
 
     /// <summary>

@@ -10,7 +10,6 @@ public class DetectorUI : WorldUI<TabletStateType>
     [SerializeField] private Color32 uiColor;
 
     [SerializeField] private AudioClip alarmClip;
-    [SerializeField] private Transform playerTr;
 
     [Header("Detector")]
     [SerializeField] private TriggerDetector detector;                          //외부 콜라이더 Trigger 변수
@@ -194,12 +193,12 @@ public class DetectorUI : WorldUI<TabletStateType>
         if (distance < 5f)
         {
             Debug.Log("물체가 가깝습니다!!");
-            Managers.Sound.SFX3DPlay(alarmClip, playerTr, 1.5f, 5);
+            Managers.Sound.SFX2DPlay(alarmClip, 1.5f);
         }
         else if (distance < 10f)
         {
             Debug.Log("물체가 감지되었습니다!");
-            Managers.Sound.SFX3DPlay(alarmClip, playerTr, 5);
+            Managers.Sound.SFX2DPlay(alarmClip);
         }
     }
 

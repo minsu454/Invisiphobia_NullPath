@@ -122,6 +122,21 @@ public sealed class SoundManager : MonoBehaviour, IInit
         SoundPlayer soundPlayer = soundPool.GetObject();
         soundPlayer.SetDelay(clip.length);
         soundPlayer.SetSound2D();
+        soundPlayer.SetPitch(1);
+        soundPlayer.gameObject.SetActive(true);
+
+        soundPlayer.Play(clip);
+    }
+
+    /// <summary>
+    /// 2D 플레이 함수(일반 플레이)
+    /// </summary>
+    public void SFX2DPlay(AudioClip clip, float pitch)
+    {
+        SoundPlayer soundPlayer = soundPool.GetObject();
+        soundPlayer.SetDelay(clip.length);
+        soundPlayer.SetSound2D();
+        soundPlayer.SetPitch(pitch);
         soundPlayer.gameObject.SetActive(true);
 
         soundPlayer.Play(clip);

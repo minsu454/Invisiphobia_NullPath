@@ -783,6 +783,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBackground: {fileID: 3695365208645441969}
   progressBar: {fileID: 3506158645171382212}
+  activeButton: {fileID: 2133946597103065914}
+  uiColor:
+    serializedVersion: 2
+    rgba: 4280339222
   maxProgressTime: 2
   tabletCamera: {fileID: 5149847259879494111}
   maxDistance: 50
@@ -1264,7 +1268,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3605467220771554308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1323,7 +1327,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2866504759521545583}
   - component: {fileID: 4978843805539338892}
-  - component: {fileID: 8969578623436645929}
   - component: {fileID: 3800660310071722907}
   m_Layer: 14
   m_Name: Box
@@ -1359,23 +1362,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3695365208645441969}
   m_CullTransparentMesh: 1
---- !u!114 &8969578623436645929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3695365208645441969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8462884978bf652469ca08960201f23d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  progressBackground: {fileID: 0}
-  progressBar: {fileID: 0}
-  maxProgressTime: 2
-  tabletCamera: {fileID: 0}
-  maxDistance: 50
 --- !u!114 &3800660310071722907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1679,7 +1665,6 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4280339222
   alarmClip: {fileID: 8300000, guid: 2cf58b4367c5ca345bd86b9b86769c03, type: 3}
-  playerTr: {fileID: 9014576998322085675}
   detector: {fileID: 1132262953016006904}
   maxDetectTime: 2
 --- !u!114 &2474385467035455978
@@ -2019,6 +2004,7 @@ MonoBehaviour:
   - {fileID: 62824584906619165}
   - {fileID: 2664508391517248291}
   - {fileID: 8722628375222630872}
+  volume: {fileID: 0}
   batteryBar: {fileID: 4375342198979321206}
 --- !u!1 &6522049551643468816
 GameObject:
@@ -2240,6 +2226,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBackground: {fileID: 0}
   progressBar: {fileID: 0}
+  activeButton: {fileID: 0}
+  uiColor:
+    serializedVersion: 2
+    rgba: 0
   maxProgressTime: 2
   tabletCamera: {fileID: 0}
   maxDistance: 50
@@ -2517,8 +2507,8 @@ RectTransform:
   m_Children:
   - {fileID: 2886102943973370549}
   - {fileID: 6032231651098430698}
-  - {fileID: 2801132956691188715}
   - {fileID: 2333474925089443793}
+  - {fileID: 2801132956691188715}
   - {fileID: 5336092020208053147}
   m_Father: {fileID: 5546074193787554166}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2599,7 +2589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 674ae4b05645ade499465fbe121d486a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapCam: {fileID: 8087136024835019010}
+  mapCam: {fileID: 0}
   idleMapSize: 8
   activeMapSize: 20
 --- !u!1 &8407693089687890677
@@ -2866,12 +2856,6 @@ PrefabInstance:
 --- !u!4 &6186641417728173025 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 488377813114035556, guid: 7438d71f20bb8ce409f59e515034d759,
-    type: 3}
-  m_PrefabInstance: {fileID: 5988745853679976069}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &8087136024835019010 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 2533006244080152455, guid: 7438d71f20bb8ce409f59e515034d759,
     type: 3}
   m_PrefabInstance: {fileID: 5988745853679976069}
   m_PrefabAsset: {fileID: 0}
