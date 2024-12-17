@@ -33,6 +33,11 @@ public class SoundPlayer : MonoBehaviour, IObjectPoolable<SoundPlayer>
         audioSource.pitch = 1 + random;
     }
 
+    public void SetPitch(float amount)
+    {
+        audioSource.pitch = amount;
+    }
+
     /// <summary>
     /// 2D 사운드 설정 함수
     /// </summary>
