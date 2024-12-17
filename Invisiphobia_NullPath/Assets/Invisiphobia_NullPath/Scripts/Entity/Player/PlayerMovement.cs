@@ -364,31 +364,34 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void HeadBob()
     {
-        if (isWalking)
+        if(enableHeadBob)
         {
-            // Calculates HeadBob speed during sprint
-            if (isSprinting)
+            if (isWalking)
             {
-                timer += Time.deltaTime * (bobSpeed + sprintSpeed);
+                // Calculates HeadBob speed during sprint
+                if (isSprinting)
+                {
+                    timer += Time.deltaTime * (bobSpeed + sprintSpeed);
+                }
+                // Calculates HeadBob speed during crouched movement
+                else if (isCrouched)
+                {
+                    timer += Time.deltaTime * (bobSpeed * speedReduction);
+                }
+                // Calculates HeadBob speed during walking
+                else
+                {
+                    timer += Time.deltaTime * bobSpeed;
+                }
+                // Applies HeadBob movement
+                joint.localPosition = new Vector3(jointOriginalPos.x + Mathf.Sin(timer) * bobAmount.x, jointOriginalPos.y + Mathf.Sin(timer) * bobAmount.y, jointOriginalPos.z + Mathf.Sin(timer) * bobAmount.z);
             }
-            // Calculates HeadBob speed during crouched movement
-            else if (isCrouched)
-            {
-                timer += Time.deltaTime * (bobSpeed * speedReduction);
-            }
-            // Calculates HeadBob speed during walking
             else
             {
-                timer += Time.deltaTime * bobSpeed;
+                // Resets when play stops moving
+                timer = 0;
+                joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
             }
-            // Applies HeadBob movement
-            joint.localPosition = new Vector3(jointOriginalPos.x + Mathf.Sin(timer) * bobAmount.x, jointOriginalPos.y + Mathf.Sin(timer) * bobAmount.y, jointOriginalPos.z + Mathf.Sin(timer) * bobAmount.z);
-        }
-        else
-        {
-            // Resets when play stops moving
-            timer = 0;
-            joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
         }
     }
 }
