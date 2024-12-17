@@ -32,6 +32,7 @@ public class CameraUI : WorldUI<TabletStateType>
         subject.ActiveStateEvent += OnActiveState;
 
         subject.ShotEvent += OnShot;
+        progressBackground.SetActive(true);
     }
 
     public override void Unsubscribe(IActiveStatable<TabletStateType> subject)
