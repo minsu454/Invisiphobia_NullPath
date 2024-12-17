@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
@@ -52,14 +53,13 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         tablet.OnShotEvent += OnShot;
         hiddenEvent += tablet.UnHidden;
 
-        if(volume.profile.TryGet(out glitch))
+        #region Test
+        if (SceneManager.GetActiveScene().name != "InGame")
         {
-
+            volume = InGameLoader.Instance.Volume;
+            volume.profile.TryGet(out glitch);
         }
-        else
-        {
-
-        }
+        #endregion
     }
 
     /// <summary>
