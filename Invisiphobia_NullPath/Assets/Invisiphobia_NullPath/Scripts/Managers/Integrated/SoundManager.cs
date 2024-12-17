@@ -4,6 +4,7 @@ using Common.Path;
 using Common.Pool;
 using Common.SceneEx;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -173,7 +174,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
     }
 
     /// <summary>
-    /// 
+    /// 불륨 설정해주는 함수
     /// </summary>
     public void SetVolume(SoundType type, float volume)
     {
