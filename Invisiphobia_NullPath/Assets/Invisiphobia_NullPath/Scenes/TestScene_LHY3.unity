@@ -1255,6 +1255,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d59f530c2eeb0624eba7e916f2102e34, type: 3}
+--- !u!4 &789038623 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9014576998322085675, guid: e32cab2bbbe23344c8898d77f918fe7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1662356056}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &814540608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1743,6 +1749,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2127193664712974385, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
   m_PrefabInstance: {fileID: 1164949783}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1173528455 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 202032549367577605, guid: e32cab2bbbe23344c8898d77f918fe7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1662356056}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1175101082
 PrefabInstance:
@@ -2673,6 +2685,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4026307881433480232, guid: e32cab2bbbe23344c8898d77f918fe7d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6311472913506903352, guid: e32cab2bbbe23344c8898d77f918fe7d,
         type: 3}
       propertyPath: layerMask.m_Bits
@@ -3573,6 +3590,8 @@ GameObject:
   - component: {fileID: 2076057213}
   - component: {fileID: 2076057212}
   - component: {fileID: 2076057211}
+  - component: {fileID: 2076057216}
+  - component: {fileID: 2076057215}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Untagged
@@ -3669,6 +3688,45 @@ Transform:
   - {fileID: 1816372243}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2076057215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076057210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962be1f01a00cda4eb472abefd8dfabe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 789038623}
+  followWatch: 0
+  playerCamera: {fileID: 1173528455}
+  fieldOfViewAngle: 55
+--- !u!136 &2076057216
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076057210}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2113937325
 GameObject:
   m_ObjectHideFlags: 8
