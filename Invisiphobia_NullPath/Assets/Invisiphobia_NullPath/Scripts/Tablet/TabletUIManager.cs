@@ -1,13 +1,18 @@
+using Common.Yield;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 {
     [SerializeField] private List<WorldUI<TabletStateType>> worldUIList = new List<WorldUI<TabletStateType>>();
+
+    [SerializeField] private Volume volume;
+    [SerializeField] private LimitlessGlitch8 glitch;
 
     [SerializeField] private Image batteryBar; 
     private int choiceIdx = 0;
@@ -46,6 +51,15 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         tablet.OnStateChangedEvent += OnStateChanged;
         tablet.OnShotEvent += OnShot;
         hiddenEvent += tablet.UnHidden;
+
+        if(volume.profile.TryGet(out glitch))
+        {
+
+        }
+        else
+        {
+
+        }
     }
 
     /// <summary>
@@ -69,6 +83,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     /// </summary>
     private void SwitchTabletScreen(int num)
     {
+        StartCoroutine(CoGlitch());
         worldUIList[ChoiceIdx].Unsubscribe(this);
 
         worldUIList[num].gameObject.SetActive(true);
@@ -87,5 +102,14 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     public void UpdateBattery(float amount)
     {
         batteryBar.fillAmount = amount;
+    }
+
+    private IEnumerator CoGlitch()
+    {
+        glitch.active = true;
+
+        yield return YieldCache.WaitForSeconds(0.2f);
+
+        glitch.active = false;
     }
 }
