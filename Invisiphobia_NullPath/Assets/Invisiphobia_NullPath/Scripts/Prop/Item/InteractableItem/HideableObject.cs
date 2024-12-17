@@ -12,7 +12,7 @@ public class HideableObject : BaseItem
     public override void Init()
     {
         base.Init();
-        interactText = DataService.GetInteractText(ItemTable.interactText[0]);
+        interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
     }
     public override void Interact(Player player)
     {
@@ -21,14 +21,14 @@ public class HideableObject : BaseItem
             isHidden = true;
             originalPosition = player.transform.position;
 
-            interactText = DataService.GetInteractText(ItemTable.interactText[1]);
+            interactText = DataService.GetItemInteractText(ItemTable.interactText[1]);
             Player.Instance.PlayerMovement.enableHeadBob = false;
             StartCoroutine(Hide(player));
         }
         else
         {
             isHidden = false;
-            interactText = DataService.GetInteractText(ItemTable.interactText[0]);
+            interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
             Player.Instance.PlayerMovement.enableHeadBob = true;
             StartCoroutine(Out(player));
         }

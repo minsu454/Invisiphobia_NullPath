@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Entity저장 데이터
+/// </summary>
 [Serializable]
 public class EntityData
 {

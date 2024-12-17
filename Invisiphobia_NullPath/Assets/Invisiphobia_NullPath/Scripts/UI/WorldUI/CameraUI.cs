@@ -4,18 +4,18 @@ using UnityEngine.UI;
 
 public class CameraUI : WorldUI<TabletStateType>
 {
-    [SerializeField] private GameObject progressBackground;         //진행 바 배경 변수
-    [SerializeField] private Image progressBar;                     //진행 바 변수
+    [SerializeField] private GameObject progressBackground;     //진행 바 배경 변수
+    [SerializeField] private Image progressBar;                 //진행 바 변수
 
-    private Coroutine coProgress;                                   //코루틴 감지 시간 변수
-    private float curProgressTime = 0;                              //현재 감지 시간 변수
-    [SerializeField] private float maxProgressTime = 2f;            //최대 감지 시간 변수
+    private Coroutine coProgress;                               //코루틴 감지 시간 변수
+    private float curProgressTime = 0;                          //현재 감지 시간 변수
+    [SerializeField] private float maxProgressTime = 2f;        //최대 감지 시간 변수
 
-    private bool isShotable = false;
+    private bool isShotable = false;                            //공격 가능한 상태인지 저장 변수
 
     [Header("Camera")]
-    [SerializeField] private Camera tabletCamera;
-    [SerializeField] private float maxDistance = 50f;               // 거리 제한
+    [SerializeField] private Camera tabletCamera;               //테블릿 화면전용 카메라
+    [SerializeField] private float maxDistance = 50f;           // 거리 제한
 
     public override void Init(IActiveStatable<TabletStateType> subject)
     {
@@ -46,6 +46,9 @@ public class CameraUI : WorldUI<TabletStateType>
         gameObject.SetActive(false);    
     }
 
+    /// <summary>
+    /// 좌클릭시 카메라 찍는 함수
+    /// </summary>
     private void OnShot(TabletStateType type)
     {
         if (type != TabletStateType.Activate)
@@ -79,16 +82,25 @@ public class CameraUI : WorldUI<TabletStateType>
         coProgress = StartCoroutine(CoProgress());
     }
 
+    /// <summary>
+    /// 기본 상태일 때 사용 이벤트 함수
+    /// </summary>
     private void OnBasicState()
     {
         progressBackground.SetActive(true);
     }
 
+    /// <summary>
+    /// 활성화 상태일 때 사용 이벤트 함수
+    /// </summary>
     private void OnActiveState()
     {
         progressBackground.SetActive(false);
     }
 
+    /// <summary>
+    /// 차징 중 업데이트 사용 코루틴
+    /// </summary>
     private IEnumerator CoProgress()
     {
         ResetProgress();
@@ -109,6 +121,9 @@ public class CameraUI : WorldUI<TabletStateType>
         isShotable = true;
     }
 
+    /// <summary>
+    /// 차징 리셋해주는 함수
+    /// </summary>
     private void ResetProgress()
     {
         isShotable = false;

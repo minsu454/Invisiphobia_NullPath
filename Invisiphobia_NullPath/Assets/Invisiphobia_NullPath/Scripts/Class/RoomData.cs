@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// 방 저장 데이터
+/// </summary>
 [Serializable]
 public class RoomData
 {

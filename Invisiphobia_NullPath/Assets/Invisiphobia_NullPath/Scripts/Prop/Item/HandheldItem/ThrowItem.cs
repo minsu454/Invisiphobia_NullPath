@@ -4,8 +4,8 @@ using UnityEngine;
 public class ThrowItem : InHandItem
 {
     [Header("ThrowItem")]
-    [SerializeField] private Rigidbody myRb;
-    [SerializeField] private float throwSpeed = 10f;
+    [SerializeField] private Rigidbody myRb;            //내 rigidbody
+    [SerializeField] private float throwSpeed = 10f;    //날아가는 스피드
 
     public override void Init()
     {
@@ -27,6 +27,9 @@ public class ThrowItem : InHandItem
         myRb.AddForce(initialVelocity, ForceMode.Impulse);
     }
 
+    /// <summary>
+    /// 던지는 방향 반환 함수
+    /// </summary>
     private Vector3 ThrowDirection(Vector3 direction)
     {
         direction.y += 0.3f;    // 포물선

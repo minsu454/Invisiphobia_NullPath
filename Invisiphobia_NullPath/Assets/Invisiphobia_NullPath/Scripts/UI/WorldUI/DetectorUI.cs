@@ -24,7 +24,7 @@ public class DetectorUI : WorldUI<TabletStateType>
     private float curDetectTime = 0;                                            //현재 감지 시간 변수
     [SerializeField] private float maxDetectTime = 2f;                          //최대 감지 시간 변수
 
-    private int layerMask;
+    private int layerMask;                                                      //벽 레이어 변수
 
     private void OnEnable()
     {

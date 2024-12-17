@@ -1,22 +1,21 @@
 using UnityEngine;
 
-public class PlayerAnimation : AnimationController
+public class PlayerAnimation : MonoBehaviour
 {
+    private Animator animator;
+
     private readonly int isWalking = Animator.StringToHash("isWalking");
     private readonly int Running = Animator.StringToHash("Running");
     private readonly int isHiding = Animator.StringToHash("isHiding");
     private readonly int die = Animator.StringToHash("die");
 
     private readonly float magnitudeThreshold = 0.5f;
-    protected override void Awake()
+
+    private void Awake()
     {
-        base.Awake();
+        
     }
 
-    private void Start()
-    {
-
-    }
     private void OnPlayerWalk(Vector2 vector)
     {
         animator.SetBool(isWalking, vector.magnitude > magnitudeThreshold);
@@ -36,6 +35,4 @@ public class PlayerAnimation : AnimationController
     {
         animator.SetTrigger(die);
     }
-
-
 }

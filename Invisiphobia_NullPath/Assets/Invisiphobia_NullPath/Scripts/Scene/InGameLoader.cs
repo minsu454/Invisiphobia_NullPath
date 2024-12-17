@@ -21,11 +21,17 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         CreateNavMeshBaker();
     }
 
+    /// <summary>
+    /// 블륨 생성 함수
+    /// </summary>
     private void CreateVolume()
     {
         ObjectManager.Instantiate(volumePath);
     }
 
+    /// <summary>
+    /// navmeshBaker 생성 함수
+    /// </summary>
     private void CreateNavMeshBaker()
     {
         GameObject go = ObjectManager.Instantiate(navMeshBakerPath);
@@ -34,6 +40,9 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         navMeshBaker.Init();
     }
 
+    /// <summary>
+    /// EntityManager 생성 함수
+    /// </summary>
     private void CreateEntityManager(TotalMapData totalData)
     {
         GameObject go = new GameObject("EntityManager");
@@ -42,6 +51,9 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         entityManager.Init(totalData);
     }
 
+    /// <summary>
+    /// MapManager 생성 함수
+    /// </summary>
     private void CreateMapManager(TotalMapData totalData)
     {
         GameObject go = new GameObject("MapManager");

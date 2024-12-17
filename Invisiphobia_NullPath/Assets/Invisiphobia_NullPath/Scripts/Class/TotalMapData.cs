@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 
+/// <summary>
+/// 맵에 해당한 모든 데이터
+/// </summary>
 public class TotalMapData
 {
     public string MapName;
