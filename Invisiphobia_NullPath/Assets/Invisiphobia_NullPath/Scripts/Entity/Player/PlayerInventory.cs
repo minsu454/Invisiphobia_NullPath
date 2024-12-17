@@ -67,6 +67,20 @@ public class PlayerInventory : MonoBehaviour
         interactStack.Push(interact);
     }
 
+    public bool IsLockOffItemInHand(int itemId)
+    {
+        if(!groundItemStack.TryPeek(out InHandItem item))
+        {
+            return false;
+        }
+        
+        if(item.ItemTable.key == itemId)
+        {
+            return true;
+        }
+
+        return false;
+    }
     private void CleanInventory(InHandItem item)
     {
         int temp = (int)item.ItemTable.itemCarryType + curCount;
