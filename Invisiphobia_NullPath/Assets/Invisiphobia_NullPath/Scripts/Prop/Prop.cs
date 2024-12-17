@@ -15,7 +15,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
 
     #region Test
     [Header("MapIcon")]
-    [SerializeField] private GameObject mapIconPrefab;                          //맵 아이콘 프리팹(임시ㅐ)
+    [SerializeField] private GameObject mapIconPrefab;                          //맵 아이콘 프리팹(임시)
 
     private void Awake()
     {
@@ -36,7 +36,6 @@ public class Prop : MonoBehaviour, IDetectable, IParts
         
         GameObject go = Instantiate(mapIconPrefab);
         mapIcon = go.GetComponent<MapIcon>();
-        Debug.Log(gameObject.name);
         mapIcon.Init(transform);
     }
 

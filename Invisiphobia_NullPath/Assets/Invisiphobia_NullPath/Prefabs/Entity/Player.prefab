@@ -1020,7 +1020,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 1
   field of view: 60
   orthographic: 1
   orthographic size: 1.65
@@ -2176,7 +2176,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6980402987418166536}
   - component: {fileID: 1934587496163073649}
-  - component: {fileID: 8435100337653063260}
   - component: {fileID: 3807092049837889329}
   m_Layer: 14
   m_Name: screenNoise
@@ -2212,27 +2211,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7187739527558821623}
   m_CullTransparentMesh: 1
---- !u!114 &8435100337653063260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7187739527558821623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8462884978bf652469ca08960201f23d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  progressBackground: {fileID: 0}
-  progressBar: {fileID: 0}
-  activeButton: {fileID: 0}
-  uiColor:
-    serializedVersion: 2
-    rgba: 0
-  maxProgressTime: 2
-  tabletCamera: {fileID: 0}
-  maxDistance: 50
 --- !u!114 &3807092049837889329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2589,7 +2567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 674ae4b05645ade499465fbe121d486a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapCam: {fileID: 0}
+  mapCam: {fileID: 8087136024835019010}
   idleMapSize: 8
   activeMapSize: 20
 --- !u!1 &8407693089687890677
@@ -2838,6 +2816,11 @@ PrefabInstance:
       propertyPath: far clip plane
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 2533006244080152455, guid: 7438d71f20bb8ce409f59e515034d759,
+        type: 3}
+      propertyPath: m_OcclusionCulling
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5173528853906005052, guid: 7438d71f20bb8ce409f59e515034d759,
         type: 3}
       propertyPath: playerTransform
@@ -2856,6 +2839,12 @@ PrefabInstance:
 --- !u!4 &6186641417728173025 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 488377813114035556, guid: 7438d71f20bb8ce409f59e515034d759,
+    type: 3}
+  m_PrefabInstance: {fileID: 5988745853679976069}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &8087136024835019010 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 2533006244080152455, guid: 7438d71f20bb8ce409f59e515034d759,
     type: 3}
   m_PrefabInstance: {fileID: 5988745853679976069}
   m_PrefabAsset: {fileID: 0}

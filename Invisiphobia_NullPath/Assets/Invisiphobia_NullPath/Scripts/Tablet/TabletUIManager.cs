@@ -54,7 +54,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         hiddenEvent += tablet.UnHidden;
 
         #region Test
-        if (SceneManager.GetActiveScene().name == "InGame")
+        if (SceneManager.GetActiveScene().name == "InGame_Scene")
         {
             volume = InGameLoader.Instance.Volume;
         }

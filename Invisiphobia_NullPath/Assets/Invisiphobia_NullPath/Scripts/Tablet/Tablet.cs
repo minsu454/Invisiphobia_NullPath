@@ -6,11 +6,11 @@ using UnityEngine;
 public class Tablet : MonoBehaviour 
 {
     [Header("Controller")]
-    [SerializeField] private TabletController controller;           //타블렛 컨트롤러
-    [SerializeField] private TabletUIController uiController;       //타블렛 UI컨트롤러
+    [SerializeField] private TabletController controller;           //태블릿 컨트롤러
+    [SerializeField] private TabletUIController uiController;       //태블릿 UI컨트롤러
 
     [Header("Manager")]
-    [SerializeField] private TabletUIManager manager;               //타블렛 UI매니저
+    [SerializeField] private TabletUIManager manager;               //태블릿 UI매니저
 
     [Header("Battery Settings")]
     [SerializeField] private float maxCharge = 100f;                //배터리 최대 값
@@ -22,8 +22,8 @@ public class Tablet : MonoBehaviour
     private bool isCharged = true;                                  //배터리가 있는지 확인해주는 bool
 
     public event Action<TabletStateType> OnStateChangedEvent;       //스텟 바뀔 때에 이벤트
-    public event Action<TabletStateType> OnShotEvent;               //테블렛 사용 이벤트
-    private TabletStateType stateType = TabletStateType.Basic;      //테블렛 상태 타입
+    public event Action<TabletStateType> OnShotEvent;               //태블릿 사용 이벤트
+    private TabletStateType stateType = TabletStateType.Basic;      //태블릿 상태 타입
     public TabletStateType State {
         get { return stateType; }
         private set
@@ -37,6 +37,7 @@ public class Tablet : MonoBehaviour
             OnStateChangedEvent?.Invoke(stateType);
         }
     }
+    private bool useStateChange = true;                             //태블릿 State전환 사용여부
 
     /// <summary>
     /// 초기화 함수
@@ -60,6 +61,9 @@ public class Tablet : MonoBehaviour
     /// </summary>
     private void ToggleTabletState()
     {
+        if (!useStateChange)
+            return;
+
         switch (State)
         {
             case TabletStateType.Basic:
@@ -87,6 +91,20 @@ public class Tablet : MonoBehaviour
     public void UnHidden()
     {
         State = TabletStateType.Basic;
+    }
+
+    public void PlayPuzzle()
+    {
+        State = TabletStateType.Activate;
+        isCharged = false;
+        useStateChange = false;
+    }
+
+    public void StopPuzzle()
+    {
+        State = TabletStateType.Basic;
+        isCharged = true;
+        useStateChange = true;
     }
 
     #region 배터리관련

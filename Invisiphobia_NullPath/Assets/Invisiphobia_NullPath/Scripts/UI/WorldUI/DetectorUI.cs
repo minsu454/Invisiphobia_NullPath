@@ -14,7 +14,7 @@ public class DetectorUI : WorldUI<TabletStateType>
     [Header("Detector")]
     [SerializeField] private TriggerDetector detector;                          //외부 콜라이더 Trigger 변수
     private List<IDetectable> detectedObjectList = new List<IDetectable>();     //감지한 객체 리스트
-    private float updateInterval = 0.8f;                                          //코루틴 업데이트 주기 변수
+    private float updateInterval = 0.8f;                                        //코루틴 업데이트 주기 변수
     private float closestdistance;                                              //업데이트 때 제일 가까운 거리 저장 변수
 
     private Coroutine timer = null;                                             //코루틴 타이머 변수
