@@ -41,7 +41,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
         
         GameObject go = Instantiate(mapIconPrefab);
         mapIcon = go.GetComponent<MapIcon>();
-
+        Debug.Log(gameObject.name);
         mapIcon.Init(transform);
     }
 
