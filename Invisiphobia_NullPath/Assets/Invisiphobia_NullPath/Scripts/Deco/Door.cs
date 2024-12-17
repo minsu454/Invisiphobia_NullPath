@@ -38,7 +38,7 @@ public class Door : MonoBehaviour, IInteractable
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
 
         itemTable = DataService.GetItemTableByKey(itemId);
-        interactText = DataService.GetInteractText(ItemTable.interactText[0]);
+        interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
         //actionText = DataService.GetInteractText(ItemTable.actionText);
     }
     private void Update()
@@ -53,7 +53,7 @@ public class Door : MonoBehaviour, IInteractable
         }
         else
         {
-            interactText = DataService.GetInteractText(ItemTable.interactText[isOpen ? 1 : 0]);
+            interactText = DataService.GetItemInteractText(ItemTable.interactText[isOpen ? 1 : 0]);
         }
     }
     public void Interact(Player player)
@@ -114,7 +114,7 @@ public class Door : MonoBehaviour, IInteractable
 
         // 문 상태 업데이트
         isOpen = startRotation != transform.rotation;
-        interactText = DataService.GetInteractText(ItemTable.interactText[isOpen? 1:0]);
+        interactText = DataService.GetItemInteractText(ItemTable.interactText[isOpen? 1:0]);
     }
 }
 

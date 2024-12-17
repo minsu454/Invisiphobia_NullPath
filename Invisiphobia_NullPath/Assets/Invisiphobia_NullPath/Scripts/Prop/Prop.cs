@@ -4,11 +4,10 @@ using UnityEngine.SceneManagement;
 public class Prop : MonoBehaviour, IDetectable, IParts
 {
     [Header("Prop")]
-    [SerializeField] private MeshRenderer[] myRendererArr;
-
+    [SerializeField] private MeshRenderer[] myRendererArr;                      //해당 오브젝트 랜더러들 모음 배열
 
     MapIcon IDetectable.MapIcon => mapIcon;
-    private MapIcon mapIcon;
+    private MapIcon mapIcon;                                                    //맵아이콘
 
     public bool IsDetectTablet { get; set; }
 
@@ -16,7 +15,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
 
     #region Test
     [Header("MapIcon")]
-    [SerializeField] private GameObject mapIconPrefab;
+    [SerializeField] private GameObject mapIconPrefab;                          //맵 아이콘 프리팹(임시ㅐ)
 
     private void Awake()
     {

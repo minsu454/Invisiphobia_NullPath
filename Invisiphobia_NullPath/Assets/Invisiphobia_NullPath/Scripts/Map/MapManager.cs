@@ -16,12 +16,15 @@ public class MapManager : MonoBehaviour
         Map(totalData);
     }
 
+    /// <summary>
+    /// 맵 생성 함수
+    /// </summary>
     private void Map(TotalMapData totalData)
     {
         try
         {
             Room(totalData.RoomDataList);
-            Decor(totalData.DecorDataList);
+            Deco(totalData.DecorDataList);
             Item(totalData.ItemDataList);
         }
         catch
@@ -30,6 +33,9 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 룸 생성 함수
+    /// </summary>
     private void Room(List<RoomData> dataList)
     {
         foreach (RoomData data in dataList)
@@ -48,7 +54,10 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    private void Decor(List<PointData> dataList)
+    /// <summary>
+    /// 데코 생성 함수
+    /// </summary>
+    private void Deco(List<PointData> dataList)
     {
         foreach (PointData data in dataList)
         {
@@ -60,6 +69,9 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 아이템 생성 함수
+    /// </summary>
     private void Item(List<PointData> dataList)
     {
         foreach (PointData data in dataList)

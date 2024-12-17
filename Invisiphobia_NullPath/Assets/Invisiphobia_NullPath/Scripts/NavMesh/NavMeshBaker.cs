@@ -7,9 +7,11 @@ public class NavMeshBaker : MonoBehaviour
 {
     [SerializeField] private NavMeshSurface navMeshSurface;
 
+    /// <summary>
+    /// 초기화 함수
+    /// </summary>
     public void Init()
     {
         navMeshSurface.BuildNavMesh();
-
     }
 }

@@ -29,7 +29,7 @@ public class Lock : MonoBehaviour, IInteractable
     public void Start()
     {
         itemTable = DataService.GetItemTableByKey(itemId);
-        interactText = DataService.GetInteractText(ItemTable.interactText[0]);
+        interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
         //actionText = DataService.GetInteractText(ItemTable.actionText);
     }
     public void Interact(Player player)

@@ -14,7 +14,7 @@ namespace Common.SceneEx
     public static class SceneJobLoader
     {
         public readonly static SortedList<LoadPriorityType, Action<string>> completedList = new SortedList<LoadPriorityType, Action<string>>(); //씬로드 되었을 때 호출순서 정렬 list
-        public static bool UseOnLoadCompleted = false;
+        public static bool UseOnLoadCompleted = false;                                                                                          //씬로드 완료 이벤트 사용 여부
 
         /// <summary>
         /// 초기화 함수

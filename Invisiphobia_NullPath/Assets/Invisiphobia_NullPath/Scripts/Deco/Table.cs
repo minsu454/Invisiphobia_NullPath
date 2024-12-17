@@ -38,7 +38,7 @@ public class Table : MonoBehaviour, IInteractable
         //actionText = DataServise.GetInteractText(ItemTable.actionText);
         for(int i = 0; i < itemTable.interactText.Count; i++)
         {
-            tableArr[i] = DataService.GetInteractText(ItemTable.interactText[0]);
+            tableArr[i] = DataService.GetItemInteractText(ItemTable.interactText[0]);
         }
     }
 
@@ -86,13 +86,13 @@ public class Table : MonoBehaviour, IInteractable
                 {
                     StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer1));
                     isDrawer1Open = true;
-                    tableArr[0] = DataService.GetInteractText(ItemTable.interactText[1]);
+                    tableArr[0] = DataService.GetItemInteractText(ItemTable.interactText[1]);
                 }
                 else
                 {
                     StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, Vector3.zero, drawer1));
                     isDrawer1Open = false;
-                    tableArr[0] = DataService.GetInteractText(ItemTable.interactText[0]);
+                    tableArr[0] = DataService.GetItemInteractText(ItemTable.interactText[0]);
                 }
             }
             else
@@ -102,13 +102,13 @@ public class Table : MonoBehaviour, IInteractable
                 {
                     StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer2));
                     isDrawer2Open = true;
-                    tableArr[1] = DataService.GetInteractText(ItemTable.interactText[1]);
+                    tableArr[1] = DataService.GetItemInteractText(ItemTable.interactText[1]);
                 }
                 else
                 {
                     StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, Vector3.zero, drawer2));
                     isDrawer2Open = false;
-                    tableArr[1] = DataService.GetInteractText(ItemTable.interactText[0]);
+                    tableArr[1] = DataService.GetItemInteractText(ItemTable.interactText[0]);
                 }
             }
         }

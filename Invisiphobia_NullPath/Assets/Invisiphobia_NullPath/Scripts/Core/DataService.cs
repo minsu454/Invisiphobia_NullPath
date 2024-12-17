@@ -2,12 +2,15 @@ namespace Common.Data
 {
     public static class DataService
     {
-        private static ItemTableLoader itemLoader = new ItemTableLoader();
-        private static ItemTextTableLoader itemTextLoader = new ItemTextTableLoader();
-        private static InteractTextTableLoader interactTextLoader = new InteractTextTableLoader();
+        private static ItemTableLoader itemLoader = new ItemTableLoader();                              //아이템 테이블
+        private static ItemTextTableLoader itemTextLoader = new ItemTextTableLoader();                  //아이템 텍스트 테이블
+        private static InteractTextTableLoader interactTextLoader = new InteractTextTableLoader();      //상호작용 텍스트 테이블
 
-        private static PlayerLoadData playerLoader = new PlayerLoadData();
+        private static PlayerLoadData playerLoader = new PlayerLoadData();                              //플레이어 로드 데이터
 
+        /// <summary>
+        /// 초기화 함수
+        /// </summary>
         public static void Init()
         {
             playerLoader.Language = DesignEnums.LanguageType.English;
@@ -19,14 +22,6 @@ namespace Common.Data
         public static ItemTable GetItemTableByKey(int id)
         {
             return itemLoader.GetByKey(id);
-        }
-
-        /// <summary>
-        /// 인덱스로 아이템 가져오기
-        /// </summary>
-        public static ItemTable GetItemTableByIndex(int index)
-        {
-            return itemLoader.GetByIndex(index);
         }
 
         /// <summary>
@@ -51,9 +46,9 @@ namespace Common.Data
         }
 
         /// <summary>
-        /// 아이템 텍스트 가져오기
+        /// 아이템 상호작용 텍스트 가져오기
         /// </summary>
-        public static string GetInteractText(int id)
+        public static string GetItemInteractText(int id)
         {
             InteractTextTable textTable = interactTextLoader.GetByKey(id);
             string text = string.Empty;

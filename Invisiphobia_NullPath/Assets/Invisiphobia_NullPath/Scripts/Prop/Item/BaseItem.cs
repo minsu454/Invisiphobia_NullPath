@@ -6,8 +6,8 @@ using UnityEngine;
 public abstract class BaseItem : Prop, IInteractable
 {
     [Header("Table")]
-    [SerializeField] private int itemId;
-    protected ItemTable itemTable;
+    [SerializeField] private int itemId;        //해당 아이템 아이디
+    protected ItemTable itemTable;              //아이템 정보
     public ItemTable ItemTable
     {
         get { return itemTable; }

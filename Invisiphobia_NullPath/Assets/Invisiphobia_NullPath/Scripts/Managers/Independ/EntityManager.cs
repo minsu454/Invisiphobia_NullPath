@@ -22,6 +22,7 @@ public class EntityManager : MonoBehaviour
 
     public void Init(TotalMapData totalData)
     {
+        new GameObject("-----------Entity-------------");
         Setting(totalData.EntityData);
     }
 

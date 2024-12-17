@@ -1,31 +1,29 @@
 using Common.Yield;
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Tablet : MonoBehaviour 
 {
     [Header("Controller")]
-    [SerializeField] private TabletController controller;
-    [SerializeField] private TabletUIController uiController;
+    [SerializeField] private TabletController controller;           //타블렛 컨트롤러
+    [SerializeField] private TabletUIController uiController;       //타블렛 UI컨트롤러
 
     [Header("Manager")]
-    [SerializeField] private TabletUIManager manager;
+    [SerializeField] private TabletUIManager manager;               //타블렛 UI매니저
 
     [Header("Battery Settings")]
-    [SerializeField] private float maxCharge = 100f;
-    [SerializeField] private float currentCharge;
-    [SerializeField] private float consumptionRate;
-    [SerializeField] private float consumptionAmount;
-    private Coroutine myCoroutine;
+    [SerializeField] private float maxCharge = 100f;                //배터리 최대 값
+    [SerializeField] private float currentCharge;                   //현재 배터리 값
+    [SerializeField] private float consumptionRate;                 //소모주기
+    [SerializeField] private float consumptionAmount;               //주기마다 소모되는 값
+    private Coroutine myCoroutine;                                  //배터리 소모 코루틴 저장
 
-    private bool isCharged = true;
+    private bool isCharged = true;                                  //배터리가 있는지 확인해주는 bool
 
-    public event Action<TabletStateType> OnStateChangedEvent;
-    public event Action<TabletStateType> OnShotEvent;
-    private TabletStateType stateType = TabletStateType.Basic;
+    public event Action<TabletStateType> OnStateChangedEvent;       //스텟 바뀔 때에 이벤트
+    public event Action<TabletStateType> OnShotEvent;               //테블렛 사용 이벤트
+    private TabletStateType stateType = TabletStateType.Basic;      //테블렛 상태 타입
     public TabletStateType State {
         get { return stateType; }
         private set
@@ -40,6 +38,9 @@ public class Tablet : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 초기화 함수
+    /// </summary>
     public void Init(Player player)
     {
         manager.Init(this);
@@ -52,10 +53,6 @@ public class Tablet : MonoBehaviour
         player.PlayerController.playerClickActionEvent += OnClick;
 
         SetCurrentCharge(maxCharge);
-    }
-
-    private void Start()
-    {
     }
 
     /// <summary>
@@ -76,11 +73,17 @@ public class Tablet : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 숨김 상태 함수
+    /// </summary>
     public void Hidden()
     {
         State = TabletStateType.Hidden;
     }
 
+    /// <summary>
+    /// 숨김 해제 함수
+    /// </summary>
     public void UnHidden()
     {
         State = TabletStateType.Basic;
@@ -161,6 +164,9 @@ public class Tablet : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 클릭 이벤트 함수
+    /// </summary>
     private void OnClick()
     {
         OnShotEvent.Invoke(State);

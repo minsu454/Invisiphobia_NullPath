@@ -1,6 +1,9 @@
-﻿using System;
+using System;
 using UnityEngine;
 
+/// <summary>
+/// 위치 저장 데이터
+/// </summary>
 [Serializable]
 public class PointData
 {

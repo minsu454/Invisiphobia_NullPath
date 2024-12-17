@@ -7,11 +7,9 @@ using UnityEngine.UI;
 
 public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 {
-    [SerializeField] private List<WorldUI<TabletStateType>> worldUIList = new List<WorldUI<TabletStateType>>();
-
-    [SerializeField] private Image batteryBar; 
-    private int choiceIdx = 0;
-    public int ChoiceIdx
+    [SerializeField] private List<WorldUI<TabletStateType>> worldUIList = new List<WorldUI<TabletStateType>>(); //타블렛에 들어가는 능력 리스트
+    private int choiceIdx = 0;                                                                                  //현재 선택중인 인덱스                            
+    public int ChoiceIdx    
     {
         get { return choiceIdx; }
         set
@@ -25,11 +23,16 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         }
     }
 
+    [SerializeField] private Image batteryBar;          //배터리 바
+
     public event Action BasicStateEvent;
     public event Action ActiveStateEvent;
     public event Action<TabletStateType> ShotEvent;
-    private event Action hiddenEvent;
+    private event Action hiddenEvent;                   //숨김 이벤트
 
+    /// <summary>
+    /// 초기화 함수
+    /// </summary>
     public void Init(Tablet tablet)
     {
         foreach (WorldUI<TabletStateType> worldUI in worldUIList)
@@ -79,11 +82,17 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         choiceIdx = num;
     }
 
+    /// <summary>
+    /// 좌클릭 사용 이벤트 연결
+    /// </summary>
     private void OnShot(TabletStateType type)
     {
         ShotEvent?.Invoke(type);
     }
 
+    /// <summary>
+    /// 배터리 업데이트 함수
+    /// </summary>
     public void UpdateBattery(float amount)
     {
         batteryBar.fillAmount = amount;

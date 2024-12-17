@@ -6,7 +6,7 @@ public class DestroyableObject : BaseItem
     public override void Init()
     {
         base.Init();
-        interactText = DataService.GetInteractText(ItemTable.interactText[0]);
+        interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
     }
 
     public override void Interact(Player player)
