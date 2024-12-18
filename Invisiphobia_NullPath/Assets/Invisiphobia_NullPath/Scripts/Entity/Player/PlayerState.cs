@@ -9,6 +9,6 @@ public class PlayerState : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("죽었다ㅏㅏ");
+        GameManager.Instance.GameOver();
     }
 }

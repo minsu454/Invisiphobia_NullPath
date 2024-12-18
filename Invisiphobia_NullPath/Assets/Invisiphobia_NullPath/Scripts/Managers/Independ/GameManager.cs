@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    #region Test
     public static GameManager Instance;
 
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
 
     public void GameClear()
     {
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        Debug.Log("주금");
         //Managers.UI.CreatePopup<>
     }
 }
