@@ -21,16 +21,16 @@ public class MapManager : MonoBehaviour
     /// </summary>
     private void Map(TotalMapData totalData)
     {
-        try
-        {
+        //try
+        //{
             Room(totalData.RoomDataList);
             Deco(totalData.DecorDataList);
             Item(totalData.ItemDataList);
-        }
-        catch
-        {
-            Debug.LogWarning("This file cannot be loaded.");
-        }
+        //}
+        //catch
+        //{
+        //    Debug.LogWarning("This file cannot be loaded.");
+        //}
     }
 
     /// <summary>

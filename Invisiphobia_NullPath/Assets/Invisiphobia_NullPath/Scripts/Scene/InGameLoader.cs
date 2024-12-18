@@ -15,14 +15,15 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
 
     protected override void InitScene()
     {
+        CreateGameManager();
+        CreateVolume();
+
         TextAsset asset = ObjectManager.Return<TextAsset>(AddressablePath.MapFilePath("Floor01"));
         TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(asset.text);
 
-        CreateGameManager();
-        CreateVolume();
-        CreateEntityManager(totalData);
         CreateMapManager(totalData);
         CreateNavMeshBaker();
+        CreateEntityManager(totalData);
     }
 
     /// <summary>

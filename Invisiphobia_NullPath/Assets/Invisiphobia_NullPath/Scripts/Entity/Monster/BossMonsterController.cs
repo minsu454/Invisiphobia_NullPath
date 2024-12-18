@@ -22,6 +22,8 @@ public class BossMonsterController : MonsterController
         monster.MyState.WanderingEvent += OnAttackingUpdate;
 
         monster.aiState = AIStateType.Wandering;
+
+        gameObject.SetActive(false);
     }
 
     public override void PlayerAttackMonster()
