@@ -14,6 +14,7 @@ public class FleeMonsterController : MonsterController
     {
         base.Init(monster);
         SetTarget(EntityManager.Instance.Player.transform);
+        monster.myRenderer.enabled = false;
 
         agent.speed = runSpeed;
 

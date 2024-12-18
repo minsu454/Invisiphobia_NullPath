@@ -25,6 +25,7 @@ public class CowardMonster : MonsterController
         SetTarget(EntityManager.Instance.Player.transform);
         monster.MyState.WanderingEvent += OnWanderingUpdate;
         monster.MyState.MonsterFleeingEvent += MonsterFleeingUpdate;
+        monster.myRenderer.enabled = false;
 
         if (monster.myRenderer != null)
         {

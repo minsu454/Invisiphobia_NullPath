@@ -35,6 +35,7 @@ public class StunMonsterController : MonsterController
         Player player = EntityManager.Instance.Player;
         SetTarget(player.transform);
         playerMovement = player.PlayerMovement;
+        monster.myRenderer.enabled = false;
 
         monster.MyState.StunEvent += SetStun;
 

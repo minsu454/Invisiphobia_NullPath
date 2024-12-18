@@ -8,12 +8,7 @@ public class BossMonsterController : MonsterController
     public override void Init(Monster monster)
     {
         base.Init(monster);
-<<<<<<< Updated upstream
         SetTarget(EntityManager.Instance.Player.transform);
-=======
-        //myMimic = GetComponent<Mimic>();
-        SetTarget(Player.Instance.transform);
->>>>>>> Stashed changes
 
         agent.speed = runSpeed;
 
@@ -25,6 +20,8 @@ public class BossMonsterController : MonsterController
 
         monster.MyState.IdleEvent += LookingAtPlayerUpdate;
         monster.MyState.WanderingEvent += OnAttackingUpdate;
+
+        monster.aiState = AIStateType.Wandering;
     }
 
     public override void PlayerAttackMonster()
@@ -38,7 +35,6 @@ public class BossMonsterController : MonsterController
         if (agent.CalculatePath(targetTransform.position, path))
         {
             agent.SetDestination(targetTransform.position);
-            myMimic.velocity = agent.desiredVelocity;
         }
     }
 

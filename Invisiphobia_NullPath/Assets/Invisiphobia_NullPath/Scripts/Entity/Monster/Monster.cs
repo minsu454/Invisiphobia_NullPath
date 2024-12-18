@@ -8,7 +8,7 @@ public class Monster : Entity, IDetectable
     [SerializeField] private MonsterController myController;
     public MonsterController MyController { get { return myController; } }
 
-    [SerializeField] public Renderer myRenderer;
+    public Renderer myRenderer;
     
     public bool RendererActive { get { return myRenderer.enabled; } }
 
@@ -43,7 +43,6 @@ public class Monster : Entity, IDetectable
 
         GameObject go = Instantiate(mapIconPrefab);
         mapIcon = go.GetComponent<MapIcon>();
-        myRenderer.enabled = false;
     }
 
     public virtual void Detected()

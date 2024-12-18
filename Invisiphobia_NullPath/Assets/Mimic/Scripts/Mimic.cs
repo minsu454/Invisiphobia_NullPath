@@ -1,3 +1,4 @@
+using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.AI;
 
 namespace MimicSpace
 {
-    public class Mimic : BossMonsterController
+    public class Mimic : MonoBehaviour
     {
         [Header("Animation")]
         public GameObject legPrefab;
@@ -52,7 +53,7 @@ namespace MimicSpace
         List<GameObject> availableLegPool = new List<GameObject>();
 
         [Tooltip("This must be updates as the Mimin moves to assure great leg placement")]
-        //public NavMeshAgent agent;
+        public NavMeshAgent agent;
         public Vector3 velocity;
 
         void Start()
@@ -86,7 +87,7 @@ namespace MimicSpace
         IEnumerator NewLegCooldown()
         {
             canCreateLeg = false;
-            yield return new WaitForSeconds(newLegCooldown);
+            yield return YieldCache.WaitForSeconds(newLegCooldown);
             canCreateLeg = true;
         }
 
