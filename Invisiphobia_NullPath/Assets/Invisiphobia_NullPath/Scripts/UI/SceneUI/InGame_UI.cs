@@ -17,7 +17,7 @@ public class InGame_UI : BaseSceneUI
     #region Test
     public void Start()
     {
-        if(SceneManager.GetActiveScene().name != "InGame")
+        if(SceneManager.GetActiveScene().name != "InGame_Scene")
         {
             Init();
         }

@@ -27,7 +27,6 @@ public class CameraUI : WorldUI<TabletStateType>
 
     public override void Subscribe(IActiveStatable<TabletStateType> subject)
     {
-        coProgress = StartCoroutine(CoProgress());
 
         subject.BasicStateEvent += OnBasicState;
         subject.ActiveStateEvent += OnActiveState;
@@ -40,9 +39,6 @@ public class CameraUI : WorldUI<TabletStateType>
 
     public override void Unsubscribe(IActiveStatable<TabletStateType> subject)
     {
-        if (coProgress != null)
-            StopCoroutine(coProgress);
-
         subject.BasicStateEvent -= OnBasicState;
         subject.ActiveStateEvent -= OnActiveState;
 
@@ -94,6 +90,9 @@ public class CameraUI : WorldUI<TabletStateType>
     /// </summary>
     private void OnBasicState()
     {
+        ResetProgress();
+        if (coProgress != null)
+            StopCoroutine(coProgress);
         progressBackground.SetActive(true);
     }
 
@@ -102,6 +101,7 @@ public class CameraUI : WorldUI<TabletStateType>
     /// </summary>
     private void OnActiveState()
     {
+        coProgress = StartCoroutine(CoProgress());
         progressBackground.SetActive(false);
     }
 

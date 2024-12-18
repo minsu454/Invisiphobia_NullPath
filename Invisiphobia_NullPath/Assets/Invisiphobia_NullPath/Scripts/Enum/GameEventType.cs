@@ -3,4 +3,6 @@
 /// </summary>
 public enum GameEventType
 {
+    GameOver,
+    GameClear,
 }

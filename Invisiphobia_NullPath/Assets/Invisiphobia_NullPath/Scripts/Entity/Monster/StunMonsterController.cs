@@ -1,3 +1,4 @@
+using Common.Event;
 using Common.Timer;
 using Common.Yield;
 using System.Collections;
@@ -24,7 +25,6 @@ public class StunMonsterController : MonsterController
     private Coroutine timer;
     protected NavMeshHit hit;
     public PlayerMovement playerMovement;
-    public PlayerState playerState;
 
     private bool isStunned = false;
     protected bool isHiding = false;
@@ -32,9 +32,9 @@ public class StunMonsterController : MonsterController
     public override void Init(Monster monster)
     {
         base.Init(monster);
-        SetTarget(Player.Instance.transform);
-        playerMovement = Player.Instance.PlayerMovement;
-        playerState = Player.Instance.PlayerState;
+        Player player = Player.Instance;
+        SetTarget(player.transform);
+        playerMovement = player.PlayerMovement;
 
         monster.MyState.StunEvent += SetStun;
 
@@ -74,7 +74,7 @@ public class StunMonsterController : MonsterController
         {
             if (targetDistance < hideAttackDistance)    // 너무 가까이 있을 때 숨어서 주금
             {
-                playerState.Die();
+                EventManager.Dispatch(GameEventType.GameOver, null);
                 isHiding = false;
             }
             isHiding = true;
@@ -104,7 +104,7 @@ public class StunMonsterController : MonsterController
         if (targetDistance < 2f)     // 닿으면 주금
         {
             agent.speed = 0f;
-            playerState.Die();
+            EventManager.Dispatch(GameEventType.GameOver, null);
         }
     }
 

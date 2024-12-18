@@ -1,3 +1,4 @@
+using Common.Event;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,8 +9,6 @@ public class FleeMonsterController : MonsterController
     [Header("Fleeing")]
     [SerializeField] protected float minDistance;
     [SerializeField] protected float maxDistance;
-
-    public PlayerState playerState;
 
     public override void Init(Monster monster)
     {
@@ -135,7 +134,7 @@ public class FleeMonsterController : MonsterController
 
         if (targetDistance < 1f)     // 닿으면 주금
         {
-            playerState.Die();
+            EventManager.Dispatch(GameEventType.GameOver, null);
         }
     }
 

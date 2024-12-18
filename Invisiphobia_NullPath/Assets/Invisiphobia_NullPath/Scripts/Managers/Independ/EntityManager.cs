@@ -37,6 +37,8 @@ public class EntityManager : MonoBehaviour
             go.transform.rotation = entityData.playerData.Rot;
 
             Player = go.GetComponent<Player>();
+
+            Player.Init();
         }
 
         foreach (PointData data in entityData.monsterDataList)
@@ -51,6 +53,8 @@ public class EntityManager : MonoBehaviour
             Monster monster = go.GetComponent<Monster>();
 
             AddMonster(monster);
+
+            monster.Init();
         }
     }
 
