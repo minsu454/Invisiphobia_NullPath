@@ -129,7 +129,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
                 partsGo.transform.position = Vector3.zero;
             }
 
-            BaseItem itemParts = partsGo.GetComponent<BaseItem>();
+            Prop itemParts = partsGo.GetComponent<Prop>();
 
             saveManager.Add(itemParts);
         }
