@@ -13,7 +13,7 @@ public class Dummy : Prop
     #region test
     private void Start()
     {
-        targetTr = Player.Instance.transform;
+        targetTr = EntityManager.Instance.Player.transform;
     }
     #endregion
 
