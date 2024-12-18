@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2562919879091831527}
   - component: {fileID: 5672243986092110456}
+  - component: {fileID: -3709568414218288927}
   m_Layer: 0
   m_Name: Shelf_Large01
   m_TagString: Untagged
@@ -55,6 +56,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.6, y: 2.6, z: 1}
   m_Center: {x: 0, y: 1.28, z: 0}
+--- !u!114 &-3709568414218288927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3561592924389935758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a037063af09735459e4ed4e71107728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRendererArr: []
+  mapIconPrefab: {fileID: 0}
 --- !u!1 &4298687432024447420
 GameObject:
   m_ObjectHideFlags: 0

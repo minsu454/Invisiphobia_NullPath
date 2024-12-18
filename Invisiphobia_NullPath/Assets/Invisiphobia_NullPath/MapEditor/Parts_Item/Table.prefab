@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2976715274020634842}
   - component: {fileID: 7394227459269313044}
   - component: {fileID: 2272067081146890704}
+  - component: {fileID: -430911466728221784}
   m_Layer: 10
   m_Name: Table
   m_TagString: Untagged
@@ -72,6 +73,23 @@ MonoBehaviour:
   openPositionZ: 0.5
   moveSpeed: 2
   itemId: 1002
+--- !u!114 &-430911466728221784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6255848608137513671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a037063af09735459e4ed4e71107728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRendererArr:
+  - {fileID: 3146172430380746188}
+  - {fileID: 1134919049181649474}
+  - {fileID: 1777470031297057127}
+  mapIconPrefab: {fileID: 0}
 --- !u!1001 &3016715551648819474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -200,6 +218,24 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdfdc8c00390d474896e7cb5c8097242, type: 3}
+--- !u!23 &1134919049181649474 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -6476866675132632240, guid: fdfdc8c00390d474896e7cb5c8097242,
+    type: 3}
+  m_PrefabInstance: {fileID: 3016715551648819474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1777470031297057127 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -5658964947259770763, guid: fdfdc8c00390d474896e7cb5c8097242,
+    type: 3}
+  m_PrefabInstance: {fileID: 3016715551648819474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3146172430380746188 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 177036660521069790, guid: fdfdc8c00390d474896e7cb5c8097242,
+    type: 3}
+  m_PrefabInstance: {fileID: 3016715551648819474}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3339207686260641529 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fdfdc8c00390d474896e7cb5c8097242,
