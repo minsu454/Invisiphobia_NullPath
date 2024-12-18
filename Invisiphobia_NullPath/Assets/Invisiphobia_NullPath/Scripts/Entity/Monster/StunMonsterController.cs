@@ -32,9 +32,10 @@ public class StunMonsterController : MonsterController
     public override void Init(Monster monster)
     {
         base.Init(monster);
-        SetTarget(Player.Instance.transform);
-        playerMovement = Player.Instance.PlayerMovement;
-        playerState = Player.Instance.PlayerState;
+        Player player = Player.Instance;
+        SetTarget(player.transform);
+        playerMovement = player.PlayerMovement;
+        playerState = player.PlayerState;
 
         monster.MyState.StunEvent += SetStun;
 

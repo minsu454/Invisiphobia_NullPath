@@ -6,7 +6,8 @@ using UnityEngine.Rendering;
 
 public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
-    public EntityManager EntityManager;
+    public EntityManager Entity;
+    public GameManager Game;
     public Volume Volume;
 
     private const string volumePath = "Volume/GeneralVolume";
@@ -17,10 +18,20 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         TextAsset asset = ObjectManager.Return<TextAsset>(AddressablePath.MapFilePath("Floor01"));
         TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(asset.text);
 
+        CreateGameManager();
         CreateVolume();
         CreateEntityManager(totalData);
         CreateMapManager(totalData);
         CreateNavMeshBaker();
+    }
+
+    /// <summary>
+    /// 블륨 생성 함수
+    /// </summary>
+    private void CreateGameManager()
+    {
+        GameObject go = new GameObject("GameManager");
+        Game = go.AddComponent<GameManager>();
     }
 
     /// <summary>

@@ -9,7 +9,7 @@ public abstract class Entity : MonoBehaviour
     #region Test
     private void Awake()
     {
-        if(SceneManager.GetActiveScene().name != "InGame")
+        if(SceneManager.GetActiveScene().name != "InGame_Scene")
             Init();
     }
     #endregion

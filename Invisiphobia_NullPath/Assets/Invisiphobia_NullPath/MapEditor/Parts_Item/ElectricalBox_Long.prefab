@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 8056709691530620873}
   - component: {fileID: 7503493125051909065}
   - component: {fileID: 7161201357318358643}
-  - component: {fileID: 4206255286585557548}
+  - component: {fileID: -5894768546656312536}
+  - component: {fileID: 6515244652586960857}
   m_Layer: 0
   m_Name: ElectricalBox_Long
   m_TagString: Untagged
@@ -27,9 +28,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 791107983505115087}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.7127316, y: 1.11, z: -3.460816}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4206255286585557548
+--- !u!114 &-5894768546656312536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,10 +94,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 791107983505115087}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a037063af09735459e4ed4e71107728, type: 3}
+  m_Script: {fileID: 11500000, guid: 463c4a31b38d3064ab268783eb1ad77d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myRendererArr:
-  - {fileID: 7161201357318358643}
-  mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
+  itemId: 1009
+  puzzleUIPrefab: {fileID: -4107867435003216478, guid: 1f52eea9fcaeb9046a3059e907920476,
     type: 3}
+--- !u!65 &6515244652586960857
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791107983505115087}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.4823001, y: 1.7843728, z: 0.34322804}
+  m_Center: {x: -0.0008478984, y: 0.0007404685, z: 0.13124806}
