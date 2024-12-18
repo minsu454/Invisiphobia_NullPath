@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Michsky.UI.Dark;
+using Common.Yield;
 
 public class GameOverPopup : BasePopupUI
 {
     [SerializeField] private ModalWindowManager myModalWindow;
 
-    public override void Init<T>(T option)
+    private void OnEnable()
     {
-        base.Init(option);
+        myModalWindow.ModalWindowIn();
+    }
 
-        //myModalWindow.title = "New Title"; // Change title
-        //myModalWindow.description = "Description"; // Change desc
-        //myModalWindow.ModalWindowIn(); // Open window
+    private IEnumerator CoStart()
+    {
+        yield return YieldCache.WaitForSecondsRealtime(0.5f);
+        myModalWindow.ModalWindowIn();
     }
 
     //private void Update()
