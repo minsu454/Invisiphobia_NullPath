@@ -22,15 +22,19 @@ public class HideableObject : BaseItem
             originalPosition = player.transform.position;
 
             interactText = DataService.GetItemInteractText(ItemTable.interactText[1]);
-            Player.Instance.PlayerMovement.enableHeadBob = false;
+            player.PlayerMovement.enableHeadBob = false;
             StartCoroutine(Hide(player));
+            player.PlayerMovement.playerCollider.enabled = false;
+            player.PlayerMovement.rb.isKinematic = true;
         }
         else
         {
             isHidden = false;
             interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
-            Player.Instance.PlayerMovement.enableHeadBob = true;
+            player.PlayerMovement.enableHeadBob = true;
             StartCoroutine(Out(player));
+            player.PlayerMovement.playerCollider.enabled = true;
+            player.PlayerMovement.rb.isKinematic = false;
         }
     }
 
