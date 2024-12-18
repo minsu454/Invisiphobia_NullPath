@@ -84,7 +84,7 @@ public class CameraController : MonoBehaviour
         //커서 잠금 기능(인게임에서 마우스 안나오게)
         if (lockCursor)
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            SetLock();
         }
         //에임기능
         if (crosshair)
@@ -97,6 +97,25 @@ public class CameraController : MonoBehaviour
             crosshairObject.gameObject.SetActive(false);
         }
     }
+
+    /// <summary>
+    /// 마우스 잠구는 코드
+    /// </summary>
+    public void SetLock()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        cameraCanMove = true;
+    }
+
+    /// <summary>
+    /// 마우스 살리는 코드
+    /// </summary>
+    public void SetLockOff()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        cameraCanMove = false;
+    }
+
     //캠 회전
     float camRotation;
 

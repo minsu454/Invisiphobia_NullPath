@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
@@ -12,7 +13,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     [SerializeField] private List<WorldUI<TabletStateType>> worldUIList = new List<WorldUI<TabletStateType>>();
 
     [SerializeField] private Volume volume;
-    [SerializeField] private LimitlessGlitch8 glitch;
+    private LimitlessGlitch8 glitch;
 
     [SerializeField] private Image batteryBar; 
     private int choiceIdx = 0;
@@ -52,14 +53,14 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         tablet.OnShotEvent += OnShot;
         hiddenEvent += tablet.UnHidden;
 
-        if(volume.profile.TryGet(out glitch))
+        #region Test
+        if (SceneManager.GetActiveScene().name == "InGame_Scene")
         {
-
+            volume = InGameLoader.Instance.Volume;
         }
-        else
-        {
+        #endregion
 
-        }
+        volume.profile.TryGet(out glitch);
     }
 
     /// <summary>

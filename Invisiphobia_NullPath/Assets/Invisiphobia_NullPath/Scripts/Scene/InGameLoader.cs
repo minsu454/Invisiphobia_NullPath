@@ -2,10 +2,12 @@ using Common.Objects;
 using Common.Path;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
     public EntityManager EntityManager;
+    public Volume Volume;
 
     private const string volumePath = "Volume/GeneralVolume";
     private const string navMeshBakerPath = "NavMesh/NavMeshBaker";
@@ -26,7 +28,8 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     /// </summary>
     private void CreateVolume()
     {
-        ObjectManager.Instantiate(volumePath);
+        GameObject go = ObjectManager.Instantiate(volumePath);
+        Volume = go.GetComponent<Volume>();
     }
 
     /// <summary>

@@ -10,12 +10,11 @@ public class DetectorUI : WorldUI<TabletStateType>
     [SerializeField] private Color32 uiColor;
 
     [SerializeField] private AudioClip alarmClip;
-    [SerializeField] private Transform playerTr;
 
     [Header("Detector")]
     [SerializeField] private TriggerDetector detector;                          //외부 콜라이더 Trigger 변수
     private List<IDetectable> detectedObjectList = new List<IDetectable>();     //감지한 객체 리스트
-    private float updateInterval = 0.8f;                                          //코루틴 업데이트 주기 변수
+    private float updateInterval = 0.8f;                                        //코루틴 업데이트 주기 변수
     private float closestdistance;                                              //업데이트 때 제일 가까운 거리 저장 변수
 
     private Coroutine timer = null;                                             //코루틴 타이머 변수
@@ -194,12 +193,12 @@ public class DetectorUI : WorldUI<TabletStateType>
         if (distance < 5f)
         {
             Debug.Log("물체가 가깝습니다!!");
-            Managers.Sound.SFX3DPlay(alarmClip, playerTr, 1.5f, 5);
+            Managers.Sound.SFX2DPlay(alarmClip, 1.5f);
         }
         else if (distance < 10f)
         {
             Debug.Log("물체가 감지되었습니다!");
-            Managers.Sound.SFX3DPlay(alarmClip, playerTr, 5);
+            Managers.Sound.SFX2DPlay(alarmClip);
         }
     }
 
