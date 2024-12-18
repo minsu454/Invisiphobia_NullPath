@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("주금");
-        //Managers.UI.CreatePopup<>
+
+        Managers.UI.CreatePopup<GameOverPopup>();
     }
 }

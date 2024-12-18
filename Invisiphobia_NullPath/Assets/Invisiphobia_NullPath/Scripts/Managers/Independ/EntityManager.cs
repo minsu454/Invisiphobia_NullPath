@@ -19,7 +19,6 @@ public class EntityManager : MonoBehaviour
     public void Awake()
     {
         Instance = this;
-
     }
     #endregion
 
