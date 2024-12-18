@@ -2,13 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dummy : MonoBehaviour
+public class Dummy : Prop
 {
-    public Transform player;
+    Transform targetTr;
     public bool followWatch = false;
 
-    public Camera playerCamera;
+    Camera playerCamera;
     public float fieldOfViewAngle = 55f;
+
+    #region test
+    private void Start()
+    {
+        targetTr = Player.Instance.transform;
+    }
+    #endregion
+
+    public override void Init()
+    {
+        base.Init();
+        playerCamera = Camera.main;
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -33,10 +46,10 @@ public class Dummy : MonoBehaviour
 
     void followWatchPlayer()
     {
-        if (!followWatch || player == null)
+        if (!followWatch || targetTr == null)
             return;
 
-        Vector3 direction = player.position - transform.position;
+        Vector3 direction = targetTr.position - transform.position;
         direction.y = 0; // Y축 고정
         transform.rotation = Quaternion.LookRotation(direction);
     }

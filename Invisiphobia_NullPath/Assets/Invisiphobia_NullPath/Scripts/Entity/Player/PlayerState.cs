@@ -1,14 +1,20 @@
+using Common.Event;
 using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
     public void Init(Player player)
     {
-        
+        EventManager.Subscribe(GameEventType.GameOver, Die);
     }
 
-    public void Die()
+    public void Die(object args)
     {
-        Debug.Log("죽었다ㅏㅏ");
+        GameManager.Instance.GameOver();
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe(GameEventType.GameOver, Die);
     }
 }

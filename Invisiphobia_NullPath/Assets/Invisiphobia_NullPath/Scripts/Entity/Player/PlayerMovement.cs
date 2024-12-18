@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody rb;
-
+    public Rigidbody rb;
+    public Collider playerCollider;
     public Camera playerCamera;
 
     #region Movement Variables
@@ -103,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
         player.PlayerController.playerSprintActionEvent += Sprint;
         player.PlayerController.playerJumpActionEvent += Jump;
         player.PlayerController.playerCrouchActionEvent += Crouch;
+        playerCollider = transform.GetComponent<Collider>();
     }
 
     public void SetUI(Slider staminaBar, CanvasGroup sprintBarCanvasGroup)

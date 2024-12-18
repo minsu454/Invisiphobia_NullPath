@@ -93,18 +93,40 @@ public class Tablet : MonoBehaviour
         State = TabletStateType.Basic;
     }
 
-    public void PlayPuzzle()
+    /// <summary>
+    /// 퍼즐 생성 함수
+    /// </summary>
+    public int InitPuzzle(PuzzleUI prefab)
     {
-        State = TabletStateType.Activate;
-        isCharged = false;
-        useStateChange = false;
+        WorldUI<TabletStateType> worldUI = manager.InstantiateAndAdd(prefab);
+        int idx = manager.IndexOf(worldUI);
+
+        if (idx == -1)
+            Debug.LogError($"not Found : {worldUI}");
+
+        return idx;
     }
 
+    /// <summary>
+    /// 퍼즐 플레이 함수
+    /// </summary>
+    public void PlayPuzzle(int index)
+    {
+        isCharged = false;
+        useStateChange = false;
+        manager.ChoiceIdx = index;
+        State = TabletStateType.Activate;
+    }
+
+    /// <summary>
+    /// 퍼즐 멈추는 함수
+    /// </summary>
     public void StopPuzzle()
     {
         State = TabletStateType.Basic;
         isCharged = true;
         useStateChange = true;
+        OnSwitchTabletScreen(0);
     }
 
     #region 배터리관련
@@ -167,7 +189,7 @@ public class Tablet : MonoBehaviour
     private void OffScreen()
     {
         isCharged = false;
-        manager.ChoiceIdx = 3;
+        manager.ChoiceIdx = 2;
     }
     #endregion
 
