@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace MimicSpace
 {
-    public class Mimic : MonoBehaviour
+    public class Mimic : BossMonsterController
     {
         [Header("Animation")]
         public GameObject legPrefab;
@@ -51,6 +52,7 @@ namespace MimicSpace
         List<GameObject> availableLegPool = new List<GameObject>();
 
         [Tooltip("This must be updates as the Mimin moves to assure great leg placement")]
+        //public NavMeshAgent agent;
         public Vector3 velocity;
 
         void Start()
@@ -95,7 +97,7 @@ namespace MimicSpace
                 return;
 
             // New leg origin is placed in front of the mimic
-            legPlacerOrigin = transform.position + velocity.normalized * newLegRadius;
+            legPlacerOrigin = transform.position + agent.velocity.normalized * newLegRadius;
 
             if (legCount <= maxLegs - partsPerLeg)
             {
@@ -105,9 +107,9 @@ namespace MimicSpace
 
                 // If the mimic is moving and the new leg position is behind it, mirror it to make
                 // it reach in front of the mimic.
-                if (velocity.magnitude > 1f)
+                if (agent.velocity.magnitude > 1f)
                 {
-                    float newLegAngle = Vector3.Angle(velocity, newLegPosition - transform.position);
+                    float newLegAngle = Vector3.Angle(agent.velocity, newLegPosition - transform.position);
 
                     if (Mathf.Abs(newLegAngle) > 90)
                     {
@@ -119,8 +121,8 @@ namespace MimicSpace
                     newLegPosition = ((newLegPosition - transform.position).normalized * minLegDistance) + transform.position;
 
                 // if the angle is too big, adjust the new leg position towards the velocity vector
-                if (Vector3.Angle(velocity, newLegPosition - transform.position) > 45)
-                    newLegPosition = transform.position + ((newLegPosition - transform.position) + velocity.normalized * (newLegPosition - transform.position).magnitude) / 2f;
+                if (Vector3.Angle(agent.velocity, newLegPosition - transform.position) > 45)
+                    newLegPosition = transform.position + ((newLegPosition - transform.position) + agent.velocity.normalized * (newLegPosition - transform.position).magnitude) / 2f;
 
                 RaycastHit hit;
                 Physics.Raycast(newLegPosition + Vector3.up * 10f, -Vector3.up, out hit);
@@ -137,6 +139,17 @@ namespace MimicSpace
                     if (legCount >= maxLegs)
                         return;
                 }
+                //if (Physics.Raycast(newLegPosition + Vector3.up * 10f, -Vector3.up, out hit))
+                //{
+                //    float lifeTime = Random.Range(minLegLifetime, maxLegLifetime);
+                //    StartCoroutine(NewLegCooldown());
+                //    for (int i = 0; i < partsPerLeg; i++)
+                //    {
+                //        RequestLeg(hit.point, legResolution, maxLegDistance, Random.Range(minGrowCoef, maxGrowCoef), this, lifeTime);
+                //        if (legCount >= maxLegs)
+                //            return;
+                //    }
+                //}
             }
         }
 
@@ -164,5 +177,4 @@ namespace MimicSpace
             leg.SetActive(false);
         }
     }
-
 }

@@ -8,7 +8,7 @@ public class Monster : Entity, IDetectable
     [SerializeField] private MonsterController myController;
     public MonsterController MyController { get { return myController; } }
 
-    [SerializeField] public SkinnedMeshRenderer myRenderer;
+    [SerializeField] public Renderer myRenderer;
     
     public bool RendererActive { get { return myRenderer.enabled; } }
 
