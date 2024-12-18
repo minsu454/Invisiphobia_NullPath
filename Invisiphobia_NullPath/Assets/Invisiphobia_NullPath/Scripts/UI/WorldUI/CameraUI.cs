@@ -7,6 +7,9 @@ public class CameraUI : WorldUI<TabletStateType>
     [SerializeField] private GameObject progressBackground;     //진행 바 배경 변수
     [SerializeField] private Image progressBar;                 //진행 바 변수
 
+    [SerializeField] private Image activeButton;
+    [SerializeField] private Color32 uiColor;
+
     private Coroutine coProgress;                               //코루틴 감지 시간 변수
     private float curProgressTime = 0;                          //현재 감지 시간 변수
     [SerializeField] private float maxProgressTime = 2f;        //최대 감지 시간 변수
@@ -31,6 +34,7 @@ public class CameraUI : WorldUI<TabletStateType>
 
         subject.ShotEvent += OnShot;
         progressBackground.SetActive(true);
+        activeButton.color = Color.white;
     }
 
     public override void Unsubscribe(IActiveStatable<TabletStateType> subject)
@@ -43,7 +47,8 @@ public class CameraUI : WorldUI<TabletStateType>
 
         subject.ShotEvent -= OnShot;
 
-        gameObject.SetActive(false);    
+        gameObject.SetActive(false);
+        activeButton.color = uiColor;
     }
 
     /// <summary>

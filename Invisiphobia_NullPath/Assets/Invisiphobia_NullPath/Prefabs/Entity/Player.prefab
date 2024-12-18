@@ -783,6 +783,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBackground: {fileID: 3695365208645441969}
   progressBar: {fileID: 3506158645171382212}
+  activeButton: {fileID: 2133946597103065914}
+  uiColor:
+    serializedVersion: 2
+    rgba: 4280339222
   maxProgressTime: 2
   tabletCamera: {fileID: 5149847259879494111}
   maxDistance: 50
@@ -963,7 +967,7 @@ GameObject:
   - component: {fileID: 8864371968596376262}
   - component: {fileID: 1753073622434644225}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: OutputCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1373,6 +1377,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBackground: {fileID: 0}
   progressBar: {fileID: 0}
+  activeButton: {fileID: 0}
+  uiColor:
+    serializedVersion: 2
+    rgba: 0
   maxProgressTime: 2
   tabletCamera: {fileID: 0}
   maxDistance: 50
@@ -2019,6 +2027,8 @@ MonoBehaviour:
   - {fileID: 62824584906619165}
   - {fileID: 2664508391517248291}
   - {fileID: 8722628375222630872}
+  volume: {fileID: 0}
+  glitch: {fileID: 0}
   batteryBar: {fileID: 4375342198979321206}
 --- !u!1 &6522049551643468816
 GameObject:
@@ -2240,6 +2250,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBackground: {fileID: 0}
   progressBar: {fileID: 0}
+  activeButton: {fileID: 0}
+  uiColor:
+    serializedVersion: 2
+    rgba: 0
   maxProgressTime: 2
   tabletCamera: {fileID: 0}
   maxDistance: 50
