@@ -28,8 +28,8 @@ public class InGame_UI : BaseSceneUI
     {
         base.Init();
 
-        Player.Instance.PlayerMovement.SetUI(staminaBar, sprintBarCanvasGroup);
-        Player.Instance.PlayerInteract.interactUIEvent += SetInteractDescriptionKey;
+        EntityManager.Instance.Player.PlayerMovement.SetUI(staminaBar, sprintBarCanvasGroup);
+        EntityManager.Instance.Player.PlayerInteract.interactUIEvent += SetInteractDescriptionKey;
     }
 
     private void SetStaminaBar(int sprintRemaining)

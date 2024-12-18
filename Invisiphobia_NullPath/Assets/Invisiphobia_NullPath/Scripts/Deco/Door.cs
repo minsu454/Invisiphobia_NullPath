@@ -33,7 +33,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Start()
     {
-        playerTr = Player.Instance.transform;
+        playerTr = EntityManager.Instance.Player.transform;
         startRotation = transform.rotation;
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
 

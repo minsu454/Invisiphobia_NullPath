@@ -32,7 +32,7 @@ public class StunMonsterController : MonsterController
     public override void Init(Monster monster)
     {
         base.Init(monster);
-        Player player = Player.Instance;
+        Player player = EntityManager.Instance.Player;
         SetTarget(player.transform);
         playerMovement = player.PlayerMovement;
 

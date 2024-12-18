@@ -13,7 +13,7 @@ public class FleeMonsterController : MonsterController
     public override void Init(Monster monster)
     {
         base.Init(monster);
-        SetTarget(Player.Instance.transform);
+        SetTarget(EntityManager.Instance.Player.transform);
 
         agent.speed = runSpeed;
 

@@ -3,12 +3,14 @@ using Common.Path;
 using Common.StringEx;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EntityManager : MonoBehaviour
 {
     public static EntityManager Instance;
 
-    public Player Player { get; private set; }
+    [SerializeField] private Player player;
+    public Player Player { get { return player; } }
     private readonly List<Monster> monsterList = new List<Monster>();
 
     #region Test
@@ -36,9 +38,9 @@ public class EntityManager : MonoBehaviour
             go.transform.position = entityData.playerData.Pos;
             go.transform.rotation = entityData.playerData.Rot;
 
-            Player = go.GetComponent<Player>();
+            player = go.GetComponent<Player>();
 
-            Player.Init();
+            player.Init();
         }
 
         foreach (PointData data in entityData.monsterDataList)

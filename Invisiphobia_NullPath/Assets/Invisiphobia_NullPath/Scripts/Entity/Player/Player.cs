@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    #region Test
-    public static Player Instance;
-    #endregion
-
     [SerializeField] private PlayerController playerController;
     public PlayerController PlayerController { get { return playerController; } }
 
@@ -31,8 +27,6 @@ public class Player : Entity
 
     public override void Init()
     {
-        Instance = this;
-
         PlayerController.Init(this);
         PlayerInventory.Init(this);
         PlayerMovement.Init(this);

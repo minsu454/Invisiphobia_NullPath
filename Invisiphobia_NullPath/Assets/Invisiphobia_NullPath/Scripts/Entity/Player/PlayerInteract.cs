@@ -54,10 +54,10 @@ public class PlayerInteract : MonoBehaviour
         if (!Physics.Raycast(ray, out raycastHit, maxDistance, layerMask))
             return;
 
-        if (!raycastHit.collider.TryGetComponent(out IInteractable interactable)
-            && (!interactable.IsReveal)
-            && (!useInHandItemInteractUI && interactable is BaseItem)
-            )
+        if (!raycastHit.collider.TryGetComponent(out IInteractable interactable))
+            return;
+
+        if  (!interactable.IsReveal || !useInHandItemInteractUI || interactable is BaseItem)
             return;
 
         curInteractable = interactable;

@@ -81,6 +81,9 @@ public class MapManager : MonoBehaviour
             go.name = data.Name;
             go.transform.position = data.Pos;
             go.transform.rotation = data.Rot;
+
+            Prop prop = go.GetComponent<Prop>();
+            prop.Init();
         }
     }
 }
