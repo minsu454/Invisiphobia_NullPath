@@ -104,7 +104,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         go.name = prefab.name;
 
         WorldUI<TabletStateType> worldUI = go.GetComponent<WorldUI<TabletStateType>>();
-
+        worldUI.Init(this);
         Add(worldUI);
 
         return worldUI;
