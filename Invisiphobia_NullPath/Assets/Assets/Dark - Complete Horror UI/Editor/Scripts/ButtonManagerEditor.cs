@@ -69,7 +69,6 @@ namespace Michsky.UI.Dark
             var onLeave = serializedObject.FindProperty("onLeave");
             var normalText = serializedObject.FindProperty("normalText");
             var highlightedText = serializedObject.FindProperty("highlightedText");
-            var soundSource = serializedObject.FindProperty("soundSource");
             var useCustomContent = serializedObject.FindProperty("useCustomContent");
             var enableButtonSounds = serializedObject.FindProperty("enableButtonSounds");
             var useHoverSound = serializedObject.FindProperty("useHoverSound");
@@ -160,17 +159,7 @@ namespace Michsky.UI.Dark
                     EditorGUILayout.LabelField(new GUIContent("Highlighted Text"), customSkin.FindStyle("Text"), GUILayout.Width(120));
                     EditorGUILayout.PropertyField(highlightedText, new GUIContent(""));
 
-                    GUILayout.EndHorizontal(); 
-
-                    if (enableButtonSounds.boolValue == true)
-                    {
-                        GUILayout.BeginHorizontal(EditorStyles.helpBox);
-
-                        EditorGUILayout.LabelField(new GUIContent("Sound Source"), customSkin.FindStyle("Text"), GUILayout.Width(120));
-                        EditorGUILayout.PropertyField(soundSource, new GUIContent(""));
-
-                        GUILayout.EndHorizontal();
-                    }
+                    GUILayout.EndHorizontal();
 
                     if (useRipple.boolValue == true)
                     {
