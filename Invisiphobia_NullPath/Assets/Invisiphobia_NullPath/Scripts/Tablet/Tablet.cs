@@ -82,6 +82,7 @@ public class Tablet : MonoBehaviour
     /// </summary>
     public void Hidden()
     {
+        OnSwitchTabletScreen(0);
         State = TabletStateType.Hidden;
     }
 

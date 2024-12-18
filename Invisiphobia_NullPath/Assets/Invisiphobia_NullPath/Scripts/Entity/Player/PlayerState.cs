@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
+    private bool isDie = false;
+
     public void Init(Player player)
     {
         EventManager.Subscribe(GameEventType.GameOver, Die);
@@ -10,6 +12,10 @@ public class PlayerState : MonoBehaviour
 
     public void Die(object args)
     {
+        if (isDie)
+            return;
+
+        isDie = true;
         GameManager.Instance.GameOver();
     }
 

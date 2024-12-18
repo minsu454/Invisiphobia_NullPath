@@ -33,9 +33,9 @@ public sealed class UIManager : MonoBehaviour, IInit
 
         GameObject uiGo = Instantiate(prefab);
 
-        if (!prefab.TryGetComponent(out BaseSceneUI sceneUI))
+        if (!uiGo.TryGetComponent(out BaseSceneUI sceneUI))
         {
-            Debug.LogError($"GameObject Is Not BaseSceneUI Inheritance : {prefab}");
+            Debug.LogError($"GameObject Is Not BaseSceneUI Inheritance : {uiGo}");
             return;
         }
 
