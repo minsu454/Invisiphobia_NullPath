@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private readonly KeyCode[] alphaKeyArr = new KeyCode[]
     {
-        KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3,
+        KeyCode.Alpha1, KeyCode.Alpha2,
     };
     private const int alphaKeyNum = (int)KeyCode.Alpha1;
 

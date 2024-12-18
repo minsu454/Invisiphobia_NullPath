@@ -22,15 +22,23 @@ public class Hacking : MonoBehaviour, IInteractable
     public bool IsReveal => true;
 
     [Header("Hanking")]
-    [SerializeField] private PuzzleUI puzzleUI;
+    [SerializeField] private PuzzleUI puzzleUIPrefab;
+    private int idx;
     private bool isOn = true;
+    private bool isFirst = true;
 
     public void Interact(Player player)
     {
+        if (isFirst)
+        {
+            idx = player.PlayerInventory.Tablet.InitPuzzle(puzzleUIPrefab);
+            isFirst = false;
+        }
+
         if (isOn)
         {
             player.CameraController.SetLockOff();
-            player.PlayerInventory.Tablet.PlayPuzzle();
+            player.PlayerInventory.Tablet.PlayPuzzle(idx);
         }
         else
         {

@@ -94,7 +94,49 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 
         choiceIdx = num;
     }
+    
+    /// <summary>
+    /// 생성하고 추가해주는 함수
+    /// </summary>
+    public WorldUI<TabletStateType> InstantiateAndAdd(WorldUI<TabletStateType> prefab)
+    {
+        GameObject go = Instantiate(prefab.gameObject, transform);
+        go.name = prefab.name;
 
+        WorldUI<TabletStateType> worldUI = go.GetComponent<WorldUI<TabletStateType>>();
+
+        Add(worldUI);
+
+        return worldUI;
+    }
+
+    /// <summary>
+    /// 인덱스 반환 함수
+    /// </summary>
+    public int IndexOf(WorldUI<TabletStateType> worldUI)
+    {
+        return worldUIList.IndexOf(worldUI);
+    }
+
+    /// <summary>
+    /// UI 추가해주는 함수
+    /// </summary>
+    public void Add(WorldUI<TabletStateType> worldUI)
+    {
+        worldUIList.Add(worldUI);
+    }
+
+    /// <summary>
+    /// UI 지워주는 함수
+    /// </summary>
+    public void RemoveAt(int idx)
+    {
+        worldUIList.RemoveAt(idx);
+    }
+
+    /// <summary>
+    /// 공격 시 사용 할 이벤트 함수
+    /// </summary>
     private void OnShot(TabletStateType type)
     {
         ShotEvent?.Invoke(type);
