@@ -49,13 +49,13 @@ public abstract class MonsterController : MonoBehaviour
         return Vector3.Angle(transform.position - targetTransform.position, transform.position + targetPos);
     }
 
-    protected void LookingAtPlayerUpdate()
-    {
-        if (targetDistance < lookAtPlayerDistance)
-        {
-            Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-        }
-    }
+    //protected void LookingAtPlayerUpdate()
+    //{
+    //    if (targetDistance < lookAtPlayerDistance)
+    //    {
+    //        Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
+    //        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+    //        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+    //    }
+    //}
 }
