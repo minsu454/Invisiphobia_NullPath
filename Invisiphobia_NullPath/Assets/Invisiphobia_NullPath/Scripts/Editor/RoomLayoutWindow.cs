@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Path = System.IO.Path;
 
-public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
+public class RoomLayoutWindow : CustomWindow<RoomLayoutWindow>
 {
     private Rect areaRect;                  //rect 저장 변수
 
@@ -23,6 +23,8 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
 
     private Texture2D[] texture2DArr;                                                           //Parts사진 저장 배열
     private Dictionary<string, RoomParts> partsGoDict = new Dictionary<string, RoomParts>();    //PartsGo 저장 Dictionary
+
+    private TotalMapData totalData;
 
     protected override void OnEnable()
     {
@@ -344,6 +346,7 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
         editorManager.LeaveMapEditor();
         saveManager.Clear();
         pickGoEditor = null;
+        totalData = null;
         Stop();
     }
 
@@ -352,8 +355,9 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
     /// </summary>
     private string SaveSerialize(string path)
     {
-        TotalMapData totalData = new TotalMapData();
-
+        if(totalData == null)
+            totalData = new TotalMapData();
+        
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
             RoomParts roomParts = parts as RoomParts;
@@ -378,7 +382,7 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
     /// </summary>
     private void LoadUnserialize(string json)
     {
-        TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(json);
+        totalData = JsonUtility.FromJson<TotalMapData>(json);
 
         try
         {
@@ -399,6 +403,47 @@ public class MapLayoutWindow : CustomWindow<MapLayoutWindow>
                 parts.Init(floor, wall);
 
                 saveManager.Add(parts);
+            }
+
+            foreach (PointData data in totalData.DecorDataList)
+            {
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.DecoPartsPath}/{data.Name}.prefab");
+                GameObject go = Instantiate(prefab);
+
+                go.name = data.Name;
+                go.transform.position = data.Pos;
+                go.transform.rotation = data.Rot;
+            }
+
+            foreach (PointData data in totalData.ItemDataList)
+            {
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
+                GameObject go = Instantiate(prefab);
+
+                go.name = data.Name;
+                go.transform.position = data.Pos;
+                go.transform.rotation = data.Rot;
+            }
+
+
+            GameObject playerprefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{totalData.EntityData.playerData.Name}.prefab");
+            if (playerprefab != null)
+            {
+                GameObject go = Instantiate(playerprefab);
+
+                go.name = totalData.EntityData.playerData.Name;
+                go.transform.position = totalData.EntityData.playerData.Pos;
+                go.transform.rotation = totalData.EntityData.playerData.Rot;
+            }
+
+            foreach (PointData data in totalData.EntityData.monsterDataList)
+            {
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{data.Name}.prefab");
+                GameObject go = Instantiate(prefab);
+
+                go.name = data.Name;
+                go.transform.position = data.Pos;
+                go.transform.rotation = data.Rot;
             }
         }
         catch

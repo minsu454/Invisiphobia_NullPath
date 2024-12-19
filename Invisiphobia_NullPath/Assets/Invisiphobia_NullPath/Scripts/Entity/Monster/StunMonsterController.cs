@@ -2,7 +2,6 @@ using Common.Event;
 using Common.Timer;
 using Common.Yield;
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -41,7 +40,6 @@ public class StunMonsterController : MonsterController
 
         ResetWanderingCount();
 
-        monster.MyState.IdleEvent += LookingAtPlayerUpdate;
         monster.MyState.WanderingEvent += PassiveUpdate;
         monster.MyState.FleeingEvent += FleeingUpdate;
     }
@@ -256,5 +254,12 @@ public class StunMonsterController : MonsterController
         {
             EventManager.Dispatch(GameEventType.GameOver, null);
         }
+    }
+
+    public override void LookingAtTarget()
+    {
+        Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+        transform.rotation = lookRotation;
     }
 }

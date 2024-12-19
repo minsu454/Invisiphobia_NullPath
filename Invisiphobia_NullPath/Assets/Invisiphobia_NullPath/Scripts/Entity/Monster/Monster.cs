@@ -72,6 +72,7 @@ public class Monster : Entity, IDetectable
         StateType = PropStateType.Revealed;
         myRenderer.enabled = true;
         mapIcon.Revealed();
+        myController.LookingAtTarget();
 
         aiState = AIStateType.Wandering;
     }

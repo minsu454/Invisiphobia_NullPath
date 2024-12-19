@@ -37,6 +37,7 @@ public abstract class MonsterController : MonoBehaviour
 
     protected abstract void AttackingUpdate();
     public abstract void PlayerAttackMonster();
+    public abstract void LookingAtTarget();
 
     public void SetTarget(Transform transform)
     {
