@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7818370957003152212}
   - component: {fileID: 4695635763645082259}
   - component: {fileID: 6428683333412980967}
+  - component: {fileID: -5843865121701435691}
   m_Layer: 10
   m_Name: DrumPack01
   m_TagString: Untagged
@@ -122,3 +123,25 @@ MonoBehaviour:
   - {fileID: 7818370957003152212}
   mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
+--- !u!195 &-5843865121701435691
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859640671094415165}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.0706289
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2.1024935
+  m_BaseOffset: 1.0512468
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
