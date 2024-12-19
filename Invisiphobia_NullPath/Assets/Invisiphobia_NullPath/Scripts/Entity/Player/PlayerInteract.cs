@@ -57,7 +57,7 @@ public class PlayerInteract : MonoBehaviour
         if (!raycastHit.collider.TryGetComponent(out IInteractable interactable))
             return;
 
-        if  (!interactable.IsReveal || !useInHandItemInteractUI || interactable is BaseItem)
+        if  (!interactable.IsReveal || !useInHandItemInteractUI || !(interactable is BaseItem))
             return;
 
         curInteractable = interactable;
