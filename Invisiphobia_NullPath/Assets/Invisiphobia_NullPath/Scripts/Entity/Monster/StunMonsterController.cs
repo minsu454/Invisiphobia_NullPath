@@ -251,14 +251,13 @@ public class StunMonsterController : MonsterController
         ResetCycle();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             EventManager.Dispatch(GameEventType.GameOver, null);
         }
     }
-
     protected override void LookingAtTarget()
     {
         Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
