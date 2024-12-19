@@ -29,13 +29,13 @@ public class CameraUI : WorldUI<TabletStateType>
 
     public override void Subscribe(IActiveStatable<TabletStateType> subject)
     {
-
         subject.BasicStateEvent += OnBasicState;
         subject.ActiveStateEvent += OnActiveState;
 
         subject.ShotEvent += OnShot;
         progressBackground.SetActive(true);
 
+        ResetProgress();
         activeButton.color = Color.white;
     }
 

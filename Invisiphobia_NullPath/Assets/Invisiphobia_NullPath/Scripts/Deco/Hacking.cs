@@ -35,6 +35,9 @@ public class Hacking : MonoBehaviour, IInteractable
             isFirst = false;
         }
 
+        if (!player.PlayerInventory.Tablet.IsCharged)
+            return;
+
         if (isOn)
         {
             player.CameraController.SetLockOff();
