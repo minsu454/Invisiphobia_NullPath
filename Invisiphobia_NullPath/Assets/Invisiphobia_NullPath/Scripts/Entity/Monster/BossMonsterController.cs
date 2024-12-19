@@ -1,4 +1,6 @@
+using Common.Event;
 using MimicSpace;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class BossMonsterController : MonsterController
@@ -13,10 +15,6 @@ public class BossMonsterController : MonsterController
         agent.speed = runSpeed;
 
         var mimic = GetComponent<Mimic>();
-        if (mimic != null)
-        {
-            mimic.velocity = agent.velocity;
-        }
 
         monster.MyState.IdleEvent += LookingAtPlayerUpdate;
         monster.MyState.WanderingEvent += OnAttackingUpdate;
@@ -33,10 +31,18 @@ public class BossMonsterController : MonsterController
     protected override void AttackingUpdate()
     {
         NavMeshPath path = new NavMeshPath();
-        
+
         if (agent.CalculatePath(targetTransform.position, path))
         {
             agent.SetDestination(targetTransform.position);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            EventManager.Dispatch(GameEventType.GameOver, null);
         }
     }
 

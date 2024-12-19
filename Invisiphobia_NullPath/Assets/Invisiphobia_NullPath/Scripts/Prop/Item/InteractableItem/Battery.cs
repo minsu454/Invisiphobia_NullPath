@@ -41,20 +41,4 @@ public class Battery : InHandItem
         transform.position = Camera.main.transform.forward + playerTr.position;
         Debug.Log(currentCharge);
     }
-
-    //void Start()
-    //{
-    //    currentCharge = maxCharge; // 초기 충전량 설정
-    //    StartCoroutine(DischargeBattery());
-    //}
-
-    //private IEnumerator DischargeBattery()
-    //{
-    //    while (currentCharge > 0)
-    //    {
-    //        yield return YieldCache.WaitForSeconds(1f);
-    //        currentCharge -= dischargeRate;
-    //        currentCharge = Mathf.Clamp(currentCharge, 0, maxCharge);
-    //    }
-    //}
 }

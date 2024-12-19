@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Michsky.UI.Dark;
 using Common.Yield;
+using Common.SceneEx;
 
 public class GameOverPopup : BasePopupUI
 {
@@ -13,20 +14,13 @@ public class GameOverPopup : BasePopupUI
         myModalWindow.ModalWindowIn();
     }
 
-    private IEnumerator CoStart()
+    public void GoTitle()
     {
-        yield return YieldCache.WaitForSecondsRealtime(0.5f);
-        myModalWindow.ModalWindowIn();
+        SceneManagerEx.LoadingAndNextScene(SceneType.Title);
     }
 
-    //private void Update()
-    //{
-    //    myModalWindow.UpdateUI();
-    //}
-
-    public override void Close()
+    public void GoContinue()
     {
-        myModalWindow.ModalWindowOut();
-        base.Close();
+        SceneManagerEx.LoadingAndNextScene(SceneType.InGame);
     }
 }
