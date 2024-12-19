@@ -39,6 +39,14 @@ public class MapIcon : MonoBehaviour
     }
 
     /// <summary>
+    /// 감지 바 채우는 중 실행될 함수(아직 투명하지만 알람은 울릴때)
+    /// </summary>
+    public void Detecting()
+    {
+        CompletedRenderer.gameObject.SetActive(true);
+    }
+
+    /// <summary>
     /// 드러날때 실행될 함수(태블릿에서 확인해서 투명화 해제)
     /// </summary>
     public void Revealed()

@@ -48,6 +48,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     public virtual void Detecting()
     {
         StateType = PropStateType.Detecting;
+        mapIcon.Detecting();
     }
 
     public void DetectCompleted()

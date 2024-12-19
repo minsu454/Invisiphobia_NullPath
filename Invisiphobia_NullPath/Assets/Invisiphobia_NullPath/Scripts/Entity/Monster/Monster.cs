@@ -55,6 +55,7 @@ public class Monster : Entity, IDetectable
     public virtual void Detecting()
     {
         StateType = PropStateType.Detecting;
+        mapIcon.Detecting();
     }
 
     public void DetectCompleted()
