@@ -1,3 +1,4 @@
+using Common.Pool;
 using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,11 +51,10 @@ namespace MimicSpace
 
         bool canCreateLeg = true;
 
-        List<GameObject> availableLegPool = new List<GameObject>();
+        ObjectPool availableLegPool;
 
         [Tooltip("This must be updates as the Mimin moves to assure great leg placement")]
         public NavMeshAgent agent;
-        public Vector3 velocity;
 
         void Start()
         {
@@ -68,19 +68,16 @@ namespace MimicSpace
 
         private void ResetMimic()
         {
-            foreach (Leg g in GameObject.FindObjectsOfType<Leg>())
-            {
-                Destroy(g.gameObject);
-            }
             legCount = 0;
             deployedLegs = 0;
 
             maxLegs = numberOfLegs * partsPerLeg;
             float rot = 360f / maxLegs;
             Vector2 randV = Random.insideUnitCircle;
-            velocity = new Vector3(randV.x, 0, randV.y);
             minimumAnchoredParts = minimumAnchoredLegs * partsPerLeg;
             maxLegDistance = newLegRadius * 2.1f;
+
+            availableLegPool = new ObjectPool("leg" , legPrefab, transform, 20);
 
         }
 
@@ -126,7 +123,7 @@ namespace MimicSpace
                     newLegPosition = transform.position + ((newLegPosition - transform.position) + agent.velocity.normalized * (newLegPosition - transform.position).magnitude) / 2f;
 
                 RaycastHit hit;
-                Physics.Raycast(newLegPosition + Vector3.up * 10f, -Vector3.up, out hit);
+                Physics.Raycast(newLegPosition + Vector3.up * 10f, Vector3.down, out hit);
                 Vector3 myHit = hit.point;
                 if (Physics.Linecast(transform.position, hit.point, out hit))
                     myHit = hit.point;
@@ -157,16 +154,8 @@ namespace MimicSpace
         // object pooling to limit leg instantiation
         void RequestLeg(Vector3 footPosition, int legResolution, float maxLegDistance, float growCoef, Mimic myMimic, float lifeTime)
         {
-            GameObject newLeg;
-            if (availableLegPool.Count > 0)
-            {
-                newLeg = availableLegPool[availableLegPool.Count - 1];
-                availableLegPool.RemoveAt(availableLegPool.Count - 1);
-            }
-            else
-            {
-                newLeg = Instantiate(legPrefab, transform.position, Quaternion.identity);
-            }
+            GameObject newLeg = availableLegPool.GetObject();
+
             newLeg.SetActive(true);
             newLeg.GetComponent<Leg>().Initialize(footPosition, legResolution, maxLegDistance, growCoef, myMimic, lifeTime);
             newLeg.transform.SetParent(myMimic.transform);
@@ -174,7 +163,7 @@ namespace MimicSpace
 
         public void RecycleLeg(GameObject leg)
         {
-            availableLegPool.Add(leg);
+            availableLegPool.ReturnObject(leg);
             leg.SetActive(false);
         }
     }
