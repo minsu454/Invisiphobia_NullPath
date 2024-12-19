@@ -1,3 +1,4 @@
+using Common.Yield;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ public class CameraUI : WorldUI<TabletStateType>
 {
     [SerializeField] private GameObject progressBackground;     //진행 바 배경 변수
     [SerializeField] private Image progressBar;                 //진행 바 변수
+    [SerializeField] private GameObject flash;
 
     [SerializeField] private Image activeButton;
     [SerializeField] private Color32 uiColor;
@@ -47,6 +49,8 @@ public class CameraUI : WorldUI<TabletStateType>
         gameObject.SetActive(false);
 
         activeButton.color = uiColor;
+
+        flash.SetActive(false);
     }
 
     /// <summary>
@@ -59,6 +63,8 @@ public class CameraUI : WorldUI<TabletStateType>
 
         if (!isShotable)
             return;
+
+        StartCoroutine(CoFlash());
 
         foreach (Monster monster in EntityManager.Instance.MonsterList)
         {
@@ -144,5 +150,12 @@ public class CameraUI : WorldUI<TabletStateType>
     private void SetFillAmount(float value)
     {
         progressBar.fillAmount = value;
+    }
+
+    private IEnumerator CoFlash()
+    {
+        flash.SetActive(true);
+        yield return YieldCache.WaitForSeconds(0.05f);
+        flash.SetActive(false);
     }
 }
