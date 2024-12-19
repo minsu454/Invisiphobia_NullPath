@@ -12,9 +12,9 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private Player player;
     public Player Player { get { return player; } }
     private readonly List<Monster> monsterList = new List<Monster>();
+    public List<Monster> MonsterList { get { return monsterList; } }
 
     #region Test
-    public List<Monster> monsterTestList;
 
     public void Awake()
     {
