@@ -2,7 +2,6 @@ using Common.Event;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Playables;
 
 public class FleeMonsterController : MonsterController
 {
@@ -18,7 +17,6 @@ public class FleeMonsterController : MonsterController
 
         agent.speed = runSpeed;
 
-        monster.MyState.IdleEvent += LookingAtPlayerUpdate;
         monster.MyState.WanderingEvent += OnWanderingUpdate;
     }
 
@@ -177,5 +175,12 @@ public class FleeMonsterController : MonsterController
     void OnWanderingUpdate()
     {
         monster.aiState = AIStateType.Attacking;
+    }
+
+    public override void LookingAtTarget()
+    {
+        Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+        transform.rotation = lookRotation;
     }
 }
