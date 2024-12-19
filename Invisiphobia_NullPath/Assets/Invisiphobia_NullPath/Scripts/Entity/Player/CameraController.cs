@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using Common.Event;
+
 
 
 #if UNITY_EDITOR
@@ -76,6 +78,8 @@ public class CameraController : MonoBehaviour
         playerCamera.fieldOfView = fov;
 
         isSprinting = player.PlayerMovement.isSprinting;
+
+        EventManager.Subscribe(GameEventType.GameOver, OnSetLockOff);
     }
 
     void Start()
@@ -114,6 +118,11 @@ public class CameraController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         cameraCanMove = false;
+    }
+
+    private void OnSetLockOff(object args)
+    {
+        SetLockOff();
     }
 
     //캠 회전
@@ -218,6 +227,11 @@ public class CameraController : MonoBehaviour
             #endregion
 
         }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe(GameEventType.GameOver, OnSetLockOff);
     }
 }
 

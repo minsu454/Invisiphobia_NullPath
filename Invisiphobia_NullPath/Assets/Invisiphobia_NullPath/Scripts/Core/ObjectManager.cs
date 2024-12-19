@@ -19,12 +19,19 @@ namespace Common.Objects
 
             List<UniTask> taskList = new List<UniTask>();
 
-            foreach (var item in list)
+            try
             {
-                taskList.Add(LoadAndAddObjectAsync(item.PrimaryKey));
-            }
+                foreach (var item in list)
+                {
+                    taskList.Add(LoadAndAddObjectAsync(item.PrimaryKey));
+                }
 
-            await UniTask.WhenAll(taskList);
+                await UniTask.WhenAll(taskList);
+            }
+            catch
+            {
+
+            }
         }
 
         /// <summary>

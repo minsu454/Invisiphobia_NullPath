@@ -1,3 +1,4 @@
+using Common.Event;
 using System;
 using UnityEngine;
 
@@ -31,14 +32,19 @@ public class PlayerController : MonoBehaviour
     };
     private const int alphaKeyNum = (int)KeyCode.Alpha1;
 
+    private bool useInput = true;
+
 
     public void Init(Player player)
     {
-
+        EventManager.Subscribe(GameEventType.GameOver, OnOffInput);
     }
 
     void Update()
     {
+        if (!useInput)
+            return;
+
         OnPlayerSprint();
         OnPlayerJump();
         OnPlayerCrouch();
@@ -52,6 +58,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!useInput)
+            return;
+
         OnPlayerMove();
     }
 
@@ -161,6 +170,16 @@ public class PlayerController : MonoBehaviour
         {
             playerPutDownActionEvent.Invoke();
         }
+    }
+
+    private void OnOffInput(object args)
+    {
+        useInput = false;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe(GameEventType.GameOver, OnOffInput);
     }
 }
 
