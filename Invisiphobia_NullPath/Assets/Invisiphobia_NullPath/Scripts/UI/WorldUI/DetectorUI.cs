@@ -178,7 +178,7 @@ public class DetectorUI : WorldUI<TabletStateType>
     /// </summary>
     private void UpdateDistances(IDetectable detectable, ref float closest)
     {
-        float distance = Vector3.Distance(transform.position, detectable.transform.position);
+        float distance = Vector3.Distance(detector.transform.position, detectable.transform.position);
         if (distance < closest)
         {
             closest = distance;
