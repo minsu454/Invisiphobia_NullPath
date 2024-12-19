@@ -60,7 +60,7 @@ public class CameraUI : WorldUI<TabletStateType>
         if (!isShotable)
             return;
 
-        foreach (Monster monster in EntityManager.Instance.monsterTestList)
+        foreach (Monster monster in EntityManager.Instance.MonsterList)
         {
             Vector3 viewportPos = tabletCamera.WorldToViewportPoint(monster.gameObject.transform.position);
 
