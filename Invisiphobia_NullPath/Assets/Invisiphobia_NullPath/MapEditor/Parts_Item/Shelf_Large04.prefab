@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 22
   m_IsActive: 1
 --- !u!4 &5310387603410135785
 Transform:
@@ -94,12 +94,13 @@ GameObject:
   - component: {fileID: 2754536524570487631}
   - component: {fileID: 7213407020921388542}
   - component: {fileID: 7511329660092252764}
+  - component: {fileID: 1604412489909024570}
   m_Layer: 10
   m_Name: Shelf_Large04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 22
   m_IsActive: 1
 --- !u!4 &2754536524570487631
 Transform:
@@ -158,6 +159,22 @@ MonoBehaviour:
   - {fileID: 613047985160399231}
   mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
+--- !u!208 &1604412489909024570
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3055313859376150626}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &230879251750127721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245,6 +262,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 295b0ab4142f139478206d494ab70fe6,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -365,6 +387,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3faa6f1bb0af3634281d12b0fa761e18,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 5929667789802328754, guid: 3faa6f1bb0af3634281d12b0fa761e18,
         type: 3}
