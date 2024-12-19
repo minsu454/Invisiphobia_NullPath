@@ -46,7 +46,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
         }
 
         bgmSource.clip = clip;
-        bgmSource.Play();
+        //bgmSource.Play();
     }
 
     /// <summary>

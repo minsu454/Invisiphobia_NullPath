@@ -357,6 +357,7 @@ public class RoomLayoutWindow : CustomWindow<RoomLayoutWindow>
     {
         if(totalData == null)
             totalData = new TotalMapData();
+        totalData.RoomDataList = new List<RoomData>();
         
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
