@@ -32,7 +32,7 @@ public class StairRoom : MonoBehaviour
     {
         if (col.TryGetComponent(out PlayerInventory inventory))
         {
-            if (!inventory.IsLockOffItemInHand(lockoffItemId) || !isOpen)
+            if (!inventory.IsLockOffItemInHand(lockoffItemId) || isOpen)
                 return;
 
             isOpen = true;
@@ -60,6 +60,6 @@ public class StairRoom : MonoBehaviour
         }
         elapsedTime = 0f;
 
-        transform.rotation = b;
+        door.rotation = b;
     }
 }

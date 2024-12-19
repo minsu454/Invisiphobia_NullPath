@@ -135,6 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8556708050966520152}
+  - component: {fileID: 8419927230595469098}
   - component: {fileID: 3452420696526892258}
   m_Layer: 0
   m_Name: EnterTrigger
@@ -158,6 +159,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3444452911877052009}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8419927230595469098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141817796742129548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ede4a1f0369134c9f61e3e83b6cb74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &3452420696526892258
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2250,7 +2263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6263282007477585183}
   - component: {fileID: 2628693681587330388}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: StairCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3091,7 +3104,6 @@ GameObject:
   - component: {fileID: 7910614280682585110}
   - component: {fileID: 1650492369492346230}
   - component: {fileID: 1179768447637043254}
-  - component: {fileID: 3279383380376730428}
   m_Layer: 0
   m_Name: Stairs
   m_TagString: Untagged
@@ -3164,28 +3176,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3279383380376730428
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5844984151412219359}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1329677860471188534, guid: 43ccb5f0704793a41a9de6b204ac6b56, type: 3}
 --- !u!1 &6194693826019708929
 GameObject:
   m_ObjectHideFlags: 0
@@ -3300,6 +3290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2137270002188039788}
+  - component: {fileID: 3347980159312135834}
   - component: {fileID: 2184733043935564615}
   m_Layer: 0
   m_Name: ExitTrigger
@@ -3323,6 +3314,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3444452911877052009}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3347980159312135834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6201936035937385995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ede4a1f0369134c9f61e3e83b6cb74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &2184733043935564615
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4362,7 +4365,6 @@ GameObject:
   - component: {fileID: 8419649149705749657}
   - component: {fileID: 5388843891045597160}
   - component: {fileID: 285038568296968378}
-  - component: {fileID: 5822073107690372203}
   m_Layer: 0
   m_Name: Stairs2
   m_TagString: Untagged
@@ -4436,28 +4438,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5822073107690372203
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7484441889926335578}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1329677860471188534, guid: 43ccb5f0704793a41a9de6b204ac6b56, type: 3}
 --- !u!1 &7501546037768715133
 GameObject:
   m_ObjectHideFlags: 0
@@ -5067,6 +5047,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3444452911877052009}
   - component: {fileID: 8376756187800164810}
+  - component: {fileID: 2762511840702754981}
   m_Layer: 0
   m_Name: Room_AStair
   m_TagString: Untagged
@@ -5114,6 +5095,22 @@ MonoBehaviour:
   description: 
   floorList: []
   wallList: []
+--- !u!114 &2762511840702754981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8665401984745431509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68defdfe5fac9941aa3d74cdbc520df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterdetector: {fileID: 8419927230595469098}
+  exitDetector: {fileID: 3347980159312135834}
+  lockoffItemId: 1201
+  door: {fileID: 1490902577236648511}
 --- !u!1 &8752567510663520457
 GameObject:
   m_ObjectHideFlags: 0
