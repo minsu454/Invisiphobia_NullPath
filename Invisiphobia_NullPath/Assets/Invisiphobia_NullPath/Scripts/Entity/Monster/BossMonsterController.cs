@@ -15,7 +15,7 @@ public class BossMonsterController : MonsterController
         var mimic = GetComponent<Mimic>();
         if (mimic != null)
         {
-            mimic.velocity = agent.velocity;
+            //mimic.velocity = agent.velocity;
         }
 
         monster.MyState.IdleEvent += LookingAtPlayerUpdate;
