@@ -258,8 +258,8 @@ MonoBehaviour:
   manager: {fileID: 104972892674104146}
   maxCharge: 100
   currentCharge: 100
-  consumptionRate: 0.1
-  consumptionAmount: 0.1
+  consumptionRate: 1
+  consumptionAmount: 0.25
 --- !u!1 &1243065022983902853
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +621,7 @@ MonoBehaviour:
   fov: 90
   cameraCanMove: 1
   mouseSensitivity: 2
-  maxLookAngle: 50
+  maxLookAngle: 85
   lockCursor: 1
   crosshair: 1
   crosshairImage: {fileID: 0}
@@ -647,7 +647,7 @@ MonoBehaviour:
   maxDistance: 5
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1024
 --- !u!114 &7631016905733749519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1806,7 +1806,7 @@ MonoBehaviour:
   uiColor:
     serializedVersion: 2
     rgba: 4280339222
-  alarmClip: {fileID: 8300000, guid: 2cf58b4367c5ca345bd86b9b86769c03, type: 3}
+  alarmClip: {fileID: 8300000, guid: 05cc326b61e63c84b84f437868deda77, type: 3}
   detector: {fileID: 1132262953016006904}
   maxDetectTime: 2
 --- !u!114 &2474385467035455978
@@ -2453,7 +2453,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 7423
+    m_Bits: 15615
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 6c33ab300b12aa6498003f9581b38a81, type: 2}
   m_TargetDisplay: 0
