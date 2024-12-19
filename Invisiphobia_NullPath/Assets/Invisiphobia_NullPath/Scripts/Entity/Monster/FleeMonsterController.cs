@@ -166,6 +166,11 @@ public class FleeMonsterController : MonsterController
         monster.ResetCycle();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        EventManager.Dispatch(GameEventType.GameOver, null);
+    }
+
     void OnWanderingUpdate()
     {
         monster.aiState = AIStateType.Attacking;

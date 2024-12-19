@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MimicSpace
 {
-    public class Leg : MonoBehaviour
+    public class Leg : MonoBehaviour, IObjectPoolable<Leg>
     {
         Mimic myMimic;
         public bool isDeployed = false;
@@ -46,6 +46,8 @@ namespace MimicSpace
 
         public Color myColor;
 
+        public event System.Action<Leg> ReturnEvent;
+
         public void Initialize(Vector3 footPosition, int legResolution, float maxLegDistance, float growCoef, Mimic myMimic, float lifeTime)
         {
             myColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
@@ -72,7 +74,7 @@ namespace MimicSpace
             // is a bit offset for every leg part
             Vector2 footOffset = Random.insideUnitCircle.normalized * finalFootDistance;
             RaycastHit hit;
-            Physics.Raycast(footPosition + Vector3.up * 5f + new Vector3(footOffset.x, 0, footOffset.y), -Vector3.up, out hit);
+            Physics.Raycast(footPosition + Vector3.up * 2f + new Vector3(footOffset.x, 0, footOffset.y), -Vector3.up, out hit, float.MaxValue, myMimic.layerMask);
             handles[7] = hit.point;
 
             legHeight = Random.Range(legMinHeight, legMaxHeight);
@@ -146,7 +148,7 @@ namespace MimicSpace
                 {
                     //StopAllCoroutines();
                     legLine.positionCount = 0;
-                    myMimic.RecycleLeg(this.gameObject);
+                    myMimic.RecycleLeg(this);
                     return;
                 }
 

@@ -51,17 +51,14 @@ namespace MimicSpace
 
         bool canCreateLeg = true;
 
-        ObjectPool availableLegPool;
+        ObjectPool<Leg> availableLegPool;
 
         [Tooltip("This must be updates as the Mimin moves to assure great leg placement")]
         public NavMeshAgent agent;
 
-        void Start()
-        {
-            ResetMimic();
-        }
+        public LayerMask layerMask;
 
-        private void OnValidate()
+        void Start()
         {
             ResetMimic();
         }
@@ -77,7 +74,7 @@ namespace MimicSpace
             minimumAnchoredParts = minimumAnchoredLegs * partsPerLeg;
             maxLegDistance = newLegRadius * 2.1f;
 
-            availableLegPool = new ObjectPool("leg" , legPrefab, transform, 20);
+            availableLegPool = new ObjectPool<Leg>("leg" , legPrefab, transform, 34);
 
         }
 
@@ -99,6 +96,7 @@ namespace MimicSpace
 
             if (legCount <= maxLegs - partsPerLeg)
             {
+                Debug.Log(legCount);
                 // Offset The leg origin by a random vector
                 Vector2 offset = Random.insideUnitCircle * newLegRadius;
                 Vector3 newLegPosition = legPlacerOrigin + new Vector3(offset.x, 0, offset.y);
@@ -123,10 +121,11 @@ namespace MimicSpace
                     newLegPosition = transform.position + ((newLegPosition - transform.position) + agent.velocity.normalized * (newLegPosition - transform.position).magnitude) / 2f;
 
                 RaycastHit hit;
-                Physics.Raycast(newLegPosition + Vector3.up * 10f, Vector3.down, out hit);
+                Physics.Raycast(newLegPosition + Vector3.up * 2f, Vector3.down, out hit, float.MaxValue, layerMask);
                 Vector3 myHit = hit.point;
-                if (Physics.Linecast(transform.position, hit.point, out hit))
+                if (Physics.Linecast(transform.position, hit.point, out hit, layerMask))
                     myHit = hit.point;
+
 
                 float lifeTime = Random.Range(minLegLifetime, maxLegLifetime);
 
@@ -137,34 +136,22 @@ namespace MimicSpace
                     if (legCount >= maxLegs)
                         return;
                 }
-                //if (Physics.Raycast(newLegPosition + Vector3.up * 10f, -Vector3.up, out hit))
-                //{
-                //    float lifeTime = Random.Range(minLegLifetime, maxLegLifetime);
-                //    StartCoroutine(NewLegCooldown());
-                //    for (int i = 0; i < partsPerLeg; i++)
-                //    {
-                //        RequestLeg(hit.point, legResolution, maxLegDistance, Random.Range(minGrowCoef, maxGrowCoef), this, lifeTime);
-                //        if (legCount >= maxLegs)
-                //            return;
-                //    }
-                //}
             }
         }
 
         // object pooling to limit leg instantiation
         void RequestLeg(Vector3 footPosition, int legResolution, float maxLegDistance, float growCoef, Mimic myMimic, float lifeTime)
         {
-            GameObject newLeg = availableLegPool.GetObject();
+            Leg newLeg = availableLegPool.GetObject();
 
-            newLeg.SetActive(true);
-            newLeg.GetComponent<Leg>().Initialize(footPosition, legResolution, maxLegDistance, growCoef, myMimic, lifeTime);
-            newLeg.transform.SetParent(myMimic.transform);
+            newLeg.gameObject.SetActive(true);
+            newLeg.Initialize(footPosition, legResolution, maxLegDistance, growCoef, myMimic, lifeTime);
         }
 
-        public void RecycleLeg(GameObject leg)
+        public void RecycleLeg(Leg leg)
         {
             availableLegPool.ReturnObject(leg);
-            leg.SetActive(false);
+            leg.gameObject.SetActive(false);
         }
     }
 }
