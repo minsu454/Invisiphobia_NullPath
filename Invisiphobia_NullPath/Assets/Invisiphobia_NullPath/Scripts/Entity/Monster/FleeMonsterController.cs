@@ -41,7 +41,6 @@ public class FleeMonsterController : MonsterController
         }
 
         ResetToSpawnPoint();
-        LookingAtPlayerUpdate();
     }
 
     Vector3 GetSafeFleeDestination()    // 도망 위치 계산
