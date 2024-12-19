@@ -311,6 +311,37 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
             saveManager.Add(parts);
         }
 
+        foreach (PointData data in totalData.ItemDataList)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.rotation = data.Rot;
+        }
+
+
+        GameObject playerprefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{totalData.EntityData.playerData.Name}.prefab");
+        if (playerprefab != null)
+        {
+            GameObject go = Instantiate(playerprefab);
+
+            go.name = totalData.EntityData.playerData.Name;
+            go.transform.position = totalData.EntityData.playerData.Pos;
+            go.transform.rotation = totalData.EntityData.playerData.Rot;
+        }
+
+        foreach (PointData data in totalData.EntityData.monsterDataList)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{data.Name}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.rotation = data.Rot;
+        }
+
         isLoaded = true;
     }
 
