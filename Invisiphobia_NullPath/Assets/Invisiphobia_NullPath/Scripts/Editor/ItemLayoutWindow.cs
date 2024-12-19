@@ -142,17 +142,20 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
     {
         if (GUI.Button(new Rect(142, 238, 100, 25), "Destroy"))
         {
-            if (Selection.activeGameObject == null)
-                return;
+            UnityEngine.Object[] selectedObjects = Selection.objects;
 
-            GameObject selectedObject = Selection.activeGameObject;
+            foreach (UnityEngine.Object obj in selectedObjects)
+            {
+                GameObject selectedObject = obj as GameObject;
+                if (selectedObject == null)
+                    continue;
 
-            if (!selectedObject.TryGetComponent(out Prop parts))
-                return;
+                if (!selectedObject.TryGetComponent(out Prop parts))
+                    continue;
 
-
-            saveManager.Remove(parts);
-            DestroyImmediate(selectedObject);
+                saveManager.Remove(parts);
+                DestroyImmediate(selectedObject);
+            }
         }
     }
 

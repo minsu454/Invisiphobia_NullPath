@@ -205,16 +205,20 @@ public class RoomLayoutWindow : CustomWindow<RoomLayoutWindow>
     {
         if (GUI.Button(new Rect(142, 2, 100, 25), "Destroy"))
         {
-            if (Selection.activeGameObject == null)
-                return;
+            UnityEngine.Object[] selectedObjects = Selection.objects;
 
-            GameObject selectedObject = Selection.activeGameObject;
+            foreach (UnityEngine.Object obj in selectedObjects)
+            {
+                GameObject selectedObject = obj as GameObject;
+                if (selectedObject == null)
+                    continue;
 
-            if (!selectedObject.TryGetComponent(out RoomParts parts))
-                return;
+                if (!selectedObject.TryGetComponent(out RoomParts parts))
+                    continue;
 
-            saveManager.Remove(parts);
-            DestroyImmediate(selectedObject);
+                saveManager.Remove(parts);
+                DestroyImmediate(selectedObject);
+            }
         }
     }
 
@@ -357,7 +361,8 @@ public class RoomLayoutWindow : CustomWindow<RoomLayoutWindow>
     {
         if(totalData == null)
             totalData = new TotalMapData();
-        totalData.RoomDataList = new List<RoomData>();
+
+        totalData.RoomDataList.Clear();
         
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
