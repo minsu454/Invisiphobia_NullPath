@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-public class TestPuzzle : PuzzleUI
+public class UpDownPuzzle : PuzzleUI
 {
     public TMP_InputField playerInput;    // 현재 값 입력창 (수정 불가능)
     public TMP_InputField recentCode;   // 최근 제출 값 입력창 (수정 불가능)
