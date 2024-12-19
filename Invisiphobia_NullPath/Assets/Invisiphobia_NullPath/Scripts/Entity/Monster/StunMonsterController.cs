@@ -249,4 +249,9 @@ public class StunMonsterController : MonsterController
         agent.Warp(monsterSpawnPoint);
         ResetCycle();
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        EventManager.Dispatch(GameEventType.GameOver, null);
+    }
 }
