@@ -16,7 +16,6 @@ public class BossMonsterController : MonsterController
 
         var mimic = GetComponent<Mimic>();
 
-        monster.MyState.IdleEvent += LookingAtPlayerUpdate;
         monster.MyState.WanderingEvent += OnAttackingUpdate;
 
         monster.aiState = AIStateType.Wandering;
@@ -49,5 +48,12 @@ public class BossMonsterController : MonsterController
     void OnAttackingUpdate()
     {
         monster.aiState = AIStateType.Attacking;
+    }
+
+    public override void LookingAtTarget()
+    {
+        Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+        transform.rotation = lookRotation;
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -77,5 +75,9 @@ public class CowardMonster : MonsterController
         fleeStartTime = Time.time;
 
         SetMaxDistanceDestination();
+    }
+
+    public override void LookingAtTarget()
+    {
     }
 }
