@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7503493125051909065}
   - component: {fileID: 7161201357318358643}
   - component: {fileID: -5894768546656312536}
+  - component: {fileID: 1743323609529158738}
   - component: {fileID: 6515244652586960857}
   m_Layer: 10
   m_Name: ElectricalBox_Long
@@ -99,6 +100,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1009
   puzzleUIPrefab: {fileID: -4107867435003216478, guid: 1f52eea9fcaeb9046a3059e907920476,
+    type: 3}
+--- !u!114 &1743323609529158738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791107983505115087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a037063af09735459e4ed4e71107728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRendererArr:
+  - {fileID: 7161201357318358643}
+  mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
 --- !u!65 &6515244652586960857
 BoxCollider:
