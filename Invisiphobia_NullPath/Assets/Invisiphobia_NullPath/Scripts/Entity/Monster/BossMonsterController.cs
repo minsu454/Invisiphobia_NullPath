@@ -21,7 +21,7 @@ public class BossMonsterController : MonsterController
 
         monster.aiState = AIStateType.Wandering;
 
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public override void PlayerAttackMonster()
@@ -31,7 +31,7 @@ public class BossMonsterController : MonsterController
     protected override void AttackingUpdate()
     {
         NavMeshPath path = new NavMeshPath();
-        
+
         if (agent.CalculatePath(targetTransform.position, path))
         {
             agent.SetDestination(targetTransform.position);
@@ -40,7 +40,10 @@ public class BossMonsterController : MonsterController
 
     private void OnTriggerEnter(Collider other)
     {
-        EventManager.Dispatch(GameEventType.GameOver, null);
+        if (other.CompareTag("Player"))
+        {
+            EventManager.Dispatch(GameEventType.GameOver, null);
+        }
     }
 
     void OnAttackingUpdate()

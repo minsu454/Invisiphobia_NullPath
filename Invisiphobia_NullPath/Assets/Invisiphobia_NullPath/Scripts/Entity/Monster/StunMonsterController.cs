@@ -252,6 +252,9 @@ public class StunMonsterController : MonsterController
 
     private void OnTriggerEnter(Collider other)
     {
-        EventManager.Dispatch(GameEventType.GameOver, null);
+        if (other.CompareTag("Player"))
+        {
+            EventManager.Dispatch(GameEventType.GameOver, null);
+        }
     }
 }
