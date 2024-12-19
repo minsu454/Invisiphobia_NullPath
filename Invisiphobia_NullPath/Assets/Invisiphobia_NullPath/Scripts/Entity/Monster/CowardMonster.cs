@@ -77,7 +77,7 @@ public class CowardMonster : MonsterController
         SetMaxDistanceDestination();
     }
 
-    public override void LookingAtTarget()
+    protected override void LookingAtTarget()
     {
     }
 }

@@ -69,6 +69,9 @@ public class StunMonsterController : MonsterController
 
     protected override void AttackingUpdate()
     {
+        if (!agent.enabled)
+            return;
+
         if (!playerMovement.playerCanMove)
         {
             if (targetDistance < hideAttackDistance)    // 너무 가까이 있을 때 숨어서 주금
@@ -256,7 +259,7 @@ public class StunMonsterController : MonsterController
         }
     }
 
-    public override void LookingAtTarget()
+    protected override void LookingAtTarget()
     {
         Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);

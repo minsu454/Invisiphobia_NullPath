@@ -37,18 +37,19 @@ public class Monster : Entity, IDetectable
 
     public override void Init()
     {
+        GameObject go = Instantiate(mapIconPrefab);
+        mapIcon = go.GetComponent<MapIcon>();
+
         //myState.Init(this);
         //mapIcon.Init(transform);
         //myController.Init(this);
-
-        GameObject go = Instantiate(mapIconPrefab);
-        mapIcon = go.GetComponent<MapIcon>();
     }
 
     public virtual void Detected()
     {
         StateType = PropStateType.Detected;
         mapIcon.Detected();
+        myController.Detacted();
     }
 
     public virtual void Detecting()
@@ -69,10 +70,10 @@ public class Monster : Entity, IDetectable
             return;
         }
 
+        myController.Revealed();
         StateType = PropStateType.Revealed;
         myRenderer.enabled = true;
         mapIcon.Revealed();
-        myController.LookingAtTarget();
 
         aiState = AIStateType.Wandering;
     }

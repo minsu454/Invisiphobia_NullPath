@@ -28,7 +28,7 @@ public class FleeMonsterController : MonsterController
 
         if (NavMesh.SamplePosition(fleeDestination, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
         {
-            agent.SetDestination(hit.position); // 
+            agent.SetDestination(hit.position);
             StartCoroutine(FleeAndTransitionToWandering());
         }
     }
@@ -124,6 +124,9 @@ public class FleeMonsterController : MonsterController
 
     protected override void AttackingUpdate()
     {
+        if (!agent.enabled)
+            return;
+
         NavMeshPath path = new NavMeshPath();
         if (agent.CalculatePath(targetTransform.position, path))
         {
@@ -176,7 +179,7 @@ public class FleeMonsterController : MonsterController
         monster.aiState = AIStateType.Attacking;
     }
 
-    public override void LookingAtTarget()
+    protected override void LookingAtTarget()
     {
         Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);

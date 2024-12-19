@@ -26,7 +26,8 @@ public abstract class MonsterController : MonoBehaviour
         this.monster = monster;
         monsterSpawnPoint = transform.position;
         monster.aiState = AIStateType.Idle;
-        
+        agent.enabled = false;
+
         monster.MyState.AttackingEvent += AttackingUpdate;
     }
 
@@ -37,7 +38,7 @@ public abstract class MonsterController : MonoBehaviour
 
     protected abstract void AttackingUpdate();
     public abstract void PlayerAttackMonster();
-    public abstract void LookingAtTarget();
+    protected abstract void LookingAtTarget();
 
     public void SetTarget(Transform transform)
     {
@@ -47,6 +48,17 @@ public abstract class MonsterController : MonoBehaviour
     float GetDestinationAngle(Vector3 targetPos)
     {
         return Vector3.Angle(transform.position - targetTransform.position, transform.position + targetPos);
+    }
+
+    public void Detacted()
+    {
+        agent.enabled = false;
+    }
+
+    public void Revealed()
+    {
+        agent.enabled = true;
+        LookingAtTarget();
     }
 
     //protected void LookingAtPlayerUpdate()

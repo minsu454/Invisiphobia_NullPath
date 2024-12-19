@@ -29,6 +29,9 @@ public class BossMonsterController : MonsterController
 
     protected override void AttackingUpdate()
     {
+        if (!agent.enabled)
+            return;
+
         NavMeshPath path = new NavMeshPath();
 
         if (agent.CalculatePath(targetTransform.position, path))
@@ -50,7 +53,7 @@ public class BossMonsterController : MonsterController
         monster.aiState = AIStateType.Attacking;
     }
 
-    public override void LookingAtTarget()
+    protected override void LookingAtTarget()
     {
         Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
