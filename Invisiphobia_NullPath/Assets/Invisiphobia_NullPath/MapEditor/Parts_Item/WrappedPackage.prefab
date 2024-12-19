@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7486689084590037215}
   - component: {fileID: 8550091073549209590}
+  - component: {fileID: 6753430530708997397}
+  - component: {fileID: 7747084471802014970}
   m_Layer: 10
   m_Name: WrappedPackage
   m_TagString: Untagged
@@ -49,6 +51,43 @@ MonoBehaviour:
   - {fileID: 1022378208933390612}
   mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
+--- !u!208 &6753430530708997397
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127019636038622762}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &7747084471802014970
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127019636038622762}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1869453654410507664
 PrefabInstance:
   m_ObjectHideFlags: 0
