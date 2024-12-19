@@ -81,6 +81,7 @@ public class PlayerInventory : MonoBehaviour
 
         return false;
     }
+
     private void CleanInventory(InHandItem item)
     {
         int temp = (int)item.ItemTable.itemCarryType + curCount;
@@ -167,6 +168,11 @@ public class PlayerInventory : MonoBehaviour
         action?.Invoke(transform);
 
         SetTabletHidden();
+    }
+
+    public int Count()
+    {
+        return curCount;
     }
 
     /// <summary>

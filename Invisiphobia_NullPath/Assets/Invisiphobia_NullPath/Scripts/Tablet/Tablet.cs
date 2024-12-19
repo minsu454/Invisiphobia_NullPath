@@ -39,6 +39,8 @@ public class Tablet : MonoBehaviour
     }
     private bool useStateChange = true;                             //태블릿 State전환 사용여부
 
+    private event Func<int> ItemCountEvent;
+
     /// <summary>
     /// 초기화 함수
     /// </summary>
@@ -52,6 +54,8 @@ public class Tablet : MonoBehaviour
         player.PlayerController.playerTabletActionEvent += ToggleTabletState;
         player.PlayerController.tabletSwitchActionEvent += OnSwitchTabletScreen;
         player.PlayerController.playerClickActionEvent += OnClick;
+
+        ItemCountEvent += player.PlayerInventory.Count;
 
         SetCurrentCharge(maxCharge);
     }
@@ -91,6 +95,11 @@ public class Tablet : MonoBehaviour
     /// </summary>
     public void UnHidden()
     {
+        int itemCount = ItemCountEvent.Invoke();
+
+        if (itemCount >= 2)
+            return;
+
         State = TabletStateType.Basic;
     }
 
@@ -146,13 +155,12 @@ public class Tablet : MonoBehaviour
         currentCharge = value;
       if(currentCharge > 0 && !isCharged)
         {
-            //manager.ChoiceIdx = 0;
             isCharged = true;
+            useStateChange = true;
             OnSwitchTabletScreen(0);
         }
         Consomtion();
         UpdateBatteryUI();
-        // UI 업데이트
     }
 
     private void Consomtion()
@@ -190,6 +198,7 @@ public class Tablet : MonoBehaviour
     private void OffScreen()
     {
         isCharged = false;
+        useStateChange = false;
         manager.ChoiceIdx = 2;
     }
     #endregion
