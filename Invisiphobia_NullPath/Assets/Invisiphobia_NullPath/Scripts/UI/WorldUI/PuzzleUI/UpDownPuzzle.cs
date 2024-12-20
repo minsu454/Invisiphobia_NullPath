@@ -43,10 +43,9 @@ public class UpDownPuzzle : PuzzleUI
 
     public void ModifyInputValue(int value)
     {
+        Debug.Log(value);
         currentInputValue += value;
-        // 값 범위 제한
         currentInputValue = Mathf.Clamp(currentInputValue, 0, 999);
-        // 업데이트된 값 반영
         playerInput.text = currentInputValue.ToString();
     }
 
@@ -83,5 +82,4 @@ public class UpDownPuzzle : PuzzleUI
         image.color = originalColor;
         isColorChanged = false;
     }
-
 }

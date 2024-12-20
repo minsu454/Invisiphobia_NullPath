@@ -1,4 +1,5 @@
 using Common.Event;
+using Common.Yield;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,13 +32,10 @@ public class PlayerMovement : MonoBehaviour
     public bool enableSprint = true;
     public KeyCode sprintKey = KeyCode.LeftShift;
     public float sprintSpeed = 7f;
-    public float sprintDuration = 5f;
+    public float sprintValue = 5f;
     public float sprintFOV = 80f;
     public float sprintFOVStepTime = 10f;
-    private bool isExhausted = false;
-    private float recoveryDelay = 5f; // 회복 지연 시간 (초 단위)
-    private float recoveryTimer = 0f; // 회복 타이머 변수
-    private bool isHardBreathingPlayed = false;
+    public bool isHardBreathing = false;
 
     // Sprint Bar
     [SerializeField] private Slider staminaBar;
@@ -45,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     public bool hideBarWhenFull = true;
 
     // Internal Variables
-    public bool isSprinting = false;
+    private bool isSprinting = false;
     private float sprintRemaining = 1f;
     private bool isBarVisible = true; // Bar 상태를 추적
     private float fadeDuration = 0.5f; // 페이드 전환 시간
@@ -119,10 +117,10 @@ public class PlayerMovement : MonoBehaviour
         this.staminaBar = staminaBar;
         this.sprintBarCanvasGroup = sprintBarCanvasGroup;
 
-        sprintRemaining = sprintDuration; // 스태미나 초기화
+        sprintRemaining = sprintValue; // 스태미나 초기화
         if (staminaBar != null)
         {
-            staminaBar.maxValue = sprintDuration; // 슬라이더 최대값 설정
+            staminaBar.maxValue = sprintValue; // 슬라이더 최대값 설정
             staminaBar.minValue = 0; // 슬라이더 최소값 설정
             staminaBar.value = sprintRemaining; // 현재 스태미나 동기화
         }
@@ -161,16 +159,7 @@ public class PlayerMovement : MonoBehaviour
                 isWalking = false;
             }
 
-            if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f)
-            {
-                targetVelocity = transform.TransformDirection(targetVelocity.normalized) * sprintSpeed;
-                isSprinting = true;
-            }
-            else
-            {
-                targetVelocity = transform.TransformDirection(targetVelocity.normalized) * walkSpeed;
-                isSprinting = false;
-            }
+            targetVelocity = transform.TransformDirection(targetVelocity.normalized) *(isSprinting ? sprintSpeed:walkSpeed);
 
             // Apply movement force
             Vector3 velocity = rb.velocity;
@@ -195,36 +184,36 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>
     /// 플레이어 달리기 함수
     /// </summary>
-    private void Sprint()
+    private void Sprint(bool isSprinting)
     {
         if (enableSprint)
         {
-            ShowSprintBar(true); // Bar 표시
-            isSprinting = true;
-
-            isZoomed = false;
-            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFOV, sprintFOVStepTime * Time.deltaTime);
-
-            sprintRemaining -= 0.1f * Time.deltaTime * 10;
-            sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintDuration);
-
-            if (sprintRemaining <= 0)
+            this.isSprinting = isSprinting;
+            if(isSprinting)
             {
-                isSprinting = false;
+                sprintRemaining -= 0.1f * Time.deltaTime * 10;
+                sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintValue);
+                isZoomed = false;
+                playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFOV, sprintFOVStepTime * Time.deltaTime);
+                ShowSprintBar(true); // Bar 표시
 
-                if (!isExhausted && !isHardBreathingPlayed)
+                if (sprintRemaining <= 0)
                 {
-                    Managers.Sound.SFX3DPlay(hardBreathingClip, footTr);
-                    isExhausted = true;
-                    isHardBreathingPlayed = true; // 사운드 실행 플래그 설정
-                    recoveryTimer = recoveryDelay; // 회복 지연 타이머 초기화
+                    StartCoroutine(CoPlaySoundAndWait());
                 }
             }
-            else
-            {
-                isExhausted = false;
-            }
         }
+        else
+        {
+            this.isSprinting = false;
+        }
+    }
+    private IEnumerator CoPlaySoundAndWait()
+    {
+        enableSprint = false;
+        Managers.Sound.SFX3DPlay(hardBreathingClip, footTr); // 사운드 재생
+        yield return YieldCache.WaitForSeconds(3f);
+        enableSprint = true;
     }
 
     /// <summary>
@@ -234,32 +223,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isSprinting)
         {
-            if (isExhausted)
-            {
-                // 딜레이가 진행 중일 때는 회복 중단
-                if (recoveryTimer > 0f)
-                {
-                    recoveryTimer -= Time.deltaTime;
-                    return; // 딜레이 중이므로 회복 로직 종료
-                }
-                else
-                {
-                    // 지연 시간이 끝나면 회복 시작
-                    isExhausted = false;
-                    isHardBreathingPlayed = false; // 사운드 플래그 초기화
-                }
-            }
-
             // 회복 로직
             sprintRemaining += 0.1f * Time.deltaTime * 10;
-            sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintDuration);
-
-            if (sprintRemaining >= sprintDuration && hideBarWhenFull)
-            {
-                ShowSprintBar(false); // Bar 숨기기
-            }
+            sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintValue);
         }
 
+        if (sprintRemaining >= sprintValue && hideBarWhenFull)
+        {
+            ShowSprintBar(false); // Bar 숨기기
+        }
+        
         if (sprintBarCanvasGroup != null && sprintBarCanvasGroup.alpha > 0)
         {
             staminaBar.value = sprintRemaining;

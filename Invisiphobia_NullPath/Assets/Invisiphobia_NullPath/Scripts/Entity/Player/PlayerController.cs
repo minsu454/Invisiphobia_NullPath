@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private KeyCode putdownKey = KeyCode.Q;
 
     public event Action<Vector3> playerMoveActionEvent;
-    public event Action playerSprintActionEvent;
+    public event Action <bool> playerSprintActionEvent;
     public event Action playerJumpActionEvent;
     public event Action<bool> playerCrouchActionEvent;
     public event Action playerInteractActionEvent;
@@ -100,10 +100,7 @@ public class PlayerController : MonoBehaviour
             isSprinting = false;
         }
 
-        if(isSprinting)
-        {
-            playerSprintActionEvent.Invoke();
-        }
+        playerSprintActionEvent.Invoke(isSprinting);
     }
 
     private void OnPlayerJump()
