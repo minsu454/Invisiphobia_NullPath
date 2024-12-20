@@ -24,6 +24,8 @@ public class Tablet : MonoBehaviour
     private bool isCharged = true;                                  //배터리가 있는지 확인해주는 bool
     public bool IsCharged { get { return isCharged; } }
 
+    private bool isSwitchScreen = true;                             //스크린 스위치 가능한 상태인지 확인하는 bool
+
     public event Action<TabletStateType> OnStateChangedEvent;       //스텟 바뀔 때에 이벤트
     public event Action<TabletStateType> OnShotEvent;               //태블릿 사용 이벤트
     private TabletStateType stateType = TabletStateType.Basic;      //태블릿 상태 타입
@@ -128,6 +130,7 @@ public class Tablet : MonoBehaviour
     public void PlayPuzzle(int index)
     {
         useStateChange = false;
+        isSwitchScreen = false;
         manager.ChoiceIdx = index;
         State = TabletStateType.Activate;
         EventManager.Dispatch(GameEventType.UseMove, false);
@@ -140,6 +143,7 @@ public class Tablet : MonoBehaviour
     {
         State = TabletStateType.Basic;
         useStateChange = true;
+        isSwitchScreen = true;
         OnSwitchTabletScreen(0);
         EventManager.Dispatch(GameEventType.UseMove, true);
     }
@@ -158,10 +162,11 @@ public class Tablet : MonoBehaviour
     public void SetCurrentCharge(float value)
     {
         currentCharge = value;
-      if(currentCharge > 0 && !isCharged)
+        if(currentCharge > 0 && !isCharged)
         {
             isCharged = true;
             useStateChange = true;
+            isSwitchScreen = true;
             OnSwitchTabletScreen(0);
         }
         Consomtion();
@@ -204,9 +209,10 @@ public class Tablet : MonoBehaviour
     {
         isCharged = false;
         useStateChange = false;
+        isSwitchScreen = false;
         SetMouseLockEvent?.Invoke();
         EventManager.Dispatch(GameEventType.UseMove, true);
-        manager.ChoiceIdx = 2;
+        OnSwitchTabletScreen(2);
     }
     #endregion
 
@@ -215,7 +221,7 @@ public class Tablet : MonoBehaviour
     /// </summary>
     private void OnSwitchTabletScreen(int num)
     {
-        if (isCharged)
+        if (isSwitchScreen)
         {
             manager.ChoiceIdx = num;
         }
