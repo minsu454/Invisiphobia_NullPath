@@ -76,7 +76,7 @@ public class StunMonsterController : MonsterController
         {
             if (targetDistance < hideAttackDistance)    // 너무 가까이 있을 때 숨어서 주금
             {
-                EventManager.Dispatch(GameEventType.GameOver, null);
+                EventManager.Dispatch(GameEventType.GameOver, false);
                 isHiding = false;
             }
             isHiding = true;
@@ -106,7 +106,7 @@ public class StunMonsterController : MonsterController
         if (targetDistance < 2f)     // 닿으면 주금
         {
             agent.speed = 0f;
-            EventManager.Dispatch(GameEventType.GameOver, null);
+            EventManager.Dispatch(GameEventType.GameOver, false);
         }
     }
 
@@ -255,7 +255,7 @@ public class StunMonsterController : MonsterController
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            EventManager.Dispatch(GameEventType.GameOver, null);
+            EventManager.Dispatch(GameEventType.GameOver, false);
         }
     }
     protected override void LookingAtTarget()

@@ -1,3 +1,4 @@
+using Common.Event;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -104,6 +105,13 @@ public class PlayerMovement : MonoBehaviour
         player.PlayerController.playerJumpActionEvent += Jump;
         player.PlayerController.playerCrouchActionEvent += Crouch;
         playerCollider = transform.GetComponent<Collider>();
+
+        EventManager.Subscribe(GameEventType.UseMove, UsePlayerCanMove);
+    }
+
+    public void UsePlayerCanMove(object args)
+    {
+        playerCanMove = (bool)args;
     }
 
     public void SetUI(Slider staminaBar, CanvasGroup sprintBarCanvasGroup)
@@ -393,6 +401,11 @@ public class PlayerMovement : MonoBehaviour
                 joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe(GameEventType.UseMove, UsePlayerCanMove);
     }
 }
 

@@ -44,7 +44,7 @@ public class BossMonsterController : MonsterController
     {
         if (other.CompareTag("Player"))
         {
-            EventManager.Dispatch(GameEventType.GameOver, null);
+            EventManager.Dispatch(GameEventType.GameOver, false);
         }
     }
 
