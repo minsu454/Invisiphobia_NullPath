@@ -134,7 +134,7 @@ public class FleeMonsterController : MonsterController
 
         if (targetDistance < 1f)     // 닿으면 주금
         {
-            EventManager.Dispatch(GameEventType.GameOver, null);
+            EventManager.Dispatch(GameEventType.GameOver, false);
         }
     }
 
