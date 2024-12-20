@@ -1,11 +1,14 @@
 using Common.Event;
 using MimicSpace;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class BossMonsterController : MonsterController
 {
-    private Mimic myMimic;
+    Coroutine coroutine;
+    private const float attackDistance = 3f;
 
     public override void Init(Monster monster)
     {
@@ -13,8 +16,6 @@ public class BossMonsterController : MonsterController
         SetTarget(EntityManager.Instance.Player.transform);
 
         agent.speed = runSpeed;
-
-        var mimic = GetComponent<Mimic>();
 
         monster.MyState.WanderingEvent += OnAttackingUpdate;
 
@@ -44,7 +45,31 @@ public class BossMonsterController : MonsterController
     {
         if (other.CompareTag("Player"))
         {
-            EventManager.Dispatch(GameEventType.GameOver, false);
+            coroutine = StartCoroutine(CoTargetDistance());
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
+        }
+    }
+
+    IEnumerator CoTargetDistance()
+    {
+        while (true)
+        {
+            if(targetDistance <= attackDistance)
+            {
+                EventManager.Dispatch(GameEventType.GameOver, false);
+                break;
+            }
+            yield return null;
         }
     }
 

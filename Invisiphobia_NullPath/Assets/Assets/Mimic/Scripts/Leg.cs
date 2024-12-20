@@ -1,3 +1,4 @@
+using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,6 +49,11 @@ namespace MimicSpace
 
         public event System.Action<Leg> ReturnEvent;
 
+        private void Start()
+        {
+            this.legLine = GetComponent<LineRenderer>();
+        }
+
         public void Initialize(Vector3 footPosition, int legResolution, float maxLegDistance, float growCoef, Mimic myMimic, float lifeTime)
         {
             myColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
@@ -57,7 +63,6 @@ namespace MimicSpace
             this.growCoef = growCoef;
             this.myMimic = myMimic;
 
-            this.legLine = GetComponent<LineRenderer>();
             handles = new Vector3[handlesCount];
 
             // We initialize a bunch of random offsets for many aspects of the legs so every leg part is unique
@@ -89,20 +94,20 @@ namespace MimicSpace
             isRemoved = false;
             canDie = false;
             isDeployed = false;
-            StartCoroutine("WaitToDie");
-            StartCoroutine("WaitAndDie", lifeTime);
+            StartCoroutine(WaitToDie());
+            StartCoroutine(WaitAndDie(lifeTime));
             Sethandles();
         }
 
         IEnumerator WaitToDie()
         {
-            yield return new WaitForSeconds(minDuration);
+            yield return YieldCache.WaitForSeconds(minDuration);
             canDie = true;
         }
 
         IEnumerator WaitAndDie(float lifeTime)
         {
-            yield return new WaitForSeconds(lifeTime);
+            yield return YieldCache.WaitForSeconds(lifeTime);
             while (myMimic.deployedLegs < myMimic.minimumAnchoredParts)
                 yield return null;
             growTarget = 0;
@@ -136,11 +141,12 @@ namespace MimicSpace
                 myMimic.deployedLegs--;
                 isDeployed = false;
             }
+
             if (progression < 0.5f && growTarget == 0)
             {
                 if (!isRemoved)
                 {
-                    GetComponentInParent<Mimic>().legCount--;
+                    myMimic.legCount--;
                     isRemoved = true;
                 }
 
@@ -158,7 +164,7 @@ namespace MimicSpace
             Sethandles();
 
             // Then sample the spline and assign the values to the line renderer
-            Vector3[] points = GetSamplePoints((Vector3[])handles.Clone(), legResolution, progression);
+            Vector3[] points = GetSamplePoints(handles, legResolution, progression);
             legLine.positionCount = points.Length;
             legLine.SetPositions(points);
         }
@@ -217,7 +223,9 @@ namespace MimicSpace
 
             for (float _t = 0; _t <= t; _t += segmentLength)
                 segmentPos.Add(GetPointOnCurve((Vector3[])curveHandles.Clone(), _t));
+
             segmentPos.Add(GetPointOnCurve(curveHandles, t));
+
             return segmentPos.ToArray();
         }
 

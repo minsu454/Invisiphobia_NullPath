@@ -20,6 +20,7 @@ public class StunMonsterController : MonsterController
     protected const float fieldOfView = 180f;
 
     private float hideAttackDistance = 5f;   // 숨었을 때 공격 범위
+    private const float attackDistance = 2f;
 
     private Coroutine timer;
     protected NavMeshHit hit;
@@ -103,7 +104,7 @@ public class StunMonsterController : MonsterController
             agent.speed = walkSpeed;
         }
 
-        if (targetDistance < 2f)     // 닿으면 주금
+        if (targetDistance < attackDistance)     // 닿으면 주금
         {
             agent.speed = 0f;
             EventManager.Dispatch(GameEventType.GameOver, false);
@@ -258,6 +259,7 @@ public class StunMonsterController : MonsterController
             EventManager.Dispatch(GameEventType.GameOver, false);
         }
     }
+
     protected override void LookingAtTarget()
     {
         Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;

@@ -34,8 +34,8 @@ namespace MimicSpace
         [Tooltip("Leg placement radius offset")]
         public float newLegRadius = 3;
 
-        public float minLegDistance = 4.5f;
-        public float maxLegDistance = 6.3f;
+        public float minLegDistance = 2.5f;
+        public float maxLegDistance = 4.3f;
 
         [Range(2, 50)]
         [Tooltip("Number of spline samples per legpart")]
@@ -96,7 +96,6 @@ namespace MimicSpace
 
             if (legCount <= maxLegs - partsPerLeg)
             {
-                Debug.Log(legCount);
                 // Offset The leg origin by a random vector
                 Vector2 offset = Random.insideUnitCircle * newLegRadius;
                 Vector3 newLegPosition = legPlacerOrigin + new Vector3(offset.x, 0, offset.y);
