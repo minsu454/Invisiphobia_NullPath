@@ -132,10 +132,10 @@ public class FleeMonsterController : MonsterController
             agent.SetDestination(targetTransform.position);
         }
 
-        if (targetDistance < 1f)     // 닿으면 주금
-        {
-            EventManager.Dispatch(GameEventType.GameOver, false);
-        }
+        //if (targetDistance < 1f)     // 닿으면 주금
+        //{
+        //    EventManager.Dispatch(GameEventType.GameOver, false);
+        //}
     }
 
     protected void ResetToSpawnPoint()
