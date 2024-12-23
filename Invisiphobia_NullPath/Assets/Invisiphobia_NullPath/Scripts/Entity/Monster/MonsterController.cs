@@ -15,7 +15,7 @@ public abstract class MonsterController : MonoBehaviour
 
     [Header("NavMeshAgent")]
     [SerializeField] protected NavMeshAgent agent;
-    protected Transform targetTransform;
+    protected ITargetable target;
 
     public Vector3 monsterSpawnPoint { get; private set; }
 
@@ -33,21 +33,21 @@ public abstract class MonsterController : MonoBehaviour
 
     void Update()
     {
-        targetDistance = Vector3.Distance(transform.position, targetTransform.position);
+        targetDistance = Vector3.Distance(transform.position, target.transform.position);
     }
 
     protected abstract void AttackingUpdate();
     public abstract void PlayerAttackMonster();
     protected abstract void LookingAtTarget();
 
-    public void SetTarget(Transform transform)
+    public void SetTarget(ITargetable target)
     {
-        targetTransform = transform;
+        this.target = target;
     }
 
     float GetDestinationAngle(Vector3 targetPos)
     {
-        return Vector3.Angle(transform.position - targetTransform.position, transform.position + targetPos);
+        return Vector3.Angle(transform.position - target.transform.position, transform.position + targetPos);
     }
 
     public void Detacted()

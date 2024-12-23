@@ -77,7 +77,7 @@ public class CameraController : MonoBehaviour
         //fov 변수에 플레이어 카메라의 fieldOfView 기능을 추가해라
         playerCamera.fieldOfView = fov;
 
-        EventManager.Subscribe(GameEventType.GameOver, OnSetLockOff);
+        EventManager.Subscribe(GameEventType.UsePause, OnSetLockOff);
     }
 
     void Start()
@@ -229,7 +229,7 @@ public class CameraController : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.Unsubscribe(GameEventType.GameOver, OnSetLockOff);
+        EventManager.Unsubscribe(GameEventType.UsePause, OnSetLockOff);
     }
 }
 

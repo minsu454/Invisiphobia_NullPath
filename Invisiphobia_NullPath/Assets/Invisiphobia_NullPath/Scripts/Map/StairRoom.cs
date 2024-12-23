@@ -42,9 +42,9 @@ public class StairRoom : MonoBehaviour
 
     private void GameClearEvent(Collider col)
     {
-        if (col.CompareTag("Player"))
+        if (col.TryGetComponent(out Player player))
         {
-            EventManager.Dispatch(GameEventType.GameClear, null);
+            player.PlayerState.Clear();
         }
     }
 

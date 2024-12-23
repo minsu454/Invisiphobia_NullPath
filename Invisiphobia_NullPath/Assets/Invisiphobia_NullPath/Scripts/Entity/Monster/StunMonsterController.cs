@@ -33,7 +33,7 @@ public class StunMonsterController : MonsterController
     {
         base.Init(monster);
         Player player = EntityManager.Instance.Player;
-        SetTarget(player.transform);
+        SetTarget(player);
         playerMovement = player.PlayerMovement;
         monster.myRenderer.enabled = false;
 
@@ -77,7 +77,7 @@ public class StunMonsterController : MonsterController
         {
             if (targetDistance < hideAttackDistance)    // 너무 가까이 있을 때 숨어서 주금
             {
-                EventManager.Dispatch(GameEventType.GameOver, false);
+                target.Die();
                 isHiding = false;
             }
             isHiding = true;
@@ -92,9 +92,9 @@ public class StunMonsterController : MonsterController
         if (targetDistance < detectDistance && monster.aiState != AIStateType.MonsterFleeing && !isHiding)
         {
             NavMeshPath path = new NavMeshPath();
-            if (agent.CalculatePath(targetTransform.position, path))
+            if (agent.CalculatePath(target.transform.position, path))
             {
-                agent.SetDestination(targetTransform.position);
+                agent.SetDestination(target.transform.position);
             }
         }
         else
@@ -107,7 +107,7 @@ public class StunMonsterController : MonsterController
         if (targetDistance < attackDistance)     // 닿으면 주금
         {
             agent.speed = 0f;
-            EventManager.Dispatch(GameEventType.GameOver, false);
+            target.Die();
         }
     }
 
@@ -149,7 +149,7 @@ public class StunMonsterController : MonsterController
 
     bool IsPlayerInFieldOfView()
     {
-        Vector3 directionToPlayer = targetTransform.position - transform.position;
+        Vector3 directionToPlayer = target.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         return angle < fieldOfView * 0.5f;
     }
@@ -256,13 +256,13 @@ public class StunMonsterController : MonsterController
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            EventManager.Dispatch(GameEventType.GameOver, false);
+            target.Die();
         }
     }
 
     protected override void LookingAtTarget()
     {
-        Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
+        Vector3 directionToPlayer = (target.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
         transform.rotation = lookRotation;
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Entity
+public class Player : Entity, ITargetable
 {
     [SerializeField] private PlayerController playerController;
     public PlayerController PlayerController { get { return playerController; } }
@@ -35,4 +35,8 @@ public class Player : Entity
         PlayerState.Init(this);
     }
 
+    public void Die()
+    {
+        playerState.Die();
+    }
 }
