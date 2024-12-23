@@ -4,6 +4,7 @@ using UnityEngine;
 using Michsky.UI.Dark;
 using Common.Yield;
 using Common.SceneEx;
+using Common.Event;
 
 public class GameOverPopup : BasePopupUI
 {
@@ -12,6 +13,12 @@ public class GameOverPopup : BasePopupUI
     private void OnEnable()
     {
         myModalWindow.ModalWindowIn();
+    }
+
+    public override void Init<T>(T option)
+    {
+        base.Init(option);
+        EventManager.Dispatch(GameEventType.UsePause, true);
     }
 
     public void GoTitle()

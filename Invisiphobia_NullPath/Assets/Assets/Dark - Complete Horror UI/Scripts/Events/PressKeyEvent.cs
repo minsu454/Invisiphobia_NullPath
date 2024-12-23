@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
@@ -20,7 +20,7 @@ namespace Michsky.UI.Dark
         void Update()
         {
             if (hotkey.triggered)
-                onPressEvent.Invoke();
+                onPressEvent?.Invoke();
         }
     }
 }
