@@ -1,3 +1,5 @@
+using Common.Yield;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,5 +16,4 @@ public class NotUseInventoryItem : InHandItem
         player.PlayerInventory.SetHand(this, prefab);
         player.PlayerInventory.IsNotUse = true;
     }
-
 }
