@@ -77,8 +77,6 @@ public class CameraController : MonoBehaviour
         //fov 변수에 플레이어 카메라의 fieldOfView 기능을 추가해라
         playerCamera.fieldOfView = fov;
 
-        //isSprinting = player.PlayerMovement.isSprinting;
-
         EventManager.Subscribe(GameEventType.GameOver, OnSetLockOff);
     }
 
@@ -184,7 +182,7 @@ public class CameraController : MonoBehaviour
             // Changes isZoomed when key is pressed
             //마우스 오른쪽 버튼을 누르고 holdToZoom이 true이며 달리는중이 아닐 경우
             //holdToZoom false = 한번 클릭만으로 줌동작.
-            if (Input.GetKeyDown(zoomKey) && !holdToZoom && !isSprinting)
+            if (Input.GetKeyDown(zoomKey) && !holdToZoom)
                 //zoomKey를 꾹 눌러서 zoom
             {
                 if (!isZoomed)
@@ -199,7 +197,7 @@ public class CameraController : MonoBehaviour
 
             // Changes isZoomed when key is pressed
             // Behavior for hold to zoom
-            if (holdToZoom && !isSprinting)
+            if (holdToZoom)
             //zoomKey를 한번만 눌러서 zoom
             {
                 if (Input.GetKeyDown(zoomKey))

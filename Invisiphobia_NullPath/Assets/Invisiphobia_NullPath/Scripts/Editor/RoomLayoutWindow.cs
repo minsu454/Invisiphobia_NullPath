@@ -58,7 +58,7 @@ public class RoomLayoutWindow : CustomWindow<RoomLayoutWindow>
 
         // ScrollView =================================================================
 
-        areaRect = new Rect(10, 30, 535, 540); // 독립적인 Area
+        areaRect = new Rect(10, 30, 535, 540);
 
         GUIParts.CreateArea(areaRect, new Color(0.9f, 0.9f, 0.9f), RoomScrollView);
 

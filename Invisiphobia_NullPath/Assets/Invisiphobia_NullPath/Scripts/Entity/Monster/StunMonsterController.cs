@@ -104,11 +104,11 @@ public class StunMonsterController : MonsterController
             agent.speed = walkSpeed;
         }
 
-        //if (targetDistance < attackDistance)     // 닿으면 주금
-        //{
-        //    agent.speed = 0f;
-        //    EventManager.Dispatch(GameEventType.GameOver, false);
-        //}
+        if (targetDistance < attackDistance)     // 닿으면 주금
+        {
+            agent.speed = 0f;
+            EventManager.Dispatch(GameEventType.GameOver, false);
+        }
     }
 
     void ResetWanderingCount()

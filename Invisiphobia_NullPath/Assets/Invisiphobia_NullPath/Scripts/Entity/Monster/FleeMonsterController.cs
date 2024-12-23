@@ -63,6 +63,7 @@ public class FleeMonsterController : MonsterController
             if (!IsValidPathLength(navMeshPosition, out float pathLength))
                 continue;
 
+            // 플레이어로부터 가장 먼 위치 계산
             float distanceFromPlayer = Vector3.Distance(navMeshPosition, targetTransform.position);
 
             if (distanceFromPlayer > maxDistanceFromPlayer)
@@ -132,10 +133,10 @@ public class FleeMonsterController : MonsterController
             agent.SetDestination(targetTransform.position);
         }
 
-        //if (targetDistance < 1f)     // 닿으면 주금
-        //{
-        //    EventManager.Dispatch(GameEventType.GameOver, false);
-        //}
+        if (targetDistance < 1f)     // 닿으면 주금
+        {
+            EventManager.Dispatch(GameEventType.GameOver, false);
+        }
     }
 
     protected void ResetToSpawnPoint()
@@ -165,9 +166,9 @@ public class FleeMonsterController : MonsterController
         monster.ResetCycle();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             EventManager.Dispatch(GameEventType.GameOver, false);
         }
