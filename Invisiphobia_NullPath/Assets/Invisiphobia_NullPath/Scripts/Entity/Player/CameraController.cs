@@ -77,7 +77,7 @@ public class CameraController : MonoBehaviour
         //fov 변수에 플레이어 카메라의 fieldOfView 기능을 추가해라
         playerCamera.fieldOfView = fov;
 
-        isSprinting = player.PlayerMovement.isSprinting;
+        //isSprinting = player.PlayerMovement.isSprinting;
 
         EventManager.Subscribe(GameEventType.GameOver, OnSetLockOff);
     }
