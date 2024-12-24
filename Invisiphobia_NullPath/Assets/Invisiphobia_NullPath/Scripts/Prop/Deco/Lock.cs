@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Lock : MonoBehaviour, IInteractable
 {
-    [Header("Lock")]
-    public bool isLocked = true;
+    public bool isLocked {  get; private set; } = true;
 
-    [SerializeField] Rigidbody rb;
     [SerializeField] private int itemId;
     [SerializeField] private int receiveItemId;
     protected ItemTable itemTable;
@@ -36,8 +35,8 @@ public class Lock : MonoBehaviour, IInteractable
     {
         if (isLocked && player.PlayerInventory.IsLockOffItemInHand(receiveItemId))
         {
-            rb.useGravity = true;
             isLocked = false;
+            gameObject.SetActive(false);
         }
         else
         {

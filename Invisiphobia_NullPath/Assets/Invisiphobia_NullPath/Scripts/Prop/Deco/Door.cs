@@ -18,11 +18,12 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private int itemId;
     protected ItemTable itemTable;
     private Transform playerTr;
+    [SerializeField] Lock mylock;
     public ItemTable ItemTable
     {
         get { return itemTable; }
     }
-
+    
     protected string interactText;
     public string InteractText { get { return interactText; } }
 
@@ -71,7 +72,10 @@ public class Door : MonoBehaviour, IInteractable
                 return;
             }
         }
-
+        if(mylock != null && mylock.isLocked)
+        {
+            return ;
+        }
         if (isOpen)
         {
             StartCoroutine(DoorInteract(endRotation, startRotation, 1f)); // 닫기 동작
