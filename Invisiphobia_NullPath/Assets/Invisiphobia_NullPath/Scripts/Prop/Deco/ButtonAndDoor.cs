@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class WallAndDoor : MonoBehaviour
+public class ButtonAndDoor : MonoBehaviour
 {
     float elapsedTime = 0f;
 
