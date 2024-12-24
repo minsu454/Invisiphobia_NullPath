@@ -23,6 +23,14 @@ namespace Common.Path
         }
 
         /// <summary>
+        /// Puzzle 경로 반환 함수
+        /// </summary>
+        public static string PuzzlePath(string name)
+        {
+            return $"UI/Puzzle/{name}.prefab";
+        }
+
+        /// <summary>
         /// ObjectPoolSO 경로 반환 함수
         /// </summary>
         public static string ObjectPoolSOPath(string name)

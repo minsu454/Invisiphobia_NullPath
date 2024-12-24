@@ -92,5 +92,27 @@ namespace Common.Objects
 
             return Object.Instantiate(go);
         }
+
+        /// <summary>
+        /// 재너릭 변환 오브젝트 반환 함수
+        /// </summary>
+        public static GameObject Instantiate(string path, Transform parent)
+        {
+            if (!objectContainerDict.TryGetValue(path, out Object value))
+            {
+                Debug.LogError($"Is Not Found Object : {path}");
+                return null;
+            }
+
+            GameObject go = value as GameObject;
+
+            if (go == null)
+            {
+                Debug.LogError($"Object Is Not GameObject : {path}");
+                return null;
+            }
+
+            return Object.Instantiate(go, parent);
+        }
     }
 }

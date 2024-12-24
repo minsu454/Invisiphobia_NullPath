@@ -113,9 +113,9 @@ public class Tablet : MonoBehaviour
     /// <summary>
     /// 퍼즐 생성 함수
     /// </summary>
-    public int InitPuzzle(PuzzleUI prefab)
+    public int InitPuzzle(string path, Action onCompleted)
     {
-        WorldUI<TabletStateType> worldUI = manager.InstantiateAndAdd(prefab);
+        WorldUI<TabletStateType> worldUI = manager.PuzzleInstantiate(path, onCompleted);
         int idx = manager.IndexOf(worldUI);
 
         if (idx == -1)
