@@ -13,7 +13,7 @@ public class BossMonsterController : MonsterController
     public override void Init(Monster monster)
     {
         base.Init(monster);
-        SetTarget(EntityManager.Instance.Player.transform);
+        SetTarget(EntityManager.Instance.Player);
 
         agent.speed = runSpeed;
 
@@ -35,9 +35,9 @@ public class BossMonsterController : MonsterController
 
         NavMeshPath path = new NavMeshPath();
 
-        if (agent.CalculatePath(targetTransform.position, path))
+        if (agent.CalculatePath(target.transform.position, path))
         {
-            agent.SetDestination(targetTransform.position);
+            agent.SetDestination(target.transform.position);
         }
     }
 
@@ -66,7 +66,7 @@ public class BossMonsterController : MonsterController
         {
             if(targetDistance <= attackDistance)
             {
-                EventManager.Dispatch(GameEventType.GameOver, false);
+                target.Die();
                 break;
             }
             yield return null;
@@ -80,7 +80,7 @@ public class BossMonsterController : MonsterController
 
     protected override void LookingAtTarget()
     {
-        Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
+        Vector3 directionToPlayer = (target.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
         transform.rotation = lookRotation;
     }

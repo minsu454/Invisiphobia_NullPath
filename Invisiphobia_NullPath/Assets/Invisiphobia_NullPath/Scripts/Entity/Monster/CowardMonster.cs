@@ -20,7 +20,7 @@ public class CowardMonster : MonsterController
     public override void Init(Monster monster)
     {
         base.Init(monster);
-        SetTarget(EntityManager.Instance.Player.transform);
+        SetTarget(EntityManager.Instance.Player);
         monster.MyState.WanderingEvent += OnWanderingUpdate;
         monster.MyState.MonsterFleeingEvent += MonsterFleeingUpdate;
         monster.myRenderer.enabled = false;

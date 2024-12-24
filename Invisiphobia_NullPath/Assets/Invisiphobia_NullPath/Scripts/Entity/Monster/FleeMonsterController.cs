@@ -12,7 +12,7 @@ public class FleeMonsterController : MonsterController
     public override void Init(Monster monster)
     {
         base.Init(monster);
-        SetTarget(EntityManager.Instance.Player.transform);
+        SetTarget(EntityManager.Instance.Player);
         monster.myRenderer.enabled = false;
 
         agent.speed = runSpeed;
@@ -64,7 +64,7 @@ public class FleeMonsterController : MonsterController
                 continue;
 
             // 플레이어로부터 가장 먼 위치 계산
-            float distanceFromPlayer = Vector3.Distance(navMeshPosition, targetTransform.position);
+            float distanceFromPlayer = Vector3.Distance(navMeshPosition, target.transform.position);
 
             if (distanceFromPlayer > maxDistanceFromPlayer)
             {
@@ -103,7 +103,7 @@ public class FleeMonsterController : MonsterController
     // 플레이어를 지나치지 않도록 각도 설정(플레이어를 바라본 180도를 제외하도록)
     bool IsValidFleeAngle(Vector3 position)
     {
-        Vector3 directionToPlayer = (targetTransform.position - position).normalized;
+        Vector3 directionToPlayer = (target.transform.position - position).normalized;
         float signedAngleToPlayer = Vector3.SignedAngle(-transform.forward, directionToPlayer, Vector3.up); // 도망중에는 찍히지 않도록 하던가, 플레이어가 보는 방향의 범위와 몬스터가 바라보는방향의 범위 비교하던가..
 
         return signedAngleToPlayer > -105 && signedAngleToPlayer < 105;
@@ -128,14 +128,14 @@ public class FleeMonsterController : MonsterController
             return;
 
         NavMeshPath path = new NavMeshPath();
-        if (agent.CalculatePath(targetTransform.position, path))
+        if (agent.CalculatePath(target.transform.position, path))
         {
-            agent.SetDestination(targetTransform.position);
+            agent.SetDestination(target.transform.position);
         }
 
         if (targetDistance < 1f)     // 닿으면 주금
         {
-            EventManager.Dispatch(GameEventType.GameOver, false);
+            target.Die();
         }
     }
 
@@ -170,7 +170,7 @@ public class FleeMonsterController : MonsterController
     {
         if (other.CompareTag("Player"))
         {
-            EventManager.Dispatch(GameEventType.GameOver, false);
+            target.Die();
         }
     }
 
@@ -181,7 +181,7 @@ public class FleeMonsterController : MonsterController
 
     protected override void LookingAtTarget()
     {
-        Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
+        Vector3 directionToPlayer = (target.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
         transform.rotation = lookRotation;
     }

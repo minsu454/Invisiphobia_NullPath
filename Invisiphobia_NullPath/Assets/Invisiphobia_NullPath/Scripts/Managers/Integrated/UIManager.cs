@@ -52,7 +52,7 @@ public sealed class UIManager : MonoBehaviour, IInit
 
         GameObject uiGo = Instantiate(prefab);
 
-        if (!prefab.TryGetComponent(out T popupUI))
+        if (!uiGo.TryGetComponent(out T popupUI))
         {
             Debug.LogError($"GameObject Is Not BaseSceneUI Inheritance : {prefab}");
             return;
@@ -71,7 +71,7 @@ public sealed class UIManager : MonoBehaviour, IInit
 
         GameObject uiGo = Instantiate(prefab);
 
-        if (!prefab.TryGetComponent(out T worldUI))
+        if (!uiGo.TryGetComponent(out T worldUI))
         {
             Debug.LogError($"GameObject Is Not BaseSceneUI Inheritance : {prefab}");
             return null;
@@ -88,7 +88,6 @@ public sealed class UIManager : MonoBehaviour, IInit
         BasePopupUI popup = showList[showList.Count - 1];
         showList.RemoveAt(showList.Count - 1);
 
-        AddressableAssets.Release(popup.gameObject);
         Destroy(popup.gameObject);
     }
 
@@ -109,7 +108,6 @@ public sealed class UIManager : MonoBehaviour, IInit
 
         showList.RemoveAt(idx);
 
-        AddressableAssets.Release(popup.gameObject);
         Destroy(popup.gameObject);
     }
 
