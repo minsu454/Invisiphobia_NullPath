@@ -23,4 +23,5 @@ public interface IInteractable
     /// 플레이어 상호작용 함수
     /// </summary>
     public void Interact(Player player);
+    
 }
