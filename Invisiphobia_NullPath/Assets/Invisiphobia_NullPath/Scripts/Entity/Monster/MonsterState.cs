@@ -9,7 +9,6 @@ public class MonsterState : MonoBehaviour
     public event Action AttackingEvent;
     public event Action FleeingEvent;
     public event Action MonsterFleeingEvent;
-    public event Action StunEvent;
 
     private Monster monster;
 
@@ -20,7 +19,7 @@ public class MonsterState : MonoBehaviour
 
     private void Update()
     {
-        switch (monster.aiState)
+        switch (monster.AiState)
         {
             case AIStateType.Idle:
                 IdleEvent?.Invoke();
@@ -36,9 +35,6 @@ public class MonsterState : MonoBehaviour
                 break;
             case AIStateType.MonsterFleeing:
                 MonsterFleeingEvent?.Invoke();
-                break;
-            case AIStateType.Stun:
-                StunEvent?.Invoke();
                 break;
         }
     }

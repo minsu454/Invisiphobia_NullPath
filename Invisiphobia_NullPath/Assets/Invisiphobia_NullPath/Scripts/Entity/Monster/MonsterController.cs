@@ -25,7 +25,7 @@ public abstract class MonsterController : MonoBehaviour
     {
         this.monster = monster;
         monsterSpawnPoint = transform.position;
-        monster.aiState = AIStateType.Idle;
+        monster.AiState = AIStateType.Idle;
         agent.enabled = false;
 
         monster.MyState.AttackingEvent += AttackingUpdate;
@@ -60,14 +60,4 @@ public abstract class MonsterController : MonoBehaviour
         agent.enabled = true;
         LookingAtTarget();
     }
-
-    //protected void LookingAtPlayerUpdate()
-    //{
-    //    if (targetDistance < lookAtPlayerDistance)
-    //    {
-    //        Vector3 directionToPlayer = (targetTransform.position - transform.position).normalized;
-    //        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
-    //        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-    //    }
-    //}
 }
