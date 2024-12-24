@@ -133,14 +133,10 @@ public class DirectionPuzzle : PuzzleUI
         }
     }
 
-
     void GameOver(bool isWin)
     {
         isGameActive = false;
-        Debug.Log("오깸!");
-
-        // 게임 재시작 (테스트용)
-        Invoke(nameof(StartNewGame), 4f);
+        OnComplete();
     }
 
     public void RetryBtn()

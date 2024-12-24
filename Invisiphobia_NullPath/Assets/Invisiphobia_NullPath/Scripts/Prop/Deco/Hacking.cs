@@ -48,7 +48,7 @@ public class Hacking : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        if (isFirst && puzzlePath != string.Empty)
+        if (isFirst && puzzlePath != "")
         {
             idx = player.PlayerInventory.Tablet.InitPuzzle(puzzlePath, OnCompleted);
             isFirst = false;

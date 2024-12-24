@@ -95,13 +95,22 @@ namespace Common.Path
         }
 
         /// <summary>
+        /// 이벤트 경로 반환 함수
+        /// </summary>
+        public static string EventPartsPath(string name)
+        {
+            return $"Map/EventParts/{name}.prefab";
+        }
+
+        /// <summary>
         /// Entity 경로 반환 함수
         /// </summary>
         public static string EntityPath(string name)
         {
             return $"Entity/{name}";
         }
-    }
+
+}
 
     public static class ScenePath
     {

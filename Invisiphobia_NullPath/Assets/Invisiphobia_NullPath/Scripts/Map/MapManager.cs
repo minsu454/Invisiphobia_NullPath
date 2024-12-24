@@ -88,7 +88,7 @@ public class MapManager : MonoBehaviour
     {
         foreach (EventData data in dataList)
         {
-            GameObject go = ObjectManager.Instantiate(AddressablePath.ItemPartsPath(data.Name));
+            GameObject go = ObjectManager.Instantiate(AddressablePath.EventPartsPath(data.Name));
 
             go.name = data.Name;
             go.transform.position = data.Pos;
