@@ -11,6 +11,7 @@ public class InGame_UI : BaseSceneUI
     [SerializeField] private CanvasGroup sprintBarCanvasGroup; // CanvasGroup 추가
     public bool hideBarWhenFull = true;
 
+    [SerializeField] private TextMeshProUGUI interactKeyText;
     [SerializeField] private TextMeshProUGUI interactDescriptionKeyText;
     [SerializeField] private TextMeshProUGUI useDescriptionKey;
 
@@ -30,6 +31,7 @@ public class InGame_UI : BaseSceneUI
 
         EntityManager.Instance.Player.PlayerMovement.SetUI(staminaBar, sprintBarCanvasGroup);
         EntityManager.Instance.Player.PlayerInteract.interactUIEvent += SetInteractDescriptionKey;
+        EntityManager.Instance.Player.PlayerInventory.OnHandItemChanged += SetInteractKey;
     }
 
     private void SetStaminaBar(int sprintRemaining)
@@ -53,5 +55,17 @@ public class InGame_UI : BaseSceneUI
             interactDescriptionKeyText.text = "";
         else
             interactDescriptionKeyText.text = interact.InteractText;
+    }
+
+    private void SetInteractKey(IInteractable interact)
+    {
+        if(interact == null)
+        {
+            interactKeyText.text = "";
+        }
+        else
+        {
+            interactKeyText.text = "[Shift + right-click]\n: " + interact.ActionText;
+        }
     }
 }

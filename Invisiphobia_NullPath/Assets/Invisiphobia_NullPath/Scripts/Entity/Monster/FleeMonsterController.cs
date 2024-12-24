@@ -8,7 +8,11 @@ public class FleeMonsterController : MonsterController
     [Header("Fleeing")]
     [SerializeField] protected float minDistance;
     [SerializeField] protected float maxDistance;
+    private bool isFleeing = false;
 
+    /// <summary>
+    /// 몬스터의 상태를 초기화하고 타겟을 플레이어로 설정
+    /// </summary>
     public override void Init(Monster monster)
     {
         base.Init(monster);
@@ -20,19 +24,33 @@ public class FleeMonsterController : MonsterController
         monster.MyState.WanderingEvent += OnWanderingUpdate;
     }
 
+    /// <summary>
+    /// 플레이어가 몬스터를 공격했을 때 몬스터를 도망 상태로 전환
+    /// </summary>
     public override void PlayerAttackMonster()
     {
-        monster.aiState = AIStateType.MonsterFleeing;
-
-        Vector3 fleeDestination = GetSafeFleeDestination();
-
-        if (NavMesh.SamplePosition(fleeDestination, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
+        if (!isFleeing)
         {
-            agent.SetDestination(hit.position);
-            StartCoroutine(FleeAndTransitionToWandering());
+            monster.aiState = AIStateType.MonsterFleeing;
+            isFleeing = true;
+
+            Vector3 fleeDestination = GetSafeFleeDestination();
+
+            if (NavMesh.SamplePosition(fleeDestination, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+                StartCoroutine(FleeAndTransitionToWandering());
+            }
+        }
+        else
+        {
+            return;
         }
     }
 
+    /// <summary>
+    /// 도망을 친 후 처음 스폰자리로 순간이동
+    /// </summary>
     private IEnumerator FleeAndTransitionToWandering()
     {
         while (agent.pathPending || agent.remainingDistance > 0.1f)
@@ -41,15 +59,19 @@ public class FleeMonsterController : MonsterController
         }
 
         ResetToSpawnPoint();
+        isFleeing = false;
     }
 
-    Vector3 GetSafeFleeDestination()    // 도망 위치 계산
+    /// <summary>
+    /// 몬스터 도망 위치 계산
+    /// </summary>
+    Vector3 GetSafeFleeDestination()
     {
         const int angleStep = 10;
         Vector3 bestDestination = transform.position;
         float maxDistanceFromPlayer = 0f;
 
-        for (float angle = -100; angle <= 100; angle += angleStep)
+        for (float angle = 100; angle <= 260; angle += angleStep)
         {
             Vector3 fleeDirection = Quaternion.Euler(0, angle, 0) * -transform.forward;
             Vector3 potentialDestination = transform.position + fleeDirection * maxDistance;
@@ -81,14 +103,9 @@ public class FleeMonsterController : MonsterController
         return bestDestination;
     }
 
-    // 랜덤 방향
-    Vector3 GetRandomDirection()
-    {
-        Vector2 randomCircle = Random.insideUnitCircle.normalized; // 2D 원 기준 랜덤 방향
-        return new Vector3(randomCircle.x, 0, randomCircle.y);
-    }
-
-    // NavMesh 위치 확인
+    /// <summary>
+    /// 주어진 위치가 NavMesh에서 유효한지 검사
+    /// </summary>
     bool TryGetValidNavMeshPosition(Vector3 position, out Vector3 navMeshPosition)
     {
         if (NavMesh.SamplePosition(position, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
@@ -100,16 +117,19 @@ public class FleeMonsterController : MonsterController
         return false;
     }
 
-    // 플레이어를 지나치지 않도록 각도 설정(플레이어를 바라본 180도를 제외하도록)
+    /// <summary>
+    /// 플레이어를 지나치지 않는 각도인지 검사
+    /// </summary>
     bool IsValidFleeAngle(Vector3 position)
     {
         Vector3 directionToPlayer = (target.transform.position - position).normalized;
-        float signedAngleToPlayer = Vector3.SignedAngle(-transform.forward, directionToPlayer, Vector3.up); // 도망중에는 찍히지 않도록 하던가, 플레이어가 보는 방향의 범위와 몬스터가 바라보는방향의 범위 비교하던가..
+        float signedAngleToPlayer = Vector3.SignedAngle(-transform.forward, directionToPlayer, Vector3.up);
 
         return signedAngleToPlayer > -105 && signedAngleToPlayer < 105;
     }
-
-    // 경로 길이 확인
+    /// <summary>
+    /// 이동 경로 길이가 유효한지 검사
+    /// </summary>
     bool IsValidPathLength(Vector3 destination, out float pathLength)
     {
         NavMeshPath path = new NavMeshPath();
@@ -122,6 +142,9 @@ public class FleeMonsterController : MonsterController
         return false;
     }
 
+    /// <summary>
+    /// 몬스터 공격 상태 동작
+    /// </summary>
     protected override void AttackingUpdate()
     {
         if (!agent.enabled)
@@ -139,12 +162,18 @@ public class FleeMonsterController : MonsterController
         }
     }
 
+    /// <summary>
+    /// 스폰 지점으로 위치 초기화 후 행동 사이클 리셋
+    /// </summary>
     protected void ResetToSpawnPoint()
     {
         agent.Warp(monsterSpawnPoint);
         ResetCycle();
     }
 
+    /// <summary>
+    /// 실제 이동 경로 길이 계산
+    /// </summary>
     protected float GetPathLength(NavMeshPath path)
     {
         float totalLength = 0f;
@@ -160,12 +189,18 @@ public class FleeMonsterController : MonsterController
         return totalLength;
     }
 
+    /// <summary>
+    /// 몬스터 행동 사이클 리셋
+    /// </summary>
     void ResetCycle()
     {
         monster.aiState = AIStateType.Idle;
         monster.ResetCycle();
     }
 
+    /// <summary>
+    /// 플레이어와 충돌 시 게임 오버 트리거
+    /// </summary>
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -174,11 +209,17 @@ public class FleeMonsterController : MonsterController
         }
     }
 
+    /// <summary>
+    /// Wandering 이벤트 상태 업데이트
+    /// </summary>
     void OnWanderingUpdate()
     {
         monster.aiState = AIStateType.Attacking;
     }
 
+    /// <summary>
+    /// 감지되었을 때 플레이어를 바라보도록 하는 함수
+    /// </summary>
     protected override void LookingAtTarget()
     {
         Vector3 directionToPlayer = (target.transform.position - transform.position).normalized;
