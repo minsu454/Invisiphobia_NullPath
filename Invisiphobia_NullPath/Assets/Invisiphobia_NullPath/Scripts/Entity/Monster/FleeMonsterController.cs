@@ -31,7 +31,7 @@ public class FleeMonsterController : MonsterController
     {
         if (!isFleeing)
         {
-            monster.aiState = AIStateType.MonsterFleeing;
+            monster.AiState = AIStateType.MonsterFleeing;
             isFleeing = true;
 
             Vector3 fleeDestination = GetSafeFleeDestination();
@@ -194,7 +194,7 @@ public class FleeMonsterController : MonsterController
     /// </summary>
     void ResetCycle()
     {
-        monster.aiState = AIStateType.Idle;
+        monster.AiState = AIStateType.Idle;
         monster.ResetCycle();
     }
 
@@ -214,7 +214,7 @@ public class FleeMonsterController : MonsterController
     /// </summary>
     void OnWanderingUpdate()
     {
-        monster.aiState = AIStateType.Attacking;
+        monster.AiState = AIStateType.Attacking;
     }
 
     /// <summary>

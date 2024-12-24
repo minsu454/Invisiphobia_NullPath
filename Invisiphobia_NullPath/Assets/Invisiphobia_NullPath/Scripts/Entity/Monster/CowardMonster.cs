@@ -71,7 +71,7 @@ public class CowardMonster : MonsterController
 
     void OnWanderingUpdate()
     {
-        monster.aiState = AIStateType.MonsterFleeing;
+        monster.AiState = AIStateType.MonsterFleeing;
         fleeStartTime = Time.time;
 
         SetMaxDistanceDestination();
