@@ -21,16 +21,10 @@ public class MapManager : MonoBehaviour
     /// </summary>
     private void Map(TotalMapData totalData)
     {
-        //try
-        //{
-            Room(totalData.RoomDataList);
-            Deco(totalData.DecorDataList);
-            Item(totalData.ItemDataList);
-        //}
-        //catch
-        //{
-        //    Debug.LogWarning("This file cannot be loaded.");
-        //}
+        Room(totalData.RoomDataList);
+        Deco(totalData.DecorDataList);
+        Item(totalData.ItemDataList);
+        Event(totalData.EventDataList);
     }
 
     /// <summary>
@@ -84,6 +78,25 @@ public class MapManager : MonoBehaviour
 
             Prop prop = go.GetComponent<Prop>();
             prop.Init();
+        }
+    }
+
+    /// <summary>
+    /// 아이템 생성 함수
+    /// </summary>
+    private void Event(List<EventData> dataList)
+    {
+        foreach (EventData data in dataList)
+        {
+            GameObject go = ObjectManager.Instantiate(AddressablePath.ItemPartsPath(data.Name));
+
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.rotation = data.Rot;
+
+            EventParts parts = go.GetComponent<EventParts>();
+
+            parts.Init(data.useGoPath, data.eventList);
         }
     }
 }

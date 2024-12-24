@@ -1,8 +1,4 @@
-using Common.Data;
-using Common.Event;
-using JetBrains.Annotations;
 using System.Collections;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class StairRoom : MonoBehaviour
@@ -25,7 +21,7 @@ public class StairRoom : MonoBehaviour
         exitDetector.EnterEvent += GameClearEvent;
 
         startRotation = door.rotation;
-        endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
+        endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y + 90, startRotation.eulerAngles.z);
     }
 
     private void ClearZoneEvent(Collider col)

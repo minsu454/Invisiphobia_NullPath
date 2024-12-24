@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Common.StringEx;
 
-public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
+public class EventLayoutWindow : CustomWindow<EventLayoutWindow>
 {
     private Rect areaRect;                  //rect 저장 변수
 
@@ -16,8 +16,8 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
 
     private bool isLoaded = false;
 
-    private Texture2D[] texture2DArr;                                                       //Parts사진 저장 배열
-    private Dictionary<string, EntityParts> partsGoDict = new Dictionary<string, EntityParts>();  //PartsGo 저장 Dictionary
+    private Texture2D[] texture2DArr;                                                           //Parts사진 저장 배열
+    private Dictionary<string, EventParts> partsGoDict = new Dictionary<string, EventParts>();  //PartsGo 저장 Dictionary
 
     private TotalMapData totalData;
 
@@ -25,17 +25,17 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
     {
         base.OnEnable();
 
-        GUIParts.LoadAllInFolder(EditorPath.EntityTexturePath, out texture2DArr);
-        GUIParts.LoadAllInFolder(EditorPath.EntityPartsPath, out partsGoDict);
+        GUIParts.LoadAllInFolder(EditorPath.EventTexturePath, out texture2DArr);
+        GUIParts.LoadAllInFolder(EditorPath.EventPartsPath, out partsGoDict);
 
         string path = EditorUtility.OpenFilePanel("Open File", "", "json");
         saveManager.LoadMap(path, LoadMap);
     }
 
-    [MenuItem("Tools/MapEditor/EntityLayout", priority = 3)]
+    [MenuItem("Tools/MapEditor/EventLayout", priority = 4)]
     static void Init()
     {
-        CreateComstomWindow("Entity Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
+        CreateComstomWindow("Event Layout", new Vector2(800f, 580f), new Vector2(800f, 580f));
     }
 
     private void OnGUI()
@@ -111,7 +111,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
     {
         if (GUI.Button(new Rect(42, 238, 100, 25), "Spawn"))
         {
-            if (!partsGoDict.TryGetValue(pickName, out EntityParts partsPrefab))
+            if (!partsGoDict.TryGetValue(pickName, out EventParts partsPrefab))
                 return;
 
             GameObject partsGo = Instantiate(partsPrefab.gameObject);
@@ -130,7 +130,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
                 partsGo.transform.position = Vector3.zero;
             }
 
-            EntityParts entityParts = partsGo.GetComponent<EntityParts>();
+            EventParts entityParts = partsGo.GetComponent<EventParts>();
 
             saveManager.Add(entityParts);
         }
@@ -151,7 +151,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
                 if (selectedObject == null)
                     continue;
 
-                if (!selectedObject.TryGetComponent(out EntityParts parts))
+                if (!selectedObject.TryGetComponent(out EventParts parts))
                     continue;
 
                 saveManager.Remove(parts);
@@ -193,7 +193,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
                         pickName = name;
                         pickIdx = index;
 
-                        if (!partsGoDict.TryGetValue(pickName, out EntityParts partsPrefab))
+                        if (!partsGoDict.TryGetValue(pickName, out EventParts partsPrefab))
                             return;
 
                         pickGoEditor = Editor.CreateEditor(partsPrefab.gameObject);
@@ -218,7 +218,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
         gStyle.normal.background = Texture2D.grayTexture;
         pickGoEditor.OnInteractivePreviewGUI(new Rect(3, 3, 239, 234), gStyle);
 
-        if (!partsGoDict.TryGetValue(pickName, out EntityParts item))
+        if (!partsGoDict.TryGetValue(pickName, out EventParts item))
             return;
 
         GUIStyle styleLabel = new GUIStyle("label");
@@ -258,29 +258,32 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
     {
         TotalMapData data = totalData;
 
-        data.EntityData.monsterDataList.Clear();
-        data.EntityData.monsterDataList = new List<PointData>();
+        data.EventDataList.Clear();
 
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
-            EntityParts entityParts = parts as EntityParts;
+            EventParts eventParts = parts as EventParts;
 
-            if (entityParts.name.ToFirstName("_") == "Player")
-            {
-                data.EntityData.playerData = new PointData(
-                entityParts.name,
-                entityParts.transform.position,
-                entityParts.transform.rotation);
-            }
-            else
-            {
-                PointData monsterData = new PointData(
-                entityParts.name,
-                entityParts.transform.position,
-                entityParts.transform.rotation);
+            List<PointData> eventList = new List<PointData>();
 
-                data.EntityData.monsterDataList.Add(monsterData);
+            foreach (Transform point in eventParts.OnCompleteTrList)
+            {
+                PointData pointData = new PointData(
+                point.name,
+                point.transform.position,
+                point.transform.rotation);
+
+                eventList.Add(pointData);
             }
+
+            EventData eventData = new EventData(
+                eventParts.name,
+                eventParts.transform.position,
+                eventParts.transform.rotation,
+                eventParts.GetPath(),
+                eventList);
+
+            data.EventDataList.Add(eventData);
         }
 
         string json = JsonUtility.ToJson(data);
@@ -310,7 +313,7 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
             Material floor = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.FloorMaterialName}.mat");
             Material wall = AssetDatabase.LoadAssetAtPath<Material>($"{EditorPath.materialPath}/{data.WallMaterialName}.mat");
 
-            parts.Init(floor, wall);    
+            parts.Init(floor, wall);
         }
 
         foreach (PointData data in totalData.DecorDataList)
@@ -342,10 +345,6 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
             go.name = totalData.EntityData.playerData.Name;
             go.transform.position = totalData.EntityData.playerData.Pos;
             go.transform.rotation = totalData.EntityData.playerData.Rot;
-
-            IParts parts = go.GetComponent<IParts>();
-
-            saveManager.Add(parts);
         }
 
         foreach (PointData data in totalData.EntityData.monsterDataList)
@@ -356,10 +355,6 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
             go.name = data.Name;
             go.transform.position = data.Pos;
             go.transform.rotation = data.Rot;
-
-            IParts parts = go.GetComponent<IParts>();
-
-            saveManager.Add(parts);
         }
 
         foreach (EventData data in totalData.EventDataList)
@@ -373,6 +368,8 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
 
             EventParts parts = go.GetComponent<EventParts>();
             parts.Init(data.useGoPath, data.eventList);
+
+            saveManager.Add(parts);
         }
 
         isLoaded = true;
