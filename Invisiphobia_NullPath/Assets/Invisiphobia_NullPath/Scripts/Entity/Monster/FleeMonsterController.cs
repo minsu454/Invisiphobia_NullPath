@@ -71,7 +71,7 @@ public class FleeMonsterController : MonsterController
         Vector3 bestDestination = transform.position;
         float maxDistanceFromPlayer = 0f;
 
-        for (float angle = -100; angle <= 100; angle += angleStep)
+        for (float angle = 100; angle <= 260; angle += angleStep)
         {
             Vector3 fleeDirection = Quaternion.Euler(0, angle, 0) * -transform.forward;
             Vector3 potentialDestination = transform.position + fleeDirection * maxDistance;
