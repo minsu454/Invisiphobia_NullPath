@@ -20,8 +20,8 @@ public class EventParts : MonoBehaviour, IParts
     {
         try
         {
-            PuzzlePath = useGoPath;
             PuzzleType = PathToEnum(PuzzlePath);
+            PuzzlePath = PuzzleType == PuzzleType.None ? useGoPath : string.Empty;
 
             for (int i = 0; i < eventList.Count; i++)
             {
