@@ -37,9 +37,14 @@ public class InGame_UI : BaseSceneUI
         staminaBar.value = sprintRemaining; // 현재 스태미나 동기화
     }
 
-    public void Btn()
+    public void GoTitle()
     {
         SceneManagerEx.LoadingAndNextScene(SceneType.Title);
+    }
+
+    public void CreatePausePopup()
+    {
+        Managers.UI.CreatePopup<PausePopup>();
     }
 
     private void SetInteractDescriptionKey(IInteractable interact)

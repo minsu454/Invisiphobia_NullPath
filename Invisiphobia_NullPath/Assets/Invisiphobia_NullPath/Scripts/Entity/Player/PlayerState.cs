@@ -7,11 +7,9 @@ public class PlayerState : MonoBehaviour
 
     public void Init(Player player)
     {
-        EventManager.Subscribe(GameEventType.GameOver, Die);
-        EventManager.Subscribe(GameEventType.GameClear, Clear);
     }
 
-    public void Die(object args)
+    public void Die()
     {
         if (isDie)
             return;
@@ -20,14 +18,8 @@ public class PlayerState : MonoBehaviour
         GameManager.Instance.GameOver();
     }
 
-    public void Clear(object args)
+    public void Clear()
     {
         Debug.Log("깼음");
-    }
-
-    private void OnDestroy()
-    {
-        EventManager.Unsubscribe(GameEventType.GameOver, Die);
-        EventManager.Unsubscribe(GameEventType.GameClear, Clear);
     }
 }

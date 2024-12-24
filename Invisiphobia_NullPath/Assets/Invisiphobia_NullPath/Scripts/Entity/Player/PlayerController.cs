@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     public void Init(Player player)
     {
-        EventManager.Subscribe(GameEventType.GameOver, UseInput);
+        EventManager.Subscribe(GameEventType.UsePause, UseInput);
     }
 
     void Update()
@@ -176,7 +176,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.Unsubscribe(GameEventType.GameOver, UseInput);
+        EventManager.Unsubscribe(GameEventType.UsePause, UseInput);
     }
 }
 
