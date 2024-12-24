@@ -41,12 +41,12 @@ public class StunMonsterController : MonsterController
         playerMovement = player.PlayerMovement;
         monster.myRenderer.enabled = false;
 
-        monster.MyState.StunEvent += SetStun;
 
         ResetWanderingCount();
 
         monster.MyState.WanderingEvent += PassiveUpdate;
         monster.MyState.FleeingEvent += FleeingUpdate;
+        monster.MyState.MonsterFleeingEvent += SetStun;
     }
 
     private void SetStun()
@@ -62,13 +62,13 @@ public class StunMonsterController : MonsterController
         yield return YieldCache.WaitForSeconds(2f);
 
         isStunned = false;
-        monster.aiState = AIStateType.Wandering;
+        monster.AiState = AIStateType.Wandering;
         agent.speed = walkSpeed;
     }
 
     public override void PlayerAttackMonster()
     {
-        monster.aiState = AIStateType.Stun;
+        monster.AiState = AIStateType.MonsterFleeing;
         agent.speed = 0f;
     }
 
@@ -86,14 +86,14 @@ public class StunMonsterController : MonsterController
             }
             isHiding = true;
 
-            monster.aiState = AIStateType.Wandering;
+            monster.AiState = AIStateType.Wandering;
         }
         else
         {
             isHiding = false;
         }
 
-        if (targetDistance < detectDistance && monster.aiState != AIStateType.MonsterFleeing && !isHiding)
+        if (targetDistance < detectDistance && monster.AiState != AIStateType.MonsterFleeing && !isHiding)
         {
             NavMeshPath path = new NavMeshPath();
             if (agent.CalculatePath(target.transform.position, path))
@@ -104,7 +104,7 @@ public class StunMonsterController : MonsterController
         else
         {
             agent.SetDestination(transform.position);
-            monster.aiState = AIStateType.Wandering;
+            monster.AiState = AIStateType.Wandering;
             agent.speed = walkSpeed;
         }
 
@@ -129,16 +129,16 @@ public class StunMonsterController : MonsterController
 
         if (targetDistance < detectDistance && playerMovement.playerCanMove && IsPlayerInFieldOfView()) // 플레이어가 감지 범위 안에 있고 숨지 않은 경우
         {
-            monster.aiState = AIStateType.Attacking;
+            monster.AiState = AIStateType.Attacking;
             agent.speed = runSpeed;
         }
-        else if ((isHiding || targetDistance > detectDistance) && monster.aiState != AIStateType.Wandering) // 플레이어를 놓친 경우 Wandering으로 전환
+        else if ((isHiding || targetDistance > detectDistance) && monster.AiState != AIStateType.Wandering) // 플레이어를 놓친 경우 Wandering으로 전환
         {
-            monster.aiState = AIStateType.Wandering;
+            monster.AiState = AIStateType.Wandering;
             agent.speed = walkSpeed;
         }
 
-        if (AIStateType.Wandering == monster.aiState && agent.remainingDistance < 0.1f && canWander)
+        if (AIStateType.Wandering == monster.AiState && agent.remainingDistance < 0.1f && canWander)
         {
             canWander = false;
             WanderToNewLocation();  // 새 위치로 이동
@@ -167,14 +167,14 @@ public class StunMonsterController : MonsterController
         else
         {
             ResetWanderingCount();
-            monster.aiState = AIStateType.Wandering;
+            monster.AiState = AIStateType.Wandering;
             agent.speed = walkSpeed;
         }
     }
 
     void ResetCycle()
     {
-        monster.aiState = AIStateType.Idle;
+        monster.AiState = AIStateType.Idle;
         if (timer != null)
         {
             StopCoroutine(timer);

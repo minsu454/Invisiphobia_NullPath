@@ -8,11 +8,30 @@ public class Monster : Entity, IDetectable
     [SerializeField] private MonsterController myController;
     public MonsterController MyController { get { return myController; } }
 
+    [SerializeField] private MonsterSound monsterSound;
+    public MonsterSound myMonsterSound { get { return monsterSound; } }
+
     public Renderer myRenderer;
     
     public bool RendererActive { get { return myRenderer.enabled; } }
 
-    public AIStateType aiState;
+    private AIStateType aiState;
+    public AIStateType AiState 
+    {  
+        get { return aiState; } 
+        set 
+        {
+            if (aiState == value)
+            {
+                return;
+            }
+            changeStateEvent?.Invoke();
+            aiState = value; 
+        }
+    }
+
+    public event Action changeStateEvent;
+
     [SerializeField] private MonsterState myState;
     public MonsterState MyState { get { return myState; } }
 
@@ -32,6 +51,7 @@ public class Monster : Entity, IDetectable
         myState.Init(this);
         mapIcon.Init(transform);
         myController.Init(this);
+        myMonsterSound.Init(this);
     }
     #endregion
 
@@ -43,6 +63,7 @@ public class Monster : Entity, IDetectable
         //myState.Init(this);
         //mapIcon.Init(transform);
         //myController.Init(this);
+        //myMonsterSound.Init(this);
     }
 
     public virtual void Detected()
@@ -76,7 +97,7 @@ public class Monster : Entity, IDetectable
         myRenderer.enabled = true;
         mapIcon.Revealed();
 
-        aiState = AIStateType.Wandering;
+        AiState = AIStateType.Wandering;
     }
 
     public virtual void Invisible()

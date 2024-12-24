@@ -22,7 +22,7 @@ public class BossMonsterController : MonsterController
 
         monster.MyState.WanderingEvent += OnAttackingUpdate;
 
-        monster.aiState = AIStateType.Wandering;
+        monster.AiState = AIStateType.Wandering;
 
         gameObject.SetActive(false);
     }
@@ -93,7 +93,7 @@ public class BossMonsterController : MonsterController
     /// </summary>
     void OnAttackingUpdate()
     {
-        monster.aiState = AIStateType.Attacking;
+        monster.AiState = AIStateType.Attacking;
     }
 
     /// <summary>
