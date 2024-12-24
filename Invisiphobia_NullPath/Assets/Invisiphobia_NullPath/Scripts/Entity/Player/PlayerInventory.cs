@@ -21,6 +21,7 @@ public class PlayerInventory : MonoBehaviour
         }
     }
     public event Action<bool> UseEvent;
+    public event Action<InHandItem> OnHandItemChanged;
 
     private readonly Stack<InHandItem> groundItemStack = new Stack<InHandItem>(2);
     private readonly Stack<GameObject> handItemStack = new Stack<GameObject>(2);
@@ -65,6 +66,8 @@ public class PlayerInventory : MonoBehaviour
         GameObject go = Instantiate(handPrefab, transform);
         handItemStack.Push(go);
         interactStack.Push(interact);
+
+        OnHandItemChanged?.Invoke(item);
     }
 
     public bool IsLockOffItemInHand(int itemId)
@@ -128,6 +131,8 @@ public class PlayerInventory : MonoBehaviour
 
         RemoveItem();
         SetTabletHidden();
+
+        OnHandItemChanged?.Invoke(groundItemStack.TryPeek(out InHandItem nextItem) ? nextItem : null);
     }
 
     /// <summary>
@@ -168,6 +173,8 @@ public class PlayerInventory : MonoBehaviour
         action?.Invoke(transform);
 
         SetTabletHidden();
+
+        OnHandItemChanged?.Invoke(groundItemStack.TryPeek(out InHandItem nextItem) ? nextItem : null);
     }
 
     public int Count()
