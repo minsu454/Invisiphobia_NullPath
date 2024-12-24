@@ -29,6 +29,10 @@ public class StunMonsterController : MonsterController
     private bool isStunned = false;
     protected bool isHiding = false;
 
+    /// <summary>
+    /// 몬스터의 상태를 초기화하고 타겟을 플레이어로 설정
+    /// + 각 상태 이벤트 연결
+    /// </summary>
     public override void Init(Monster monster)
     {
         base.Init(monster);
