@@ -362,6 +362,19 @@ public class EntityLayoutWindow : CustomWindow<EntityLayoutWindow>
             saveManager.Add(parts);
         }
 
+        foreach (EventData data in totalData.EventDataList)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EventPartsPath}/{data.Name}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.rotation = data.Rot;
+
+            EventParts parts = go.GetComponent<EventParts>();
+            parts.Init(data.useGoPath, data.eventList);
+        }
+
         isLoaded = true;
     }
 

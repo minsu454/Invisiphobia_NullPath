@@ -1,3 +1,4 @@
+using Common.Objects;
 using Common.Yield;
 using System;
 using System.Collections;
@@ -96,18 +97,19 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     }
     
     /// <summary>
-    /// 생성하고 추가해주는 함수
+    /// 퍼즐 생성 함수
     /// </summary>
-    public WorldUI<TabletStateType> InstantiateAndAdd(WorldUI<TabletStateType> prefab)
+    public PuzzleUI PuzzleInstantiate(string path, Action oncompleted)
     {
-        GameObject go = Instantiate(prefab.gameObject, transform);
-        go.name = prefab.name;
+        GameObject go = ObjectManager.Instantiate(path, transform);
 
-        WorldUI<TabletStateType> worldUI = go.GetComponent<WorldUI<TabletStateType>>();
-        worldUI.Init(this);
-        Add(worldUI);
+        PuzzleUI puzzleUI = go.GetComponent<PuzzleUI>();
+        puzzleUI.Init(this);
+        Add(puzzleUI);
 
-        return worldUI;
+        puzzleUI.OnCompletedEvent += oncompleted;
+
+        return puzzleUI;
     }
 
     /// <summary>
