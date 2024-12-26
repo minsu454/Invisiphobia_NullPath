@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,10 +8,9 @@ public class CowardMonster : MonsterController
     [SerializeField] private Transform targetPosition;
 
     public float fadeDuration = 2f;
-    public float fleeDuration = 4f;
+    public float timeOutOfSight = 0f;
 
     private Color originalColor;
-    private float fleeStartTime;
 
     public override void PlayerAttackMonster()
     {
@@ -33,54 +34,69 @@ public class CowardMonster : MonsterController
         }
     }
 
-    // SetTargetDestination 사용
-    // 감지된 후 이동하다가 플레이어의 시야에서 1초동안 감지되지 않으면 그 자리에 멈춰서 다시 투명화 - 감지될 수 있고 감지되면 다시 위치로 이어서 이동
-    // fade는 마지막에 위치에 도착하면 멈춰서 fade
     /// <summary>
     /// 도망 조건을 만족하며 도망 위치로 이동하는 함수
     /// </summary>
     void MonsterFleeingUpdate()
     {
-        float elapsedTime = Time.time - fleeStartTime;
+        //if (!monster.myRenderer.isVisible)
+        //{
+        //    timeOutOfSight += Time.deltaTime;
 
-        if (elapsedTime >= fleeDuration)
+        //    // 0.5초 동안 보이지 않으면 정지하고 ResetCycle 호출
+        //    if (timeOutOfSight >= 0.5f)
+        //    {
+        //        if (!agent.isStopped)
+        //        {
+        //            agent.isStopped = true;
+        //            monster.ResetCycle();
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    timeOutOfSight = 0f;
+        //}
+
+        // 도착 지점 마지막에 fade 효과
+        float remainingDistance = Vector3.Distance(monster.transform.position, agent.destination);
+        if (remainingDistance <= 2f)
         {
-            if (agent != null)
-            {
-                agent.ResetPath();
-            }
-            gameObject.SetActive(false);
-            monster.myRenderer.material.color = originalColor;
+            StartFadeEffect(remainingDistance);
         }
-        else if (elapsedTime >= fleeDuration - fadeDuration)
+        else if (remainingDistance <= 0f)
         {
-            float fadeTime = elapsedTime - (fleeDuration - fadeDuration);
-            float alpha = Mathf.Lerp(1f, 0f, fadeTime / fadeDuration);
-            if (monster.myRenderer.material != null)
-            {
-                Color fadedColor = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-                monster.myRenderer.material.color = fadedColor;
-            }
+            // 도달하면 더 이상 바로 사라짐
+            monster.myRenderer.enabled = false;
         }
     }
 
-    private void SetMaxDistanceDestination()
+    /// <summary>
+    /// 남은 거리에 따라 알파값 조정
+    /// </summary>
+    void StartFadeEffect(float remainingDistance)
     {
-        float maxDistance = runSpeed * fleeDuration;
-
-        Vector3 randomDirection = Random.insideUnitSphere * maxDistance;
-        randomDirection += transform.position;
-
-        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
+        if (monster.myRenderer != null)
         {
-            agent.SetDestination(hit.position);
+            // 남은 거리가 1에서 0으로 줄어드는 동안 알파값을 1에서 0으로 변경
+            float fadeAlpha = Mathf.Lerp(1f, 0f, (1f - remainingDistance) / 1f);
+            Color monsterColor = originalColor;
+            monsterColor.a = fadeAlpha;
+            monster.myRenderer.material.color = monsterColor;
+
+            if (fadeAlpha <= 0.6f)  // 0.6 임시
+            {
+                monster.myRenderer.enabled = false;
+                monster.myRenderer.material.color = originalColor;
+                ResetToSpawnPoint();
+            }
         }
     }
 
     /// <summary>
     /// 지정해준 포지션으로 이동하는 함수
     /// </summary>
-    void SetTargetDestination() // 이거로 사용
+    void SetTargetDestination()
     {
         float maxPosition = 1.0f;
 
@@ -96,9 +112,20 @@ public class CowardMonster : MonsterController
     void OnWanderingUpdate()
     {
         monster.AiState = AIStateType.MonsterFleeing;
-        fleeStartTime = Time.time;
 
-        SetMaxDistanceDestination();
+        SetTargetDestination();
+    }
+
+    void ResetCycle()
+    {
+        monster.AiState = AIStateType.Idle;
+        monster.ResetCycle();
+    }
+
+    protected void ResetToSpawnPoint()
+    {
+        agent.Warp(monsterSpawnPoint);
+        ResetCycle();
     }
 
     protected override void LookingAtTarget()

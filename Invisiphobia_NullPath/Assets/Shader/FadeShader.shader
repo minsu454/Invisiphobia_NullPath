@@ -46,7 +46,7 @@ Shader "Custom/FadeShader"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = _Color;
-                col.a *= _Fade;
+                col.a *= _Fade;  // _Fade 값에 따라 알파값을 조절
                 return col;
             }
             ENDCG
