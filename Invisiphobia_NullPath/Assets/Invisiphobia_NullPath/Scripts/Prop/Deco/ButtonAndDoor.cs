@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ButtonAndDoor : MonoBehaviour
 {
+    [SerializeField] private AudioClip doorOpen;
     float elapsedTime = 0f;
 
     public GameObject door;
@@ -39,5 +40,6 @@ public class ButtonAndDoor : MonoBehaviour
         elapsedTime = 0f;
 
         door.transform.rotation = b;
+        Managers.Sound.SFX3DPlay(doorOpen, gameObject.transform);
     }
 }

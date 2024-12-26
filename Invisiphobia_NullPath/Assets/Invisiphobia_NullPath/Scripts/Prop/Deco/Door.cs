@@ -19,6 +19,9 @@ public class Door : MonoBehaviour, IInteractable
     protected ItemTable itemTable;
     private Transform playerTr;
     [SerializeField] Lock mylock;
+    [SerializeField] private AudioClip doorOpen;
+    [SerializeField] private AudioClip doorClose;
+
     public ItemTable ItemTable
     {
         get { return itemTable; }
@@ -79,12 +82,12 @@ public class Door : MonoBehaviour, IInteractable
         if (isOpen)
         {
             StartCoroutine(DoorInteract(endRotation, startRotation, 1f)); // 닫기 동작
-            //문을 닫을 때 나올 소리
+            Managers.Sound.SFX3DPlay(doorClose, transform);
         }
         else
         {
             StartCoroutine(DoorInteract(startRotation, endRotation, 1f)); // 열기 동작
-            //문을 열 때 나올 소리
+            Managers.Sound.SFX3DPlay(doorOpen, transform);
         }
     }
     private bool IsPlayerBehind(Transform playerTransform)

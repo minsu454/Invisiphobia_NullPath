@@ -9,6 +9,8 @@ public class Table : MonoBehaviour, IInteractable
     [SerializeField] private GameObject drawer2; // 서랍 2 오브젝트
     [SerializeField] private float openPositionZ = 0.5f; // 서랍이 열릴 때의 위치 (Z축)
     [SerializeField] private float moveSpeed = 2f; // 서랍 이동 속도
+    [SerializeField] private AudioClip drawerOpen;
+    [SerializeField] private AudioClip drawerClose;
 
     [Header("Table")]
     [SerializeField] private int itemId;
@@ -87,12 +89,14 @@ public class Table : MonoBehaviour, IInteractable
                     StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer1));
                     isDrawer1Open = true;
                     tableArr[0] = DataService.GetItemInteractText(ItemTable.interactText[1]);
+                    Managers.Sound.SFX3DPlay(drawerOpen, transform);
                 }
                 else
                 {
                     StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, Vector3.zero, drawer1));
                     isDrawer1Open = false;
                     tableArr[0] = DataService.GetItemInteractText(ItemTable.interactText[0]);
+                    Managers.Sound.SFX3DPlay(drawerClose, transform);
                 }
             }
             else
@@ -103,12 +107,14 @@ public class Table : MonoBehaviour, IInteractable
                     StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer2));
                     isDrawer2Open = true;
                     tableArr[1] = DataService.GetItemInteractText(ItemTable.interactText[1]);
+                    Managers.Sound.SFX3DPlay(drawerOpen, transform);
                 }
                 else
                 {
                     StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, Vector3.zero, drawer2));
                     isDrawer2Open = false;
                     tableArr[1] = DataService.GetItemInteractText(ItemTable.interactText[0]);
+                    Managers.Sound.SFX3DPlay(drawerClose, transform);
                 }
             }
         }
