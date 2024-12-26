@@ -39,25 +39,6 @@ public class CowardMonster : MonsterController
     /// </summary>
     void MonsterFleeingUpdate()
     {
-        //if (!monster.myRenderer.isVisible)
-        //{
-        //    timeOutOfSight += Time.deltaTime;
-
-        //    // 0.5초 동안 보이지 않으면 정지하고 ResetCycle 호출
-        //    if (timeOutOfSight >= 0.5f)
-        //    {
-        //        if (!agent.isStopped)
-        //        {
-        //            agent.isStopped = true;
-        //            monster.ResetCycle();
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    timeOutOfSight = 0f;
-        //}
-
         // 도착 지점 마지막에 fade 효과
         float remainingDistance = Vector3.Distance(monster.transform.position, agent.destination);
         if (remainingDistance <= 2f)
