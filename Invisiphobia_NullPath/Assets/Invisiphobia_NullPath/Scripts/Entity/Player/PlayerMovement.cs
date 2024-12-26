@@ -1,6 +1,7 @@
 using Common.Event;
 using Common.Yield;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +16,8 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed = 3f;
     public float maxVelocityChange = 10f;
 
-    [SerializeField] private AudioClip footClip; // 걷기 발소리
-    [SerializeField] private AudioClip hardBreathingClip;
+    [SerializeField] private List <AudioClip> footClip; // 걷기 발소리
+    [SerializeField] AudioClip hardBreathingClip;
     [SerializeField] private Transform footTr;
 
     [SerializeField] private float walkstepInterval = 0.7f; // 걷는 발소리 간격 (초 단위)
@@ -258,7 +259,8 @@ public class PlayerMovement : MonoBehaviour
             // 타이머가 간격을 초과했는지 확인
             if (footstepTimer >= currentStepInterval)
             {
-                Managers.Sound.SFX3DPlay(footClip, footTr, true, 15);
+                AudioClip footrandomClip = footClip[Random.Range(0, footClip.Count)];
+                Managers.Sound.SFX3DPlay(footrandomClip, footTr);
                 footstepTimer = 0f; // 타이머 초기화
             }
         }
