@@ -1,4 +1,5 @@
 using Common.Event;
+using Common.SceneEx;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,12 +10,18 @@ public class PausePopup : BasePopupUI
     {
         base.Init(option);
 
-        EventManager.Dispatch(GameEventType.UsePause, true);
+        EventManager.Dispatch(GameEventType.UseInput, false);
+    }
+
+    public void GoTitle()
+    {
+        SceneManagerEx.LoadingAndNextScene(SceneType.Title);
     }
 
     public override void Close()
     {
-        EventManager.Dispatch(GameEventType.UsePause, false);
+        EventManager.Dispatch(GameEventType.UseInput, true);
+
         base.Close();
     }
 }

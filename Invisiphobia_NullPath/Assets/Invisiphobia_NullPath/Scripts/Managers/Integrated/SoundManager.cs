@@ -21,7 +21,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
     {
         audioMixer = Resources.Load<AudioMixer>("Sound/AudioMixer");
 
-        CreateAudioSource(SoundType.BGM.ToString());
+        CreateAudioSource(SoundType.BGM.EnumToString());
         CreateSoundPool();
 
         SceneJobLoader.Add(LoadPriorityType.Sound, OnSceneLoaded);
@@ -37,16 +37,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
     /// </summary>
     private void OnSceneLoaded(string sceneName)
     {
-        AudioClip clip = ObjectManager.Return<AudioClip>(AddressablePath.BGMPath(sceneName));
-
-        if (clip == null)
-        {
-            Debug.LogWarning($"Addressable is Not Found AudioClip : {sceneName}");
-            return;
-        }
-
-        bgmSource.clip = clip;
-        //bgmSource.Play();
+        bgmSource.Stop();
     }
 
     /// <summary>
@@ -112,6 +103,23 @@ public sealed class SoundManager : MonoBehaviour, IInit
 
         audioMixerGroup = audioMixerGroupArr[0];
         return true;
+    }
+
+    /// <summary>
+    /// BGM 플레이 함수
+    /// </summary>
+    public void BGMPlay()
+    {
+        bgmSource.Play();
+    }
+
+    /// <summary>
+    /// BGM 플레이 함수 변형
+    /// </summary>
+    public void BGMPlay(AudioClip clip)
+    {
+        bgmSource.clip = clip;
+        bgmSource.Play();
     }
 
     /// <summary>

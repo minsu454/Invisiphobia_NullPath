@@ -18,7 +18,7 @@ public class GameOverPopup : BasePopupUI
     public override void Init<T>(T option)
     {
         base.Init(option);
-        EventManager.Dispatch(GameEventType.UsePause, true);
+        EventManager.Dispatch(GameEventType.UseInput, true);
     }
 
     public void GoTitle()
