@@ -1,7 +1,5 @@
 using Common.Yield;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnvironmentSoundPlayer : MonoBehaviour
@@ -13,7 +11,7 @@ public class EnvironmentSoundPlayer : MonoBehaviour
 
     public float repeatWaitTime = 0.5f;
 
-    public AudioClip environmentSoundClip;
+    public AudioClip[] environmentSoundClips;
     private Coroutine myCoroutine;
 
     private void OnTriggerEnter(Collider other)
@@ -42,14 +40,15 @@ public class EnvironmentSoundPlayer : MonoBehaviour
 
     private void SoundOneShotMethod()
     {
-        Managers.Sound.SFX3DPlay(environmentSoundClip, gameObject.transform, true, soundMaxDistance);
+        int num = Random.Range(0, environmentSoundClips.Length);
+        Managers.Sound.SFX3DPlay(environmentSoundClips[num], gameObject.transform, true, soundMaxDistance);
     }
 
     private IEnumerator CoSoundRepeatMethod()
     {
         while(true)
         {
-            CoSoundRepeatMethod();
+            SoundOneShotMethod();
             yield return YieldCache.WaitForSeconds(repeatWaitTime);
         }
     }

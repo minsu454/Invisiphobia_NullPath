@@ -11,6 +11,7 @@ public class Lock : MonoBehaviour, IInteractable
 
     [SerializeField] private int itemId;
     [SerializeField] private int receiveItemId;
+    [SerializeField] private AudioClip lockClip;
     protected ItemTable itemTable;
     public ItemTable ItemTable
     {
@@ -37,6 +38,7 @@ public class Lock : MonoBehaviour, IInteractable
         {
             isLocked = false;
             gameObject.SetActive(false);
+            Managers.Sound.SFX3DPlay(lockClip, transform);
         }
         else
         {

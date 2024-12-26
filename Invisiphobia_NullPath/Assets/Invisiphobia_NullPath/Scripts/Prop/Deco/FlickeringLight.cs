@@ -11,7 +11,11 @@ public class FlickeringLight : MonoBehaviour
     [SerializeField] private float minIntensity;
     [SerializeField] private float maxIntensity;
 
-    public GameObject middleJoint;
+    [SerializeField] private AudioClip filckClip;
+    [SerializeField] private AudioClip shakeClip;
+    [SerializeField] private AudioClip fractureclip;
+
+   public GameObject middleJoint;
     public float checkDistance = 5f;
     [SerializeField] TriggerDetector triggerDetector;
 
@@ -52,8 +56,8 @@ public class FlickeringLight : MonoBehaviour
     /// <param name="collision">충돌 정보</param>
     private void OnCollisionEnter(Collision collision)
     {
-        //여기에 땅과 램프 충돌 시 조건 추가
-        HandleLampTouchGround(); // 원하는 작업 실행k
+        if(gameObject.layer == LayerMask.NameToLayer("Ground"))
+        HandleLampTouchGround(); // 원하는 작업 실행
     }
 
 
@@ -62,7 +66,7 @@ public class FlickeringLight : MonoBehaviour
     /// </summary>
     private void HandleLampTouchGround()
     {
-        //여기에 땅에 떨어졌을 때 전등 깨지는 소리 추가
+        Managers.Sound.SFX3DPlay(fractureclip, transform);
         mylight.enabled = false;
     }
 
@@ -77,9 +81,11 @@ public class FlickeringLight : MonoBehaviour
             {
                 mylight.enabled = false;
                 yield return YieldCache.WaitForSeconds(waitTime);
+                Managers.Sound.SFX3DPlay(filckClip, transform);
                 mylight.enabled = true;
             }
             yield return YieldCache.WaitForSeconds(waitTime);
+            Managers.Sound.SFX3DPlay(shakeClip, transform);
         }
     }
 }

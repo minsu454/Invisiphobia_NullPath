@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Dummy : Prop
@@ -9,19 +10,12 @@ public class Dummy : Prop
 
     Camera playerCamera;
     public float fieldOfViewAngle = 55f;
-
-    #region test
-    private void Start()
+    public void Start()
     {
         targetTr = EntityManager.Instance.Player.transform;
-    }
-    #endregion
-
-    public override void Init()
-    {
-        base.Init();
         playerCamera = Camera.main;
     }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
