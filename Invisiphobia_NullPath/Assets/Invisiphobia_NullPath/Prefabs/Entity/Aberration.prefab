@@ -67,6 +67,7 @@ GameObject:
   - component: {fileID: 2695413601297110951}
   - component: {fileID: 2929228670108363408}
   - component: {fileID: 5655611378094263762}
+  - component: {fileID: 5500514450945847723}
   m_Layer: 7
   m_Name: Aberration
   m_TagString: InvisibleObject
@@ -134,8 +135,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myController: {fileID: 5655611378094263762}
+  monsterSound: {fileID: 0}
   myRenderer: {fileID: 8635731795019741579}
-  aiState: 0
   myState: {fileID: 2929228670108363408}
   mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
@@ -167,6 +168,24 @@ MonoBehaviour:
   runSpeed: 1
   lookAtPlayerDistance: 20
   agent: {fileID: 5443431712568255933}
+--- !u!114 &5500514450945847723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8553504000303620782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1150f70070aff3941a4e2931f98ecee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSound: {fileID: 8300000, guid: 73a47c6a0b7e0b54d84de65c408c2242, type: 3}
+  hitSound: {fileID: 8300000, guid: 68a2b9c01a61ca042b1f878ddc865272, type: 3}
+  chaseSound: {fileID: 8300000, guid: e5452e7b0cfafc14ca5da0a8739f9f6a, type: 3}
+  curTime: 0
+  maxWalkingTime: 1
+  isPlaying: 0
 --- !u!1 &8638850134710017643
 GameObject:
   m_ObjectHideFlags: 0
