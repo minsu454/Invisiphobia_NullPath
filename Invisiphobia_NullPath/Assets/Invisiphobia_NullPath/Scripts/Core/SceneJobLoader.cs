@@ -32,7 +32,10 @@ namespace Common.SceneEx
         private static void OnLoadCompleted(Scene scene, LoadSceneMode sceneMode)
         {
             if (!UseOnLoadCompleted)
+            {
+                completedList[LoadPriorityType.Sound]?.Invoke("");
                 return;
+            }
 
             string sceneName = scene.name.ToFirstName("_");
 
