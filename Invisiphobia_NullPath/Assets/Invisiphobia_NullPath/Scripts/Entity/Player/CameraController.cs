@@ -77,7 +77,7 @@ public class CameraController : MonoBehaviour
         //fov 변수에 플레이어 카메라의 fieldOfView 기능을 추가해라
         playerCamera.fieldOfView = fov;
 
-        EventManager.Subscribe(GameEventType.UsePause, OnSetLockOff);
+        EventManager.Subscribe(GameEventType.UseInput, OnSetLock);
     }
 
     void Start()
@@ -118,9 +118,12 @@ public class CameraController : MonoBehaviour
         cameraCanMove = false;
     }
 
-    private void OnSetLockOff(object args)
+    private void OnSetLock(object args)
     {
-        SetLockOff();
+        if((bool)args)
+            SetLock();
+        else
+            SetLockOff();
     }
 
     //캠 회전
@@ -229,7 +232,7 @@ public class CameraController : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.Unsubscribe(GameEventType.UsePause, OnSetLockOff);
+        EventManager.Unsubscribe(GameEventType.UseInput, OnSetLock);
     }
 }
 

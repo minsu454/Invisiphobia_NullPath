@@ -7,10 +7,15 @@ using UnityEngine.UI;
 
 public class InGame_UI : BaseSceneUI
 {
+    [Header("Stamina")]
     [SerializeField] private Slider staminaBar;
     [SerializeField] private CanvasGroup sprintBarCanvasGroup; // CanvasGroup 추가
     public bool hideBarWhenFull = true;
 
+    [Header("CrossHair")]
+    [SerializeField] private GameObject crossHair;
+
+    [Header("Text")]
     [SerializeField] private TextMeshProUGUI interactKeyText;
     [SerializeField] private TextMeshProUGUI interactDescriptionKeyText;
     [SerializeField] private TextMeshProUGUI useDescriptionKey;
@@ -34,14 +39,14 @@ public class InGame_UI : BaseSceneUI
         EntityManager.Instance.Player.PlayerInventory.OnHandItemChanged += SetInteractKey;
     }
 
+    private void OnSetCrossHairActive(object args)
+    {
+        crossHair.SetActive((bool)args);
+    }
+
     private void SetStaminaBar(int sprintRemaining)
     {
         staminaBar.value = sprintRemaining; // 현재 스태미나 동기화
-    }
-
-    public void GoTitle()
-    {
-        SceneManagerEx.LoadingAndNextScene(SceneType.Title);
     }
 
     public void CreatePausePopup()
