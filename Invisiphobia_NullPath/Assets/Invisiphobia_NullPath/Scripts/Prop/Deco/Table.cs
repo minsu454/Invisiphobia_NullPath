@@ -3,7 +3,7 @@ using System.Collections;
 using Common.Yield;
 using Common.Data;
 
-public class Table : MonoBehaviour, IInteractable
+public class Table : BaseItem
 {
     [SerializeField] private GameObject drawer1; // 서랍 1 오브젝트
     [SerializeField] private GameObject drawer2; // 서랍 2 오브젝트
@@ -12,36 +12,20 @@ public class Table : MonoBehaviour, IInteractable
     [SerializeField] private AudioClip drawerOpen;
     [SerializeField] private AudioClip drawerClose;
 
-    [Header("Table")]
-    [SerializeField] private int itemId;
-    protected ItemTable itemTable;
-    public ItemTable ItemTable
-    {
-        get { return itemTable; }
-    }
-
-    protected string interactText = "[E]";
-    public string InteractText { get { return interactText; } }
-
-    protected string actionText;
-    public string ActionText { get { return actionText; } }
-
-    public bool IsReveal => true;
-
     private bool isDrawer1Open = false;
     private bool isDrawer2Open = false;
     private bool isCoroutineRunning = false;
     private bool isHit = false;
 
     private string[] tableArr = new string[2];
-    private void Awake()
+    public override void Init()
     {
-        itemTable = DataService.GetItemTableByKey(itemId);
-        //actionText = DataServise.GetInteractText(ItemTable.actionText);
+        base.Init();
         for(int i = 0; i < itemTable.interactText.Count; i++)
         {
             tableArr[i] = DataService.GetItemInteractText(ItemTable.interactText[0]);
         }
+        //actionText = DataServise.GetInteractText(ItemTable.actionText);
     }
 
     private void Update()
@@ -65,7 +49,7 @@ public class Table : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact(Player player)
+    public override void Interact(Player player)
     {
         if (isCoroutineRunning)
         {
