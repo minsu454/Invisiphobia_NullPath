@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -151,6 +151,7 @@ namespace Michsky.UI.Dark
                 if (panels[currentPanelIndex].defaultSelected != null && gamepadEnabled == true)
                     EventSystem.current.SetSelectedGameObject(panels[currentPanelIndex].defaultSelected);
             }
+            Debug.Log("in");
         }
 
         public void NextPage()
