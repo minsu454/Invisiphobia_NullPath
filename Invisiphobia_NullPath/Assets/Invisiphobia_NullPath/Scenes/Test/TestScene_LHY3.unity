@@ -1290,6 +1290,7 @@ MonoBehaviour:
     type: 3}
   rb: {fileID: 737624549}
   forceMagnitude: 2
+  fallClip: {fileID: 0}
 --- !u!136 &737624551
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2887,6 +2888,8 @@ MonoBehaviour:
   drawer2: {fileID: 1612508080}
   openPositionZ: 0.5
   moveSpeed: 2
+  drawerOpen: {fileID: 0}
+  drawerClose: {fileID: 0}
   itemId: 1002
 --- !u!1001 &1650431346
 PrefabInstance:
@@ -2964,11 +2967,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 104972892674104146, guid: e32cab2bbbe23344c8898d77f918fe7d,
+        type: 3}
+      propertyPath: volume
+      value: 
+      objectReference: {fileID: 1379366162688254247, guid: 86a2fe03f3e015245a2fdd8c68733b53,
+        type: 3}
     - target: {fileID: 1523642967706972423, guid: e32cab2bbbe23344c8898d77f918fe7d,
         type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6342831034005390108, guid: e32cab2bbbe23344c8898d77f918fe7d,
+        type: 3}
+      propertyPath: footClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7ce19c9dec80e0a4b99dab8536eebe4e, type: 3}
     - target: {fileID: 6342831034005390108, guid: e32cab2bbbe23344c8898d77f918fe7d,
         type: 3}
       propertyPath: staminaBar
@@ -4329,7 +4343,7 @@ PrefabInstance:
     - target: {fileID: 4435108466019834728, guid: 2a50ab9b49886ac40917e39eddc3cca0,
         type: 3}
       propertyPath: m_Name
-      value: WallAndDoor
+      value: ButtonAndDoor
       objectReference: {fileID: 0}
     - target: {fileID: 8502574464816089564, guid: 2a50ab9b49886ac40917e39eddc3cca0,
         type: 3}
