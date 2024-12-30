@@ -24,7 +24,16 @@ public class BossMonsterController : MonsterController
 
         monster.AiState = AIStateType.Wandering;
 
+        EventManager.Subscribe(GameEventType.BossSpawn, Spawn);
+
         gameObject.SetActive(false);
+    }
+
+    private void Spawn(object args)
+    {
+        gameObject.SetActive(true);
+        agent.enabled = true;
+        
     }
 
     public override void PlayerAttackMonster()
@@ -104,5 +113,10 @@ public class BossMonsterController : MonsterController
         Vector3 directionToPlayer = (target.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
         transform.rotation = lookRotation;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe(GameEventType.BossSpawn, Spawn);
     }
 }
