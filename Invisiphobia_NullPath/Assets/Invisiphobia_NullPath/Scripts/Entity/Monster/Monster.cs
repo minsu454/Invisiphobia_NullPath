@@ -26,7 +26,7 @@ public class Monster : Entity, IDetectable
                 return;
             }
             changeStateEvent?.Invoke();
-            aiState = value; 
+            aiState = value;
         }
     }
 

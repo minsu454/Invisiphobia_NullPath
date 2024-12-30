@@ -99,8 +99,8 @@ public class CowardMonster : MonsterController
 
     void ResetCycle()
     {
-        monster.AiState = AIStateType.Idle;
         monster.ResetCycle();
+        monster.AiState = AIStateType.Idle;
     }
 
     protected void ResetToSpawnPoint()

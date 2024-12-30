@@ -10,9 +10,11 @@ public class MonsterSound : MonoBehaviour
     public float maxWalkingTime;
 
     public bool isPlaying = false;
+    Monster monster;
 
     public void Init(Monster monster)
     {
+        this.monster = monster;
         monster.changeStateEvent += OnResetState;
         monster.MyState.WanderingEvent += PlayWalkSound;
         monster.MyState.AttackingEvent += PlayWalkSound;
@@ -27,6 +29,7 @@ public class MonsterSound : MonoBehaviour
     {
         if (!isPlaying)
         {
+            Debug.Log(monster.AiState);
             isPlaying = true;
             Managers.Sound.SFX3DPlay(hitSound, this.transform);
         }
