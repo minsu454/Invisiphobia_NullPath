@@ -9,8 +9,17 @@ public abstract class PuzzleUI : WorldUI<TabletStateType>
     [SerializeField] private Image progressBar;                 //진행 바 변수
 
     public event Action OnCompletedEvent;                       //클리어시 이벤트
+    public event Action<WorldUI<TabletStateType>> OnDestroyEvent;                         //삭제시 이벤트
+
     protected void OnComplete()
     {
         OnCompletedEvent?.Invoke();
+        Destroy(gameObject);
+    }
+
+    protected override void OnDestroy()
+    {
+        OnDestroyEvent?.Invoke(this);
+        base.OnDestroy();
     }
 }

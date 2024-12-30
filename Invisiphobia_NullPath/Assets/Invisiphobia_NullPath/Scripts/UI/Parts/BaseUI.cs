@@ -5,7 +5,7 @@ public class BaseUI : MonoBehaviour, IAddressable
 {
     public event Action<GameObject> ReleaseEvent;
 
-    public void OnDestroy()
+    protected virtual void OnDestroy()
     {
         ReleaseEvent?.Invoke(gameObject);
     }

@@ -108,6 +108,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         Add(puzzleUI);
 
         puzzleUI.OnCompletedEvent += oncompleted;
+        puzzleUI.OnDestroyEvent += Remove;
 
         return puzzleUI;
     }
@@ -131,9 +132,9 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     /// <summary>
     /// UI 지워주는 함수
     /// </summary>
-    public void RemoveAt(int idx)
+    public void Remove(WorldUI<TabletStateType> worldUI)
     {
-        worldUIList.RemoveAt(idx);
+        worldUIList.Remove(worldUI);
     }
 
     /// <summary>
