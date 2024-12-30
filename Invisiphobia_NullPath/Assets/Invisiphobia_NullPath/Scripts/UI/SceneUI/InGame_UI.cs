@@ -59,10 +59,10 @@ public class InGame_UI : BaseSceneUI
 
     public void SetPause()
     {
-        EventManager.Dispatch(GameEventType.UseInput, isPause);
-        isPause = !isPause;
-
-        Debug.Log("in2");
+        if (mainPanelManager.currentPanelIndex == 0)
+            EventManager.Dispatch(GameEventType.UseInput, true);
+        else
+            EventManager.Dispatch(GameEventType.UseInput, false);
     }
 
     private void SetInteractDescriptionKey(IInteractable interact)

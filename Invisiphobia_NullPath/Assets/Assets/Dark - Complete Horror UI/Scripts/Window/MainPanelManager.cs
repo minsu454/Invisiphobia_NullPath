@@ -151,7 +151,6 @@ namespace Michsky.UI.Dark
                 if (panels[currentPanelIndex].defaultSelected != null && gamepadEnabled == true)
                     EventSystem.current.SetSelectedGameObject(panels[currentPanelIndex].defaultSelected);
             }
-            Debug.Log("in");
         }
 
         public void NextPage()
