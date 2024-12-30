@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3852706801734172245}
   - component: {fileID: 77238858472683074}
   - component: {fileID: 3162642520127115170}
-  - component: {fileID: 683293978673727435}
+  - component: {fileID: 5497876090855843092}
   m_Layer: 3
-  m_Name: Plane (7)
+  m_Name: "Wall_A4\xD74"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &683293978673727435
-MeshCollider:
+--- !u!65 &5497876090855843092
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,10 +102,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Size: {x: 10, y: 0.1, z: 10}
+  m_Center: {x: 0, y: -0.05, z: 0}
 --- !u!1 &529525119706272878
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,8 +229,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 12, y: 4, z: 0.000004887581}
-  m_Center: {x: 0, y: 2, z: 2}
+  m_Size: {x: 12, y: 4, z: 0.1}
+  m_Center: {x: 0, y: 2, z: 2.05}
 --- !u!1 &562569748723962394
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,8 +420,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 12, y: 4, z: 0.000004887581}
-  m_Center: {x: 0, y: 2, z: 2}
+  m_Size: {x: 12, y: 4, z: 0.1}
+  m_Center: {x: 0, y: 2, z: 2.05}
 --- !u!1 &2851951803209428929
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,8 +755,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 12, y: 4, z: 0.000004887581}
-  m_Center: {x: 0, y: 2, z: 2}
+  m_Size: {x: 12, y: 4, z: 0.1}
+  m_Center: {x: 0, y: 2, z: 2.05}
 --- !u!1 &4549327396408740415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,7 +1150,7 @@ GameObject:
   - component: {fileID: 8882973721762863495}
   - component: {fileID: 7412062393552741387}
   - component: {fileID: 3097020742600680717}
-  - component: {fileID: 7610089705884325632}
+  - component: {fileID: 6010036811221193905}
   m_Layer: 3
   m_Name: Plane (6)
   m_TagString: Untagged
@@ -1224,8 +1223,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7610089705884325632
-MeshCollider:
+--- !u!65 &6010036811221193905
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1242,10 +1241,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Size: {x: 10, y: 0.1, z: 10}
+  m_Center: {x: 0, y: -0.05, z: 0}
 --- !u!1 &7408400510386488263
 GameObject:
   m_ObjectHideFlags: 0
