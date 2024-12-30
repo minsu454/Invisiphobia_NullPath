@@ -12,6 +12,8 @@ public class Monster : Entity, IDetectable
     public MonsterSound myMonsterSound { get { return monsterSound; } }
 
     public Renderer myRenderer;
+
+    [SerializeField] private MonsterAnim myAnimation;
     
     public bool RendererActive { get { return myRenderer.enabled; } }
 
@@ -51,6 +53,7 @@ public class Monster : Entity, IDetectable
         myState.Init(this);
         mapIcon.Init(transform);
         myMonsterSound.Init(this);
+        myAnimation.Init(this);
         myController.Init(this);
     }
     #endregion
