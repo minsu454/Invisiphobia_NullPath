@@ -24,7 +24,7 @@ public class Tablet : MonoBehaviour
     private bool isCharged = true;                                  //배터리가 있는지 확인해주는 bool
     public bool IsCharged { get { return isCharged; } }
 
-    private bool isSwitchScreen = true;                             //스크린 스위치 가능한 상태인지 확인하는 bool
+    private bool useSwitchScreen = true;                             //스크린 스위치 가능한 상태인지 확인하는 bool
 
     public event Action<TabletStateType> OnStateChangedEvent;       //스텟 바뀔 때에 이벤트
     public event Action<TabletStateType> OnShotEvent;               //태블릿 사용 이벤트
@@ -45,7 +45,6 @@ public class Tablet : MonoBehaviour
     private bool useStateChange = true;                             //태블릿 State전환 사용여부
 
     private event Func<int> ItemCountEvent;                         //아이템 카운트 가져오는 이벤트
-    private event Action SetMouseLockEvent;                         //마우스 잠금 거는 이벤트
 
     /// <summary>
     /// 초기화 함수
@@ -62,7 +61,6 @@ public class Tablet : MonoBehaviour
         player.PlayerController.playerClickActionEvent += OnClick;
 
         ItemCountEvent += player.PlayerInventory.Count;
-        SetMouseLockEvent += player.CameraController.SetLock;
 
         SetCurrentCharge(maxCharge);
     }
@@ -115,7 +113,7 @@ public class Tablet : MonoBehaviour
     /// </summary>
     public int InitPuzzle(string path, Action onCompleted)
     {
-        WorldUI<TabletStateType> worldUI = manager.PuzzleInstantiate(path, onCompleted);
+        WorldUI<TabletStateType> worldUI = manager.PuzzleInstantiate(path, StopPuzzle + onCompleted);
         int idx = manager.IndexOf(worldUI);
 
         if (idx == -1)
@@ -130,10 +128,11 @@ public class Tablet : MonoBehaviour
     public void PlayPuzzle(int index)
     {
         useStateChange = false;
-        isSwitchScreen = false;
+        useSwitchScreen = false;
         manager.ChoiceIdx = index;
         State = TabletStateType.Activate;
         EventManager.Dispatch(GameEventType.UseMove, false);
+        EventManager.Dispatch(GameEventType.UseEsc, false);
     }
 
     /// <summary>
@@ -143,8 +142,9 @@ public class Tablet : MonoBehaviour
     {
         State = TabletStateType.Basic;
         useStateChange = true;
-        isSwitchScreen = true;
+        useSwitchScreen = true;
         OnSwitchTabletScreen(0);
+        EventManager.Dispatch(GameEventType.UseEsc, true);
         EventManager.Dispatch(GameEventType.UseMove, true);
     }
 
@@ -166,7 +166,7 @@ public class Tablet : MonoBehaviour
         {
             isCharged = true;
             useStateChange = true;
-            isSwitchScreen = true;
+            useSwitchScreen = true;
             OnSwitchTabletScreen(0);
         }
         Consomtion();
@@ -209,8 +209,7 @@ public class Tablet : MonoBehaviour
     {
         isCharged = false;
         useStateChange = false;
-        isSwitchScreen = false;
-        SetMouseLockEvent?.Invoke();
+        useSwitchScreen = false;
         EventManager.Dispatch(GameEventType.UseMove, true);
         OnSwitchTabletScreen(2);
     }
@@ -221,7 +220,7 @@ public class Tablet : MonoBehaviour
     /// </summary>
     private void OnSwitchTabletScreen(int num)
     {
-        if (isSwitchScreen)
+        if (useSwitchScreen)
         {
             manager.ChoiceIdx = num;
         }

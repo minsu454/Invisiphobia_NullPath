@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Michsky.UI.Dark;
-using Common.Yield;
 using Common.SceneEx;
 using Common.Event;
 
@@ -19,6 +16,7 @@ public class GameOverPopup : BasePopupUI
     {
         base.Init(option);
         EventManager.Dispatch(GameEventType.UseInput, true);
+        EventManager.Dispatch(GameEventType.UseEsc, false);
     }
 
     public void GoTitle()
