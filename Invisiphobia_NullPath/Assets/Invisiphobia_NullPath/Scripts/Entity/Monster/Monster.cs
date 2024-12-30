@@ -50,8 +50,8 @@ public class Monster : Entity, IDetectable
     {
         myState.Init(this);
         mapIcon.Init(transform);
-        myController.Init(this);
         myMonsterSound.Init(this);
+        myController.Init(this);
     }
     #endregion
 

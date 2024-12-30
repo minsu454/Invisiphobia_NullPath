@@ -29,7 +29,6 @@ public class MonsterSound : MonoBehaviour
     {
         if (!isPlaying)
         {
-            Debug.Log(monster.AiState);
             isPlaying = true;
             Managers.Sound.SFX3DPlay(hitSound, this.transform);
         }
