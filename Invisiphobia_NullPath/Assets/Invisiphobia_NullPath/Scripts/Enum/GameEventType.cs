@@ -6,4 +6,6 @@ public enum GameEventType
     UseMove,
     UseInput,
     UseEsc,
+
+    BossSpawn,
 }
