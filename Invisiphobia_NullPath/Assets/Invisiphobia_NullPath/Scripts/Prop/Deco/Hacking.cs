@@ -59,12 +59,10 @@ public class Hacking : MonoBehaviour, IInteractable
 
         if (isOn)
         {
-            player.CameraController.SetLockOff();
             player.PlayerInventory.Tablet.PlayPuzzle(idx);
         }
         else
         {
-            player.CameraController.SetLock();
             player.PlayerInventory.Tablet.StopPuzzle();
         }
 

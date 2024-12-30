@@ -24,6 +24,7 @@ public class InGame_UI : BaseSceneUI
 
     [Header("Panel")]
     [SerializeField] private MainPanelManager mainPanelManager;
+    [SerializeField] private MainPanelManager pausePanelManager;
     public bool isPause = false;
 
     #region Test
@@ -40,9 +41,11 @@ public class InGame_UI : BaseSceneUI
     {
         base.Init();
 
-        EntityManager.Instance.Player.PlayerMovement.SetUI(staminaBar, sprintBarCanvasGroup);
-        EntityManager.Instance.Player.PlayerInteract.interactUIEvent += SetInteractDescriptionKey;
-        EntityManager.Instance.Player.PlayerInventory.OnHandItemChanged += SetInteractKey;
+        Player player = EntityManager.Instance.Player;
+        player.PlayerController.playerEscActionEvent += SetPause;
+        player.PlayerMovement.SetUI(staminaBar, sprintBarCanvasGroup);
+        player.PlayerInteract.interactUIEvent += SetInteractDescriptionKey;
+        player.PlayerInventory.OnHandItemChanged += SetInteractKey;
 
         mainPanelManager.OpenFirstTab();
     }
@@ -59,10 +62,19 @@ public class InGame_UI : BaseSceneUI
 
     public void SetPause()
     {
-        if (mainPanelManager.currentPanelIndex == 0)
-            EventManager.Dispatch(GameEventType.UseInput, true);
-        else
-            EventManager.Dispatch(GameEventType.UseInput, false);
+        if (mainPanelManager.currentPanelIndex == 0 && !isPause)
+        {
+
+            mainPanelManager.OpenPanel("Pause");
+            EventManager.Dispatch(GameEventType.UseInput, isPause);
+            isPause = true;
+        }
+        else if (mainPanelManager.currentPanelIndex == 1 && pausePanelManager.currentPanelIndex == 0 && isPause)
+        {
+            mainPanelManager.OpenFirstTab();
+            EventManager.Dispatch(GameEventType.UseInput, isPause);
+            isPause = false;
+        }
     }
 
     private void SetInteractDescriptionKey(IInteractable interact)

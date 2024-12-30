@@ -78,6 +78,7 @@ public class CameraController : MonoBehaviour
         playerCamera.fieldOfView = fov;
 
         EventManager.Subscribe(GameEventType.UseInput, OnSetLock);
+        EventManager.Subscribe(GameEventType.UseMove, OnSetLock);
     }
 
     void Start()
@@ -233,6 +234,7 @@ public class CameraController : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.Unsubscribe(GameEventType.UseInput, OnSetLock);
+        EventManager.Unsubscribe(GameEventType.UseMove, OnSetLock);
     }
 }
 

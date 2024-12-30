@@ -12,9 +12,13 @@ public class DirectionPuzzle : PuzzleUI
     public Image roundBar;
     public Image currentInputImage;
 
+    [SerializeField] private int clearCount = 10;
+    
     private int currentDirectionIndex = 0; // 현재 확인 중인 방향 인덱스
     private int[] generatedDirections;  // 생성된 방향 배열
     private bool isGameActive = false;   // 게임 상태
+
+
     public override void Init(IActiveStatable<TabletStateType> subject)
     {
         StartNewGame();
@@ -47,7 +51,7 @@ public class DirectionPuzzle : PuzzleUI
 
     void StartNewRound()
     {
-        roundBar.fillAmount += 0.1f;
+        roundBar.fillAmount += 1f / clearCount;
         currentDirectionIndex = 0;
         generatedDirections = new int[directionImages.Length];
 
@@ -129,7 +133,7 @@ public class DirectionPuzzle : PuzzleUI
         // 틀린 입력 처리 시 진행 상태 감소
         if (roundBar.fillAmount > 0)
         {
-            roundBar.fillAmount -= 0.1f;
+            roundBar.fillAmount -= 1 / clearCount;
         }
     }
 

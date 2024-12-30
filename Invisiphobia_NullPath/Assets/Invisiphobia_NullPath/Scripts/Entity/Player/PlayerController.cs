@@ -34,15 +34,19 @@ public class PlayerController : MonoBehaviour
     private const int alphaKeyNum = (int)KeyCode.Alpha1;
 
     private bool useInput = true;
-
+    private bool useEsc = true;
 
     public void Init(Player player)
     {
         EventManager.Subscribe(GameEventType.UseInput, UseInput);
+        EventManager.Subscribe(GameEventType.UseEsc, UseEsc);
     }
 
     void Update()
     {
+        if (useEsc)
+            OnPlayerEsc();
+
         if (!useInput)
             return;
 
@@ -55,7 +59,6 @@ public class PlayerController : MonoBehaviour
         OnZoomClick();
         OnTabletSwitch();
         OnPlayerPutDown();
-        OnPlayerEsc();
     }
 
     private void FixedUpdate()
@@ -184,9 +187,15 @@ public class PlayerController : MonoBehaviour
         useInput = (bool)args;
     }
 
+    private void UseEsc(object args)
+    {
+        useEsc = (bool)args;
+    }
+
     private void OnDestroy()
     {
         EventManager.Unsubscribe(GameEventType.UseInput, UseInput);
+        EventManager.Unsubscribe(GameEventType.UseEsc, UseEsc);
     }
 }
 
