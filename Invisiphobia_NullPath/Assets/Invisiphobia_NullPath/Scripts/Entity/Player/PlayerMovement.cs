@@ -14,7 +14,9 @@ public class PlayerMovement : MonoBehaviour
     #region Movement Variables
     public bool playerCanMove = true;
     public float walkSpeed = 3f;
+    public float currentSpeed;
     public float maxVelocityChange = 10f;
+    Vector3 horizontalVelocity;
 
     [SerializeField] private List <AudioClip> footClip; // 걷기 발소리
     [SerializeField] AudioClip hardBreathingClip;
@@ -142,6 +144,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         StaminaRecovery();
+        horizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        currentSpeed = horizontalVelocity.magnitude;
     }
 
     /// <summary>
@@ -160,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
                 isWalking = false;
             }
 
-            targetVelocity = transform.TransformDirection(targetVelocity.normalized) *(isSprinting ? sprintSpeed:walkSpeed);
+            targetVelocity = transform.TransformDirection(targetVelocity.normalized) * (isSprinting ? sprintSpeed : walkSpeed);
 
             // Apply movement force
             Vector3 velocity = rb.velocity;
@@ -190,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
         if (enableSprint)
         {
             this.isSprinting = isSprinting;
-            if(isSprinting)
+            if(isSprinting && currentSpeed > 0.5f)
             {
                 sprintRemaining -= 0.1f * Time.deltaTime * 10;
                 sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintValue);
@@ -222,7 +226,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void StaminaRecovery()
     {
-        if (!isSprinting)
+        if (!isSprinting || (isSprinting && currentSpeed < 0.5f))
         {
             // 회복 로직
             sprintRemaining += 0.1f * Time.deltaTime * 10;

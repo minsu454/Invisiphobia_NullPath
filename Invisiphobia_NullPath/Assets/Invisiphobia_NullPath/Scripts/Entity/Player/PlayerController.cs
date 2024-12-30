@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public event Action playerClickActionEvent;
     public event Action<int> tabletSwitchActionEvent;
     public event Action playerPutDownActionEvent;
+    public event Action playerEscActionEvent;
 
     public bool isSprinting = false;
     public bool isCrouched = false;
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
         OnZoomClick();
         OnTabletSwitch();
         OnPlayerPutDown();
+        OnPlayerEsc();
     }
 
     private void FixedUpdate()
@@ -166,6 +168,14 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(putdownKey))
         {
             playerPutDownActionEvent.Invoke();
+        }
+    }
+
+    private void OnPlayerEsc()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            playerEscActionEvent.Invoke();
         }
     }
 
