@@ -237,7 +237,3 @@ public class CameraController : MonoBehaviour
         EventManager.Unsubscribe(GameEventType.UseMove, OnSetLock);
     }
 }
-
-        
-
-

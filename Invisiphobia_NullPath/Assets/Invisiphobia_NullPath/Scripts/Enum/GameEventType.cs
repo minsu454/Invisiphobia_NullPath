@@ -8,4 +8,5 @@ public enum GameEventType
     UseEsc,
 
     BossSpawn,
+    CameraAnim,
 }
