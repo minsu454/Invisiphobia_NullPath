@@ -678,6 +678,7 @@ MonoBehaviour:
   playerCamera: {fileID: 202032549367577605}
   playerCanMove: 1
   walkSpeed: 3
+  currentSpeed: 0
   maxVelocityChange: 10
   footClip:
   - {fileID: 8300000, guid: 7ce19c9dec80e0a4b99dab8536eebe4e, type: 3}
@@ -1606,7 +1607,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 30
+  far clip plane: 80
   field of view: 90
   orthographic: 0
   orthographic size: 5

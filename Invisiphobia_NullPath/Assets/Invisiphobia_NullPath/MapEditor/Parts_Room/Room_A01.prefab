@@ -389,7 +389,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1599,7 +1599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 22
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3157253739010550611
 Transform:
   m_ObjectHideFlags: 0
@@ -1641,7 +1641,7 @@ ReflectionProbe:
     serializedVersion: 2
     m_Bits: 729
   m_IntensityMultiplier: 1
-  m_BlendDistance: 1
+  m_BlendDistance: 5
   m_HDR: 0
   m_BoxProjection: 1
   m_RenderDynamicObjects: 0
@@ -1733,7 +1733,7 @@ PrefabInstance:
     - target: {fileID: 3401818778073159266, guid: 0d9d806241896fa46b49ec6924ef8e7f,
         type: 3}
       propertyPath: m_Shadows.m_Bias
-      value: 2.64
+      value: 0.68
       objectReference: {fileID: 0}
     - target: {fileID: 3401818778073159266, guid: 0d9d806241896fa46b49ec6924ef8e7f,
         type: 3}

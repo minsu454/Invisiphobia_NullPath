@@ -38,7 +38,7 @@ public class VanishingMop : Prop
                 if (angle < fieldOfView * 0.5f)
                 {
                     animator.SetBool("Vanish", true);
-                    yield return YieldCache.WaitForSeconds(1);
+                    yield return YieldCache.WaitForSeconds(5);
                     Destroy(this.gameObject);
                 }
                 else
