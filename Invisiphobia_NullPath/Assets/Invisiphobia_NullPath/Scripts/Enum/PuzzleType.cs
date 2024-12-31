@@ -2,5 +2,6 @@ public enum PuzzleType
 {
     None,
     DirectionPuzzle,
-    UpDawnPuzzle,
+    UpDownPuzzle,
+    MovingPuzzle,
 }
