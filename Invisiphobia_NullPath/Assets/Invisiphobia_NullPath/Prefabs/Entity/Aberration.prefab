@@ -233,6 +233,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookTargetTr: {fileID: 330364864922328449}
+  killEase: 17
+  duration: 1.2
 --- !u!1 &8638850134710017643
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,11 +333,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legPrefab: {fileID: 1682633662898237459, guid: fb7bce2dee9494540a1866bb5d230a51,
     type: 3}
-  numberOfLegs: 5
-  partsPerLeg: 4
+  numberOfLegs: 20
+  partsPerLeg: 10
   legCount: 5
   deployedLegs: 3
-  minimumAnchoredLegs: 2
+  minimumAnchoredLegs: 10
   minimumAnchoredParts: 8
   minLegLifetime: 5
   maxLegLifetime: 10

@@ -7,9 +7,12 @@ using UnityEngine;
 
 public class BossMonsterKillScene : MonsterKillScene
 {
+    [SerializeField] private Ease killEase;
+    [SerializeField] private float duration;
+
     protected override void Kill()
     {
-        transform.DOMove(target.transform.position, 3f).SetEase(Ease.InOutElastic).OnComplete(() =>
+        transform.DOMove(Camera.main.transform.position, duration).SetEase(killEase).OnComplete(() =>
         {
             target.Die();
         });
