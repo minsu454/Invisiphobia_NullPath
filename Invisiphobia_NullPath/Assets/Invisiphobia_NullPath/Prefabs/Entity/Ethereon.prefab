@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 4207435297197666817}
   - component: {fileID: 5326840959977712266}
   - component: {fileID: 8699711886746101785}
+  - component: {fileID: 6564264200171141683}
   m_Layer: 7
   m_Name: Ethereon
   m_TagString: Untagged
@@ -168,14 +169,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e913de58bd0f81b4cb02096d56aae4ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 4
-  lookAtPlayerDistance: 15
+  walkSpeed: 3
+  runSpeed: 6
+  lookAtPlayerDistance: 30
   agent: {fileID: 2646363943703257368}
-  minWanderDistance: 6
-  maxWanderDistance: 10
-  minWanderingCount: 4
-  maxWanderingCount: 8
+  minWanderDistance: 15
+  maxWanderDistance: 20
+  minWanderingCount: 3
+  maxWanderingCount: 5
   detectDistance: 10
   playerMovement: {fileID: 0}
 --- !u!136 &290986391597345091
@@ -228,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31a5e3b6c75d5f4783462262c8d1258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 4154094248517148647}
+  animator: {fileID: 6564264200171141683}
 --- !u!114 &8699711886746101785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +243,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookTargetTr: {fileID: 1075770770199891073}
+--- !u!95 &6564264200171141683
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526480714096601745}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: c3d73ba06daaeef40b556c623d33fc02, type: 3}
+  m_Controller: {fileID: 9100000, guid: 5b501e81b74bf2f449afa46ee3a9f661, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &7551651589935276662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -577,6 +599,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: c3d73ba06daaeef40b556c623d33fc02,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c3d73ba06daaeef40b556c623d33fc02,
+        type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 5b501e81b74bf2f449afa46ee3a9f661, type: 2}
@@ -635,17 +662,12 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: c3d73ba06daaeef40b556c623d33fc02, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3d73ba06daaeef40b556c623d33fc02, type: 3}
---- !u!95 &4154094248517148647 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: c3d73ba06daaeef40b556c623d33fc02,
-    type: 3}
-  m_PrefabInstance: {fileID: 7551651589935276662}
-  m_PrefabAsset: {fileID: 0}
 --- !u!137 &7402226661029014282 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1041781708020795772, guid: c3d73ba06daaeef40b556c623d33fc02,

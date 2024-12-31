@@ -190,12 +190,12 @@ public class DetectorUI : WorldUI<TabletStateType>
     /// </summary>
     private void HandleAlarm(float distance) //TODO : 조명과 오디오로 알람
     {
-        if (distance < 5f)
+        if (distance <= 2f)
         {
             Debug.Log("물체가 가깝습니다!!");
             Managers.Sound.SFX2DPlay(alarmClip, 1.5f);
         }
-        else if (distance < 10f)
+        else if (distance <= 6f)
         {
             Debug.Log("물체가 감지되었습니다!");
             Managers.Sound.SFX2DPlay(alarmClip);

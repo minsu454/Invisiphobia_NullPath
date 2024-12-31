@@ -99,7 +99,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 8
+  m_Radius: 6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &437051612023442217
 GameObject:
@@ -678,6 +678,7 @@ MonoBehaviour:
   playerCamera: {fileID: 202032549367577605}
   playerCanMove: 1
   walkSpeed: 3
+  currentSpeed: 0
   maxVelocityChange: 10
   footClip:
   - {fileID: 8300000, guid: 7ce19c9dec80e0a4b99dab8536eebe4e, type: 3}
