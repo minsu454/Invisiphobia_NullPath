@@ -74,7 +74,7 @@ namespace MimicSpace
             minimumAnchoredParts = minimumAnchoredLegs * partsPerLeg;
             maxLegDistance = newLegRadius * 2.1f;
 
-            availableLegPool = new ObjectPool<Leg>("leg" , legPrefab, transform, 134);
+            availableLegPool = new ObjectPool<Leg>("leg" , legPrefab, transform, 220);
 
         }
 
