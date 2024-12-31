@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using Common.Event;
+using System;
+
 
 
 
@@ -67,6 +69,12 @@ public class CameraController : MonoBehaviour
     //줌을 했는지 확인하는 조건문
     public bool isZoomed = false;
 
+    private Transform lookTargetTr;
+    private bool isFollow;
+
+    //캠 회전
+    float camRotation;
+
     #endregion
 
     public void Init(Player player)
@@ -78,12 +86,13 @@ public class CameraController : MonoBehaviour
         playerCamera.fieldOfView = fov;
 
         EventManager.Subscribe(GameEventType.UseInput, OnSetLock);
-        EventManager.Subscribe(GameEventType.UseMove, OnSetLock);
+        EventManager.Subscribe(GameEventType.UseLockMouse, OnSetLock);
+        EventManager.Subscribe(GameEventType.UseFollowMouse, OnSetFollowTarget);
     }
 
     void Start()
     {
-        
+
         //커서 잠금 기능(인게임에서 마우스 안나오게)
         if (lockCursor)
         {
@@ -119,21 +128,51 @@ public class CameraController : MonoBehaviour
         cameraCanMove = false;
     }
 
+    /// <summary>
+    /// 마우스 잠궈주는 함수
+    /// </summary>
     private void OnSetLock(object args)
     {
-        if((bool)args)
+        if ((bool)args)
             SetLock();
         else
             SetLockOff();
     }
 
-    //캠 회전
-    float camRotation;
+    private void OnSetFollowTarget(object args)
+    {
+        if (args is Transform)
+        {
+            lookTargetTr = (Transform)args;
+            isFollow = true;
+            cameraCanMove = false;
+        }
+        else
+        {
+            lookTargetTr = null;
+            isFollow = false;
+            cameraCanMove = true;
+        }
+    }
 
     private void Update()
     {
+        if (isFollow)
+            FollowTarget();
+
+        if (!cameraCanMove)
+            return;
+
         CameraRotation();
         CameraZoom();
+    }
+
+    /// <summary>
+    /// 타깃 바라보는 함수
+    /// </summary>
+    private void FollowTarget()
+    {
+        transform.LookAt(lookTargetTr.position);
     }
 
     private void CameraRotation()
@@ -142,41 +181,41 @@ public class CameraController : MonoBehaviour
 
         // Control camera movement
         //카메라를 움직일 수 있으면
-        if (cameraCanMove)
-        {
-            //좌우회전 = 로컬좌표y축을 기준으로 MouseX 좌표에 감도를 곱해서 움직임
-            yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
 
-            //위아래 회전 -= 감도 * MouseY좌표 이동으로 움직임.
-            pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
+        //좌우회전 = 로컬좌표y축을 기준으로 MouseX 좌표에 감도를 곱해서 움직임
+        yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
 
-            //pitch(위아래)회전 값을 제한
-            pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
+        //위아래 회전 -= 감도 * MouseY좌표 이동으로 움직임.
+        pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
 
-            //transform.localEulerAngles = new Vector3(0, yaw, 0);
-            //garbage를 생성하는 new 대신에 클래스 내에 캐싱된 vector3변수를 재사용.
-            playerRotation.y = yaw;
-            transform.localEulerAngles = playerRotation;
+        //pitch(위아래)회전 값을 제한
+        pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
 
-            //playerCamera.transform.localEulerAngles = new Vector3(pitch, 0, 0);
-            //위와 동일.
-            cameraRotation.x = pitch;
-            playerCamera.transform.localEulerAngles = cameraRotation;
+        //transform.localEulerAngles = new Vector3(0, yaw, 0);
+        //garbage를 생성하는 new 대신에 클래스 내에 캐싱된 vector3변수를 재사용.
+        playerRotation.y = yaw;
+        transform.localEulerAngles = playerRotation;
 
-            //왜 좌우 회전은 플레이어 기준으로 회전하고
-            //상하 회전은 마우스를 기준으로 회전하는가?
+        //playerCamera.transform.localEulerAngles = new Vector3(pitch, 0, 0);
+        //위와 동일.
+        cameraRotation.x = pitch;
+        playerCamera.transform.localEulerAngles = cameraRotation;
 
-            //좌우 회전을 플레이어 기준으로 하면(카메라가 회전할 때 플레이어도 같이 회전하면)
-            //플레이어의 wasd움직임이 카메라에 동기화되어서 w를 누를 때 카메라 기준으로 앞으로
-            //가지게 된다.
+        //왜 좌우 회전은 플레이어 기준으로 회전하고
+        //상하 회전은 마우스를 기준으로 회전하는가?
 
-            //상하 회전을 카메라 기준으로 한 이유는 상하회전을 플레이어 기준으로 하게되면
-            //마우스가 위를 보거나 아래를 볼때 플레이어 오브젝트 자체가 누워버리는 현상이
-            //발생하게 되기 때문에 카메라를 기준으로 카메라만 회전시켜서(카메라가 고개 역할)
-            //자연스러운 움직임을 구현한 것이다.
-            #endregion
-        }
+        //좌우 회전을 플레이어 기준으로 하면(카메라가 회전할 때 플레이어도 같이 회전하면)
+        //플레이어의 wasd움직임이 카메라에 동기화되어서 w를 누를 때 카메라 기준으로 앞으로
+        //가지게 된다.
+
+        //상하 회전을 카메라 기준으로 한 이유는 상하회전을 플레이어 기준으로 하게되면
+        //마우스가 위를 보거나 아래를 볼때 플레이어 오브젝트 자체가 누워버리는 현상이
+        //발생하게 되기 때문에 카메라를 기준으로 카메라만 회전시켜서(카메라가 고개 역할)
+        //자연스러운 움직임을 구현한 것이다.
+        #endregion
+
     }
+
     private void CameraZoom()
     {
         #region Camera Zoom
@@ -187,7 +226,7 @@ public class CameraController : MonoBehaviour
             //마우스 오른쪽 버튼을 누르고 holdToZoom이 true이며 달리는중이 아닐 경우
             //holdToZoom false = 한번 클릭만으로 줌동작.
             if (Input.GetKeyDown(zoomKey) && !holdToZoom)
-                //zoomKey를 꾹 눌러서 zoom
+            //zoomKey를 꾹 눌러서 zoom
             {
                 if (!isZoomed)
                 {
@@ -234,6 +273,7 @@ public class CameraController : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.Unsubscribe(GameEventType.UseInput, OnSetLock);
-        EventManager.Unsubscribe(GameEventType.UseMove, OnSetLock);
+        EventManager.Unsubscribe(GameEventType.UseLockMouse, OnSetLock);
+        EventManager.Unsubscribe(GameEventType.UseFollowMouse, OnSetFollowTarget);
     }
 }

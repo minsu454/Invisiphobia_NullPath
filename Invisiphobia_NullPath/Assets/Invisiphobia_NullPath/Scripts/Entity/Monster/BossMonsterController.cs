@@ -1,4 +1,5 @@
 using Common.Event;
+using DG.Tweening;
 using MimicSpace;
 using System.Collections;
 using Unity.VisualScripting;
@@ -32,7 +33,16 @@ public class BossMonsterController : MonsterController
     private void Spawn(object args)
     {
         gameObject.SetActive(true);
-        agent.enabled = true;
+        EventManager.Dispatch(GameEventType.UseInput, false);
+        EventManager.Dispatch(GameEventType.UseEsc, false);
+        EventManager.Dispatch(GameEventType.UseFollowMouse, transform);
+        transform.DOMoveY(1, 4).OnComplete(() =>
+        { 
+            EventManager.Dispatch(GameEventType.UseEsc, true);
+            EventManager.Dispatch(GameEventType.UseInput, true);
+            EventManager.Dispatch(GameEventType.UseFollowMouse, null);
+            agent.enabled = true;
+        });
         
     }
 
@@ -72,7 +82,7 @@ public class BossMonsterController : MonsterController
             coroutine = StartCoroutine(CoTargetDistance());
         }
     }
-
+    
     /// <summary>
     /// 콜라이더에서 빠져나오면 코루틴을 중지
     /// </summary>

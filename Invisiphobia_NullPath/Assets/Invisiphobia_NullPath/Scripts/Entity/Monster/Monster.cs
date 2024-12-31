@@ -5,14 +5,19 @@ using UnityEngine;
 
 public class Monster : Entity, IDetectable
 {
+    [Header("Controller")]
     [SerializeField] private MonsterController myController;
     public MonsterController MyController { get { return myController; } }
 
+    [Header("Sound")]
     [SerializeField] private MonsterSound monsterSound;
     public MonsterSound myMonsterSound { get { return monsterSound; } }
 
+    [Header("Renderer")]
     public Renderer myRenderer;
 
+    [Header("Anim")]
+    [SerializeField] private bool useAnim = false;
     [SerializeField] private MonsterAnim myAnimation;
     
     public bool RendererActive { get { return myRenderer.enabled; } }
@@ -53,7 +58,8 @@ public class Monster : Entity, IDetectable
         myState.Init(this);
         mapIcon.Init(transform);
         myMonsterSound.Init(this);
-        myAnimation.Init(this);
+        if(useAnim)
+            myAnimation.Init(this);
         myController.Init(this);
     }
     #endregion
@@ -66,6 +72,8 @@ public class Monster : Entity, IDetectable
         //myState.Init(this);
         //mapIcon.Init(transform);
         //myController.Init(this);
+        if (useAnim)
+            myAnimation.Init(this);
         //myMonsterSound.Init(this);
     }
 
