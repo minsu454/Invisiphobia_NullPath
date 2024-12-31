@@ -7,5 +7,9 @@ public enum GameEventType
     UseInput,
     UseEsc,
 
+    UseLockMouse,
+    UseFollowMouse,
+
     BossSpawn,
+    CameraAnim,
 }

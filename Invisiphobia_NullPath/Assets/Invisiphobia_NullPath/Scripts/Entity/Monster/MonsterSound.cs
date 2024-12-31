@@ -6,10 +6,10 @@ public class MonsterSound : MonoBehaviour
     public AudioClip hitSound;
     public AudioClip chaseSound;
 
-    public float curTime;
-    public float maxWalkingTime;
+    private float curTime;
+    private float maxWalkingTime;
 
-    public bool isPlaying = false;
+    private bool isPlaying = false;
 
     public void Init(Monster monster)
     {
@@ -17,13 +17,15 @@ public class MonsterSound : MonoBehaviour
         monster.MyState.WanderingEvent += PlayWalkSound;
         monster.MyState.AttackingEvent += PlayWalkSound;
         monster.MyState.MonsterFleeingEvent += PlayHitSound;
+
+        maxWalkingTime = walkSound.length;
     }
 
     private void PlaySound()
     {
     }
 
-    public void PlayHitSound()
+    private void PlayHitSound()
     {
         if (!isPlaying)
         {
@@ -32,7 +34,7 @@ public class MonsterSound : MonoBehaviour
         }
     }
 
-    public void PlayWalkSound()
+    private void PlayWalkSound()
     {
         curTime += Time.deltaTime;
         if (curTime > maxWalkingTime)
@@ -42,7 +44,7 @@ public class MonsterSound : MonoBehaviour
         }
     }
 
-    public void OnResetState()
+    private void OnResetState()
     {
         isPlaying = false;
         curTime = 0f;

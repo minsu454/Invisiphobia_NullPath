@@ -132,6 +132,7 @@ public class Tablet : MonoBehaviour
         manager.ChoiceIdx = index;
         State = TabletStateType.Activate;
         EventManager.Dispatch(GameEventType.UseMove, false);
+        EventManager.Dispatch(GameEventType.UseLockMouse, false);
         EventManager.Dispatch(GameEventType.UseEsc, false);
     }
 
@@ -145,6 +146,7 @@ public class Tablet : MonoBehaviour
         useSwitchScreen = true;
         OnSwitchTabletScreen(0);
         EventManager.Dispatch(GameEventType.UseEsc, true);
+        EventManager.Dispatch(GameEventType.UseLockMouse, true);
         EventManager.Dispatch(GameEventType.UseMove, true);
     }
 
@@ -211,6 +213,7 @@ public class Tablet : MonoBehaviour
         useStateChange = false;
         useSwitchScreen = false;
         EventManager.Dispatch(GameEventType.UseMove, true);
+        EventManager.Dispatch(GameEventType.UseLockMouse, true);
         OnSwitchTabletScreen(2);
     }
     #endregion
