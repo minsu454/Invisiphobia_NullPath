@@ -10,6 +10,7 @@ public class Dummy : Prop
 
     Camera playerCamera;
     public float fieldOfViewAngle = 55f;
+
     public void Start()
     {
         targetTr = EntityManager.Instance.Player.transform;

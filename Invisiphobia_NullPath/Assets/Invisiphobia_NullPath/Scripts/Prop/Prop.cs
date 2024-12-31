@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class Prop : MonoBehaviour, IDetectable, IParts
 {
     [Header("Prop")]
-    [SerializeField] private MeshRenderer[] myRendererArr;                      //해당 오브젝트 랜더러들 모음 배열
+    [SerializeField] private Renderer[] myRendererArr;                      //해당 오브젝트 랜더러들 모음 배열
 
     MapIcon IDetectable.MapIcon => mapIcon;
     private MapIcon mapIcon;                                                    //맵아이콘
@@ -29,7 +29,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     /// </summary>
     public virtual void Init()
     {
-        foreach (MeshRenderer renderer in myRendererArr)
+        foreach (Renderer renderer in myRendererArr)
         {
             renderer.enabled = false;
         }
@@ -66,7 +66,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
         
         StateType = PropStateType.Revealed;
 
-        foreach (MeshRenderer renderer in myRendererArr)
+        foreach (Renderer renderer in myRendererArr)
         {
             renderer.enabled = true;
         }
@@ -78,7 +78,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     {
         StateType = PropStateType.None;
 
-        foreach (MeshRenderer renderer in myRendererArr)
+        foreach (Renderer renderer in myRendererArr)
         {
             renderer.enabled = false;
         }
