@@ -6,14 +6,6 @@ using UnityEngine.SceneManagement;
 
 public abstract class Entity : MonoBehaviour
 {
-    #region Test
-    private void Awake()
-    {
-        if(SceneManager.GetActiveScene().name != "InGame_Scene")
-            Init();
-    }
-    #endregion
-
     /// <summary>
     /// Entity 초기화 함수
     /// </summary>

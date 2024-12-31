@@ -54,13 +54,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         tablet.OnShotEvent += OnShot;
         hiddenEvent += tablet.UnHidden;
 
-        #region Test
-        if (SceneManager.GetActiveScene().name == "InGame_Scene")
-        {
-            volume = InGameLoader.Instance.Volume;
-        }
-        #endregion
-
+        volume = InGameLoader.Instance.Volume;
         volume.profile.TryGet(out glitch);
     }
 

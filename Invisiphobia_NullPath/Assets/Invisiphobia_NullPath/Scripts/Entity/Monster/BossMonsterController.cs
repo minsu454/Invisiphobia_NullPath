@@ -33,13 +33,13 @@ public class BossMonsterController : MonsterController
     private void Spawn(object args)
     {
         gameObject.SetActive(true);
-        EventManager.Dispatch(GameEventType.UseInput, false);
+        EventManager.Dispatch(GameEventType.UseMove, false);
         EventManager.Dispatch(GameEventType.UseEsc, false);
         EventManager.Dispatch(GameEventType.UseFollowMouse, transform);
         transform.DOMoveY(1, 4).OnComplete(() =>
         { 
             EventManager.Dispatch(GameEventType.UseEsc, true);
-            EventManager.Dispatch(GameEventType.UseInput, true);
+            EventManager.Dispatch(GameEventType.UseMove, true);
             EventManager.Dispatch(GameEventType.UseFollowMouse, null);
             agent.enabled = true;
         });

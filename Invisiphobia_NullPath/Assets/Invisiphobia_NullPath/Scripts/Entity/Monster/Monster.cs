@@ -52,16 +52,6 @@ public class Monster : Entity, IDetectable
     #region Test(우선순위 문제)
     [Header("MapIcon")]
     [SerializeField] private GameObject mapIconPrefab;
-
-    private void Start()
-    {
-        myState.Init(this);
-        mapIcon.Init(transform);
-        myMonsterSound.Init(this);
-        if(useAnim)
-            myAnimation.Init(this);
-        myController.Init(this);
-    }
     #endregion
 
     public override void Init()
@@ -69,12 +59,12 @@ public class Monster : Entity, IDetectable
         GameObject go = Instantiate(mapIconPrefab);
         mapIcon = go.GetComponent<MapIcon>();
 
-        //myState.Init(this);
-        //mapIcon.Init(transform);
-        //myController.Init(this);
+        myState.Init(this);
+        mapIcon.Init(transform);
+        myController.Init(this);
         if (useAnim)
             myAnimation.Init(this);
-        //myMonsterSound.Init(this);
+        myMonsterSound.Init(this);
     }
 
     public virtual void Detected()

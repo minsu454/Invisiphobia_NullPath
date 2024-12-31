@@ -27,16 +27,6 @@ public class InGame_UI : BaseSceneUI
     [SerializeField] private MainPanelManager pausePanelManager;
     public bool isPause = false;
 
-    #region Test
-    public void Start()
-    {
-        if(SceneManager.GetActiveScene().name != "InGame_Scene")
-        {
-            Init();
-        }
-    }
-    #endregion
-
     public override void Init()
     {
         base.Init();

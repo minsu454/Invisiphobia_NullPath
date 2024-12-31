@@ -15,6 +15,7 @@ public class LoadingUI : BaseSceneUI
     {
         await LoadSceneProcessAsync();
     }
+
     /// <summary>
     /// 로딩 비동기 실행 함수
     /// </summary>
