@@ -3,7 +3,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CowardMonster : MonsterController
+public class CowardMonsterController : MonsterController
 {
     [SerializeField] private Transform targetPosition;
 
