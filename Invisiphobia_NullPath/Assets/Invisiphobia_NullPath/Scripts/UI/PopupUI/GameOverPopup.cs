@@ -15,7 +15,8 @@ public class GameOverPopup : BasePopupUI
     public override void Init<T>(T option)
     {
         base.Init(option);
-        EventManager.Dispatch(GameEventType.UseInput, true);
+        EventManager.Dispatch(GameEventType.UseMove, false);
+        EventManager.Dispatch(GameEventType.UseLockMouse, false);
         EventManager.Dispatch(GameEventType.UseEsc, false);
     }
 
