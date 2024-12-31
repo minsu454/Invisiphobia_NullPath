@@ -1,28 +1,33 @@
 using Common.Yield;
+using Cysharp.Threading.Tasks.Triggers;
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MovingPuzzle : PuzzleUI
 {
-    [SerializeField] Image backGround;
     [SerializeField] Image targetImage;
     [SerializeField] Image followImage;
 
-    [SerializeField] RectTransform board; // Board 영역
-    [SerializeField] float ImageMoveSpeed = 2f;
-    [SerializeField] Image fillAmount;
+    [SerializeField] RectTransform moveRange;
 
-    private Vector2 moveDirection;
+    [SerializeField] float moveDuration = 2f; // 이동 시간
+    [SerializeField] private float interval = 1f; // 대기 시간
+
+    private Vector2 targetImageMoveDirection;
+
     private Coroutine moveCoroutine;
     private Coroutine overlapCoroutine;
 
     private bool isMouseInsideBoard = true;
-    private bool isOverlapping = false;
 
+    [SerializeField] MovingPuzzle_Collider movingPuzzle_Collider;
     public override void Init(IActiveStatable<TabletStateType> subject)
     {
-        StartRandomMovement();
+        movingPuzzle_Collider.clearActionEvent += GameOver;
+        Cursor.lockState = CursorLockMode.None;
+        StartRandomMoveCoroutine();
     }
 
     public override void Subscribe(IActiveStatable<TabletStateType> subject)
@@ -33,131 +38,90 @@ public class MovingPuzzle : PuzzleUI
     public override void Unsubscribe(IActiveStatable<TabletStateType> subject)
     {
         gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
-        UpdateFollowImagePosition();
+        MouseFollowImage();
     }
 
+    #region targetMove
     /// <summary>
-    /// followImage의 위치를 업데이트
+    /// 랜덤 이동 실행
     /// </summary>
-    private void UpdateFollowImagePosition()
-    {
-        Vector2 mousePosition;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            board,
-            Input.mousePosition,
-            null,
-            out mousePosition
-        );
-
-        // 마우스가 Board 영역 안에 있는지 확인
-        if (board.rect.Contains(mousePosition))
-        {
-            isMouseInsideBoard = true;
-            followImage.rectTransform.anchoredPosition = mousePosition;
-        }
-        else
-        {
-            isMouseInsideBoard = false;
-            ClampFollowImageToBoard();
-        }
-    }
-
-    /// <summary>
-    /// followImage가 Board 영역 안에 있도록 고정
-    /// </summary>
-    private void ClampFollowImageToBoard()
-    {
-        Vector2 clampedPosition = followImage.rectTransform.anchoredPosition;
-        clampedPosition.x = Mathf.Clamp(clampedPosition.x, board.rect.xMin, board.rect.xMax);
-        clampedPosition.y = Mathf.Clamp(clampedPosition.y, board.rect.yMin, board.rect.yMax);
-        followImage.rectTransform.anchoredPosition = clampedPosition;
-    }
-
-    /// <summary>
-    /// 충돌 감지 시작
-    /// </summary>
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == targetImage.gameObject && !isOverlapping)
-        {
-            isOverlapping = true;
-            overlapCoroutine = StartCoroutine(CoHandleOverlap());
-        }
-    }
-
-    /// <summary>
-    /// 충돌 종료
-    /// </summary>
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject == targetImage.gameObject)
-        {
-            isOverlapping = false;
-            if (overlapCoroutine != null)
-            {
-                StopCoroutine(overlapCoroutine);
-                overlapCoroutine = null;
-            }
-        }
-    }
-
-    /// <summary>
-    /// 2초 이상 겹치면 fillAmount 증가
-    /// </summary>
-    private IEnumerator CoHandleOverlap()
-    {
-        yield return new WaitForSeconds(2f);
-
-        if (isOverlapping)
-        {
-            fillAmount.fillAmount += 0.1f;
-            isOverlapping = false;
-        }
-    }
-
-    /// <summary>
-    /// 코루틴으로 이미지 움직임을 시작
-    /// </summary>
-    public void StartRandomMovement()
+    private void StartRandomMoveCoroutine()
     {
         if (moveCoroutine != null)
             StopCoroutine(moveCoroutine);
 
-        moveCoroutine = StartCoroutine(CoRandomMove());
+        moveCoroutine = StartCoroutine(CoRandomMoveRoutine());
     }
 
     /// <summary>
-    /// 2초마다 랜덤한 방향으로 이동
+    /// 랜덤 이동 코루틴
     /// </summary>
-    private IEnumerator CoRandomMove()
+    private IEnumerator CoRandomMoveRoutine()
     {
         while (true)
         {
-            moveDirection = GetRandomDirection();
-            yield return YieldCache.WaitForSeconds(2f);
+            TargetImageMoveRandom();
+            yield return YieldCache.WaitForSeconds(interval);
         }
     }
 
-    private Vector2 GetRandomDirection()
+    /// <summary>
+    /// targetimage 이동 함수
+    /// </summary>
+    private void TargetImageMoveRandom()
     {
-        int randomValue = Random.Range(0, 4); // 0~3 랜덤값 생성
-        return randomValue switch
+        // 이동 가능한 영역의 범위 계산
+        float minX = moveRange.rect.xMin;
+        float maxX = moveRange.rect.xMax;
+        float minY = moveRange.rect.yMin;
+        float maxY = moveRange.rect.yMax;
+
+        // 랜덤한 목표 위치 생성
+        Vector2 randomPosition = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+
+        // targetImage를 랜덤 위치로 이동
+        targetImage.rectTransform.DOAnchorPos(randomPosition, moveDuration).SetEase(Ease.InOutQuad);
+    }
+    #endregion
+
+
+    #region followImage
+
+    /// <summary>
+    /// followimage가 마우스를 따라가게 하는 함수
+    /// </summary>
+    void MouseFollowImage()
+    {
+        // 마우스 위치 가져오기 (화면 좌표)
+        Vector3 mousePosition = Input.mousePosition;
+
+        // followImage의 Canvas가 Screen Space - Overlay라면 바로 적용
+        if (followImage.canvas.renderMode == RenderMode.ScreenSpaceOverlay)
         {
-            0 => Vector2.up,
-            1 => Vector2.down,
-            2 => Vector2.left,
-            3 => Vector2.right,
-            _ => Vector2.zero
-        };
+            followImage.rectTransform.position = mousePosition;
+        }
+        else
+        {
+            // Screen Space - Camera 또는 World Space일 경우 변환 필요
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(
+                followImage.canvas.GetComponent<RectTransform>(), // Canvas의 RectTransform
+                mousePosition,
+                followImage.canvas.worldCamera, // UI 카메라
+                out Vector3 worldPosition
+            );
+
+            followImage.rectTransform.position = worldPosition;
+        }
     }
 
-    private void LateUpdate()
+    void GameOver()
     {
-        // targetImage 움직임 처리
-        targetImage.rectTransform.anchoredPosition += moveDirection * ImageMoveSpeed * Time.deltaTime;
+        OnComplete();
     }
+    #endregion
 }
