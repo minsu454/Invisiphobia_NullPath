@@ -158,7 +158,7 @@ public class FleeMonsterController : MonsterController
 
         if (targetDistance < 1f)     // 닿으면 주금
         {
-            target.Die();
+            Kill();
         }
     }
 
@@ -205,7 +205,7 @@ public class FleeMonsterController : MonsterController
     {
         if (other.CompareTag("Player"))
         {
-            target.Die();
+            Kill();
         }
     }
 

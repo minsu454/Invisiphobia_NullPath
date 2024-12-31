@@ -9,6 +9,11 @@ public class Monster : Entity, IDetectable
     [SerializeField] private MonsterController myController;
     public MonsterController MyController { get { return myController; } }
 
+    [Header("KillScene")]
+    [SerializeField] private bool useKillScene = false;
+    [SerializeField] private MonsterKillScene myKillScene;
+    public MonsterKillScene MyKillScene { get { return myKillScene; } }
+
     [Header("Sound")]
     [SerializeField] private MonsterSound monsterSound;
     public MonsterSound myMonsterSound { get { return monsterSound; } }
@@ -19,6 +24,7 @@ public class Monster : Entity, IDetectable
     [Header("Anim")]
     [SerializeField] private bool useAnim = false;
     [SerializeField] private MonsterAnim myAnimation;
+
     
     public bool RendererActive { get { return myRenderer.enabled; } }
 
@@ -61,10 +67,15 @@ public class Monster : Entity, IDetectable
 
         myState.Init(this);
         mapIcon.Init(transform);
-        myController.Init(this);
+        myMonsterSound.Init(this);
+
         if (useAnim)
             myAnimation.Init(this);
-        myMonsterSound.Init(this);
+
+        myController.Init(this);
+
+        if (useKillScene)
+            myKillScene.Init(this);
     }
 
     public virtual void Detected()
@@ -137,5 +148,10 @@ public class Monster : Entity, IDetectable
         {
             mapIcon.Invisible();
         }
+    }
+
+    public void OnStop()
+    {
+        AiState = AIStateType.None;
     }
 }

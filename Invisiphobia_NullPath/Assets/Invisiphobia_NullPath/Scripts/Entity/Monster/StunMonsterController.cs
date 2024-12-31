@@ -81,8 +81,7 @@ public class StunMonsterController : MonsterController
         {
             if (targetDistance < hideAttackDistance)    // 너무 가까이 있을 때 숨어서 주금
             {
-                target.Die();
-                isHiding = false;
+                Kill();
             }
             isHiding = true;
 
@@ -110,8 +109,7 @@ public class StunMonsterController : MonsterController
 
         if (targetDistance < attackDistance)     // 닿으면 주금
         {
-            agent.speed = 0f;
-            target.Die();
+            Kill();
         }
     }
 
@@ -260,7 +258,7 @@ public class StunMonsterController : MonsterController
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            target.Die();
+            Kill();
         }
     }
 
