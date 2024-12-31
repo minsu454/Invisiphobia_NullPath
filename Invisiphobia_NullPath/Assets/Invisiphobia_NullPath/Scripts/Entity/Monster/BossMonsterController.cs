@@ -54,6 +54,12 @@ public class BossMonsterController : MonsterController
         {
             agent.SetDestination(target.transform.position);
         }
+
+        if (targetDistance < attackDistance)     // 닿으면 주금
+        {
+            agent.speed = 0f;
+            target.Die();
+        }
     }
 
     /// <summary>
