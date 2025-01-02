@@ -12,6 +12,9 @@ public class DirectionPuzzle : PuzzleUI
     public Image roundBar;
     public Image currentInputImage;
 
+    [SerializeField] AudioClip fillClip;
+    [SerializeField] AudioClip clearClip;
+
     [SerializeField] private int clearCount = 10;
     
     private int currentDirectionIndex = 0; // 현재 확인 중인 방향 인덱스
@@ -52,6 +55,8 @@ public class DirectionPuzzle : PuzzleUI
     void StartNewRound()
     {
         roundBar.fillAmount += 1f / clearCount;
+        Managers.Sound.SFX2DPlay(fillClip);
+
         currentDirectionIndex = 0;
         generatedDirections = new int[directionImages.Length];
 
@@ -68,6 +73,7 @@ public class DirectionPuzzle : PuzzleUI
         
         if(roundBar.fillAmount >= 1f)
         {
+            Managers.Sound.SFX2DPlay(clearClip);
             GameOver(true);
         }
     }

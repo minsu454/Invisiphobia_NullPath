@@ -8,5 +8,7 @@ public enum AnimType
     Walk = 1,
     Attack = 2,
     Flee = 3,
-    Reveal = 4,
+    FleeEnd = 4,
+    Reveal = 5,
+    Kill = 6,
 }

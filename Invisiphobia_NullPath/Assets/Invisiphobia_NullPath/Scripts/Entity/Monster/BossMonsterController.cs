@@ -33,17 +33,16 @@ public class BossMonsterController : MonsterController
     private void Spawn(object args)
     {
         gameObject.SetActive(true);
-        EventManager.Dispatch(GameEventType.UseInput, false);
+        EventManager.Dispatch(GameEventType.UseMove, false);
         EventManager.Dispatch(GameEventType.UseEsc, false);
         EventManager.Dispatch(GameEventType.UseFollowMouse, transform);
         transform.DOMoveY(1, 4).OnComplete(() =>
         { 
             EventManager.Dispatch(GameEventType.UseEsc, true);
-            EventManager.Dispatch(GameEventType.UseInput, true);
+            EventManager.Dispatch(GameEventType.UseMove, true);
             EventManager.Dispatch(GameEventType.UseFollowMouse, null);
             agent.enabled = true;
         });
-        
     }
 
     public override void PlayerAttackMonster()
@@ -67,8 +66,7 @@ public class BossMonsterController : MonsterController
 
         if (targetDistance < attackDistance)     // 닿으면 주금
         {
-            agent.speed = 0f;
-            target.Die();
+            Kill();
         }
     }
 
@@ -106,7 +104,7 @@ public class BossMonsterController : MonsterController
         {
             if(targetDistance <= attackDistance)
             {
-                target.Die();
+                Kill();
                 break;
             }
             yield return null;

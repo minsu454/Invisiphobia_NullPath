@@ -143,8 +143,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myController: {fileID: 1478671669931782574}
+  useKillScene: 0
+  myKillScene: {fileID: 0}
   monsterSound: {fileID: 6950362766202592853}
   myRenderer: {fileID: 6220920761454351646}
+  useAnim: 0
+  myAnimation: {fileID: 0}
   myState: {fileID: 8032393328109959239}
   mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
@@ -196,9 +200,6 @@ MonoBehaviour:
   walkSound: {fileID: 8300000, guid: 73a47c6a0b7e0b54d84de65c408c2242, type: 3}
   hitSound: {fileID: 8300000, guid: 68a2b9c01a61ca042b1f878ddc865272, type: 3}
   chaseSound: {fileID: 8300000, guid: e5452e7b0cfafc14ca5da0a8739f9f6a, type: 3}
-  curTime: 0
-  maxWalkingTime: 1
-  isPlaying: 0
 --- !u!1 &6439663302691528472
 GameObject:
   m_ObjectHideFlags: 0

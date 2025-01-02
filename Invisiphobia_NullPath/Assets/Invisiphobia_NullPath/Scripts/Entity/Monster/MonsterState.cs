@@ -9,6 +9,7 @@ public class MonsterState : MonoBehaviour
     public event Action AttackingEvent;
     public event Action FleeingEvent;
     public event Action MonsterFleeingEvent;
+    public event Action MonsterKillingEvent;
 
     private Monster monster;
 
@@ -35,6 +36,9 @@ public class MonsterState : MonoBehaviour
                 break;
             case AIStateType.MonsterFleeing:
                 MonsterFleeingEvent?.Invoke();
+                break;
+            case AIStateType.killing:
+                MonsterKillingEvent?.Invoke();
                 break;
         }
     }

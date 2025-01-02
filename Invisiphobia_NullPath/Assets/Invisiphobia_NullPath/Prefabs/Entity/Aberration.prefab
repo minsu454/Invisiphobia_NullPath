@@ -53,6 +53,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &7481717667937899886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 330364864922328449}
+  m_Layer: 7
+  m_Name: LookTr
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &330364864922328449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7481717667937899886}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8727773452739961312}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8553504000303620782
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,6 +99,7 @@ GameObject:
   - component: {fileID: 2929228670108363408}
   - component: {fileID: 5655611378094263762}
   - component: {fileID: 6828304592841438513}
+  - component: {fileID: -5057835705840011212}
   m_Layer: 7
   m_Name: Aberration
   m_TagString: InvisibleObject
@@ -90,6 +122,7 @@ Transform:
   m_Children:
   - {fileID: 7190528922344274819}
   - {fileID: 7472578307522195356}
+  - {fileID: 330364864922328449}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9075134278386001929
@@ -135,6 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myController: {fileID: 5655611378094263762}
+  useKillScene: 1
+  myKillScene: {fileID: -5057835705840011212}
   monsterSound: {fileID: 6828304592841438513}
   myRenderer: {fileID: 8635731795019741579}
   useAnim: 0
@@ -185,9 +220,21 @@ MonoBehaviour:
   walkSound: {fileID: 8300000, guid: 73a47c6a0b7e0b54d84de65c408c2242, type: 3}
   hitSound: {fileID: 8300000, guid: 68a2b9c01a61ca042b1f878ddc865272, type: 3}
   chaseSound: {fileID: 8300000, guid: e5452e7b0cfafc14ca5da0a8739f9f6a, type: 3}
-  curTime: 0
-  maxWalkingTime: 3
-  isPlaying: 1
+--- !u!114 &-5057835705840011212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8553504000303620782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6266afff9ee85c49a35dac3a86d2958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookTargetTr: {fileID: 330364864922328449}
+  killEase: 17
+  duration: 1.2
 --- !u!1 &8638850134710017643
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,11 +333,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legPrefab: {fileID: 1682633662898237459, guid: fb7bce2dee9494540a1866bb5d230a51,
     type: 3}
-  numberOfLegs: 5
-  partsPerLeg: 4
+  numberOfLegs: 20
+  partsPerLeg: 10
   legCount: 5
   deployedLegs: 3
-  minimumAnchoredLegs: 2
+  minimumAnchoredLegs: 10
   minimumAnchoredParts: 8
   minLegLifetime: 5
   maxLegLifetime: 10

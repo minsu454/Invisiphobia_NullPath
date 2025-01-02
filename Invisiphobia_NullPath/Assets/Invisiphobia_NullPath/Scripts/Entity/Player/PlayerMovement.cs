@@ -113,6 +113,8 @@ public class PlayerMovement : MonoBehaviour
     public void UsePlayerCanMove(object args)
     {
         playerCanMove = (bool)args;
+        enableHeadBob = (bool)args;
+        rb.velocity = Vector3.zero;
     }
 
     public void SetUI(Slider staminaBar, CanvasGroup sprintBarCanvasGroup)

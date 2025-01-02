@@ -16,6 +16,7 @@ public abstract class MonsterController : MonoBehaviour
     [Header("NavMeshAgent")]
     [SerializeField] protected NavMeshAgent agent;
     protected ITargetable target;
+    public ITargetable Target { get { return target; } }
 
     public Vector3 monsterSpawnPoint { get; private set; }
 
@@ -45,11 +46,6 @@ public abstract class MonsterController : MonoBehaviour
         this.target = target;
     }
 
-    float GetDestinationAngle(Vector3 targetPos)
-    {
-        return Vector3.Angle(transform.position - target.transform.position, transform.position + targetPos);
-    }
-
     public void Detacted()
     {
         agent.enabled = false;
@@ -59,5 +55,11 @@ public abstract class MonsterController : MonoBehaviour
     {
         agent.enabled = true;
         LookingAtTarget();
+    }
+
+    protected void Kill()
+    {
+        agent.enabled = false;
+        monster.AiState = AIStateType.killing;
     }
 }

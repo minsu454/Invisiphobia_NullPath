@@ -10,6 +10,8 @@ public class FleeMonsterController : MonsterController
     [SerializeField] protected float maxDistance;
     private bool isFleeing = false;
 
+    private const float attackDistance = 2f;
+
     /// <summary>
     /// 몬스터의 상태를 초기화하고 타겟을 플레이어로 설정
     /// </summary>
@@ -156,8 +158,9 @@ public class FleeMonsterController : MonsterController
             agent.SetDestination(target.transform.position);
         }
 
-        if (targetDistance < 1f)     // 닿으면 주금
+        if (targetDistance < attackDistance)     // 닿으면 주금
         {
+            agent.speed = 0f;
             target.Die();
         }
     }
@@ -205,7 +208,7 @@ public class FleeMonsterController : MonsterController
     {
         if (other.CompareTag("Player"))
         {
-            target.Die();
+            Kill();
         }
     }
 

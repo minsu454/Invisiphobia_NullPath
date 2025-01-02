@@ -16,12 +16,6 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     #region Test
     [Header("MapIcon")]
     [SerializeField] private GameObject mapIconPrefab;                          //맵 아이콘 프리팹(임시)
-
-    private void Awake()
-    {
-        if (SceneManager.GetActiveScene().name != "InGame_Scene")
-            Init();
-    }
     #endregion
 
     /// <summary>

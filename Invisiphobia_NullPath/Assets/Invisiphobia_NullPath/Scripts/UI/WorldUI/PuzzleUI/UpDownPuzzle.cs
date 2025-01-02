@@ -3,16 +3,22 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+
 
 public class UpDownPuzzle : PuzzleUI
 {
     public TMP_InputField playerInput;    // 현재 값 입력창 (수정 불가능)
     public TMP_InputField recentCode;   // 최근 제출 값 입력창 (수정 불가능)
-    public UnityEngine.UI.Button[] modifyButtons;  // +1, +10, +100, -1, -10, -100 버튼
-    public UnityEngine.UI.Button submitButton;     // 제출 버튼
+    public Button[] modifyButtons;  // +1, +10, +100, -1, -10, -100 버튼
+    public Button submitButton;     // 제출 버튼
+
+    [Header("Image")]
     public Image upImage;           // Up 상태 이미지
     public Image downImage;         // Down 상태 이미지
+
+    [Header("Clip")]
+    [SerializeField] AudioClip upDownAudioClip;
+    [SerializeField] AudioClip clearClip;
 
     public int targetNumber;       // 게임 시작 시 정해진 번호
     private int currentInputValue;  // 현재 입력 값
@@ -61,14 +67,17 @@ public class UpDownPuzzle : PuzzleUI
         if (submittedValue < targetNumber && !isColorChanged)
         {
             StartCoroutine(ChangeImageColor(upImage, Color.green));
+            Managers.Sound.SFX2DPlay(upDownAudioClip);
         }
         else if (submittedValue > targetNumber && !isColorChanged)
         {
             StartCoroutine(ChangeImageColor(downImage, Color.red));
+            Managers.Sound.SFX2DPlay(upDownAudioClip);
         }
         else if((submittedValue == targetNumber))
         {
-            Debug.Log("정답입니다!");
+            Managers.Sound.SFX2DPlay(clearClip);
+            OnComplete();
         }
     }
 
