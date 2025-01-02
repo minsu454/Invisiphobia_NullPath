@@ -59,7 +59,7 @@ public class StunMonsterController : MonsterController
         if (isStunned) yield break;
 
         isStunned = true;
-        yield return YieldCache.WaitForSeconds(2f);
+        yield return YieldCache.WaitForSeconds(4.5f);
 
         isStunned = false;
         monster.AiState = AIStateType.Wandering;

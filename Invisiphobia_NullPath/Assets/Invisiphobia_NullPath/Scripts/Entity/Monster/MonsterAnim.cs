@@ -18,6 +18,7 @@ public class MonsterAnim : MonoBehaviour
         monster.MyState.WanderingEvent += WanderingAnim;
         monster.MyState.AttackingEvent += AttackingAnim;
         monster.MyState.MonsterFleeingEvent += MonsterFleeingAnim;
+        monster.MyState.MonsterKillingEvent += MonsterKillingAnim;
     }
 
     private void WanderingAnim()
@@ -33,5 +34,10 @@ public class MonsterAnim : MonoBehaviour
     private void MonsterFleeingAnim()
     {
         AnimationExtansions.SetAnimation(animator, AnimType.Flee);
+    }
+
+    private void MonsterKillingAnim()
+    {
+        AnimationExtansions.SetAnimation(animator, AnimType.Kill);
     }
 }
