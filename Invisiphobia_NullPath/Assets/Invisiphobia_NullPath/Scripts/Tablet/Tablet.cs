@@ -3,6 +3,7 @@ using Common.Yield;
 using System;
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -222,7 +223,7 @@ public class Tablet : MonoBehaviour
         useSwitchScreen = false;
         EventManager.Dispatch(GameEventType.UseMove, true);
         EventManager.Dispatch(GameEventType.UseLockMouse, true);
-        OnSwitchTabletScreen(2);
+        manager.ChoiceIdx = 2;
     }
     #endregion
 
