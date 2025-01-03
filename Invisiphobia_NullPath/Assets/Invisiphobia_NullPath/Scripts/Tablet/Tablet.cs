@@ -24,7 +24,8 @@ public class Tablet : MonoBehaviour
     private bool isCharged = true;                                  //배터리가 있는지 확인해주는 bool
     public bool IsCharged { get { return isCharged; } }
 
-    private bool useSwitchScreen = true;                             //스크린 스위치 가능한 상태인지 확인하는 bool
+    private bool[] useTabletSkillArr = new bool[2];                    //Tablet스킬 해금 전용 boolArr
+    private bool useSwitchScreen = true;                            //스크린 스위치 가능한 상태인지 확인하는 bool
 
     public event Action<TabletStateType> OnStateChangedEvent;       //스텟 바뀔 때에 이벤트
     public event Action<TabletStateType> OnShotEvent;               //태블릿 사용 이벤트
@@ -62,6 +63,8 @@ public class Tablet : MonoBehaviour
 
         ItemCountEvent += player.PlayerInventory.Count;
 
+        useTabletSkillArr[0] = true;
+        useTabletSkillArr[1] = false;
         SetCurrentCharge(maxCharge);
     }
 
@@ -225,7 +228,8 @@ public class Tablet : MonoBehaviour
     {
         if (useSwitchScreen)
         {
-            manager.ChoiceIdx = num;
+            if (useTabletSkillArr[num])
+                manager.ChoiceIdx = num;
         }
     }
 

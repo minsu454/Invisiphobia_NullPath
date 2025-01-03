@@ -40,7 +40,7 @@ public class PlayerInventory : MonoBehaviour
     /// <summary>
     /// 테블릿 설정 함수
     /// </summary>
-    public void SetTablet()
+    public void SetTablet(int unLockTabletSkill)
     {
         
     }
