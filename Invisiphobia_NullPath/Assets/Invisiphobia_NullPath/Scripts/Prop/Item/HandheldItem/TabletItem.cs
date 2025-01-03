@@ -1,14 +1,34 @@
 using Common.Data;
+using UnityEngine;
 
-public class TabletItem : InHandItem
+public class TabletItem : MonoBehaviour, IInteractable
 {
-    public override void Init()
+    [Header("Table")]
+    [SerializeField] private int itemId;
+    protected ItemTable itemTable;
+    public ItemTable ItemTable
     {
-        base.Init();
+        get { return itemTable; }
     }
 
-    public override void Interact(Player player)
+    protected string interactText = "";
+    public string InteractText { get { return interactText; } }
+
+    protected string actionText;
+    public string ActionText { get { return actionText; } }
+
+    public bool IsReveal => true;
+
+    [Header("Hanking")]
+    private int unLockTabletSkill = 0;
+
+    private void Start()
     {
-        player.PlayerInventory.SetTablet();
+        unLockTabletSkill = (int)GetComponent<EventParts>().TabletType - 1;
+    }
+
+    public void Interact(Player player)
+    {
+        player.PlayerInventory.SetTablet(unLockTabletSkill);
     }
 }

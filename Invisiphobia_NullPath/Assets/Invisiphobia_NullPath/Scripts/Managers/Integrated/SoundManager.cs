@@ -38,6 +38,8 @@ public sealed class SoundManager : MonoBehaviour, IInit
     private void OnSceneLoaded(string sceneName)
     {
         bgmSource.Stop();
+
+
     }
 
     /// <summary>
@@ -77,6 +79,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
 
         bgmSource.playOnAwake = false;
         bgmSource.loop = true;
+        
     }
 
     /// <summary>
@@ -108,17 +111,11 @@ public sealed class SoundManager : MonoBehaviour, IInit
     /// <summary>
     /// BGM 플레이 함수
     /// </summary>
-    public void BGMPlay()
+    public void BGMPlay(SceneType type, float volume)
     {
-        bgmSource.Play();
-    }
+        bgmSource.volume = volume;
 
-    /// <summary>
-    /// BGM 플레이 함수 변형
-    /// </summary>
-    public void BGMPlay(AudioClip clip)
-    {
-        bgmSource.clip = clip;
+        bgmSource.clip = ObjectManager.Return<AudioClip>(AddressablePath.BGMPath(type.EnumToString()));
         bgmSource.Play();
     }
 

@@ -76,4 +76,9 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
 
         mapManager.Init(totalData);
     }
+
+    private void Start()
+    {
+        Managers.Sound.BGMPlay(SceneType.InGame, 0.3f);
+    }
 }
