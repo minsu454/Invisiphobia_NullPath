@@ -1,5 +1,6 @@
 
 using Common.Data;
+using Common.Yield;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -82,7 +83,7 @@ public class Door : MonoBehaviour, IInteractable
         if (isOpen)
         {
             StartCoroutine(DoorInteract(endRotation, startRotation, 1f)); // 닫기 동작
-            Managers.Sound.SFX3DPlay(doorClose, transform);
+            StartCoroutine(DelayedSoundPlay(0.65f));
         }
         else
         {
@@ -90,6 +91,12 @@ public class Door : MonoBehaviour, IInteractable
             Managers.Sound.SFX3DPlay(doorOpen, transform);
         }
     }
+    private IEnumerator DelayedSoundPlay(float delay)
+    {
+        yield return YieldCache.WaitForSeconds(delay);
+        Managers.Sound.SFX3DPlay(doorClose, transform);
+    }
+
     private bool IsPlayerBehind(Transform playerTransform)
     {
         // 문의 앞 방향(Forward) 벡터

@@ -13,7 +13,7 @@ public class FlickeringLight : MonoBehaviour
 
     [SerializeField] private AudioClip filckClip;
     [SerializeField] private AudioClip shakeClip;
-    [SerializeField] private AudioClip fractureclip;
+    //[SerializeField] private AudioClip fractureclip;
 
    public GameObject middleJoint;
     public float checkDistance = 5f;
@@ -66,7 +66,7 @@ public class FlickeringLight : MonoBehaviour
     /// </summary>
     private void HandleLampTouchGround()
     {
-        Managers.Sound.SFX3DPlay(fractureclip, transform);
+        //Managers.Sound.SFX3DPlay(fractureclip, transform);
         mylight.enabled = false;
     }
 

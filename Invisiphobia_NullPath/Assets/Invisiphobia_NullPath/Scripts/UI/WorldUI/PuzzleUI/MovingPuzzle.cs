@@ -15,6 +15,9 @@ public class MovingPuzzle : PuzzleUI
     [SerializeField] float moveDuration = 2f; // 이동 시간
     [SerializeField] private float interval = 1f; // 대기 시간
 
+    [SerializeField] AudioClip clearClip;
+    [SerializeField] AudioClip doorOpen;
+
     private Vector2 targetImageMoveDirection;
 
     private Coroutine moveCoroutine;
@@ -122,6 +125,8 @@ public class MovingPuzzle : PuzzleUI
     void GameOver()
     {
         OnComplete();
+        Managers.Sound.SFX3DPlay(clearClip, transform);
+        Managers.Sound.SFX3DPlay(doorOpen, transform);
     }
     #endregion
 }
