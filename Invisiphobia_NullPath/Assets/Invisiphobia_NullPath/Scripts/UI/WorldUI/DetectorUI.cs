@@ -10,6 +10,7 @@ public class DetectorUI : WorldUI<TabletStateType>
     [SerializeField] private Color32 uiColor;
 
     [SerializeField] private AudioClip alarmClip;
+    [SerializeField] private Image popup;
 
     [Header("Detector")]
     [SerializeField] private TriggerDetector detector;                          //외부 콜라이더 Trigger 변수
@@ -34,6 +35,7 @@ public class DetectorUI : WorldUI<TabletStateType>
     {
         layerMask = LayerMask.GetMask("Wall");
 
+        popup.enabled = false;
         detector.EnterEvent += TriggerEnter;
         detector.ExitEvent += TriggerExit;
     }
@@ -194,12 +196,21 @@ public class DetectorUI : WorldUI<TabletStateType>
         {
             Debug.Log("물체가 가깝습니다!!");
             Managers.Sound.SFX2DPlay(alarmClip, 1.5f);
+            StartCoroutine(Copopup());
         }
         else if (distance <= 6f)
         {
             Debug.Log("물체가 감지되었습니다!");
             Managers.Sound.SFX2DPlay(alarmClip);
+            StartCoroutine(Copopup());
         }
+    }
+
+    private IEnumerator Copopup()
+    {
+        popup.enabled = true;
+        yield return YieldCache.WaitForSeconds(0.5f);
+        popup.enabled = false;
     }
 
     /// <summary>
