@@ -55,10 +55,8 @@ public class Monster : Entity, IDetectable
 
     public bool IsDetectTablet { get; set; }
 
-    #region Test(우선순위 문제)
     [Header("MapIcon")]
     [SerializeField] private GameObject mapIconPrefab;
-    #endregion
 
     public override void Init()
     {
