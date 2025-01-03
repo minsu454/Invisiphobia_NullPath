@@ -42,7 +42,7 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void SetTablet(int unLockTabletSkill)
     {
-        
+        Tablet.UnLockTabletSkill(unLockTabletSkill);
     }
 
     /// <summary>

@@ -24,7 +24,7 @@ public class TabletItem : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        unLockTabletSkill = (int)GetComponent<EventParts>().TabletType;
+        unLockTabletSkill = (int)GetComponent<EventParts>().TabletType - 1;
     }
 
     public void Interact(Player player)

@@ -4,6 +4,7 @@ public enum TabletType
 
     Detector = 1,
     Camera,
+    Puzzle,
 
     DirectionPuzzle = 100,
     UpDownPuzzle,

@@ -2,6 +2,7 @@ using Common.Event;
 using Common.Yield;
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,7 +25,6 @@ public class Tablet : MonoBehaviour
     private bool isCharged = true;                                  //배터리가 있는지 확인해주는 bool
     public bool IsCharged { get { return isCharged; } }
 
-    private bool[] useTabletSkillArr = new bool[2];                    //Tablet스킬 해금 전용 boolArr
     private bool useSwitchScreen = true;                            //스크린 스위치 가능한 상태인지 확인하는 bool
 
     public event Action<TabletStateType> OnStateChangedEvent;       //스텟 바뀔 때에 이벤트
@@ -47,6 +47,9 @@ public class Tablet : MonoBehaviour
 
     private event Func<int> ItemCountEvent;                         //아이템 카운트 가져오는 이벤트
 
+    [Header("Tablet Skill")]
+    [SerializeField] private GameObject[] tabletSkillUIArr = new GameObject[3];     //Tablet스킬 해금 전용 GameObject
+
     /// <summary>
     /// 초기화 함수
     /// </summary>
@@ -63,8 +66,10 @@ public class Tablet : MonoBehaviour
 
         ItemCountEvent += player.PlayerInventory.Count;
 
-        useTabletSkillArr[0] = true;
-        useTabletSkillArr[1] = false;
+        tabletSkillUIArr[0].SetActive(true);
+        tabletSkillUIArr[1].SetActive(false);
+        tabletSkillUIArr[2].SetActive(false);
+
         SetCurrentCharge(maxCharge);
     }
 
@@ -228,9 +233,25 @@ public class Tablet : MonoBehaviour
     {
         if (useSwitchScreen)
         {
-            if (useTabletSkillArr[num])
+            if (tabletSkillUIArr[num].activeInHierarchy)
                 manager.ChoiceIdx = num;
         }
+    }
+
+    /// <summary>
+    /// 스킬 잠금해제 함수
+    /// </summary>
+    public void UnLockTabletSkill(int num)
+    {
+        tabletSkillUIArr[num].SetActive(true);
+    }
+
+    /// <summary>
+    /// 퍼즐 스킬을 사용할 수 있는지 함수
+    /// </summary>
+    public bool UsePuzzleSkill()
+    {
+        return tabletSkillUIArr[tabletSkillUIArr.Length - 1].activeInHierarchy;
     }
 
     /// <summary>
