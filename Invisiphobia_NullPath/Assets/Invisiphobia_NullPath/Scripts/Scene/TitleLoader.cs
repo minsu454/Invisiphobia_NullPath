@@ -7,5 +7,11 @@ public class TitleLoader : BaseSceneLoader<TitleLoader>
 {
     protected override void InitScene()
     {
+
+    }
+
+    private void Start()
+    {
+        Managers.Sound.BGMPlay(SceneType.Title, 1.0f);
     }
 }
