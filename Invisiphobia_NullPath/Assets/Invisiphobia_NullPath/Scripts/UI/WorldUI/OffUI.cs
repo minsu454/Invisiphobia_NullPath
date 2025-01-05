@@ -1,9 +1,12 @@
 using Common.Yield;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OffUI : WorldUI<TabletStateType>
 {
+    [SerializeField] private Image popup;
+
     private ITargetable target;
 
     private Coroutine dieTimer;
@@ -28,7 +31,15 @@ public class OffUI : WorldUI<TabletStateType>
     private IEnumerator CoDieTimer()
     {
         Debug.Log("Start");
+        StartCoroutine(Copopup());
         yield return YieldCache.WaitForSeconds(5f);
         target.Die();
+    }
+
+    private IEnumerator Copopup()
+    {
+        popup.enabled = true;
+        yield return YieldCache.WaitForSeconds(0.1f);
+        popup.enabled = false;
     }
 }
