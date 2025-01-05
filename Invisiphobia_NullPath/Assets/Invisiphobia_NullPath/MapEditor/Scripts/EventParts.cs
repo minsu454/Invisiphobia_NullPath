@@ -11,7 +11,8 @@ using UnityEngine.SceneManagement;
 public class EventParts : MonoBehaviour, IParts
 {
     public List<Transform> OnCompleteTrList = new List<Transform>();
-    [SerializeField] private PuzzleType PuzzleType;
+    [SerializeField] private TabletType tabletType;
+    public TabletType TabletType { get { return tabletType; } }
 
     public string PuzzlePath { get; private set; } = string.Empty;
 
@@ -21,8 +22,8 @@ public class EventParts : MonoBehaviour, IParts
     {
         try
         {
-            PuzzleType = PathToEnum(useGoPath);
-            PuzzlePath = PuzzleType != PuzzleType.None ? useGoPath : string.Empty;
+            tabletType = PathToEnum(useGoPath);
+            PuzzlePath = tabletType != TabletType.None ? useGoPath : string.Empty;
 
             for (int i = 0; i < eventList.Count; i++)
             {
@@ -39,7 +40,7 @@ public class EventParts : MonoBehaviour, IParts
     /// <summary>
     /// 경로를 enum값으로 바꿔주는 함수
     /// </summary>
-    private PuzzleType PathToEnum(string path)
+    private TabletType PathToEnum(string path)
     {
         Match match = pattern.Match(path);
 
@@ -48,7 +49,7 @@ public class EventParts : MonoBehaviour, IParts
             throw new ArgumentException("Invalid PuzzlePath format.");
         }
 
-        return StringExtensions.StringToEnum<PuzzleType>(match.Groups[1].Value);
+        return StringExtensions.StringToEnum<TabletType>(match.Groups[1].Value);
     }
 
     /// <summary>
@@ -56,6 +57,6 @@ public class EventParts : MonoBehaviour, IParts
     /// </summary>
     public string GetPath()
     {
-        return AddressablePath.PuzzlePath(PuzzleType.EnumToString());
+        return AddressablePath.PuzzlePath(tabletType.EnumToString());
     }
 }

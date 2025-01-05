@@ -14,9 +14,10 @@ public class DirectionPuzzle : PuzzleUI
 
     [SerializeField] AudioClip fillClip;
     [SerializeField] AudioClip clearClip;
-
+    [SerializeField] AudioClip openDoor;
     [SerializeField] private int clearCount = 10;
-    
+    [SerializeField] bool useOpenDoorClip = true;
+
     private int currentDirectionIndex = 0; // 현재 확인 중인 방향 인덱스
     private int[] generatedDirections;  // 생성된 방향 배열
     private bool isGameActive = false;   // 게임 상태
@@ -73,7 +74,6 @@ public class DirectionPuzzle : PuzzleUI
         
         if(roundBar.fillAmount >= 1f)
         {
-            Managers.Sound.SFX2DPlay(clearClip);
             GameOver(true);
         }
     }
@@ -146,6 +146,14 @@ public class DirectionPuzzle : PuzzleUI
     void GameOver(bool isWin)
     {
         isGameActive = false;
+
+        Managers.Sound.SFX2DPlay(clearClip);
+
+        if (useOpenDoorClip == true)
+        {
+            Managers.Sound.SFX3DPlay(openDoor, transform);
+        }
+
         OnComplete();
     }
 

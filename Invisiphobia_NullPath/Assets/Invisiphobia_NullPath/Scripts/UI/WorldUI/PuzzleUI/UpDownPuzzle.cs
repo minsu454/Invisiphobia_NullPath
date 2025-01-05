@@ -19,6 +19,7 @@ public class UpDownPuzzle : PuzzleUI
     [Header("Clip")]
     [SerializeField] AudioClip upDownAudioClip;
     [SerializeField] AudioClip clearClip;
+    [SerializeField] AudioClip doorOpen;
 
     public int targetNumber;       // 게임 시작 시 정해진 번호
     private int currentInputValue;  // 현재 입력 값
@@ -77,6 +78,7 @@ public class UpDownPuzzle : PuzzleUI
         else if((submittedValue == targetNumber))
         {
             Managers.Sound.SFX2DPlay(clearClip);
+            Managers.Sound.SFX3DPlay(doorOpen, transform);
             OnComplete();
         }
     }
