@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private List <AudioClip> footClip; // 걷기 발소리
     [SerializeField] AudioClip hardBreathingClip;
     [SerializeField] private Transform footTr;
+    [SerializeField] private float movementVolume = 0.7f;
 
     [SerializeField] private float walkstepInterval = 0.7f; // 걷는 발소리 간격 (초 단위)
     [SerializeField] private float sprintstepInterval = 0.3f; // 달리는 발소리 간격 (초 단위)
@@ -266,7 +267,7 @@ public class PlayerMovement : MonoBehaviour
             if (footstepTimer >= currentStepInterval)
             {
                 AudioClip footrandomClip = footClip[Random.Range(0, footClip.Count)];
-                Managers.Sound.SFX3DPlay(footrandomClip, footTr);
+                Managers.Sound.SFX3DPlay(footrandomClip, footTr, movementVolume);
                 footstepTimer = 0f; // 타이머 초기화
             }
         }
