@@ -1,6 +1,7 @@
 using Common.Timer;
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SoundPlayer : MonoBehaviour, IObjectPoolable<SoundPlayer>
 {
@@ -20,6 +21,11 @@ public class SoundPlayer : MonoBehaviour, IObjectPoolable<SoundPlayer>
     public void SetDelay(float delay)
     {
         this.delay = delay;
+    }
+
+    public void SetVolume(float volume)
+    {
+        audioSource.volume = volume;
     }
 
     public void SetMaxDistance(float maxDistance)
