@@ -79,6 +79,6 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
 
     private void Start()
     {
-        Managers.Sound.BGMPlay(SceneType.InGame, 0.3f);
+        Managers.Sound.BGMPlay(SceneType.InGame, 0.5f);
     }
 }
