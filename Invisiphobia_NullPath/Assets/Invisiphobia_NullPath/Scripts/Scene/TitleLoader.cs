@@ -12,6 +12,6 @@ public class TitleLoader : BaseSceneLoader<TitleLoader>
 
     private void Start()
     {
-        Managers.Sound.BGMPlay(SceneType.Title, 1.0f);
+        Managers.Sound.BGMPlay(SceneType.Title, 0.5f);
     }
 }
