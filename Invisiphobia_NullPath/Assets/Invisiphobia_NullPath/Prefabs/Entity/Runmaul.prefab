@@ -90,9 +90,9 @@ MonoBehaviour:
   useKillScene: 1
   myKillScene: {fileID: -6863573155768736561}
   monsterSound: {fileID: 7088950760328061560}
-  myRenderer: {fileID: 0}
+  myRenderer: {fileID: 237314444502733803}
   useAnim: 0
-  myAnimation: {fileID: 0}
+  myAnimation: {fileID: 5666672312272083643}
   myState: {fileID: 6155352053413058719}
   mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
     type: 3}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 2
-  runSpeed: 0.5
+  runSpeed: 5
   lookAtPlayerDistance: 15
   agent: {fileID: 5647181707467699202}
   minDistance: 0.5
@@ -349,6 +349,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1041781708020795772, guid: c3d73ba06daaeef40b556c623d33fc02,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1041781708020795772, guid: c3d73ba06daaeef40b556c623d33fc02,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: de0e9e622d89126479a89df28f1dd942, type: 2}
@@ -357,6 +362,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3d73ba06daaeef40b556c623d33fc02, type: 3}
+--- !u!137 &237314444502733803 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1041781708020795772, guid: c3d73ba06daaeef40b556c623d33fc02,
+    type: 3}
+  m_PrefabInstance: {fileID: 954264816694057623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &771386253929004412 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c3d73ba06daaeef40b556c623d33fc02,

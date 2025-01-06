@@ -204,9 +204,9 @@ public class FleeMonsterController : MonsterController
     /// <summary>
     /// 플레이어와 충돌 시 게임 오버 트리거
     /// </summary>
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             Kill();
         }
