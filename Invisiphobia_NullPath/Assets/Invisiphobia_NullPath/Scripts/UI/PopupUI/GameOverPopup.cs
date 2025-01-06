@@ -16,6 +16,7 @@ public class GameOverPopup : BasePopupUI
     {
         base.Init(option);
         EventManager.Dispatch(GameEventType.UseLockMouse, false);
+        EventManager.Dispatch(GameEventType.UseEsc, false);
     }
 
     public void GoTitle()

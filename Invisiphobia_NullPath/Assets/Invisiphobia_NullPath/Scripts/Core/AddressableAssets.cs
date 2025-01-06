@@ -5,11 +5,79 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine.ResourceManagement.ResourceLocations;
+using System.Linq;
 
 namespace Common.Assets
 {
     public static class AddressableAssets
     {
+        /// <summary>
+        /// 초기화 함수
+        /// </summary>
+        public static async UniTask Init()
+        {
+            await Addressables.InitializeAsync();
+        }
+
+        /// <summary>
+        /// 전체 다운로드 함수
+        /// </summary>
+        //public static async UniTask DownLoadAllAsync(IList<string> labelList)
+        //{
+        //    foreach (string label in labelList)
+        //    {
+        //        var handle = Addressables.GetDownloadSizeAsync(label);
+        //        await handle;
+
+        //        if (handle.Result != decimal.Zero)
+        //        {
+        //            await DownLoadAsync(label);
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        /// 다운로드 함수
+        /// </summary>
+        //private static async UniTask DownLoadAsync(string label)
+        //{
+        //    var handle = Addressables.DownloadDependenciesAsync(label);
+        //    await handle;
+
+        //    if (handle.Result != decimal.Zero)
+        //    {
+
+        //    }
+        //}
+
+        /// <summary>
+        /// 다운로드 사이즈 반환 함수
+        /// </summary>
+        public static async UniTask<long> DownLoadSizeAsync(string label)
+        {
+            var handle = Addressables.GetDownloadSizeAsync(label);
+            await handle;
+
+            return handle.Result;
+        }
+
+        /// <summary>
+        /// 전체 다운로드 사이즈 반환 함수
+        /// </summary>
+        public static async UniTask<long> DownLoadAllSizeAsync(IList<string> labelList)
+        {
+            var tasks = labelList.Select(async label =>
+            {
+                var handle = Addressables.GetDownloadSizeAsync(label);
+                await handle;
+                return handle.Result;
+            });
+
+            var results = await UniTask.WhenAll(tasks);
+
+            return results.Sum();
+        }
+
         /// <summary>
         /// 동기로 정보 가져오기(비권장)
         /// </summary>
