@@ -6,8 +6,6 @@ using UnityEngine.Rendering;
 
 public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
-    public EntityManager Entity;
-    public GameManager Game;
     public Volume Volume;
 
     private const string volumePath = "Volume/GeneralVolume";
@@ -18,12 +16,8 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         CreateGameManager();
         CreateVolume();
 
-        TextAsset asset = ObjectManager.Return<TextAsset>(AddressablePath.MapFilePath("Floor01"));
-        TotalMapData totalData = JsonUtility.FromJson<TotalMapData>(asset.text);
-
-        CreateMapManager(totalData);
-        CreateNavMeshBaker();
-        CreateEntityManager(totalData);
+        MapManager.Instance.Init();
+        EntityManager.Instance.Init();
     }
 
     /// <summary>
@@ -32,7 +26,7 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     private void CreateGameManager()
     {
         GameObject go = new GameObject("GameManager");
-        Game = go.AddComponent<GameManager>();
+        go.AddComponent<GameManager>();
     }
 
     /// <summary>
@@ -53,28 +47,6 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         NavMeshBaker navMeshBaker = go.GetComponent<NavMeshBaker>();
 
         navMeshBaker.Init();
-    }
-
-    /// <summary>
-    /// EntityManager 생성 함수
-    /// </summary>
-    private void CreateEntityManager(TotalMapData totalData)
-    {
-        GameObject go = new GameObject("EntityManager");
-        EntityManager entityManager = go.AddComponent<EntityManager>();
-
-        entityManager.Init(totalData);
-    }
-
-    /// <summary>
-    /// MapManager 생성 함수
-    /// </summary>
-    private void CreateMapManager(TotalMapData totalData)
-    {
-        GameObject go = new GameObject("MapManager");
-        MapManager mapManager = go.AddComponent<MapManager>();
-
-        mapManager.Init(totalData);
     }
 
     private void Start()

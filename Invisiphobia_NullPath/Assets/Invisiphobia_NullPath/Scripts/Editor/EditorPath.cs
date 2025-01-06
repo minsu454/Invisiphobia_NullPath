@@ -15,5 +15,7 @@ public static class EditorPath
     public const string EventTexturePath = "Assets/Invisiphobia_NullPath/MapEditor/Image/Event";    //EventParts이미지 경로
     public const string EventPartsPath = "Assets/Invisiphobia_NullPath/MapEditor/Parts_Event";      //EventPartsGO 경로
 
+    public const string EntityPath = "Assets/Invisiphobia_NullPath/Prefabs/Entity";
+
     public const string materialPath = "Assets/Invisiphobia_NullPath/MapEditor/Material";           //Material 경로
 }
