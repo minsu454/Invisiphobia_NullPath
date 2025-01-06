@@ -99,7 +99,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 6
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &437051612023442217
 GameObject:
@@ -334,7 +334,7 @@ MonoBehaviour:
   maxCharge: 100
   currentCharge: 100
   consumptionRate: 1
-  consumptionAmount: 10
+  consumptionAmount: 0.1
   tabletSkillUIArr:
   - {fileID: 3586779376851924745}
   - {fileID: 3605467220771554308}
@@ -760,16 +760,17 @@ MonoBehaviour:
   currentSpeed: 0
   maxVelocityChange: 10
   footClip:
-  - {fileID: 8300000, guid: 7ce19c9dec80e0a4b99dab8536eebe4e, type: 3}
-  - {fileID: 8300000, guid: 57067b3fd6757e745a3010c1bb8d438f, type: 3}
-  - {fileID: 8300000, guid: 1aa83a3d9a727b64d8cec717b3825ce7, type: 3}
-  - {fileID: 8300000, guid: 4e4dd2c558232de4399e4eb35bdfa577, type: 3}
-  - {fileID: 8300000, guid: 33c0874c74a59d248be12ff4a3a439c9, type: 3}
-  - {fileID: 8300000, guid: 4593ad59b1b04db488bb39d6e4096bd2, type: 3}
-  - {fileID: 8300000, guid: a7ee5ce65c902c34a8e041336ffb3bf2, type: 3}
-  - {fileID: 8300000, guid: 64eaff1b71adff04baac6f57d4447ee2, type: 3}
+  - {fileID: 8300000, guid: 8ce4499bbd5a13e408937e979191ac28, type: 3}
+  - {fileID: 8300000, guid: b8da35185c17df440a0d9e0309ac22a3, type: 3}
+  - {fileID: 8300000, guid: 209ae35949b251d4a83610a1e5992a2f, type: 3}
+  - {fileID: 8300000, guid: 10485b9efe2bd994f98d392f91dd1a0a, type: 3}
+  - {fileID: 8300000, guid: ed6bb89be19053b4abdfe85ac7daf25f, type: 3}
+  - {fileID: 8300000, guid: 9a7a2d7c3f0efa7408e14bd09744808d, type: 3}
+  - {fileID: 8300000, guid: 27ff539436f259348b7138c14d3885cc, type: 3}
+  - {fileID: 8300000, guid: a6e2596331387124da8e81d37da68ae2, type: 3}
   hardBreathingClip: {fileID: 8300000, guid: df53e77beb074c948802b8ae0134374a, type: 3}
   footTr: {fileID: 6859347766490515549}
+  movementVolume: 0.2
   walkstepInterval: 0.7
   sprintstepInterval: 0.3
   isZoomed: 0
@@ -2489,7 +2490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.11764706}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.3137255}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2592,7 +2593,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9e320006d19ec41bdca62370f12a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popup: {fileID: 7787199850547962843}
+  battery: {fileID: 7787199850547962843}
+  duration: 20
 --- !u!1 &7819459270531155141
 GameObject:
   m_ObjectHideFlags: 0

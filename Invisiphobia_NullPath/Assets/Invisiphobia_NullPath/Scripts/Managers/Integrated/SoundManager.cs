@@ -128,6 +128,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
         soundPlayer.SetDelay(clip.length);
         soundPlayer.SetSound2D();
         soundPlayer.SetPitch(1);
+        soundPlayer.SetVolume(1);
         soundPlayer.gameObject.SetActive(true);
 
         soundPlayer.Play(clip);
@@ -142,6 +143,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
         soundPlayer.SetDelay(clip.length);
         soundPlayer.SetSound2D();
         soundPlayer.SetPitch(pitch);
+        soundPlayer.SetVolume(1);
         soundPlayer.gameObject.SetActive(true);
 
         soundPlayer.Play(clip);
@@ -156,6 +158,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
         soundPlayer.SetDelay(clip.length);
         soundPlayer.SetMaxDistance(15);
         soundPlayer.SetPitch(1);
+        soundPlayer.SetVolume(1);
         soundPlayer.SetSound3D(playTr);
         soundPlayer.gameObject.SetActive(true);
 
@@ -163,14 +166,15 @@ public sealed class SoundManager : MonoBehaviour, IInit
     }
 
     /// <summary>
-    /// 3D 플레이 함수(원근감 사운드 : 사운드 최대거리 설정 가능)
+    /// 3D 플레이 함수(원근감 사운드 : 볼륨 설정)
     /// </summary>
-    public void SFX3DPlay(AudioClip clip, Transform playTr, float maxDistance)
+    public void SFX3DPlay(AudioClip clip, Transform playTr, float volume)
     {
         SoundPlayer soundPlayer = soundPool.GetObject();
         soundPlayer.SetDelay(clip.length);
         soundPlayer.SetMaxDistance(15);
         soundPlayer.SetPitch(1);
+        soundPlayer.SetVolume(volume);
         soundPlayer.SetSound3D(playTr);
         soundPlayer.gameObject.SetActive(true);
 
@@ -190,6 +194,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
         if (usePitch)
             soundPlayer.SetRandomPitch();
 
+        soundPlayer.SetVolume(1);
         soundPlayer.gameObject.SetActive(true);
 
         soundPlayer.Play(clip);
@@ -204,6 +209,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
         soundPlayer.SetDelay(clip.length);
         soundPlayer.SetMaxDistance(maxDistance);
         soundPlayer.SetPitch(pitch);
+        soundPlayer.SetVolume(1);
         soundPlayer.SetSound3D(playTr);
 
         soundPlayer.gameObject.SetActive(true);

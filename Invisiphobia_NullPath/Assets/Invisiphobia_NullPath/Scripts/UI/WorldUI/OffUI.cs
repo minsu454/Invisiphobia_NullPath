@@ -1,15 +1,19 @@
 using Common.Yield;
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using static Unity.Burst.Intrinsics.X86;
 
 public class OffUI : WorldUI<TabletStateType>
 {
-    [SerializeField] private Image popup;
+    [SerializeField] private Image battery;
+    [SerializeField] private float duration = 20f;
 
     private ITargetable target;
 
     private Coroutine dieTimer;
+    private Tween imageTween;
 
     public override void Init(IActiveStatable<TabletStateType> subject)
     {
@@ -23,23 +27,20 @@ public class OffUI : WorldUI<TabletStateType>
 
     public override void Unsubscribe(IActiveStatable<TabletStateType> subject)
     {
+        imageTween.Kill();
+        imageTween = null;
         StopCoroutine(dieTimer);
         dieTimer = null;
+
+        battery.color = Color.red;
         gameObject.SetActive(false);
     }
 
     private IEnumerator CoDieTimer()
     {
-        Debug.Log("Start");
-        StartCoroutine(Copopup());
-        yield return YieldCache.WaitForSeconds(5f);
+        imageTween = battery.DOFade(0f, 0.1f).SetLoops(-1, LoopType.Yoyo);
+        yield return YieldCache.WaitForSeconds(duration);
+        imageTween.Kill();
         target.Die();
-    }
-
-    private IEnumerator Copopup()
-    {
-        popup.enabled = true;
-        yield return YieldCache.WaitForSeconds(0.1f);
-        popup.enabled = false;
     }
 }
