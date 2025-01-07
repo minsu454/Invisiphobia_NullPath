@@ -1261,7 +1261,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 16384
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 66954449b9fce5c4696b0b9a80f2802b, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -1286,7 +1286,7 @@ MonoBehaviour:
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
+  m_CameraType: 1
   m_Cameras: []
   m_RendererIndex: 3
   m_VolumeLayerMask:
@@ -1732,6 +1732,7 @@ MonoBehaviour:
   m_CameraType: 0
   m_Cameras:
   - {fileID: 3382097537557048236}
+  - {fileID: 8864371968596376262}
   m_RendererIndex: 1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -2020,6 +2021,7 @@ MonoBehaviour:
   popup: {fileID: 5450815273642133193}
   detector: {fileID: 1132262953016006904}
   maxDetectTime: 2
+  usePause: 0
 --- !u!114 &2474385467035455978
 MonoBehaviour:
   m_ObjectHideFlags: 0
