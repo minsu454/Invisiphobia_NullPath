@@ -200,6 +200,7 @@ MonoBehaviour:
   walkSound: {fileID: 8300000, guid: 73a47c6a0b7e0b54d84de65c408c2242, type: 3}
   hitSound: {fileID: 8300000, guid: 68a2b9c01a61ca042b1f878ddc865272, type: 3}
   chaseSound: {fileID: 8300000, guid: e5452e7b0cfafc14ca5da0a8739f9f6a, type: 3}
+  killingSound: {fileID: 0}
 --- !u!1 &6439663302691528472
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,6 +210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3017414663382284876}
+  - component: {fileID: 5239328412395778219}
   m_Layer: 0
   m_Name: CowardPos
   m_TagString: Untagged
@@ -232,3 +234,18 @@ Transform:
   - {fileID: 8239991782464009731}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5239328412395778219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6439663302691528472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a54837773164e7439b6e8da85c3f484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnCompleteTrList:
+  - {fileID: 8239991782464009731}
+  tabletType: 0
