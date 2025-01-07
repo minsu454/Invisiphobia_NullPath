@@ -21,11 +21,32 @@ public class Table : BaseItem
     public override void Init()
     {
         base.Init();
-        for(int i = 0; i < itemTable.interactText.Count; i++)
+        for (int i = 0; i < itemTable.interactText.Count; i++)
         {
             tableArr[i] = DataService.GetItemInteractText(ItemTable.interactText[0]);
         }
         //actionText = DataServise.GetInteractText(ItemTable.actionText);
+    }
+
+    private void Update()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            // 테이블이 레이의 충돌 지점이라면 해당 방향을 계산
+            Vector3 hitPoint = hit.point;
+            Vector3 tableCenter = transform.position;
+
+            // 충돌 지점이 테이블의 중심보다 왼쪽인지 오른쪽인지 판단
+            if (hitPoint.x < tableCenter.x)
+            {
+                interactText = tableArr[0];
+            }
+            else
+            {
+                interactText = tableArr[1];
+            }
+        }
     }
 
     public override void Interact(Player player)
@@ -39,32 +60,47 @@ public class Table : BaseItem
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.collider.gameObject == drawer1)
-            {
-                HandleDrawerInteraction(drawer1, ref isDrawer1Open, 0);
-            }
-            else if (hit.collider.gameObject == drawer2)
-            {
-                HandleDrawerInteraction(drawer2, ref isDrawer2Open, 1);
-            }
-        }
-    }
+            // 테이블이 레이의 충돌 지점이라면 해당 방향을 계산
+            Vector3 hitPoint = hit.point;
+            Vector3 tableCenter = transform.position;
 
-    private void HandleDrawerInteraction(GameObject drawer, ref bool isDrawerOpen, int index)
-    {
-        if (!isDrawerOpen)
-        {
-            StartCoroutine(CoMoveDrawer(drawer.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer));
-            isDrawerOpen = true;
-            tableArr[index] = DataService.GetItemInteractText(ItemTable.interactText[1]);
-            Managers.Sound.SFX3DPlay(drawerOpen, transform);
-        }
-        else
-        {
-            StartCoroutine(CoMoveDrawer(drawer.transform.localPosition, Vector3.zero, drawer));
-            isDrawerOpen = false;
-            tableArr[index] = DataService.GetItemInteractText(ItemTable.interactText[0]);
-            Managers.Sound.SFX3DPlay(drawerClose, transform);
+            // 충돌 지점이 테이블의 중심보다 왼쪽인지 오른쪽인지 판단
+            if (hitPoint.x < tableCenter.x)
+            {
+                // 충돌 지점이 테이블의 왼쪽이면 drawer1을 다룬다
+                if (!isDrawer1Open)
+                {
+                    StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer1));
+                    isDrawer1Open = true;
+                    tableArr[0] = DataService.GetItemInteractText(ItemTable.interactText[1]);
+                    Managers.Sound.SFX3DPlay(drawerOpen, transform);
+                }
+                else
+                {
+                    StartCoroutine(CoMoveDrawer(drawer1.transform.localPosition, Vector3.zero, drawer1));
+                    isDrawer1Open = false;
+                    tableArr[0] = DataService.GetItemInteractText(ItemTable.interactText[0]);
+                    Managers.Sound.SFX3DPlay(drawerClose, transform);
+                }
+            }
+            else
+            {
+                // 충돌 지점이 테이블의 오른쪽이면 drawer2를 다룬다
+                if (!isDrawer2Open)
+                {
+                    StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, new Vector3(0, 0, openPositionZ), drawer2));
+                    isDrawer2Open = true;
+                    tableArr[1] = DataService.GetItemInteractText(ItemTable.interactText[1]);
+                    Managers.Sound.SFX3DPlay(drawerOpen, transform);
+                }
+                else
+                {
+                    StartCoroutine(CoMoveDrawer(drawer2.transform.localPosition, Vector3.zero, drawer2));
+                    isDrawer2Open = false;
+                    tableArr[1] = DataService.GetItemInteractText(ItemTable.interactText[0]);
+                    Managers.Sound.SFX3DPlay(drawerClose, transform);
+                }
+            }
         }
     }
 
