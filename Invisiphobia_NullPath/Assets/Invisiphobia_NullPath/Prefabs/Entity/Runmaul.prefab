@@ -91,7 +91,7 @@ MonoBehaviour:
   myKillScene: {fileID: -6863573155768736561}
   monsterSound: {fileID: 7088950760328061560}
   myRenderer: {fileID: 237314444502733803}
-  useAnim: 0
+  useAnim: 1
   myAnimation: {fileID: 5666672312272083643}
   myState: {fileID: 6155352053413058719}
   mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
@@ -141,6 +141,7 @@ MonoBehaviour:
   walkSound: {fileID: 8300000, guid: dd861b6a81c79514fab4662e9d3ed3e1, type: 3}
   hitSound: {fileID: 8300000, guid: f9a6acd9299073d4faa4ab3107e8de02, type: 3}
   chaseSound: {fileID: 8300000, guid: 37235a2f62e85d64b905717aef4bedbe, type: 3}
+  killingSound: {fileID: 0}
 --- !u!114 &-6863573155768736561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,7 +358,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: de0e9e622d89126479a89df28f1dd942, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: c3d73ba06daaeef40b556c623d33fc02, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
