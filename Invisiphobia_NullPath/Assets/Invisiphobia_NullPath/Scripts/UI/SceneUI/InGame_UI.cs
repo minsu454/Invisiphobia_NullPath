@@ -57,6 +57,7 @@ public class InGame_UI : BaseSceneUI
             mainPanelManager.OpenPanel("Pause");
             EventManager.Dispatch(GameEventType.UseInput, isPause);
             EventManager.Dispatch(GameEventType.UseTabletPause, !isPause);
+            EventManager.Dispatch(GameEventType.UseMonsterPause, !isPause);
             isPause = true;
         }
         else if (mainPanelManager.currentPanelIndex == 1 && pausePanelManager.currentPanelIndex == 0 && isPause)
@@ -64,6 +65,7 @@ public class InGame_UI : BaseSceneUI
             mainPanelManager.OpenFirstTab();
             EventManager.Dispatch(GameEventType.UseInput, isPause);
             EventManager.Dispatch(GameEventType.UseTabletPause, !isPause);
+            EventManager.Dispatch(GameEventType.UseMonsterPause, !isPause);
             isPause = false;
         }
     }
