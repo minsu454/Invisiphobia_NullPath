@@ -18,5 +18,10 @@ public interface IActiveStatable<T> where T : Enum
     /// <summary>
     /// 사용이벤트
     /// </summary>
+    public event Action<bool> UsePauseEvent;
+
+    /// <summary>
+    /// 사용이벤트
+    /// </summary>
     public event Action<T> ShotEvent;
 }

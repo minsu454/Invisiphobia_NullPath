@@ -34,6 +34,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 
     public event Action BasicStateEvent;
     public event Action ActiveStateEvent;
+    public event Action<bool> UsePauseEvent;
     public event Action<TabletStateType> ShotEvent;
     private event Action hiddenEvent;
 
@@ -132,6 +133,14 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     }
 
     /// <summary>
+    /// 퍼즈 사용 여부 함수
+    /// </summary>
+    public void UsePause(bool value)
+    {
+        UsePauseEvent?.Invoke(value);
+    }
+
+    /// <summary>
     /// 공격 시 사용 할 이벤트 함수
     /// </summary>
     private void OnShot(TabletStateType type)
@@ -152,4 +161,6 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 
         glitch.active = false;
     }
+
+    
 }

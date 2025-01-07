@@ -6,6 +6,7 @@ public enum GameEventType
     UseMove,
     UseInput,
     UseEsc,
+    UseTabletPause,
 
     UseLockMouse,
     UseFollowMouse,

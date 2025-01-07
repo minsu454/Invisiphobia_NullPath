@@ -26,6 +26,8 @@ public class DetectorUI : WorldUI<TabletStateType>
 
     private int layerMask;                                                      //벽 레이어 변수
 
+    [SerializeField] private bool usePause = false;                             //퍼즈 사용 여부
+
     private void OnEnable()
     {
         StartTimer();
@@ -44,6 +46,7 @@ public class DetectorUI : WorldUI<TabletStateType>
     {
         subject.BasicStateEvent += Reveal;
         subject.BasicStateEvent += StopDetecting;
+        subject.UsePauseEvent += OnUsePause;
 
         subject.ActiveStateEvent += Detecting;
 
@@ -57,6 +60,7 @@ public class DetectorUI : WorldUI<TabletStateType>
 
         subject.BasicStateEvent -= Reveal;
         subject.BasicStateEvent -= StopDetecting;
+        subject.UsePauseEvent -= OnUsePause;
 
         subject.ActiveStateEvent -= Detecting;
 
@@ -102,6 +106,14 @@ public class DetectorUI : WorldUI<TabletStateType>
 
             detectable.Invisible();
         }
+    }
+
+    /// <summary>
+    /// 퍼즈 사용 여부 이벤트 함수
+    /// </summary>
+    private void OnUsePause(bool isUse)
+    {
+        usePause = isUse;
     }
 
     /// <summary>
@@ -192,15 +204,16 @@ public class DetectorUI : WorldUI<TabletStateType>
     /// </summary>
     private void HandleAlarm(float distance) //TODO : 조명과 오디오로 알람
     {
+        if (usePause)
+            return;
+
         if (distance <= 5f)
         {
-            Debug.Log("물체가 가깝습니다!!");
             Managers.Sound.SFX2DPlay(alarmClip, 1.5f);
             StartCoroutine(Copopup());
         }
         else if (distance <= 10f)
         {
-            Debug.Log("물체가 감지되었습니다!");
             Managers.Sound.SFX2DPlay(alarmClip);
             StartCoroutine(Copopup());
         }
