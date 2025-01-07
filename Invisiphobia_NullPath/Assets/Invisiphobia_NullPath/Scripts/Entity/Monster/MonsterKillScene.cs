@@ -10,12 +10,14 @@ public abstract class MonsterKillScene : MonoBehaviour
     [Header("MonsterKillScene")]
     [SerializeField] protected Transform lookTargetTr;
     protected ITargetable target;
+    protected IDetectable monster;
 
     private event Action OnKillEvent;
 
     public void Init(Monster monster)
     {
         target = monster.MyController.Target;
+        this.monster = monster;
 
         monster.MyState.MonsterKillingEvent += OnKill;
         OnKillEvent += monster.OnStop;

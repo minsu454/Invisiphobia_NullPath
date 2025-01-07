@@ -62,6 +62,8 @@ public abstract class MonsterController : MonoBehaviour
 
     protected void Kill()
     {
+        monster.myRenderer.enabled = true;
+        transform.LookAt(target.transform);
         agent.enabled = false;
         monster.AiState = AIStateType.killing;
     }
