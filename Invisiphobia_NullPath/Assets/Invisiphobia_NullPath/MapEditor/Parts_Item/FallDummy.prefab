@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3878517885175434075}
   - component: {fileID: 1848179296891142669}
   - component: {fileID: 5832105799920524772}
+  - component: {fileID: 7990939647822026497}
   m_Layer: 10
   m_Name: FallDummy
   m_TagString: Untagged
@@ -179,3 +180,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.291195, y: 3.434743, z: 0.2311058}
   m_Center: {x: -0.079250515, y: 1.9597116, z: 0.09323692}
+--- !u!208 &7990939647822026497
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112079221330610951}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.781, y: 1.7170001, z: 0.45600003}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.057000004, y: 1.96, z: 0.18800001}
+  m_TimeToStationary: 0.5
