@@ -1,6 +1,5 @@
 using Common.Assets;
 using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,13 +24,14 @@ namespace Common.Objects
                 {
                     taskList.Add(LoadAndAddObjectAsync(item.PrimaryKey));
                 }
-
+                Debug.Log("WhenAll in");
                 await UniTask.WhenAll(taskList);
             }
-            catch
+            catch(System.Exception e)
             {
-
+                Debug.LogException(e);
             }
+            Debug.Log("End Add");
         }
 
         /// <summary>
@@ -39,8 +39,10 @@ namespace Common.Objects
         /// </summary>
         private static async UniTask LoadAndAddObjectAsync(string primaryKey)
         {
+            Debug.Log($"{primaryKey} start");
             Object obj = await AddressableAssets.LoadDataAsync<Object>(primaryKey);
             objectContainerDict.Add(primaryKey, obj);
+            Debug.Log($"{primaryKey} end");
         }
 
         /// <summary>

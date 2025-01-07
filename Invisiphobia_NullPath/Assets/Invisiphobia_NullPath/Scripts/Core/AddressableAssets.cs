@@ -72,7 +72,6 @@ namespace Common.Assets
                 await handle;
                 return handle.Result;
             });
-
             var results = await UniTask.WhenAll(tasks);
 
             return results.Sum();
@@ -105,8 +104,9 @@ namespace Common.Assets
                 T t = await Addressables.LoadAssetAsync<T>(path);
                 return t;
             }
-            catch
+            catch(Exception e)
             {
+                Debug.LogException(e);
                 return null;
             }
         }

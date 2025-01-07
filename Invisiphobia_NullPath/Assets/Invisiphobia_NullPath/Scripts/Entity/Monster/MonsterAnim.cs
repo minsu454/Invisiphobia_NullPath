@@ -11,8 +11,10 @@ public class MonsterAnim : MonoBehaviour
     private readonly int attackHash = Animator.StringToHash("IsAttacking");
     private readonly int fleeHash = Animator.StringToHash("IsFleeing");
     private readonly int killHash = Animator.StringToHash("IsDead");
+    private readonly int unrevealKillHash = Animator.StringToHash("UnrevealKill");
 
     [SerializeField] private Animator animator;
+    private IDetectable monster;
 
     public void Init(Monster monster)
     {
@@ -20,6 +22,8 @@ public class MonsterAnim : MonoBehaviour
         monster.MyState.AttackingEvent += AttackingAnim;
         monster.MyState.MonsterFleeingEvent += MonsterFleeingAnim;
         monster.MyState.MonsterKillingEvent += MonsterKillingAnim;
+
+        this.monster = monster;
     }
 
     private void ResetAllStates()
@@ -55,6 +59,13 @@ public class MonsterAnim : MonoBehaviour
     {
         //AnimationExtansions.SetAnimation(animator, AnimType.Kill);
         ResetAllStates();
-        animator.SetBool(killHash, true);
+        if (monster.StateType != PropStateType.Revealed)
+        {
+            animator.SetBool(unrevealKillHash, true);
+        }
+        else
+        {
+            animator.SetBool(killHash, true);
+        }
     }
 }
