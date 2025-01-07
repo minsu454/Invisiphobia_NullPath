@@ -83,7 +83,7 @@ public class InGame_UI : BaseSceneUI
         }
         else
         {
-            interactKeyText.text = "[Shift + right-click]\n: " + interact.ActionText;
+            interactKeyText.text = "[right-click + left-click]\n: " + interact.ActionText;
         }
     }
 
