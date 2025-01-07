@@ -264,7 +264,7 @@ public class PlayerMovement : MonoBehaviour
             footstepTimer += Time.deltaTime;
 
             // 타이머가 간격을 초과했는지 확인
-            if (footstepTimer >= currentStepInterval)
+            if (footstepTimer >= currentStepInterval && currentSpeed > 0.5f)
             {
                 AudioClip footrandomClip = footClip[Random.Range(0, footClip.Count)];
                 Managers.Sound.SFX3DPlay(footrandomClip, footTr, movementVolume);
