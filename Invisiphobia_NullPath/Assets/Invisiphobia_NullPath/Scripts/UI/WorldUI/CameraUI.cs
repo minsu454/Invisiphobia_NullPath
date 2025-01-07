@@ -25,6 +25,7 @@ public class CameraUI : WorldUI<TabletStateType>
     public override void Init(IActiveStatable<TabletStateType> subject)
     {
         ResetProgress();
+        tabletCamera.gameObject.SetActive(false);
     }
 
     public override void Subscribe(IActiveStatable<TabletStateType> subject)
@@ -99,6 +100,7 @@ public class CameraUI : WorldUI<TabletStateType>
     /// </summary>
     private void OnBasicState()
     {
+        tabletCamera.gameObject.SetActive(false);
         ResetProgress();
         if (coProgress != null)
             StopCoroutine(coProgress);
@@ -110,6 +112,7 @@ public class CameraUI : WorldUI<TabletStateType>
     /// </summary>
     private void OnActiveState()
     {
+        tabletCamera.gameObject.SetActive(true);
         coProgress = StartCoroutine(CoProgress());
         progressBackground.SetActive(false);
     }
@@ -120,7 +123,7 @@ public class CameraUI : WorldUI<TabletStateType>
     private IEnumerator CoProgress()
     {
         ResetProgress();
-        
+
         while (true)
         {
             curProgressTime += Time.deltaTime;
