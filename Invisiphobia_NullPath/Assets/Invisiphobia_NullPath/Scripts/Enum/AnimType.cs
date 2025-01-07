@@ -11,4 +11,5 @@ public enum AnimType
     FleeEnd = 4,
     Reveal = 5,
     Kill = 6,
+    UnrevealKill = 7,
 }
