@@ -108,7 +108,6 @@ public class DownloadUI : BaseSceneUI
         patchDict[label] = 0;
 
         var handle = Addressables.DownloadDependenciesAsync(label);
-
         while (!handle.IsDone)
         {
             patchDict[label] = handle.GetDownloadStatus().DownloadedBytes;
