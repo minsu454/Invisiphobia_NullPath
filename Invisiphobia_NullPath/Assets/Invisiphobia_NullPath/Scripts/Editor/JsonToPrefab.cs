@@ -35,7 +35,7 @@ public static class JsonToPrefab
             foreach (RoomData data in totalData.RoomDataList)
             {
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.RoomPartsPath}/{data.Name}.prefab");
-                go = Object.Instantiate(prefab, ingame.transform);
+                go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, ingame.transform);
 
                 go.name = data.Name;
                 go.transform.position = data.Pos;
@@ -51,7 +51,7 @@ public static class JsonToPrefab
             foreach (PointData data in totalData.DecorDataList)
             {
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.DecoPartsPath}/{data.Name}.prefab");
-                go = Object.Instantiate(prefab, ingame.transform);
+                go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, ingame.transform);
 
                 go.name = data.Name;
                 go.transform.position = data.Pos;
@@ -61,7 +61,7 @@ public static class JsonToPrefab
             foreach (PointData data in totalData.ItemDataList)
             {
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
-                go = Object.Instantiate(prefab, ingame.transform);
+                go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, ingame.transform);
 
                 go.name = data.Name;
                 go.transform.position = data.Pos;
@@ -73,7 +73,7 @@ public static class JsonToPrefab
             foreach (EventData data in totalData.EventDataList)
             {
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EventPartsPath}/{data.Name}.prefab");
-                go = Object.Instantiate(prefab, ingame.transform);
+                go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, ingame.transform);
 
                 go.name = data.Name;
                 go.transform.position = data.Pos;
@@ -115,7 +115,7 @@ public static class JsonToPrefab
         GameObject playerprefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPath}/{name}.prefab");
         if (playerprefab != null)
         {
-            go = Object.Instantiate(playerprefab, ingame.transform);
+            go = (GameObject)PrefabUtility.InstantiatePrefab(playerprefab, ingame.transform);
 
             go.name = name;
             go.transform.position = totalData.EntityData.playerData.Pos;
@@ -129,7 +129,7 @@ public static class JsonToPrefab
         {
             name = data.Name.ToFirstName("_");
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPath}/{name}.prefab");
-            go = Object.Instantiate(prefab, ingame.transform);
+            go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, ingame.transform);
 
             go.name = name;
             go.transform.position = data.Pos;
