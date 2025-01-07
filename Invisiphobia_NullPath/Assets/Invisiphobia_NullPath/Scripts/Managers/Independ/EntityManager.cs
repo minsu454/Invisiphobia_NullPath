@@ -14,13 +14,10 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private List<Monster> monsterList = new List<Monster>();
     public List<Monster> MonsterList { get { return monsterList; } }
 
-    #region Test
-
     public void Awake()
     {
         Instance = this;
     }
-    #endregion
 
     public void Init()
     {

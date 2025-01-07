@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -70,6 +71,8 @@ public class Tablet : MonoBehaviour
         tabletSkillUIArr[0].SetActive(true);
         tabletSkillUIArr[1].SetActive(false);
         tabletSkillUIArr[2].SetActive(false);
+
+        EventManager.Subscribe(GameEventType.UseTabletPause, OnUsePause);
 
         SetCurrentCharge(maxCharge);
     }
@@ -255,11 +258,34 @@ public class Tablet : MonoBehaviour
         return tabletSkillUIArr[tabletSkillUIArr.Length - 1].activeInHierarchy;
     }
 
+    private void OnUsePause(object args)
+    {
+        bool value = (bool)args;
+
+        if (value)
+        {
+            State = TabletStateType.Basic;
+            if (myCoroutine != null)
+                StopCoroutine(myCoroutine);
+        }
+        else
+        {
+            Consomtion();
+        }
+
+        manager.UsePause(value);
+    }
+
     /// <summary>
     /// 클릭 이벤트 함수
     /// </summary>
     private void OnClick()
     {
         OnShotEvent.Invoke(State);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe(GameEventType.UseTabletPause, OnUsePause);
     }
 }

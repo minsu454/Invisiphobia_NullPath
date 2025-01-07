@@ -1,3 +1,4 @@
+using Common.Event;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -30,6 +31,8 @@ public abstract class MonsterController : MonoBehaviour
         agent.enabled = false;
 
         monster.MyState.AttackingEvent += AttackingUpdate;
+
+        EventManager.Subscribe(GameEventType.UseMonsterPause, OnUseMonsterPause);
     }
 
     void Update()
@@ -61,5 +64,25 @@ public abstract class MonsterController : MonoBehaviour
     {
         agent.enabled = false;
         monster.AiState = AIStateType.killing;
+    }
+
+    private void OnUseMonsterPause(object args)
+    {
+        if (monster.StateType != PropStateType.Revealed)
+            return;
+
+        if ((bool)args)
+        {
+            agent.enabled = false;
+        }
+        else
+        {
+            agent.enabled = true;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Subscribe(GameEventType.UseMonsterPause, OnUseMonsterPause);
     }
 }

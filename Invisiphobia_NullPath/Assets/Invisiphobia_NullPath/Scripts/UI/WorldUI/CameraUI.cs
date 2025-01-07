@@ -20,7 +20,7 @@ public class CameraUI : WorldUI<TabletStateType>
 
     [Header("Camera")]
     [SerializeField] private Camera tabletCamera;               //테블릿 화면전용 카메라
-    [SerializeField] private float maxDistance = 50f;           // 거리 제한
+    [SerializeField] private float maxDistance = 15f;           // 거리 제한
 
     public override void Init(IActiveStatable<TabletStateType> subject)
     {
@@ -68,6 +68,9 @@ public class CameraUI : WorldUI<TabletStateType>
 
         foreach (Monster monster in EntityManager.Instance.MonsterList)
         {
+            if (monster.StateType != PropStateType.Revealed)
+                continue;
+
             Vector3 viewportPos = tabletCamera.WorldToViewportPoint(monster.gameObject.transform.position);
 
             if (viewportPos.x < 0 || viewportPos.x > 1 ||

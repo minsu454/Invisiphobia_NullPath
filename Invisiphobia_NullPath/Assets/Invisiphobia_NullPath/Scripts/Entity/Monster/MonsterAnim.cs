@@ -20,7 +20,6 @@ public class MonsterAnim : MonoBehaviour
         monster.MyState.AttackingEvent += AttackingAnim;
         monster.MyState.MonsterFleeingEvent += MonsterFleeingAnim;
         monster.MyState.MonsterKillingEvent += MonsterKillingAnim;
-        Debug.Log(gameObject.name);
     }
 
     private void ResetAllStates()
