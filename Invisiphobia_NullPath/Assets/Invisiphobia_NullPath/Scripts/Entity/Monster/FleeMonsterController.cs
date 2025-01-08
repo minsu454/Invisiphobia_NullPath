@@ -10,7 +10,7 @@ public class FleeMonsterController : MonsterController
     [SerializeField] protected float maxDistance;
     private bool isFleeing = false;
 
-    private const float attackDistance = 2f;
+    private const float attackDistance = 3f;
 
     /// <summary>
     /// 몬스터의 상태를 초기화하고 타겟을 플레이어로 설정
