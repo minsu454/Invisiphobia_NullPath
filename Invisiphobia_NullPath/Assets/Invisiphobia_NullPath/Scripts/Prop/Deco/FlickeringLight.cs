@@ -6,8 +6,8 @@ using UnityEngine;
 public class FlickeringLight : MonoBehaviour
 {
     [SerializeField] private Light mylight;
-    [SerializeField] private float minTime = 0.05f;
-    [SerializeField] private float maxTime = 1.0f;
+    [SerializeField] private float minTime = 1f;
+    [SerializeField] private float maxTime = 2f;
     [SerializeField] private float minIntensity;
     [SerializeField] private float maxIntensity;
 
