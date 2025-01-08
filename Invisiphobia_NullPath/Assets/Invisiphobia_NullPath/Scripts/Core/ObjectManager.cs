@@ -14,7 +14,7 @@ namespace Common.Objects
         /// </summary>
         public static async UniTask Add(string label)
         {
-            await ResourcesAsync(label);
+            await AddressableAsync(label);
         }
 
         /// <summary>
@@ -35,9 +35,8 @@ namespace Common.Objects
                 Debug.Log("WhenAll in");
                 await UniTask.WhenAll(taskList);
             }
-            catch (System.Exception e)
+            catch
             {
-                Debug.LogException(e);
             }
         }
 
