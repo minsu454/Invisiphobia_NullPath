@@ -28,6 +28,9 @@ public class DetectorUI : WorldUI<TabletStateType>
 
     [SerializeField] private bool usePause = false;                             //퍼즈 사용 여부
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip detectClip;                              //감지 완료 시 사운드
+
     private void OnEnable()
     {
         StartTimer();
@@ -231,18 +234,24 @@ public class DetectorUI : WorldUI<TabletStateType>
     /// </summary>
     private void Reveal()
     {
+        bool isReveal = false;
+
         for (int i = detectedObjectList.Count - 1; i >= 0; i--)
         {
             if (detectedObjectList[i].StateType == PropStateType.Revealed)
                 continue;
             else if (detectedObjectList[i].StateType == PropStateType.DetectCompleted)
             {
+                isReveal = true;
                 detectedObjectList[i].Revealed();
                 continue;
             }
 
             detectedObjectList[i].Detected();
         }
+
+        if (isReveal)
+            Managers.Sound.SFX2DPlay(detectClip);
     }
 
     /// <summary>
