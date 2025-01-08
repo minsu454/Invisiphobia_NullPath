@@ -36,28 +36,24 @@ public class MonsterAnim : MonoBehaviour
 
     private void WanderingAnim()
     {
-        //AnimationExtansions.SetAnimation(animator, AnimType.Walk);
         ResetAllStates();
         animator.SetBool(walkHash, true);
     }
 
     private void AttackingAnim()
     {
-        //AnimationExtansions.SetAnimation(animator, AnimType.Attack);
         ResetAllStates();
         animator.SetBool(attackHash, true);
     }
 
     private void MonsterFleeingAnim()
     {
-        //AnimationExtansions.SetAnimation(animator, AnimType.Flee);
         ResetAllStates();
         animator.SetBool(fleeHash, true);
     }
 
     private void MonsterKillingAnim()
     {
-        //AnimationExtansions.SetAnimation(animator, AnimType.Kill);
         ResetAllStates();
         if (monster.StateType != PropStateType.Revealed)
         {
