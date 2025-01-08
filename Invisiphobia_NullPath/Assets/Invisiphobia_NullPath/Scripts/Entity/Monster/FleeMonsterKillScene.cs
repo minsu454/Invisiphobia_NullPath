@@ -22,6 +22,7 @@ public class FleeMonsterKillScene : MonsterKillScene
 
     IEnumerator CoKillAnimTime()
     {
+        transform.eulerAngles = new Vector3(20f, transform.eulerAngles.y, transform.eulerAngles.z);
         yield return YieldCache.WaitForSeconds(2f);
         target.Die();
     }
