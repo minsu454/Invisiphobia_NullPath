@@ -14,6 +14,14 @@ namespace Common.Objects
         /// </summary>
         public static async UniTask Add(string label)
         {
+            await AddressableAsync(label);
+        }
+
+        /// <summary>
+        /// Addressable에서 로드해주는 함수
+        /// </summary>
+        private static async UniTask AddressableAsync(string label)
+        {
             var list = await AddressableAssets.LoadDataWithLabelAsync(label);
 
             List<UniTask> taskList = new List<UniTask>();
@@ -27,22 +35,38 @@ namespace Common.Objects
                 Debug.Log("WhenAll in");
                 await UniTask.WhenAll(taskList);
             }
-            catch(System.Exception e)
+            catch
             {
-                Debug.LogException(e);
             }
-            Debug.Log("End Add");
         }
 
+        /// <summary>
+        /// Resources에서 로드해주는 함수
+        /// </summary>
+        private static async UniTask ResourcesAsync(string label)
+        {
+            await UniTask.CompletedTask;
+            AddressableLoaderSO loaderSO = Resources.Load<AddressableLoaderSO>($"Loader/{label}LoadSO");
+
+            foreach (LoadData data in loaderSO.loadDataList)
+            {
+                if (objectContainerDict.ContainsKey(data.path))
+                {
+                    continue;
+                }
+
+                objectContainerDict.Add(data.path, data.setObject);
+            }
+        }
+
+        
         /// <summary>
         /// 개별 오브젝트를 비동기로 로드하고 딕셔너리에 추가하는 함수
         /// </summary>
         private static async UniTask LoadAndAddObjectAsync(string primaryKey)
         {
-            Debug.Log($"{primaryKey} start");
             Object obj = await AddressableAssets.LoadDataAsync<Object>(primaryKey);
             objectContainerDict.Add(primaryKey, obj);
-            Debug.Log($"{primaryKey} end");
         }
 
         /// <summary>
