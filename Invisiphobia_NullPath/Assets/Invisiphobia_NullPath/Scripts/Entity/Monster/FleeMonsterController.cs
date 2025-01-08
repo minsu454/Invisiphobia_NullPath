@@ -160,8 +160,7 @@ public class FleeMonsterController : MonsterController
 
         if (targetDistance < attackDistance)     // 닿으면 주금
         {
-            agent.speed = 0f;
-            target.Die();
+            Kill();
         }
     }
 

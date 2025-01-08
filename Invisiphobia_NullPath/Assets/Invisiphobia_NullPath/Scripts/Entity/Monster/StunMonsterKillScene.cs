@@ -9,9 +9,7 @@ public class StunMonsterKillScene : MonsterKillScene
 {
     protected override void Kill()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         GetComponent<Rigidbody>().isKinematic = true;
-        //transform.eulerAngles = new Vector3(15f, transform.eulerAngles.y, transform.eulerAngles.z);
         if (monster.StateType != PropStateType.Revealed)
         {
             StartCoroutine(CoUnrevealKillAnimTime());
@@ -30,6 +28,7 @@ public class StunMonsterKillScene : MonsterKillScene
 
     IEnumerator CoUnrevealKillAnimTime()
     {
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         yield return YieldCache.WaitForSeconds(2f);
         target.Die();
     }
