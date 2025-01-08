@@ -23,9 +23,8 @@ public class LoadingUI : BaseSceneUI
     {
         progressBar.fillAmount = 0.0f;
 
-        AsyncOperation op = SceneManagerEx.LoadNextSceneAsync();
-
         await ObjectManager.Add(SceneManagerEx.NextScene);
+        AsyncOperation op = SceneManagerEx.LoadNextSceneAsync();
 
         float timer = 0f;
         while (!op.isDone)
