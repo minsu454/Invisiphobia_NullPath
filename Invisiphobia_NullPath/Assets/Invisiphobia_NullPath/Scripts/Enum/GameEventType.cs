@@ -8,6 +8,7 @@ public enum GameEventType
     UseEsc,
     UseTabletPause,
     UseMonsterPause,
+    UseCrossHair,
 
     UseLockMouse,
     UseFollowMouse,

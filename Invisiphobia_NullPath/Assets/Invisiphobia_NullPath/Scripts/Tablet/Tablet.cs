@@ -89,9 +89,11 @@ public class Tablet : MonoBehaviour
         {
             case TabletStateType.Basic:
                 State = TabletStateType.Activate;
+                EventManager.Dispatch(GameEventType.UseCrossHair, true);
                 break;
             case TabletStateType.Activate:
                 State = TabletStateType.Basic;
+                EventManager.Dispatch(GameEventType.UseCrossHair, false);
                 break;
             default:
                 break;
