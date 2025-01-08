@@ -46,9 +46,18 @@ namespace Common.Objects
         /// </summary>
         private static async UniTask ResourcesAsync(string label)
         {
-            ScriptableObject obj = (ScriptableObject)await Resources.LoadAsync<ScriptableObject>($"Loader/{label}SO");
+            await UniTask.CompletedTask;
+            AddressableLoaderSO loaderSO = Resources.Load<AddressableLoaderSO>($"Loader/{label}LoadSO");
 
+            foreach (LoadData data in loaderSO.loadDataList)
+            {
+                if (objectContainerDict.ContainsKey(data.path))
+                {
+                    continue;
+                }
 
+                objectContainerDict.Add(data.path, data.setObject);
+            }
         }
 
         
