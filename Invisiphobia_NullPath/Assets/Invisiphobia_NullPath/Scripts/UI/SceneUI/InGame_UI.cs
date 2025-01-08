@@ -38,11 +38,13 @@ public class InGame_UI : BaseSceneUI
         player.PlayerInventory.OnHandItemChanged += SetInteractKey;
 
         mainPanelManager.OpenFirstTab();
+
+        EventManager.Subscribe(GameEventType.UseCrossHair, OnSetCrossHairActive);
     }
 
     private void OnSetCrossHairActive(object args)
     {
-        crossHair.SetActive((bool)args);
+        crossHair.SetActive(!(bool)args);
     }
 
     private void SetStaminaBar(int sprintRemaining)
@@ -75,7 +77,7 @@ public class InGame_UI : BaseSceneUI
         if (interact == null)
             interactDescriptionKeyText.text = "";
         else
-            interactDescriptionKeyText.text = interact.InteractText;
+            interactDescriptionKeyText.text = $"[E] {interact.InteractText}";
     }
 
     private void SetInteractKey(IInteractable interact)
@@ -86,12 +88,18 @@ public class InGame_UI : BaseSceneUI
         }
         else
         {
-            interactKeyText.text = "[right-click + left-click]\n: " + interact.ActionText;
+            interactKeyText.text = "[Right-click + Left-click]\n: " + interact.ActionText;
         }
     }
 
     public void GoTitle()
     {
         SceneManagerEx.LoadingAndNextScene(SceneType.Title);
+    }
+
+    protected override void OnDestroy()
+    {
+        EventManager.Unsubscribe(GameEventType.UseCrossHair, OnSetCrossHairActive);
+        base.OnDestroy();
     }
 }

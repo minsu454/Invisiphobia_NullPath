@@ -7,6 +7,7 @@ public abstract class MonsterController : MonoBehaviour
     [Header("Stats")]
     [SerializeField] protected float walkSpeed;
     [SerializeField] protected float runSpeed;
+    private float saveSpeed;
 
     [Header("AI")]
     [SerializeField] protected float lookAtPlayerDistance;
@@ -75,11 +76,12 @@ public abstract class MonsterController : MonoBehaviour
 
         if ((bool)args)
         {
-            agent.enabled = false;
+            saveSpeed = agent.speed;
+            agent.speed = 0;
         }
         else
         {
-            agent.enabled = true;
+            agent.speed = saveSpeed;
         }
     }
 

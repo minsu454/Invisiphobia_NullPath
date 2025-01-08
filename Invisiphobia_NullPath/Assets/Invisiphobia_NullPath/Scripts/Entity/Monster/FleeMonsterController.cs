@@ -75,7 +75,7 @@ public class FleeMonsterController : MonsterController
 
         for (float angle = 100; angle <= 260; angle += angleStep)
         {
-            Vector3 fleeDirection = Quaternion.Euler(0, angle, 0) * -transform.forward;
+            Vector3 fleeDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
             Vector3 potentialDestination = transform.position + fleeDirection * maxDistance;
 
             if (!TryGetValidNavMeshPosition(potentialDestination, out Vector3 navMeshPosition))
@@ -127,7 +127,7 @@ public class FleeMonsterController : MonsterController
         Vector3 directionToPlayer = (target.transform.position - position).normalized;
         float signedAngleToPlayer = Vector3.SignedAngle(-transform.forward, directionToPlayer, Vector3.up);
 
-        return signedAngleToPlayer > -105 && signedAngleToPlayer < 105;
+        return signedAngleToPlayer >= -100 && signedAngleToPlayer <= 100;
     }
     /// <summary>
     /// 이동 경로 길이가 유효한지 검사
@@ -160,8 +160,7 @@ public class FleeMonsterController : MonsterController
 
         if (targetDistance < attackDistance)     // 닿으면 주금
         {
-            agent.speed = 0f;
-            target.Die();
+            Kill();
         }
     }
 

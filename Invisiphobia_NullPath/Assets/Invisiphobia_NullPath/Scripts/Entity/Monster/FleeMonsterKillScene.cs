@@ -9,7 +9,6 @@ public class FleeMonsterKillScene : MonsterKillScene
 {
     protected override void Kill()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         GetComponent<Rigidbody>().isKinematic = true;
         if (monster.StateType != PropStateType.Revealed)
         {
@@ -23,12 +22,14 @@ public class FleeMonsterKillScene : MonsterKillScene
 
     IEnumerator CoKillAnimTime()
     {
+        transform.eulerAngles = new Vector3(20f, transform.eulerAngles.y, transform.eulerAngles.z);
         yield return YieldCache.WaitForSeconds(2f);
         target.Die();
     }
 
     IEnumerator CoUnrevealKillAnimTime()
     {
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         yield return YieldCache.WaitForSeconds(2f);
         target.Die();
     }
