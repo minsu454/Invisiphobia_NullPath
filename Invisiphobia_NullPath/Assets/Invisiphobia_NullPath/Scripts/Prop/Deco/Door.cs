@@ -22,7 +22,7 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] Lock mylock;
     [SerializeField] private AudioClip doorOpen;
     [SerializeField] private AudioClip doorClose;
-
+    [SerializeField] private AudioClip lockClip;
     public ItemTable ItemTable
     {
         get { return itemTable; }
@@ -78,6 +78,7 @@ public class Door : MonoBehaviour, IInteractable
         }
         if(mylock != null && mylock.isLocked)
         {
+            Managers.Sound.SFX3DPlay(lockClip, playerTr);
             return ;
         }
         if (isOpen)
