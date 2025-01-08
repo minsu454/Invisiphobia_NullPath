@@ -17,6 +17,9 @@ public sealed class SoundManager : MonoBehaviour, IInit
 
     private const int SoundPlayerCount = 10;
 
+    private AudioClip curSceneClip;
+    private float curSceneVolume;
+
     public void Init()
     {
         audioMixer = Resources.Load<AudioMixer>("Sound/AudioMixer");
@@ -38,8 +41,6 @@ public sealed class SoundManager : MonoBehaviour, IInit
     private void OnSceneLoaded(string sceneName)
     {
         bgmSource.Stop();
-
-
     }
 
     /// <summary>
@@ -111,12 +112,49 @@ public sealed class SoundManager : MonoBehaviour, IInit
     /// <summary>
     /// BGM 플레이 함수
     /// </summary>
-    public void BGMPlay(SceneType type, float volume)
+    private void SetSceneBGM(string sceneName)
+    {
+        curSceneClip = ObjectManager.Return<AudioClip>(AddressablePath.BGMPath(sceneName));
+    }
+
+    public void BGMPlay(AudioClip clip, float volume)
     {
         bgmSource.volume = volume;
 
-        bgmSource.clip = ObjectManager.Return<AudioClip>(AddressablePath.BGMPath(type.EnumToString()));
+        bgmSource.clip = clip;
         bgmSource.Play();
+    }
+
+    /// <summary>
+    /// 처음 SceneBGM 플레이 함수
+    /// </summary>
+    public void FirstSceneBGMPlay(SceneType type, float volume)
+    {
+        bgmSource.volume = volume;
+        curSceneVolume = volume;
+        bgmSource.clip = ObjectManager.Return<AudioClip>(AddressablePath.BGMPath(type.EnumToString()));
+        curSceneClip = bgmSource.clip;
+
+        bgmSource.Play();
+    }
+
+    /// <summary>
+    /// 다시 SceneBGM 플레이 함수
+    /// </summary>
+    public void SceneBGMRePlay()
+    {
+        bgmSource.volume = curSceneVolume;
+        bgmSource.clip = curSceneClip;
+
+        bgmSource.Play();
+    }
+
+    /// <summary>
+    /// BGM 멈추는 함수
+    /// </summary>
+    public void BGMStop()
+    {
+        bgmSource.Stop();
     }
 
     /// <summary>
