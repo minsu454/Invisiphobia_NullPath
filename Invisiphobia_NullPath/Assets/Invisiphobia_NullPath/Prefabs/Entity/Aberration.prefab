@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3748255721063498524
 Transform:
   m_ObjectHideFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3262170355032611274}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.22, z: 1.7}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -339,9 +339,9 @@ MonoBehaviour:
   walkSound: {fileID: 8300000, guid: 2975b55e88a656e4ebea3677cf51b7a5, type: 3}
   hitSound: {fileID: 8300000, guid: 68a2b9c01a61ca042b1f878ddc865272, type: 3}
   chaseSound: {fileID: 8300000, guid: e5452e7b0cfafc14ca5da0a8739f9f6a, type: 3}
-  killingSound: {fileID: 8300000, guid: e5452e7b0cfafc14ca5da0a8739f9f6a, type: 3}
+  killingSound: {fileID: 8300000, guid: 32488b9c203fbe641aaecf63887cbccd, type: 3}
   maxWalkingTime: 0.5
-  attackBGM: {fileID: 0}
+  attackBGM: {fileID: 8300000, guid: a1547c42ccc176047a7682e084bbccab, type: 3}
   defaultBGMVolume: 1
 --- !u!114 &-5057835705840011212
 MonoBehaviour:
