@@ -29,6 +29,8 @@ public abstract class MonsterKillScene : MonoBehaviour
         EventManager.Dispatch(GameEventType.UseMove, false);
         EventManager.Dispatch(GameEventType.UseEsc, false);
         EventManager.Dispatch(GameEventType.UseFollowMouse, lookTargetTr);
+        EventManager.Dispatch(GameEventType.UseCrossHair, false);
+        EventManager.Dispatch(GameEventType.UseTabletPause, true);
 
         Kill();
     }
