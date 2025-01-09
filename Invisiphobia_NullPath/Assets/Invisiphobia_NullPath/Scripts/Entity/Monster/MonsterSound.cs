@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class MonsterSound : MonoBehaviour
 {
+    [Header("SFX")]
     [SerializeField] private AudioClip walkSound;
     [SerializeField] private AudioClip hitSound;
     [SerializeField] private AudioClip chaseSound;
     [SerializeField] private AudioClip killingSound;
+
+    [Header("BGM")]
+    [SerializeField] private AudioClip attackBGM;
+    [SerializeField] private float defaultBGMVolume = 0.5f;
 
     private float curTime;
     private float maxWalkingTime;
@@ -25,6 +30,7 @@ public class MonsterSound : MonoBehaviour
 
     private void PlayKillingSound()
     {
+        Managers.Sound.BGMStop();
         if (!isPlaying)
         {
             isPlaying = true;
@@ -34,6 +40,7 @@ public class MonsterSound : MonoBehaviour
 
     private void PlayHitSound()
     {
+        Managers.Sound.BGMPlay(attackBGM, defaultBGMVolume);
         if (!isPlaying)
         {
             isPlaying = true;
@@ -43,6 +50,7 @@ public class MonsterSound : MonoBehaviour
 
     private void PlayWalkSound()
     {
+        Managers.Sound.SceneBGMRePlay();
         curTime += Time.deltaTime;
         if (curTime > maxWalkingTime)
         {
