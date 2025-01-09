@@ -1,4 +1,3 @@
-
 using Common.Data;
 using Common.Yield;
 using System.Collections;
@@ -43,8 +42,7 @@ public class Door : MonoBehaviour, IInteractable
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
 
         itemTable = DataService.GetItemTableByKey(itemId);
-        interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
-        //actionText = DataService.GetInteractText(ItemTable.actionText);
+        interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
     }
     private void Update()
     {

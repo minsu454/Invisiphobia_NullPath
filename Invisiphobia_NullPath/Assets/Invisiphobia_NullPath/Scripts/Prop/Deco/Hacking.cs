@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System;
 using Common.EnumExtensions;
 using Common.Path;
+using Common.Data;
 
 public class Hacking : MonoBehaviour, IInteractable
 {
@@ -18,6 +19,8 @@ public class Hacking : MonoBehaviour, IInteractable
 
     protected string interactText = "";
     public string InteractText { get { return interactText; } }
+
+    private string tempInteractText;
 
     protected string actionText;
     public string ActionText { get { return actionText; } }
@@ -44,6 +47,10 @@ public class Hacking : MonoBehaviour, IInteractable
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
 
         puzzlePath = gameObject.GetComponent<EventParts>().PuzzlePath;
+
+        itemTable = DataService.GetItemTableByKey(itemId);
+        interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
+        tempInteractText = interactText;
     }
 
     public void Interact(Player player)
@@ -63,10 +70,12 @@ public class Hacking : MonoBehaviour, IInteractable
         if (isOn)
         {
             player.PlayerInventory.Tablet.PlayPuzzle(idx);
+            interactText = "";
         }
         else
         {
             player.PlayerInventory.Tablet.StopPuzzle();
+            interactText = tempInteractText;
         }
 
         isOn = !isOn;

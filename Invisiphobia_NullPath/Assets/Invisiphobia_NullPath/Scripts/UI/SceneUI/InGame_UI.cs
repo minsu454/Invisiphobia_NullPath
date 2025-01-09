@@ -77,7 +77,7 @@ public class InGame_UI : BaseSceneUI
         if (interact == null)
             interactDescriptionKeyText.text = "";
         else
-            interactDescriptionKeyText.text = $"[E] {interact.InteractText}";
+            interactDescriptionKeyText.text = $"{interact.InteractText}";
     }
 
     private void SetInteractKey(IInteractable interact)

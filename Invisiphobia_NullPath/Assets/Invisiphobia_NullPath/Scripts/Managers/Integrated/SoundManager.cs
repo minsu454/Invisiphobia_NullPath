@@ -112,11 +112,6 @@ public sealed class SoundManager : MonoBehaviour, IInit
     /// <summary>
     /// BGM 플레이 함수
     /// </summary>
-    private void SetSceneBGM(string sceneName)
-    {
-        curSceneClip = ObjectManager.Return<AudioClip>(AddressablePath.BGMPath(sceneName));
-    }
-
     public void BGMPlay(AudioClip clip, float volume)
     {
         bgmSource.volume = volume;
