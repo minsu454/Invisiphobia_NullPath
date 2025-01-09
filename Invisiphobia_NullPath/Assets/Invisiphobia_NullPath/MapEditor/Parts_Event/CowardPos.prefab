@@ -13,10 +13,7 @@ GameObject:
   - component: {fileID: 6220920761454351646}
   - component: {fileID: 1478671669931782574}
   - component: {fileID: 6209949382924893681}
-  - component: {fileID: 6647076231006247029}
-  - component: {fileID: 8032393328109959239}
   - component: {fileID: 1146331430435698084}
-  - component: {fileID: 6950362766202592853}
   - component: {fileID: 7134157606830681884}
   m_Layer: 10
   m_Name: CowardTofu
@@ -102,13 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00cd5618bb7547d42a6b5919da994c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 0
-  runSpeed: 4
-  lookAtPlayerDistance: 15
-  agent: {fileID: 6209949382924893681}
+  myRenderer: {fileID: 6220920761454351646}
   targetPosition: {fileID: 3017414663382284876}
+  agent: {fileID: 6209949382924893681}
   fadeDuration: 2
   timeOutOfSight: 0
+  mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
+    type: 3}
 --- !u!195 &6209949382924893681
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -131,40 +128,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6647076231006247029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566304113300768826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b30199a7c623614f8630c1fd20c6d2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myController: {fileID: 1478671669931782574}
-  useKillScene: 0
-  myKillScene: {fileID: 0}
-  monsterSound: {fileID: 6950362766202592853}
-  myRenderer: {fileID: 6220920761454351646}
-  useAnim: 0
-  myAnimation: {fileID: 0}
-  myState: {fileID: 8032393328109959239}
-  mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
-    type: 3}
---- !u!114 &8032393328109959239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566304113300768826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92e43e429466fe042a1fba5f29b55700, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &1146331430435698084
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -186,22 +149,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6950362766202592853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566304113300768826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1150f70070aff3941a4e2931f98ecee3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSound: {fileID: 8300000, guid: 73a47c6a0b7e0b54d84de65c408c2242, type: 3}
-  hitSound: {fileID: 8300000, guid: 68a2b9c01a61ca042b1f878ddc865272, type: 3}
-  chaseSound: {fileID: 8300000, guid: e5452e7b0cfafc14ca5da0a8739f9f6a, type: 3}
-  killingSound: {fileID: 0}
 --- !u!54 &7134157606830681884
 Rigidbody:
   m_ObjectHideFlags: 0

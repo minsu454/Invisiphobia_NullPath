@@ -9,6 +9,7 @@ public class PlayerInventory : MonoBehaviour
     private const int handCount = 2;
 
     public Tablet Tablet;
+    [SerializeField] private Transform itemHandParentTr;
 
     private bool isNotUse = false;
     public bool IsNotUse
@@ -63,7 +64,7 @@ public class PlayerInventory : MonoBehaviour
         SetTabletHidden();
 
         //Todo
-        GameObject go = Instantiate(handPrefab, transform);
+        GameObject go = Instantiate(handPrefab, itemHandParentTr);
         handItemStack.Push(go);
         interactStack.Push(interact);
 
