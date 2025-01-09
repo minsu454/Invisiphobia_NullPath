@@ -69,11 +69,6 @@ public class CowardController : MonoBehaviour, IDetectable
         {
             StartFadeEffect(remainingDistance);
         }
-        else if (remainingDistance <= 0f)
-        {
-            // 도달하면 더 이상 바로 사라짐
-            myRenderer.enabled = false;
-        }
     }
 
     /// <summary>
@@ -114,7 +109,7 @@ public class CowardController : MonoBehaviour, IDetectable
     protected void ResetToSpawnPoint()
     {
         agent.Warp(spawnPoint);
-        Detected();
+        ResetCycle();
     }
 
     public virtual void Detected()
@@ -154,6 +149,20 @@ public class CowardController : MonoBehaviour, IDetectable
         StateType = PropStateType.None;
         mapIcon.Invisible();
         myRenderer.enabled = false;
+    }
+
+    public void ResetCycle()
+    {
+        if (IsDetectTablet)
+        {
+            mapIcon.Invisible();
+            myRenderer.enabled = false;
+            Detected();
+        }
+        else
+        {
+            Invisible();
+        }
     }
 
     public void SetFillAmount(float value)
