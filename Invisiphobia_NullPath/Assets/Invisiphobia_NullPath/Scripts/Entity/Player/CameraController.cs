@@ -172,7 +172,7 @@ public class CameraController : MonoBehaviour
     /// </summary>
     private void FollowTarget()
     {
-        transform.LookAt(lookTargetTr.position);
+        Camera.main.transform.LookAt(lookTargetTr.position);
     }
 
     private void CameraRotation()
