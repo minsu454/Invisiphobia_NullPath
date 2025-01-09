@@ -21,7 +21,8 @@ public class MonsterSound : MonoBehaviour
     {
         monster.changeStateEvent += OnResetState;
         monster.MyState.WanderingEvent += PlayWalkSound;
-        monster.MyState.AttackingEvent += PlayWalkSound;
+        monster.MyState.WanderingEvent += CheckIsPlaying;
+        monster.MyState.AttackingEvent += PlayChaseSound;
         monster.MyState.MonsterFleeingEvent += PlayHitSound;
         monster.MyState.MonsterKillingEvent += PlayKillingSound;
 
@@ -30,17 +31,16 @@ public class MonsterSound : MonoBehaviour
 
     private void PlayKillingSound()
     {
-        Managers.Sound.BGMStop();
         if (!isPlaying)
         {
             isPlaying = true;
+            Managers.Sound.BGMStop();
             Managers.Sound.SFX2DPlay(killingSound);
         }
     }
 
     private void PlayHitSound()
     {
-        Managers.Sound.BGMPlay(attackBGM, defaultBGMVolume);
         if (!isPlaying)
         {
             isPlaying = true;
@@ -50,12 +50,29 @@ public class MonsterSound : MonoBehaviour
 
     private void PlayWalkSound()
     {
-        Managers.Sound.SceneBGMRePlay();
         curTime += Time.deltaTime;
         if (curTime > maxWalkingTime)
         {
             Managers.Sound.SFX3DPlay(walkSound, this.transform);
             curTime = 0f;
+        }
+    }
+
+    private void PlayChaseSound()
+    {
+        if (!isPlaying)
+        {
+            isPlaying = true;
+            Managers.Sound.BGMPlay(attackBGM, defaultBGMVolume);
+        }
+    }
+
+    private void CheckIsPlaying()
+    {
+        if (!isPlaying)
+        {
+            isPlaying = true;
+            Managers.Sound.SceneBGMRePlay();
         }
     }
 
