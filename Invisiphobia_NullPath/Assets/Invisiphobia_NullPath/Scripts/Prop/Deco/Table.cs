@@ -23,7 +23,7 @@ public class Table : BaseItem
         base.Init();
         for (int i = 0; i < itemTable.interactText.Count; i++)
         {
-            tableArr[i] = DataService.GetItemInteractText(ItemTable.interactText[0]);
+            tableArr[i] = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
         }
         //actionText = DataServise.GetInteractText(ItemTable.actionText);
     }
