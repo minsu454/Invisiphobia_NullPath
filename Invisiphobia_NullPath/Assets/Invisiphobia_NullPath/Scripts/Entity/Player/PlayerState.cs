@@ -20,6 +20,6 @@ public class PlayerState : MonoBehaviour
 
     public void Clear()
     {
-        Debug.Log("깼음");
+        GameManager.Instance.GameClear();
     }
 }

@@ -21,18 +21,26 @@ public class FlickeringLight : MonoBehaviour
 
     [SerializeField] private Rigidbody lampRigidbody; // 전등의 Rigidbody
     [SerializeField] private float forceAmount = 10f; // 가할 힘의 크기
+
+    private Coroutine coLightFliker;
+
+    private bool isPlay;
+
     /// <summary>
     /// 기준 거리 내에 있는 오브젝트를 반환
     /// </summary>
     /// <returns>리스트로 반환되는 오브젝트들</returns>
-
     private void Start()
     {
         triggerDetector.EnterEvent += TriggerEnter;
+        triggerDetector.ExitEvent += TriggerExit;
     }
 
-    public void TriggerEnter(Collider other)
+    private void TriggerEnter(Collider other)
     {
+        if (isPlay)
+            return;
+
         if(other.CompareTag("Player"))
         {
             middleJoint.SetActive(false);
@@ -44,10 +52,18 @@ public class FlickeringLight : MonoBehaviour
 
             if (mylight != null)
             {
-                StartCoroutine(CoLightFliker());
+                coLightFliker = StartCoroutine(CoLightFliker());
             }
+
+            isPlay = true;
         }
 
+    }
+
+    private void TriggerExit(Collider other)
+    {
+        if(coLightFliker != null)
+            StopCoroutine(coLightFliker);
     }
 
     /// <summary>
