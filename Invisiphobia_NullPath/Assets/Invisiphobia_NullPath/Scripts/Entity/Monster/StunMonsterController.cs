@@ -20,7 +20,7 @@ public class StunMonsterController : MonsterController
     protected const float fieldOfView = 180f;
 
     private float hideAttackDistance = 5f;   // 숨었을 때 공격 범위
-    private const float attackDistance = 1f;
+    private const float attackDistance = 1.7f;
 
     private Coroutine timer;
     protected NavMeshHit hit;
