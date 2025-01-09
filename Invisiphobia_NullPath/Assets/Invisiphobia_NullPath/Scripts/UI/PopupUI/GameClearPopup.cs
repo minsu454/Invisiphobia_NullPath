@@ -17,6 +17,7 @@ public class GameClearPopup : BasePopupUI
         base.Init(option);
         EventManager.Dispatch(GameEventType.UseLockMouse, false);
         EventManager.Dispatch(GameEventType.UseEsc, false);
+        EventManager.Dispatch(GameEventType.UseMonsterPause, true);
     }
 
     public void GoTitle()
