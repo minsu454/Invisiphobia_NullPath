@@ -1,6 +1,7 @@
 using Common.EnumExtensions;
 using Common.Path;
 using Common.StringEx;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,26 +15,25 @@ public class EventParts : MonoBehaviour, IParts
     [SerializeField] private TabletType tabletType;
     public TabletType TabletType { get { return tabletType; } }
 
-    public string PuzzlePath { get; private set; } = string.Empty;
-
+    public string PuzzlePath { get { return puzzlePath; } }
+    
     private Regex pattern = new Regex(@"^UI/Puzzle/(.+)\.prefab$");
 
-    public void Init(string useGoPath, List<PointData> eventList)
-    {
-        try
-        {
-            tabletType = PathToEnum(useGoPath);
-            PuzzlePath = tabletType != TabletType.None ? useGoPath : string.Empty;
+    [SerializeField] private string puzzlePath;
 
-            for (int i = 0; i < eventList.Count; i++)
-            {
-                OnCompleteTrList[i].position = eventList[i].Pos;
-                OnCompleteTrList[i].rotation = eventList[i].Rot;
-            }
-        }
-        catch
+    public void Init()
+    {
+
+    }
+
+    public void Setting(string useGoPath, List<PointData> eventList)
+    {   
+        tabletType = PathToEnum(useGoPath);
+        puzzlePath = tabletType != TabletType.None ? useGoPath : string.Empty;
+        for (int i = 0; i < eventList.Count; i++)
         {
-            throw new ArgumentNullException(gameObject.name);
+            OnCompleteTrList[i].position = eventList[i].Pos;
+            OnCompleteTrList[i].rotation = eventList[i].Rot;
         }
     }
 

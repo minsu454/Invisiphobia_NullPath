@@ -40,6 +40,6 @@ public class ButtonAndDoor : MonoBehaviour
         elapsedTime = 0f;
 
         door.transform.rotation = b;
-        Managers.Sound.SFX3DPlay(doorOpen, gameObject.transform);
+        Managers.Sound.SFX3DPlay(doorOpen, gameObject.transform, 10);
     }
 }
