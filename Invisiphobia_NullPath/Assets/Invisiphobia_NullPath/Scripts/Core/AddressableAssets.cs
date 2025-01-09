@@ -101,9 +101,7 @@ namespace Common.Assets
         {
             try
             {
-                Debug.Log($"{path} start");
                 T t = await Addressables.LoadAssetAsync<T>(path);
-                Debug.Log($"{path} end");
                 return t;
             }
             catch(Exception e)

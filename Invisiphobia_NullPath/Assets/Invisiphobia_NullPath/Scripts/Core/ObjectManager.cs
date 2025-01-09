@@ -32,7 +32,6 @@ namespace Common.Objects
                 {
                     taskList.Add(LoadAndAddObjectAsync(item.PrimaryKey));
                 }
-                Debug.Log("WhenAll in");
                 await UniTask.WhenAll(taskList);
             }
             catch
