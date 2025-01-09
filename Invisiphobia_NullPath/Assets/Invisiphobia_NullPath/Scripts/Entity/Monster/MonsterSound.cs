@@ -7,13 +7,13 @@ public class MonsterSound : MonoBehaviour
     [SerializeField] private AudioClip hitSound;
     [SerializeField] private AudioClip chaseSound;
     [SerializeField] private AudioClip killingSound;
+    [SerializeField] private float maxWalkingTime;
 
     [Header("BGM")]
     [SerializeField] private AudioClip attackBGM;
     [SerializeField] private float defaultBGMVolume = 0.5f;
 
     private float curTime;
-    private float maxWalkingTime;
 
     private bool isPlaying = false;
 
