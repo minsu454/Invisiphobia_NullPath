@@ -217,12 +217,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1150f70070aff3941a4e2931f98ecee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSound: {fileID: 8300000, guid: b437247811dba894596d42c342e949a7, type: 3}
+  walkSound: {fileID: 8300000, guid: 2975b55e88a656e4ebea3677cf51b7a5, type: 3}
   hitSound: {fileID: 8300000, guid: 68a2b9c01a61ca042b1f878ddc865272, type: 3}
   chaseSound: {fileID: 8300000, guid: e5452e7b0cfafc14ca5da0a8739f9f6a, type: 3}
   killingSound: {fileID: 8300000, guid: e5452e7b0cfafc14ca5da0a8739f9f6a, type: 3}
-  unrevealKillingSound: {fileID: 8300000, guid: 73a47c6a0b7e0b54d84de65c408c2242,
-    type: 3}
+  attackBGM: {fileID: 0}
+  defaultBGMVolume: 0.5
 --- !u!114 &-5057835705840011212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +238,7 @@ MonoBehaviour:
   lookTargetTr: {fileID: 330364864922328449}
   killEase: 17
   duration: 1.2
+  light: {fileID: 0}
 --- !u!1 &8638850134710017643
 GameObject:
   m_ObjectHideFlags: 0
