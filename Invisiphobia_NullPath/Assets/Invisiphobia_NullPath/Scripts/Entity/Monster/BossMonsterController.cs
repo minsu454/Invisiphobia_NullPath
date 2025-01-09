@@ -36,10 +36,12 @@ public class BossMonsterController : MonsterController
         EventManager.Dispatch(GameEventType.UseMove, false);
         EventManager.Dispatch(GameEventType.UseEsc, false);
         EventManager.Dispatch(GameEventType.UseFollowMouse, transform);
+        EventManager.Dispatch(GameEventType.UseTabletPause, true);
         transform.DOMoveY(1, 4).OnComplete(() =>
         { 
             EventManager.Dispatch(GameEventType.UseEsc, true);
             EventManager.Dispatch(GameEventType.UseMove, true);
+            EventManager.Dispatch(GameEventType.UseTabletPause, false);
             EventManager.Dispatch(GameEventType.UseFollowMouse, null);
             agent.enabled = true;
         });
