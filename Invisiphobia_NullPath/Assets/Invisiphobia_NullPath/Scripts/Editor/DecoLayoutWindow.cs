@@ -356,7 +356,7 @@ public class DecoLayoutWindow : CustomWindow<DecoLayoutWindow>
             go.transform.rotation = data.Rot;
 
             EventParts parts = go.GetComponent<EventParts>();
-            parts.Init(data.useGoPath, data.eventList);
+            parts.Setting(data.useGoPath, data.eventList);
         }
 
         isLoaded = true;
