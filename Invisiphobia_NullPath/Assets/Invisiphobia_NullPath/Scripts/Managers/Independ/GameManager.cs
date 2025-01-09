@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     public void GameClear()
     {
-
+        Managers.UI.CreatePopup<GameClearPopup>();
     }
 
     public void GameOver()
