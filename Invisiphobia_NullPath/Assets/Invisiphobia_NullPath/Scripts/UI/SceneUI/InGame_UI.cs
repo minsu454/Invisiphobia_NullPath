@@ -1,6 +1,7 @@
 using Common.Data;
 using Common.Event;
 using Common.SceneEx;
+using DG.Tweening;
 using Michsky.UI.Dark;
 using TMPro;
 using UnityEngine;
@@ -20,7 +21,8 @@ public class InGame_UI : BaseSceneUI
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI interactKeyText;
     [SerializeField] private TextMeshProUGUI interactDescriptionKeyText;
-    [SerializeField] private TextMeshProUGUI useDescriptionKey;
+    [SerializeField] private TextMeshProUGUI errorMessageText;
+    private Tween errorMessageTween;
 
     [Header("Panel")]
     [SerializeField] private MainPanelManager mainPanelManager;
@@ -35,6 +37,7 @@ public class InGame_UI : BaseSceneUI
         player.PlayerController.playerEscActionEvent += SetPause;
         player.PlayerMovement.SetUI(staminaBar, sprintBarCanvasGroup);
         player.PlayerInteract.interactUIEvent += SetInteractDescriptionKey;
+        player.PlayerInteract.errorMessageUIEvent += SetErrorMessageText;
         player.PlayerInventory.OnHandItemChanged += SetInteractKey;
 
         mainPanelManager.OpenFirstTab();
@@ -90,6 +93,23 @@ public class InGame_UI : BaseSceneUI
         else
         {
             interactKeyText.text = "[R-click + L-click] : " + interact.ActionText;
+        }
+    }
+
+    private void SetErrorMessageText(IErrorMessageable errorMessage)
+    {
+        if(errorMessageTween != null)
+        {
+            errorMessageTween.Kill();
+            errorMessageTween = null;
+        }    
+
+        if (errorMessage == null)
+            errorMessageText.text = "";
+        else
+        {
+            errorMessageText.text = $"{errorMessage.ErrorMessageText}";
+            errorMessageTween = errorMessageText.DOFade(0, 1.5f).OnComplete(()=> errorMessageText.text = "");
         }
     }
 

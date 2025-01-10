@@ -38,9 +38,9 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
 
     [Header("Error Message")]
     [SerializeField] private DoorErrorType doorErrorType;
-    protected string errorMessageText;
-    public string ErrorMessageText {  get { return errorMessageText; } }
-
+    protected string curErrorMessageText;
+    public string ErrorMessageText {  get { return curErrorMessageText; } }
+    private string errorMessageText;
     public void Start()
     {
         playerTr = EntityManager.Instance.Player.transform;
@@ -50,6 +50,7 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
         itemTable = DataService.GetItemTableByKey(itemId);
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
         errorMessageText = DataService.GetItemText(ItemTable.errorMessage[(int)doorErrorType]);
+        curErrorMessageText = "";
     }
     private void Update()
     {
@@ -68,6 +69,8 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
     }
     public void Interact(Player player)
     {
+        curErrorMessageText = "";
+
         if ((elapsedTime != 0))
         {
             return;
@@ -78,6 +81,7 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
             if(isOpen == false)
             {
                 interactText = "";
+                curErrorMessageText = errorMessageText;
                 return;
             }
         }

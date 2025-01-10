@@ -19,6 +19,10 @@ public class PlayerInteract : MonoBehaviour
     public Action<IInteractable> interactUIEvent;
     private bool useInHandItemInteractUI = true;
 
+    [Header("ErrorMessage GameObject")]
+    private IErrorMessageable curErrorMessageable;
+    public Action<IErrorMessageable> errorMessageUIEvent;
+
     private Camera mainCam;
     private Player player;
 
@@ -54,10 +58,19 @@ public class PlayerInteract : MonoBehaviour
         if (!Physics.Raycast(ray, out raycastHit, maxDistance, layerMask))
             return;
 
+        if (raycastHit.collider.TryGetComponent(out IErrorMessageable errorMessageable))
+        {
+            curErrorMessageable = errorMessageable;
+        }
+        else
+        {
+            curErrorMessageable = null;
+        }
+
         if (!raycastHit.collider.TryGetComponent(out IInteractable interactable))
             return;
 
-        if  (!interactable.IsReveal || !useInHandItemInteractUI)
+        if (!interactable.IsReveal || !useInHandItemInteractUI)
             return;
 
         curInteractable = interactable;
@@ -69,6 +82,8 @@ public class PlayerInteract : MonoBehaviour
         {
             curInteractable.Interact(player);
         }
+
+        errorMessageUIEvent.Invoke(curErrorMessageable);
     }
 
     private void OnUseInHandItemInteractUI(bool use)
