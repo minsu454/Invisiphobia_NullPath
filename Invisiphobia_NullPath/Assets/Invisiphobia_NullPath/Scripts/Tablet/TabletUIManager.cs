@@ -1,3 +1,4 @@
+using Common.Event;
 using Common.Objects;
 using Common.Yield;
 using System;
@@ -163,8 +164,10 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         StartCoroutine(CoGlitch());
         GameObject updateUI = UpdateUIList[index];
         updateUI.SetActive(true);
+        EventManager.Dispatch(GameEventType.UseTabletInput, false);
         yield return YieldCache.WaitForSeconds(4f);
         StartCoroutine(CoGlitch());
+        EventManager.Dispatch(GameEventType.UseTabletInput, true);
         updateUI.SetActive(false);
     }
 
