@@ -59,7 +59,7 @@ public class PlayerInventory : MonoBehaviour
 
         item.gameObject.SetActive(false);
 
-        CleanInventory(item);
+        CleanInventoryOneItem(item);
         groundItemStack.Push(item);
         SetTabletHidden();
 
@@ -86,7 +86,13 @@ public class PlayerInventory : MonoBehaviour
         return false;
     }
 
-    private void CleanInventory(InHandItem item)
+    private void CleanInventoryOneItem(InHandItem item)
+    {
+        DropItem();
+        curCount = (int)item.ItemTable.itemCarryType;
+    }
+
+    private void CleanInventoryTwoItem(InHandItem item)
     {
         int temp = (int)item.ItemTable.itemCarryType + curCount;
         
