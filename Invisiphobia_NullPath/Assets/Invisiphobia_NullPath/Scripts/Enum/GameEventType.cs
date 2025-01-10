@@ -6,12 +6,14 @@ public enum GameEventType
     UseMove,
     UseInput,
     UseEsc,
+    UseTabletInput,
     UseTabletPause,
     UseMonsterPause,
     UseCrossHair,
 
     UseLockMouse,
     UseFollowMouse,
+    UseWheelClick,
 
     BossSpawn,
     CameraAnim,

@@ -1,17 +1,18 @@
+using Common.Event;
 using Common.Objects;
 using Common.Yield;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 {
     [SerializeField] private List<WorldUI<TabletStateType>> worldUIList = new List<WorldUI<TabletStateType>>();
+
+    [SerializeField] private List<GameObject> UpdateUIList = new List<GameObject>();
 
     [SerializeField] private Volume volume;
     private LimitlessGlitch8 glitch;
@@ -151,6 +152,23 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
     public void UpdateBattery(float amount)
     {
         batteryBar.fillAmount = amount;
+    }
+
+    public void UpgradePopup(int index)
+    {
+        StartCoroutine(CoUpdate(index));
+    }
+
+    private IEnumerator CoUpdate(int index)
+    {
+        StartCoroutine(CoGlitch());
+        GameObject updateUI = UpdateUIList[index];
+        updateUI.SetActive(true);
+        EventManager.Dispatch(GameEventType.UseTabletInput, false);
+        yield return YieldCache.WaitForSeconds(4f);
+        StartCoroutine(CoGlitch());
+        EventManager.Dispatch(GameEventType.UseTabletInput, true);
+        updateUI.SetActive(false);
     }
 
     private IEnumerator CoGlitch()
