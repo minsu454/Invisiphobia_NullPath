@@ -11,7 +11,7 @@ public class MonsterSound : MonoBehaviour
 
     [Header("BGM")]
     [SerializeField] private AudioClip attackBGM;
-    [SerializeField] private float defaultBGMVolume = 0.5f;
+    [SerializeField] private float defaultVolume = 1f;
 
     private float curTime;
 
@@ -53,7 +53,7 @@ public class MonsterSound : MonoBehaviour
         curTime += Time.deltaTime;
         if (curTime > maxWalkingTime)
         {
-            Managers.Sound.SFX3DPlay(walkSound, this.transform);
+            Managers.Sound.SFX3DPlay(walkSound, this.transform, defaultVolume, 20f);
             curTime = 0f;
         }
     }
@@ -63,7 +63,7 @@ public class MonsterSound : MonoBehaviour
         if (!isPlaying)
         {
             isPlaying = true;
-            Managers.Sound.BGMPlay(attackBGM, defaultBGMVolume);
+            Managers.Sound.BGMPlay(attackBGM, defaultVolume);
         }
     }
 
