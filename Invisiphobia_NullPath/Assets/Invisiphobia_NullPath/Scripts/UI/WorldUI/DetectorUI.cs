@@ -1,3 +1,4 @@
+using Common.Event;
 using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
@@ -252,6 +253,8 @@ public class DetectorUI : WorldUI<TabletStateType>
 
         if (isReveal)
             Managers.Sound.SFX2DPlay(detectClip);
+
+        EventManager.Dispatch(GameEventType.UseMove, true);
     }
 
     /// <summary>
@@ -259,6 +262,8 @@ public class DetectorUI : WorldUI<TabletStateType>
     /// </summary>
     public void Detecting()
     {
+        EventManager.Dispatch(GameEventType.UseMove, false);
+
         for (int i = 0; i < detectedObjectList.Count; i++)
         {
             if (detectedObjectList[i].StateType == PropStateType.Revealed)
