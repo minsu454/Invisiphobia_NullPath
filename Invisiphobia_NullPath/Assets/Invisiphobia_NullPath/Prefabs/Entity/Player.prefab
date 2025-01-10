@@ -678,6 +678,7 @@ MonoBehaviour:
   isSprinting: 0
   isCrouched: 0
   isHoldRightmouse: 0
+  isHoldWheelmouse: 0
 --- !u!114 &6213999383182059277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -948,6 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9043682b98692fe4ebe3cc33aeb5d55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 30
 --- !u!1 &1954151410181498311
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,6 +2025,7 @@ MonoBehaviour:
   maxDetectTime: 2
   usePause: 0
   detectClip: {fileID: 8300000, guid: 8fdc52102f46c404eaede32e1d85d227, type: 3}
+  mapCam: {fileID: 1499801526673941177}
 --- !u!114 &2474385467035455978
 MonoBehaviour:
   m_ObjectHideFlags: 0

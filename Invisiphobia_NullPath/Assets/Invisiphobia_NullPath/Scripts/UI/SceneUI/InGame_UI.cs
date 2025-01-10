@@ -57,17 +57,18 @@ public class InGame_UI : BaseSceneUI
         if (mainPanelManager.currentPanelIndex == 0 && !isPause)
         {
             mainPanelManager.OpenPanel("Pause");
-            EventManager.Dispatch(GameEventType.UseInput, isPause);
             EventManager.Dispatch(GameEventType.UseTabletPause, !isPause);
+            EventManager.Dispatch(GameEventType.UseInput, isPause);
             EventManager.Dispatch(GameEventType.UseMonsterPause, !isPause);
             isPause = true;
         }
         else if (mainPanelManager.currentPanelIndex == 1 && pausePanelManager.currentPanelIndex == 0 && isPause)
         {
             mainPanelManager.OpenFirstTab();
-            EventManager.Dispatch(GameEventType.UseInput, isPause);
             EventManager.Dispatch(GameEventType.UseTabletPause, !isPause);
+            EventManager.Dispatch(GameEventType.UseInput, isPause);
             EventManager.Dispatch(GameEventType.UseMonsterPause, !isPause);
+            crossHair.SetActive(true);
             isPause = false;
         }
     }
