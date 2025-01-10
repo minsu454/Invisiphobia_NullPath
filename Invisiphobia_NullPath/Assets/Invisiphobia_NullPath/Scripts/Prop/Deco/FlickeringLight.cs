@@ -6,8 +6,7 @@ using UnityEngine;
 public class FlickeringLight : MonoBehaviour
 {
     [SerializeField] private Light mylight;
-    [SerializeField] private float minTime = 1f;
-    [SerializeField] private float maxTime = 2f;
+    [SerializeField] private float waitTime = 1f;
     [SerializeField] private float minIntensity;
     [SerializeField] private float maxIntensity;
 
@@ -90,7 +89,6 @@ public class FlickeringLight : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(minTime, maxTime);
             mylight.intensity = Random.Range(minIntensity, maxIntensity);
 
             if (Random.value > 0.7f)
@@ -100,8 +98,8 @@ public class FlickeringLight : MonoBehaviour
                 Managers.Sound.SFX3DPlay(filckClip, transform);
                 mylight.enabled = true;
             }
-            yield return YieldCache.WaitForSeconds(waitTime);
-            Managers.Sound.SFX3DPlay(shakeClip, transform);
+            yield return YieldCache.WaitForSeconds(waitTime * 2); // 실행 간격 늘리기
+            Managers.Sound.SFX3DPlay(shakeClip, transform, 0.7f);
         }
     }
 }
