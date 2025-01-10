@@ -12,6 +12,7 @@ public enum GameEventType
 
     UseLockMouse,
     UseFollowMouse,
+    UseWheelClick,
 
     BossSpawn,
     CameraAnim,

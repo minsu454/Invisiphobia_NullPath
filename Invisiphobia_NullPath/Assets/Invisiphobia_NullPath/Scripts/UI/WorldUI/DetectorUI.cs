@@ -1,3 +1,4 @@
+using Common.Event;
 using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,6 +32,9 @@ public class DetectorUI : WorldUI<TabletStateType>
     [Header("Sound")]
     [SerializeField] private AudioClip detectClip;                              //감지 완료 시 사운드
 
+    [Header("MapCamera")]
+    [SerializeField] private MapCamera mapCam;
+
     private void OnEnable()
     {
         StartTimer();
@@ -43,6 +47,8 @@ public class DetectorUI : WorldUI<TabletStateType>
         popup.enabled = false;
         detector.EnterEvent += TriggerEnter;
         detector.ExitEvent += TriggerExit;
+
+        mapCam.Init();
     }
 
     public override void Subscribe(IActiveStatable<TabletStateType> subject)
@@ -252,6 +258,11 @@ public class DetectorUI : WorldUI<TabletStateType>
 
         if (isReveal)
             Managers.Sound.SFX2DPlay(detectClip);
+
+        EventManager.Dispatch(GameEventType.UseMove, true);
+        EventManager.Dispatch(GameEventType.UseLockMouse, true);
+        EventManager.Dispatch(GameEventType.UseWheelClick, false);
+        mapCam.ResetPos();
     }
 
     /// <summary>
@@ -259,6 +270,11 @@ public class DetectorUI : WorldUI<TabletStateType>
     /// </summary>
     public void Detecting()
     {
+        mapCam.OnTab();
+        EventManager.Dispatch(GameEventType.UseMove, false);
+        EventManager.Dispatch(GameEventType.UseLockMouse, false);
+        EventManager.Dispatch(GameEventType.UseWheelClick, true);
+
         for (int i = 0; i < detectedObjectList.Count; i++)
         {
             if (detectedObjectList[i].StateType == PropStateType.Revealed)
