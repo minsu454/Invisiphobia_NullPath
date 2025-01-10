@@ -881,7 +881,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 33024
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 4fa700edfc656a34a9555954f0c3d690, type: 2}
   m_TargetDisplay: 0
@@ -2095,6 +2095,9 @@ MonoBehaviour:
   popup: {fileID: 5450815273642133193}
   detector: {fileID: 1132262953016006904}
   maxDetectTime: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8200
   usePause: 0
   detectClip: {fileID: 8300000, guid: 8fdc52102f46c404eaede32e1d85d227, type: 3}
   mapCam: {fileID: 1499801526673941177}
