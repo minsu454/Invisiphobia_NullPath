@@ -29,7 +29,7 @@ public class ItemTable
     /// <summary>
     /// 설명
     /// </summary>
-    public int description;
+    public List<int> description;
 
     /// <summary>
     /// 경로

@@ -25,7 +25,7 @@ public class DetectorUI : WorldUI<TabletStateType>
     private float curDetectTime = 0;                                            //현재 감지 시간 변수
     [SerializeField] private float maxDetectTime = 2f;                          //최대 감지 시간 변수
 
-    private int layerMask;                                                      //벽 레이어 변수
+    [SerializeField] private LayerMask layerMask;                                                      //벽 레이어 변수
 
     [SerializeField] private bool usePause = false;                             //퍼즈 사용 여부
 
@@ -42,8 +42,6 @@ public class DetectorUI : WorldUI<TabletStateType>
 
     public override void Init(IActiveStatable<TabletStateType> subject)
     {
-        layerMask = LayerMask.GetMask("Wall");
-
         popup.enabled = false;
         detector.EnterEvent += TriggerEnter;
         detector.ExitEvent += TriggerExit;
