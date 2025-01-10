@@ -270,7 +270,6 @@ public class DetectorUI : WorldUI<TabletStateType>
     /// </summary>
     public void Detecting()
     {
-        mapCam.OnTab();
         EventManager.Dispatch(GameEventType.UseMove, false);
         EventManager.Dispatch(GameEventType.UseLockMouse, false);
         EventManager.Dispatch(GameEventType.UseWheelClick, true);
