@@ -1,4 +1,5 @@
 using Common.Data;
+using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
@@ -7,6 +8,8 @@ using UnityEngine;
 public class ButtonAndDoor : MonoBehaviour
 {
     [SerializeField] private AudioClip doorOpen;
+    [SerializeField] private AudioClip buttonPress;
+    [SerializeField] private float doorOpenDelay = 1.0f;
     float elapsedTime = 0f;
 
     public GameObject door;
@@ -19,10 +22,12 @@ public class ButtonAndDoor : MonoBehaviour
         startRotation = door.transform.rotation;
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out ThrowItem item))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
+            Managers.Sound.SFX3DPlay(buttonPress, gameObject.transform);
             StartCoroutine(CoOpenDoor(startRotation, endRotation, 1f));
         }
     }
@@ -30,6 +35,7 @@ public class ButtonAndDoor : MonoBehaviour
     private IEnumerator CoOpenDoor(Quaternion a, Quaternion b, float timeToAnimate)
     {
         elapsedTime = 0f;
+        yield return YieldCache.WaitForSeconds(doorOpenDelay);
 
         while (elapsedTime < timeToAnimate)
         {
@@ -40,6 +46,6 @@ public class ButtonAndDoor : MonoBehaviour
         elapsedTime = 0f;
 
         door.transform.rotation = b;
-        Managers.Sound.SFX3DPlay(doorOpen, gameObject.transform, 10);
+        Managers.Sound.SFX2DPlay(doorOpen);
     }
 }
