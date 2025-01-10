@@ -101,7 +101,7 @@ public class Tablet : MonoBehaviour
     /// </summary>
     public void Hidden()
     {
-        OnSwitchTabletScreen(0);
+        manager.ChoiceIdx = 0;
         State = TabletStateType.Hidden;
     }
 
@@ -259,6 +259,9 @@ public class Tablet : MonoBehaviour
 
     private void OnUsePause(object args)
     {
+        if (State == TabletStateType.Hidden)
+            return;
+
         bool value = (bool)args;
 
         if (value)
