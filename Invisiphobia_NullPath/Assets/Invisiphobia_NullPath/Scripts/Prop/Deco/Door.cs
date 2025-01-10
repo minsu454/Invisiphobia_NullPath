@@ -3,8 +3,9 @@ using Common.Yield;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.Rendering.DebugUI;
 
-public class Door : MonoBehaviour, IInteractable
+public class Door : MonoBehaviour, IInteractable, IErrorMessageable
 {
     private bool isOpen = false; // 문이 열린 상태인지 확인하는 변수
     float elapsedTime = 0f;
@@ -35,6 +36,11 @@ public class Door : MonoBehaviour, IInteractable
 
     public bool IsReveal => true;
 
+    [Header("Error Message")]
+    [SerializeField] private DoorErrorType doorErrorType;
+    protected string errorMessageText;
+    public string ErrorMessageText {  get { return errorMessageText; } }
+
     public void Start()
     {
         playerTr = EntityManager.Instance.Player.transform;
@@ -43,6 +49,7 @@ public class Door : MonoBehaviour, IInteractable
 
         itemTable = DataService.GetItemTableByKey(itemId);
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
+        errorMessageText = DataService.GetItemText(ItemTable.errorMessage[(int)doorErrorType]);
     }
     private void Update()
     {

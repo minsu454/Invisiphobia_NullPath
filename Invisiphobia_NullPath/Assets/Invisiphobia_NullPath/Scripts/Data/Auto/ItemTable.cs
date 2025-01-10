@@ -27,9 +27,9 @@ public class ItemTable
     public int itemName;
 
     /// <summary>
-    /// 설명
+    /// 에러메시지
     /// </summary>
-    public List<int> description;
+    public List<int> errorMessage;
 
     /// <summary>
     /// 경로

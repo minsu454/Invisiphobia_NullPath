@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4865924169064346373}
   - component: {fileID: 8757714904174381250}
   - component: {fileID: 7595905508325313699}
+  - component: {fileID: 2520946298768635549}
   m_Layer: 13
   m_Name: Door
   m_TagString: Untagged
@@ -123,6 +124,20 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 1.307, y: 0, z: 0.078}
   m_TimeToStationary: 0.5
+--- !u!114 &2520946298768635549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57531494590576726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bf81ca6858d1204d8aaa7f7b47cdd58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemid: 1005
+  doorErrorType: 2
 --- !u!1 &385814453922821052
 GameObject:
   m_ObjectHideFlags: 0
