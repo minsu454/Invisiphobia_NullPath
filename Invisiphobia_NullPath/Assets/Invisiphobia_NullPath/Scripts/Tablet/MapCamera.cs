@@ -12,19 +12,17 @@ public class MapCamera : MonoBehaviour
     private Vector3 firstGameObjectPos;
     private Vector3 firstInputPos;
 
+    private Transform playerTr;
+
     public void Init()
     {
+        playerTr = EntityManager.Instance.Player.transform;
         EntityManager.Instance.Player.PlayerController.playerWheelClickActionEvent += OnMove;
-    }
-
-    public void OnTab()
-    {
-        savePos = transform.position;
     }
 
     public void ResetPos()
     {
-        transform.position = savePos;
+        transform.position = playerTr.position + (Vector3.up * 20);
     }
 
     private void OnMove(bool active)
