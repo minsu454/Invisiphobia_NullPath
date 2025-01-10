@@ -2,11 +2,7 @@ using Common.Event;
 using Common.Yield;
 using System;
 using System.Collections;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Tablet : MonoBehaviour 
 {
@@ -250,6 +246,7 @@ public class Tablet : MonoBehaviour
     public void UnLockTabletSkill(int num)
     {
         tabletSkillUIArr[num].SetActive(true);
+        manager.UpgradePopup(num);
     }
 
     /// <summary>
