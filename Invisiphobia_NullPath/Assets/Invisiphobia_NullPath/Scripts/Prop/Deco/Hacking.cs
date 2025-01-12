@@ -33,6 +33,7 @@ public class Hacking : MonoBehaviour, IInteractable
     private int idx;
     private bool isOn = true;
     private bool isFirst = true;
+    private bool isCompleted = false;
 
     [Header("Door")]
     [SerializeField] private Transform door;
@@ -55,6 +56,9 @@ public class Hacking : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
+        if (isCompleted)
+            return;
+
         if (!player.PlayerInventory.Tablet.UsePuzzleSkill())
             return;
 
@@ -87,6 +91,7 @@ public class Hacking : MonoBehaviour, IInteractable
     public void OnCompleted()
     {
         StartCoroutine(DoorInteract(startRotation, endRotation, 1f));
+        isCompleted = true;
     }
 
     /// <summary>
