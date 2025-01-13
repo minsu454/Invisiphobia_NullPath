@@ -37,6 +37,7 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
     private int idx;
     private bool isOn = true;
     private bool isFirst = true;
+    private bool isCompleted = false;
 
     [Header("Door")]
     [SerializeField] private Transform door;
@@ -63,6 +64,9 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
 
     public void Interact(Player player)
     {
+        if (isCompleted)
+            return;
+
         if (!player.PlayerInventory.Tablet.UsePuzzleSkill())
         {
             curErrorMessageText = errorMessageText;

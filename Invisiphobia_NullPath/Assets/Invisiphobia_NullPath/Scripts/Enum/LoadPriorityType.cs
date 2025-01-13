@@ -3,7 +3,8 @@
 /// </summary>
 public enum LoadPriorityType
 {
-    BaseScene = 0,
+    Volume = 0,
+    BaseScene,
     Sound,
     UI,
 }

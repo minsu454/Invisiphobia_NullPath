@@ -20,6 +20,7 @@ public class InGame_UI : BaseSceneUI
 
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI interactKeyText;
+    [SerializeField] private TextMeshProUGUI interactTabletKeyText;
     [SerializeField] private TextMeshProUGUI interactDescriptionKeyText;
     [SerializeField] private TextMeshProUGUI errorMessageText;
     private Tween errorMessageTween;
@@ -42,12 +43,20 @@ public class InGame_UI : BaseSceneUI
 
         mainPanelManager.OpenFirstTab();
 
+        interactTabletKeyText.gameObject.SetActive(false);
+
         EventManager.Subscribe(GameEventType.UseCrossHair, OnSetCrossHairActive);
+        EventManager.Subscribe(GameEventType.UseWheelClick, OnSetWheelClickActive);
     }
 
     private void OnSetCrossHairActive(object args)
     {
         crossHair.SetActive(!(bool)args);
+    }
+
+    private void OnSetWheelClickActive(object args)
+    {
+        interactTabletKeyText.gameObject.SetActive((bool)args);
     }
 
     private void SetStaminaBar(int sprintRemaining)
@@ -121,6 +130,7 @@ public class InGame_UI : BaseSceneUI
     protected override void OnDestroy()
     {
         EventManager.Unsubscribe(GameEventType.UseCrossHair, OnSetCrossHairActive);
+        EventManager.Unsubscribe(GameEventType.UseWheelClick, OnSetWheelClickActive);
         base.OnDestroy();
     }
 }
