@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -78,10 +78,10 @@ namespace Michsky.UI.Dark
             {
                 if (saveValue == true)
                 {
-                    if (PlayerPrefs.HasKey("HorizontalSelector" + selectorTag) == true)
-                        defaultIndex = PlayerPrefs.GetInt("HorizontalSelector" + selectorTag);
+                    if (PlayerPrefs.HasKey(selectorTag) == true)
+                        defaultIndex = PlayerPrefs.GetInt(selectorTag);
                     else
-                        PlayerPrefs.SetInt("HorizontalSelector" + selectorTag, defaultIndex);
+                        PlayerPrefs.SetInt(selectorTag, defaultIndex);
                 }
 
                 label.text = itemList[defaultIndex].itemTitle;
@@ -142,7 +142,7 @@ namespace Michsky.UI.Dark
                         selectorAnimator.Play("Previous");
 
                     if (saveValue == true)
-                        PlayerPrefs.SetInt("HorizontalSelector" + selectorTag, index);
+                        PlayerPrefs.SetInt(selectorTag, index);
                 }
             }
 
@@ -174,11 +174,11 @@ namespace Michsky.UI.Dark
                     selectorAnimator.Play("Previous");
 
                 if (saveValue == true)
-                    PlayerPrefs.SetInt("HorizontalSelector" + selectorTag, index);
+                    PlayerPrefs.SetInt(selectorTag, index);
             }
 
             if (saveValue == true)
-                PlayerPrefs.SetInt("HorizontalSelector" + selectorTag, index);
+                PlayerPrefs.SetInt(selectorTag, index);
 
             if (enableIndicators == true)
             {
@@ -235,7 +235,7 @@ namespace Michsky.UI.Dark
                         selectorAnimator.Play("Forward");
 
                     if (saveValue == true)
-                        PlayerPrefs.SetInt("HorizontalSelector" + selectorTag, index);
+                        PlayerPrefs.SetInt(selectorTag, index);
                 }
             }
 
@@ -267,11 +267,11 @@ namespace Michsky.UI.Dark
                     selectorAnimator.Play("Forward");
 
                 if (saveValue == true)
-                    PlayerPrefs.SetInt("HorizontalSelector" + selectorTag, index);
+                    PlayerPrefs.SetInt(selectorTag, index);
             }
 
             if (saveValue == true)
-                PlayerPrefs.SetInt("HorizontalSelector" + selectorTag, index);
+                PlayerPrefs.SetInt(selectorTag, index);
 
             if (enableIndicators == true)
             {

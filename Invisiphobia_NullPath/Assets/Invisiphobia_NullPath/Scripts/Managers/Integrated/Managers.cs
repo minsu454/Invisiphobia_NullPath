@@ -1,8 +1,10 @@
 using Common.Data;
 using Common.SceneEx;
+using Common.VolumeEx;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public sealed class Managers : MonoBehaviour
 {
@@ -27,6 +29,7 @@ public sealed class Managers : MonoBehaviour
 
         DataService.Init();
         SceneJobLoader.Init();
+        VolumeManagerEx.Init();
     }
 
     private void Start()

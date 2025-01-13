@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
@@ -32,8 +32,8 @@ namespace Michsky.UI.Dark
             if (mainSlider == null) { mainSlider = gameObject.GetComponent<Slider>(); }
             if (enableSaving)
             {
-                if (PlayerPrefs.HasKey(sliderTag + "Slider") == false) { saveValue = mainSlider.value; }
-                else { saveValue = PlayerPrefs.GetFloat(sliderTag + "Slider"); }
+                if (PlayerPrefs.HasKey(sliderTag) == false) { saveValue = mainSlider.value; }
+                else { saveValue = PlayerPrefs.GetFloat(sliderTag); }
 
                 mainSlider.value = saveValue;
             }
@@ -43,7 +43,7 @@ namespace Michsky.UI.Dark
                 saveValue = mainSlider.value;
                 UpdateUI();
 
-                PlayerPrefs.SetFloat(sliderTag + "Slider", saveValue);
+                PlayerPrefs.SetFloat(sliderTag, saveValue);
             });
 
             if (invokeOnAwake) { mainSlider.onValueChanged.Invoke(mainSlider.value); }

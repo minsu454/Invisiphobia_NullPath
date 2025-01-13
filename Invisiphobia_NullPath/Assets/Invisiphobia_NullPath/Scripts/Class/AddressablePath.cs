@@ -110,7 +110,14 @@ namespace Common.Path
             return $"Entity/{name}";
         }
 
-}
+        /// <summary>
+        /// Entity 경로 반환 함수
+        /// </summary>
+        public static string VolumePath(string name)
+        {
+            return $"Volume/{name}Volume";
+        }
+    }
 
     public static class ScenePath
     {
