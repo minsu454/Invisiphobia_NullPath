@@ -192,7 +192,7 @@ namespace Michsky.UI.Dark
             QualitySettings.SetQualityLevel(qualityIndex);
         }
 
-        public void WindowFullscreen()
+        public void WindowF0ullscreen()
         {
             Screen.fullScreen = true;
             Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
