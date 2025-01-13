@@ -32,7 +32,7 @@ public class SetVolume : MonoBehaviour
 
         SetBrightness(PlayerPrefs.GetFloat("Brightness", 0.5f));
         SetGamma(PlayerPrefs.GetFloat("Gamma", 0.5f));
-        SetMotionBlur(PlayerPrefs.GetFloat("MotionBlur", 1));
+        SetMotionBlur(PlayerPrefs.GetString("MotionBlur", "true"));
 
     }
 
@@ -46,8 +46,8 @@ public class SetVolume : MonoBehaviour
         liftGammaGain.gamma.value = new Vector4(1f, 1f, 1f, (value - .5f) * 2);
     }
 
-    public void SetMotionBlur(float index)
+    public void SetMotionBlur(string str)
     {
-        motionBlur.active = index == 1 ? true : false;
+        motionBlur.active = str == "true" ? true : false;
     }
 }

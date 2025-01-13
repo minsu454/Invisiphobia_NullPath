@@ -47,7 +47,7 @@ namespace Common.VolumeEx
 
         public static void SetMotionBlur(float index)
         {
-            volume.SetMotionBlur(index);
+            volume.SetMotionBlur(index == 1 ? "true" : "false");
         }
     }
 }
