@@ -7,7 +7,7 @@ using Common.EnumExtensions;
 using Common.Path;
 using Common.Data;
 
-public class Hacking : MonoBehaviour, IInteractable
+public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
 {
     [Header("Table")]
     [SerializeField] private int itemId;
@@ -24,6 +24,10 @@ public class Hacking : MonoBehaviour, IInteractable
 
     protected string actionText;
     public string ActionText { get { return actionText; } }
+
+    protected string curErrorMessageText;
+    public string ErrorMessageText { get { return curErrorMessageText; } }
+    public string errorMessageText;
 
     public bool IsReveal => true;
 
@@ -42,6 +46,8 @@ public class Hacking : MonoBehaviour, IInteractable
     private Quaternion startRotation;
     private Quaternion endRotation;
 
+    [SerializeField] private AudioClip doorOpen;
+
     private void Start()
     {
         startRotation = door.rotation;
@@ -52,6 +58,8 @@ public class Hacking : MonoBehaviour, IInteractable
         itemTable = DataService.GetItemTableByKey(itemId);
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
         tempInteractText = interactText;
+        errorMessageText = DataService.GetItemText(ItemTable.errorMessage[0]);
+        curErrorMessageText = errorMessageText;
     }
 
     public void Interact(Player player)
@@ -60,7 +68,11 @@ public class Hacking : MonoBehaviour, IInteractable
             return;
 
         if (!player.PlayerInventory.Tablet.UsePuzzleSkill())
+        {
+            curErrorMessageText = errorMessageText;
             return;
+        }
+
 
         if (isFirst && puzzlePath != "")
         {
@@ -91,6 +103,7 @@ public class Hacking : MonoBehaviour, IInteractable
     public void OnCompleted()
     {
         StartCoroutine(DoorInteract(startRotation, endRotation, 1f));
+        Managers.Sound.SFX2DPlay(doorOpen);
         isCompleted = true;
     }
 

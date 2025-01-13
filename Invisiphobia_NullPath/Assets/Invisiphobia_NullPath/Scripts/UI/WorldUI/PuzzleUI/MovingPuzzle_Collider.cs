@@ -13,7 +13,7 @@ public class MovingPuzzle_Collider : MonoBehaviour
     [SerializeField] AudioClip clearClip;
     [SerializeField] Image myFillAmount;
 
-    public float addValue = 0.1f;
+    public float addValue = 0.25f;
     private float timer = 0f;
     private bool isOverlapping = false;
 

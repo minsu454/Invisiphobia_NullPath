@@ -1,5 +1,6 @@
 using Common.Data;
 using Common.Yield;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -41,6 +42,7 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
     protected string curErrorMessageText;
     public string ErrorMessageText {  get { return curErrorMessageText; } }
     private string errorMessageText;
+    private string doorBehindErrorMessageText;
     public void Start()
     {
         playerTr = EntityManager.Instance.Player.transform;
@@ -50,6 +52,7 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
         itemTable = DataService.GetItemTableByKey(itemId);
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
         errorMessageText = DataService.GetItemText(ItemTable.errorMessage[(int)doorErrorType]);
+        doorBehindErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[(int)DoorErrorType.Door]);
         curErrorMessageText = "";
     }
     private void Update()
@@ -81,13 +84,14 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
             if(isOpen == false)
             {
                 interactText = "";
-                curErrorMessageText = errorMessageText;
+                curErrorMessageText = doorBehindErrorMessageText;
                 return;
             }
         }
         if(mylock != null && mylock.isLocked)
         {
             Managers.Sound.SFX3DPlay(lockClip, playerTr);
+            curErrorMessageText = errorMessageText;
             return ;
         }
         if (isOpen)
