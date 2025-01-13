@@ -104,6 +104,7 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
     {
         StartCoroutine(DoorInteract(startRotation, endRotation, 1f));
         Managers.Sound.SFX2DPlay(doorOpen);
+        isCompleted = true;
     }
 
     /// <summary>
