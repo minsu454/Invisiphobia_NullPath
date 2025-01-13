@@ -12,7 +12,7 @@ public class MovingPuzzle : PuzzleUI
 
     [SerializeField] RectTransform moveRange;
 
-    [SerializeField] float moveDuration = 2f; // 이동 시간
+    [SerializeField] float moveDuration = 1.5f; // 이동 시간
     [SerializeField] private float interval = 1f; // 대기 시간
 
     [SerializeField] AudioClip clearClip;
