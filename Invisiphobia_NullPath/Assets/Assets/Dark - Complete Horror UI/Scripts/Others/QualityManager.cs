@@ -130,7 +130,7 @@ namespace Michsky.UI.Dark
                 QualitySettings.anisotropicFiltering = AnisotropicFiltering.ForceEnable;
         }
 
-        public void AntiAlisasingSet(int index)
+        public void AntiAliasingSet(int index)
         {
             // 0, 2, 4, 8 - Zero means off
             QualitySettings.antiAliasing = index;
