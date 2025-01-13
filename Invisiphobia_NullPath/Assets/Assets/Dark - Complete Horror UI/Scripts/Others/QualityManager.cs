@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 using TMPro;
+using Common.VolumeEx;
 
 namespace Michsky.UI.Dark
 {
@@ -129,7 +130,7 @@ namespace Michsky.UI.Dark
                 QualitySettings.anisotropicFiltering = AnisotropicFiltering.ForceEnable;
         }
 
-        public void AntiAlisasingSet(int index)
+        public void AntiAliasingSet(int index)
         {
             // 0, 2, 4, 8 - Zero means off
             QualitySettings.antiAliasing = index;
@@ -187,12 +188,16 @@ namespace Michsky.UI.Dark
         public void VolumeSetBGM(float volume) { Managers.Sound.SetVolume(SoundType.BGM, volume); }
         public void VolumeSetSFX(float volume) { Managers.Sound.SetVolume(SoundType.SFX, volume); }
 
+        public void SetBrightness(float volume) { VolumeManagerEx.SetBrightness(volume); }
+        public void SetGamma(float volume) { VolumeManagerEx.SetGamma(volume); }
+        public void SetMotionBlur(float volume) { VolumeManagerEx.SetMotionBlur(volume); }
+
         public void SetOverallQuality(int qualityIndex)
         {
             QualitySettings.SetQualityLevel(qualityIndex);
         }
 
-        public void WindowFullscreen()
+        public void WindowF0ullscreen()
         {
             Screen.fullScreen = true;
             Screen.fullScreenMode = FullScreenMode.FullScreenWindow;

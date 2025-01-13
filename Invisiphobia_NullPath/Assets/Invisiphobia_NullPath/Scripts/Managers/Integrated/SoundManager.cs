@@ -257,6 +257,5 @@ public sealed class SoundManager : MonoBehaviour, IInit
     public void SetVolume(SoundType type, float volume)
     {
         audioMixer.SetFloat(type.EnumToString(), Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat(type.EnumToString(), volume);
     }
 }

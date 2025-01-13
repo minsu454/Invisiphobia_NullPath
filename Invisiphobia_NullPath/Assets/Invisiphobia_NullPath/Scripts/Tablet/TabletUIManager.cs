@@ -1,5 +1,6 @@
 using Common.Event;
 using Common.Objects;
+using Common.VolumeEx;
 using Common.Yield;
 using System;
 using System.Collections;
@@ -56,7 +57,7 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         tablet.OnShotEvent += OnShot;
         hiddenEvent += tablet.UnHidden;
 
-        volume = InGameLoader.Instance.Volume;
+        volume = VolumeManagerEx.Volume;
         volume.profile.TryGet(out glitch);
     }
 
