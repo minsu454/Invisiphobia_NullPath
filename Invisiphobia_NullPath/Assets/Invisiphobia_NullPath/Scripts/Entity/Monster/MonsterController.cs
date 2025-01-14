@@ -1,4 +1,6 @@
 using Common.Event;
+using Common.Yield;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -44,6 +46,7 @@ public abstract class MonsterController : MonoBehaviour
     protected abstract void AttackingUpdate();
     public abstract void PlayerAttackMonster();
     protected abstract void LookingAtTarget();
+    public abstract IEnumerator CoRevealTime();
 
     public void SetTarget(ITargetable target)
     {
@@ -58,6 +61,7 @@ public abstract class MonsterController : MonoBehaviour
     public void Revealed()
     {
         agent.enabled = true;
+        StartCoroutine(CoRevealTime());
         LookingAtTarget();
     }
 
@@ -66,7 +70,7 @@ public abstract class MonsterController : MonoBehaviour
         monster.myRenderer.enabled = true;
         transform.LookAt(target.transform);
         agent.enabled = false;
-        monster.AiState = AIStateType.killing;
+        monster.AiState = AIStateType.Killing;
     }
 
     private void OnUseMonsterPause(object args)

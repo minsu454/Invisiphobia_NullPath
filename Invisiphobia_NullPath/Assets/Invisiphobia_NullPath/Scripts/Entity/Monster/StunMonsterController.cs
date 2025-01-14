@@ -44,7 +44,7 @@ public class StunMonsterController : MonsterController
 
         ResetWanderingCount();
 
-        monster.MyState.WanderingEvent += PassiveUpdate;
+        monster.MyState.WanderingEvent += WanderingUpdate;
         monster.MyState.FleeingEvent += FleeingUpdate;
         monster.MyState.MonsterFleeingEvent += SetStun;
     }
@@ -118,7 +118,7 @@ public class StunMonsterController : MonsterController
         wanderingCount = Random.Range(minWanderingCount, maxWanderingCount);
     }
 
-    void PassiveUpdate()
+    void WanderingUpdate()
     {
         if (!monster.RendererActive)
         {
@@ -267,5 +267,12 @@ public class StunMonsterController : MonsterController
         Vector3 directionToPlayer = (target.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
         transform.rotation = lookRotation;
+    }
+
+    public override IEnumerator CoRevealTime()
+    {
+        monster.AiState = AIStateType.Reveal;
+        yield return YieldCache.WaitForSeconds(2f);
+        monster.AiState = AIStateType.Wandering;
     }
 }

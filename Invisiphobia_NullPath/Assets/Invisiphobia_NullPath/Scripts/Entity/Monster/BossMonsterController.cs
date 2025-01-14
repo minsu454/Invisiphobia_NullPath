@@ -135,4 +135,9 @@ public class BossMonsterController : MonsterController
     {
         EventManager.Unsubscribe(GameEventType.BossSpawn, Spawn);
     }
+
+    public override IEnumerator CoRevealTime()
+    {
+        yield return null;
+    }
 }
