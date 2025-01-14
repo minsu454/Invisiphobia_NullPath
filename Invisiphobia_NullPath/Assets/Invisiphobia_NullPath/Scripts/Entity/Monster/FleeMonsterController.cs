@@ -1,4 +1,5 @@
 using Common.Event;
+using Common.Yield;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -227,5 +228,12 @@ public class FleeMonsterController : MonsterController
         Vector3 directionToPlayer = (target.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
         transform.rotation = lookRotation;
+    }
+
+    public override IEnumerator CoRevealTime()
+    {
+        monster.AiState = AIStateType.Reveal;
+        yield return YieldCache.WaitForSeconds(2f);
+        monster.AiState = AIStateType.Wandering;
     }
 }

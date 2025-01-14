@@ -18,6 +18,7 @@ public class MonsterAnim : MonoBehaviour
 
     public void Init(Monster monster)
     {
+        monster.MyState.RevealEvent += RevealAnim;
         monster.MyState.WanderingEvent += WanderingAnim;
         monster.MyState.AttackingEvent += AttackingAnim;
         monster.MyState.MonsterFleeingEvent += MonsterFleeingAnim;
@@ -32,6 +33,12 @@ public class MonsterAnim : MonoBehaviour
         animator.SetBool(attackHash, false);
         animator.SetBool(fleeHash, false);
         animator.SetBool(killHash, false);
+    }
+
+    private void RevealAnim()
+    {
+        ResetAllStates();
+        animator.SetBool(revealHash, true);
     }
 
     private void WanderingAnim()

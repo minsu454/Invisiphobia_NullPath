@@ -107,7 +107,7 @@ public class Monster : Entity, IDetectable
         myRenderer.enabled = true;
         mapIcon.Revealed();
 
-        AiState = AIStateType.Wandering;
+        AiState = AIStateType.Reveal;
     }
 
     public virtual void Invisible()

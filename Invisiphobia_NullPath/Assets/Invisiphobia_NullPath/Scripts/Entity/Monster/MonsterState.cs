@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MonsterState : MonoBehaviour
 {
+    public event Action RevealEvent;
     public event Action IdleEvent;
     public event Action WanderingEvent;
     public event Action AttackingEvent;
@@ -22,6 +23,9 @@ public class MonsterState : MonoBehaviour
     {
         switch (monster.AiState)
         {
+            case AIStateType.Reveal:
+                RevealEvent?.Invoke();
+                break;
             case AIStateType.Idle:
                 IdleEvent?.Invoke();
                 break;
@@ -37,7 +41,7 @@ public class MonsterState : MonoBehaviour
             case AIStateType.MonsterFleeing:
                 MonsterFleeingEvent?.Invoke();
                 break;
-            case AIStateType.killing:
+            case AIStateType.Killing:
                 MonsterKillingEvent?.Invoke();
                 break;
         }
