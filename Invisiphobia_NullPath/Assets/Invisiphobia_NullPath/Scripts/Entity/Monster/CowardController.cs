@@ -1,3 +1,4 @@
+using Common.Event;
 using System;
 using System.Threading;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class CowardController : MonoBehaviour, IDetectable
 
     public float fadeDuration = 2f;
     public float timeOutOfSight = 0f;
+    public float saveSpeed;
 
     private Color originalColor;
 
@@ -48,6 +50,7 @@ public class CowardController : MonoBehaviour, IDetectable
         GameObject go = Instantiate(mapIconPrefab);
         mapIcon = go.GetComponent<MapIcon>();
         mapIcon.Init(transform);
+        EventManager.Subscribe(GameEventType.UseMonsterPause, OnUseMonsterPause);
     }
 
     private void Update()
@@ -179,6 +182,22 @@ public class CowardController : MonoBehaviour, IDetectable
         else
         {
             mapIcon.Invisible();
+        }
+    }
+
+    private void OnUseMonsterPause(object args)
+    {
+        if (StateType != PropStateType.Revealed)
+            return;
+
+        if ((bool)args)
+        {
+            saveSpeed = agent.speed;
+            agent.speed = 0f;
+        }
+        else
+        {
+            agent.speed = saveSpeed;
         }
     }
 }
