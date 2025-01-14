@@ -327,7 +327,7 @@ public class EventLayoutWindow : CustomWindow<EventLayoutWindow>
             go.transform.rotation = data.Rot;
         }
 
-        foreach (PointData data in totalData.ItemDataList)
+        foreach (ItemData data in totalData.ItemDataList)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
             GameObject go = Instantiate(prefab);

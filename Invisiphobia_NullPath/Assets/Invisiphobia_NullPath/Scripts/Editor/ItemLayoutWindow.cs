@@ -258,15 +258,16 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
         TotalMapData data = totalData;
 
         data.ItemDataList.Clear();
-        data.ItemDataList = new List<PointData>();
+        data.ItemDataList = new List<ItemData>();
 
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
             Prop itemParts = parts as Prop;
-            PointData itemData = new PointData(
+            ItemData itemData = new ItemData(
                 itemParts.name,
                 itemParts.transform.position,
-                itemParts.transform.rotation);
+                itemParts.transform.rotation,
+                itemParts.StateType);
 
             data.ItemDataList.Add(itemData);
         }
@@ -311,7 +312,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
             go.transform.rotation = data.Rot;
         }
 
-        foreach (PointData data in totalData.ItemDataList)
+        foreach (ItemData data in totalData.ItemDataList)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
             GameObject go = Instantiate(prefab);

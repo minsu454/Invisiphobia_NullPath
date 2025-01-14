@@ -1,20 +1,21 @@
-using System;
+﻿using System;
 using UnityEngine;
-
 /// <summary>
 /// 위치 저장 데이터
 /// </summary>
 [Serializable]
-public class PointData
+public class ItemData
 {
     public string Name;
     public Vector3 Pos;
     public Quaternion Rot;
+    public PropStateType type;
 
-    public PointData(string name, Vector3 pos, Quaternion rot)
+    public ItemData(string name, Vector3 pos, Quaternion rot, PropStateType type)
     {
         Name = name;
         Pos = pos;
         Rot = rot;
+        this.type = type;
     }
 }

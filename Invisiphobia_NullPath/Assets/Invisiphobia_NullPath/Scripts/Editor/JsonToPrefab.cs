@@ -58,7 +58,7 @@ public static class JsonToPrefab
                 go.transform.rotation = data.Rot;
             }
 
-            foreach (PointData data in totalData.ItemDataList)
+            foreach (ItemData data in totalData.ItemDataList)
             {
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
                 go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, ingame.transform);

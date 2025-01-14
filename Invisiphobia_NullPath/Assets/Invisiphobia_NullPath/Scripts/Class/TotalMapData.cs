@@ -9,6 +9,6 @@ public class TotalMapData
     public EntityData EntityData = new EntityData();
     public List<RoomData> RoomDataList = new List<RoomData>();
     public List<PointData> DecorDataList = new List<PointData>();
-    public List<PointData> ItemDataList = new List<PointData>();
+    public List<ItemData> ItemDataList = new List<ItemData>();
     public List<EventData> EventDataList = new List<EventData>();
 }
