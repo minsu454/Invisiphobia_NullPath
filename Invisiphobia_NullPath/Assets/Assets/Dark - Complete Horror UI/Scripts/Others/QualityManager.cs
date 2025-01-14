@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using TMPro;
 using Common.Setting;
 using System;
+using Common.Data;
 
 namespace Michsky.UI.Dark
 {
@@ -217,19 +218,24 @@ namespace Michsky.UI.Dark
 
         public void SetLookSensitivity(float volume) { SettingManager.SetLookSensitivity(volume); }
 
-        public void SetZoomHold(float index)
+        public void SetZoomHold(int index)
         {
             SettingManager.SetZoomHold(index);
         }
 
-        public void SetRunHold(float index)
+        public void SetRunHold(int index)
         {
             SettingManager.SetRunHold(index);
         }
 
-        public void SetCrouchHold(float index)
+        public void SetCrouchHold(int index)
         {
             SettingManager.SetCrouchHold(index);
+        }
+
+        public void SetLanguage(int index)
+        {
+            DataService.SetLanguage(index);
         }
     }
 }
