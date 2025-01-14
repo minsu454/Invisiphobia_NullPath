@@ -281,7 +281,8 @@ public class EventLayoutWindow : CustomWindow<EventLayoutWindow>
                 eventParts.transform.position,
                 eventParts.transform.rotation,
                 eventParts.GetPath(),
-                eventList);
+                eventList,
+                eventParts.IsCompleted);
 
             data.EventDataList.Add(eventData);
         }
@@ -367,7 +368,7 @@ public class EventLayoutWindow : CustomWindow<EventLayoutWindow>
             go.transform.rotation = data.Rot;
 
             EventParts parts = go.GetComponent<EventParts>();
-            parts.Setting(data.useGoPath, data.eventList);
+            parts.Setting(data.isCompleted, data.useGoPath, data.eventList);
 
             saveManager.Add(parts);
         }

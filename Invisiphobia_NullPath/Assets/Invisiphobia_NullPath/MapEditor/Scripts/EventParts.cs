@@ -11,7 +11,12 @@ using UnityEngine.SceneManagement;
 
 public class EventParts : MonoBehaviour, IParts
 {
+    [Header("Completed")]
+    [SerializeField] private bool isCompleted = false;
+    public bool IsCompleted { get { return isCompleted; } set { isCompleted = value; } }
     public List<Transform> OnCompleteTrList = new List<Transform>();
+
+    [Header("TabletType")]
     [SerializeField] private TabletType tabletType;
     public TabletType TabletType { get { return tabletType; } }
 
@@ -26,8 +31,9 @@ public class EventParts : MonoBehaviour, IParts
 
     }
 
-    public void Setting(string useGoPath, List<PointData> eventList)
-    {   
+    public void Setting(bool isCompleted, string useGoPath, List<PointData> eventList)
+    {
+        IsCompleted = isCompleted;
         tabletType = PathToEnum(useGoPath);
         puzzlePath = tabletType != TabletType.None ? useGoPath : string.Empty;
         for (int i = 0; i < eventList.Count; i++)
