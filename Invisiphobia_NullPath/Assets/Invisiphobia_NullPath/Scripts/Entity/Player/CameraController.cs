@@ -220,7 +220,7 @@ public class CameraController : MonoBehaviour
             // Changes isZoomed when key is pressed
             //마우스 오른쪽 버튼을 누르고 holdToZoom이 true이며 달리는중이 아닐 경우
             //holdToZoom false = 한번 클릭만으로 줌동작.
-            if (Input.GetKeyDown(zoomKey) && SettingManager.ZoomHold)
+            if (Input.GetKeyDown(zoomKey) && !SettingManager.ZoomHold)
             //zoomKey를 꾹 눌러서 zoom
             {
                 if (!isZoomed)
@@ -235,7 +235,7 @@ public class CameraController : MonoBehaviour
 
             // Changes isZoomed when key is pressed
             // Behavior for hold to zoom
-            if (!SettingManager.ZoomHold)
+            if (SettingManager.ZoomHold)
             //zoomKey를 한번만 눌러서 zoom
             {
                 if (Input.GetKeyDown(zoomKey))

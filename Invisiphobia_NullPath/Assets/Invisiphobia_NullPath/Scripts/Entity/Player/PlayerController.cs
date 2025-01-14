@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnPlayerSprint()
     {
-        if (Input.GetKeyDown(sprintKey) && SettingManager.RunHold)
+        if (Input.GetKeyDown(sprintKey) && !SettingManager.RunHold)
         {
             if (!isSprinting)
             {
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (!SettingManager.RunHold)
+        if (SettingManager.RunHold)
         {
             if (Input.GetKeyDown(sprintKey))
             {
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerCrouch()
     {
-        if (Input.GetKeyDown(crouchKey) && SettingManager.CrouchHold)
+        if (Input.GetKeyDown(crouchKey) && !SettingManager.CrouchHold)
         {
             if (!isCrouched)
             {
@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-        if (!SettingManager.CrouchHold)
+        if (SettingManager.CrouchHold)
         {
             if (Input.GetKeyDown(crouchKey))
             {
