@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Common.Data
 {
     public static class DataService
@@ -6,14 +8,19 @@ namespace Common.Data
         private static ItemTextTableLoader itemTextLoader = new ItemTextTableLoader();                  //아이템 텍스트 테이블
         private static InteractTextTableLoader interactTextLoader = new InteractTextTableLoader();      //상호작용 텍스트 테이블
 
-        private static PlayerLoadData playerLoader = new PlayerLoadData();                              //플레이어 로드 데이터
+        private static DesignEnums.LanguageType language;                                               //플레이어 로드 데이터
 
-        /// <summary>
-        /// 초기화 함수
-        /// </summary>
         public static void Init()
         {
-            playerLoader.Language = DesignEnums.LanguageType.English;
+            SetLanguage(PlayerPrefs.GetInt("Language", 0));
+        }
+
+        /// <summary>
+        /// 언어설정 함수
+        /// </summary>
+        public static void SetLanguage(int index)
+        {
+            language = (DesignEnums.LanguageType)index;
         }
 
         /// <summary>
@@ -32,7 +39,7 @@ namespace Common.Data
             ItemTextTable textTable = itemTextLoader.GetByKey(id);
             string text = string.Empty;
 
-            switch (playerLoader.Language)
+            switch (language)
             {
                 case DesignEnums.LanguageType.English:
                     text = textTable.english;
@@ -53,7 +60,7 @@ namespace Common.Data
             InteractTextTable textTable = interactTextLoader.GetByKey(id);
             string text = string.Empty;
 
-            switch (playerLoader.Language)
+            switch (language)
             {
                 case DesignEnums.LanguageType.English:
                     text = textTable.english;

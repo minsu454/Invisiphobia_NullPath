@@ -29,9 +29,9 @@ namespace Common.Setting
             SceneJobLoader.Add(LoadPriorityType.Volume, OnSceneLoaded);
 
             SetLookSensitivity(PlayerPrefs.GetFloat("LookSensitivity", 2f));
-            SetRunHold(PlayerPrefs.GetInt("Run", 0));
-            SetZoomHold(PlayerPrefs.GetInt("Zoom", 1));
-            SetCrouchHold(PlayerPrefs.GetInt("Crouch", 0));
+            SetRunHold(PlayerPrefs.GetInt("Run", 1));
+            SetZoomHold(PlayerPrefs.GetInt("Zoom", 0));
+            SetCrouchHold(PlayerPrefs.GetInt("Crouch", 1));
         }
 
         /// <summary>
@@ -72,17 +72,17 @@ namespace Common.Setting
             mouseSensitivity = value;
         }
 
-        public static void SetZoomHold(float index)
+        public static void SetZoomHold(int index)
         {
             zoomHold = index == 1 ? true : false;
         }
 
-        public static void SetRunHold(float index)
+        public static void SetRunHold(int index)
         {
             runHold = index == 1 ? true : false;
         }
 
-        public static void SetCrouchHold(float index)
+        public static void SetCrouchHold(int index)
         {
             crouchHold = index == 1 ? true : false;
         }

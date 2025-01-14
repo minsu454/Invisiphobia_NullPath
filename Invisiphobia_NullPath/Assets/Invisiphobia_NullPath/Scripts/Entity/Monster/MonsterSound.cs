@@ -3,6 +3,7 @@ using UnityEngine;
 public class MonsterSound : MonoBehaviour
 {
     [Header("SFX")]
+    [SerializeField] private AudioClip revealSound;
     [SerializeField] private AudioClip walkSound;
     [SerializeField] private AudioClip hitSound;
     [SerializeField] private AudioClip chaseSound;
@@ -20,6 +21,7 @@ public class MonsterSound : MonoBehaviour
     public void Init(Monster monster)
     {
         monster.changeStateEvent += OnResetState;
+        monster.MyState.RevealEvent += PlayRevealSound;
         monster.MyState.WanderingEvent += PlayWalkSound;
         monster.MyState.WanderingEvent += CheckIsPlaying;
         monster.MyState.AttackingEvent += PlayChaseSound;
@@ -27,6 +29,15 @@ public class MonsterSound : MonoBehaviour
         monster.MyState.MonsterKillingEvent += PlayKillingSound;
 
         maxWalkingTime = walkSound.length;
+    }
+
+    private void PlayRevealSound()
+    {
+        if (!isPlaying)
+        {
+            isPlaying = true;
+            Managers.Sound.SFX2DPlay(revealSound);
+        }
     }
 
     private void PlayKillingSound()
