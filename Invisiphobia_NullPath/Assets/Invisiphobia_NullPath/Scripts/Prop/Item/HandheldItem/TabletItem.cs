@@ -27,6 +27,7 @@ public class TabletItem : MonoBehaviour, IInteractable, IErrorMessageable
 
     private void Start()
     {
+        itemTable = DataService.GetItemTableByKey(itemId);
         unLockTabletSkill = (int)GetComponent<EventParts>().TabletType - 1;
         errorMessageText = DataService.GetItemText(ItemTable.errorMessage[0]);
         curErrorMessageText = errorMessageText;

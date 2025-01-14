@@ -61,7 +61,6 @@ public class PlayerController : MonoBehaviour
             return;
 
         OnPlayerSprint();
-        OnPlayerJump();
         OnPlayerCrouch();
         OnPlayerInteract();
         OnPlayerClick();
@@ -135,14 +134,6 @@ public class PlayerController : MonoBehaviour
         }
 
         playerSprintActionEvent.Invoke(isSprinting);
-    }
-
-    private void OnPlayerJump()
-    {
-        if (Input.GetKeyDown(jumpKey))
-        {
-            playerJumpActionEvent.Invoke();
-        }
     }
 
     private void OnPlayerMove()
