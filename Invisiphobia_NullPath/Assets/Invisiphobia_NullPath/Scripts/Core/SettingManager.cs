@@ -29,9 +29,9 @@ namespace Common.Setting
             SceneJobLoader.Add(LoadPriorityType.Volume, OnSceneLoaded);
 
             SetLookSensitivity(PlayerPrefs.GetFloat("LookSensitivity", 2f));
-            SetRunHold(PlayerPrefs.GetFloat("Run", 0));
-            SetZoomHold(PlayerPrefs.GetFloat("Zoom", 1));
-            SetCrouchHold(PlayerPrefs.GetFloat("Crouch", 0));
+            SetRunHold(PlayerPrefs.GetInt("Run", 0));
+            SetZoomHold(PlayerPrefs.GetInt("Zoom", 1));
+            SetCrouchHold(PlayerPrefs.GetInt("Crouch", 0));
         }
 
         /// <summary>
