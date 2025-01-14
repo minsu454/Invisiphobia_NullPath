@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 using TMPro;
-using Common.VolumeEx;
+using Common.Setting;
+using System;
 
 namespace Michsky.UI.Dark
 {
@@ -188,9 +189,9 @@ namespace Michsky.UI.Dark
         public void VolumeSetBGM(float volume) { Managers.Sound.SetVolume(SoundType.BGM, volume); }
         public void VolumeSetSFX(float volume) { Managers.Sound.SetVolume(SoundType.SFX, volume); }
 
-        public void SetBrightness(float volume) { VolumeManagerEx.SetBrightness(volume); }
-        public void SetGamma(float volume) { VolumeManagerEx.SetGamma(volume); }
-        public void SetMotionBlur(float volume) { VolumeManagerEx.SetMotionBlur(volume); }
+        public void SetBrightness(float volume) { SettingManager.SetBrightness(volume); }
+        public void SetGamma(float volume) { SettingManager.SetGamma(volume); }
+        public void SetMotionBlur(float volume) { SettingManager.SetMotionBlur(volume); }
 
         public void SetOverallQuality(int qualityIndex)
         {
@@ -212,6 +213,23 @@ namespace Michsky.UI.Dark
         {
             Screen.fullScreen = false;
             Screen.fullScreenMode = FullScreenMode.Windowed;
+        }
+
+        public void SetLookSensitivity(float volume) { SettingManager.SetLookSensitivity(volume); }
+
+        public void SetZoomHold(float index)
+        {
+            SettingManager.SetZoomHold(index);
+        }
+
+        public void SetRunHold(float index)
+        {
+            SettingManager.SetRunHold(index);
+        }
+
+        public void SetCrouchHold(float index)
+        {
+            SettingManager.SetCrouchHold(index);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Common.Event;
+using Common.Setting;
 using System;
 using UnityEngine;
 
@@ -109,13 +110,28 @@ public class PlayerController : MonoBehaviour
     }
     private void OnPlayerSprint()
     {
-        if (Input.GetKeyDown(sprintKey))
+        if (Input.GetKeyDown(sprintKey) && SettingManager.RunHold)
         {
-            isSprinting = true;
+            if (!isSprinting)
+            {
+                isSprinting = true;
+            }
+            else
+            {
+                isSprinting = false;
+            }
         }
-        else if (Input.GetKeyUp(sprintKey))
+
+        if (!SettingManager.RunHold)
         {
-            isSprinting = false;
+            if (Input.GetKeyDown(sprintKey))
+            {
+                isSprinting = true;
+            }
+            else if (Input.GetKeyUp(sprintKey))
+            {
+                isSprinting = false;
+            }
         }
 
         playerSprintActionEvent.Invoke(isSprinting);
@@ -137,15 +153,31 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerCrouch()
     {
-       if (Input.GetKeyDown(crouchKey) && !isCrouched)
-       {
-           isCrouched = true;
-       }
-       else if (Input.GetKeyUp(crouchKey) && isCrouched)
-       {
-           isCrouched = false;
-       }
-       playerCrouchActionEvent.Invoke(isCrouched);
+        if (Input.GetKeyDown(crouchKey) && SettingManager.CrouchHold)
+        {
+            if (!isCrouched)
+            {
+                isCrouched = true;
+            }
+            else
+            {
+                isCrouched = false;
+            }
+        }
+        
+        if (!SettingManager.CrouchHold)
+        {
+            if (Input.GetKeyDown(crouchKey))
+            {
+                isCrouched = true;
+            }
+            else if (Input.GetKeyUp(crouchKey))
+            {
+                isCrouched = false;
+            }
+        }
+
+        playerCrouchActionEvent.Invoke(isCrouched);
     }
 
     /// <summary>

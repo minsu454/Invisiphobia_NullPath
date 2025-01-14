@@ -5,10 +5,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 using Common.Event;
 using System;
-
-
-
-
+using Common.Setting;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.Net;
@@ -28,8 +25,6 @@ public class CameraController : MonoBehaviour
     //작아지면 좁고 가깝게 넓어지면 멀리 볼 수 있게
     public float fov = 60f;
     public bool cameraCanMove = true;
-    //마우스의 감도(높을 수록 빨라짐)
-    public float mouseSensitivity = 2f;
     //위아래의 최대 볼 수 있는 각도
     public float maxLookAngle = 50f;
 
@@ -183,10 +178,10 @@ public class CameraController : MonoBehaviour
         //카메라를 움직일 수 있으면
 
         //좌우회전 = 로컬좌표y축을 기준으로 MouseX 좌표에 감도를 곱해서 움직임
-        yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
+        yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * SettingManager.MouseSensitivity;
 
         //위아래 회전 -= 감도 * MouseY좌표 이동으로 움직임.
-        pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
+        pitch -= SettingManager.MouseSensitivity * Input.GetAxis("Mouse Y");
 
         //pitch(위아래)회전 값을 제한
         pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
@@ -225,7 +220,7 @@ public class CameraController : MonoBehaviour
             // Changes isZoomed when key is pressed
             //마우스 오른쪽 버튼을 누르고 holdToZoom이 true이며 달리는중이 아닐 경우
             //holdToZoom false = 한번 클릭만으로 줌동작.
-            if (Input.GetKeyDown(zoomKey) && !holdToZoom)
+            if (Input.GetKeyDown(zoomKey) && SettingManager.ZoomHold)
             //zoomKey를 꾹 눌러서 zoom
             {
                 if (!isZoomed)
@@ -240,7 +235,7 @@ public class CameraController : MonoBehaviour
 
             // Changes isZoomed when key is pressed
             // Behavior for hold to zoom
-            if (holdToZoom)
+            if (!SettingManager.ZoomHold)
             //zoomKey를 한번만 눌러서 zoom
             {
                 if (Input.GetKeyDown(zoomKey))

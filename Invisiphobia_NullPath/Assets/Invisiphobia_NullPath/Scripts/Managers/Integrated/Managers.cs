@@ -1,6 +1,6 @@
 using Common.Data;
 using Common.SceneEx;
-using Common.VolumeEx;
+using Common.Setting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +29,7 @@ public sealed class Managers : MonoBehaviour
 
         DataService.Init();
         SceneJobLoader.Init();
-        VolumeManagerEx.Init();
+        SettingManager.Init();
     }
 
     private void Start()

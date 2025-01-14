@@ -104,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
 
         player.PlayerController.playerMoveActionEvent += Move;
         player.PlayerController.playerSprintActionEvent += Sprint;
-        player.PlayerController.playerJumpActionEvent += Jump;
+        //player.PlayerController.playerJumpActionEvent += Jump;
         player.PlayerController.playerCrouchActionEvent += Crouch;
         playerCollider = transform.GetComponent<Collider>();
 
@@ -179,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
             velocityChange = Vector3.ClampMagnitude(velocityChange, maxVelocityChange);
 
             // 기존 Y축 속도를 유지
-            velocityChange.y = 0;
+            //velocityChange.y = 0;
 
 
             rb.AddForce(velocityChange, ForceMode.VelocityChange);
@@ -346,7 +346,8 @@ public class PlayerMovement : MonoBehaviour
 
         this.isCrouched = isCrouched;
         // 카메라의 위치를 부드럽게 전환
-        playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, Time.deltaTime * crouchSpeed);
+        //playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, Time.deltaTime * crouchSpeed);
+        playerCamera.transform.localPosition = targetPosition;
     }
 
     /// <summary>
@@ -366,7 +367,7 @@ public class PlayerMovement : MonoBehaviour
                 // Calculates HeadBob speed during crouched movement
                 else if (isCrouched)
                 {
-                    timer += Time.deltaTime * (bobSpeed * speedReduction);
+                    //timer += Time.deltaTime * (bobSpeed * speedReduction);
                 }
                 // Calculates HeadBob speed during walking
                 else

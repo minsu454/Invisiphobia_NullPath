@@ -9838,7 +9838,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1760, y: 0}
+  m_AnchoredPosition: {x: 1361.675, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4380948243391939918
@@ -15015,7 +15015,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1864, y: 0}
+  m_AnchoredPosition: {x: 1791.8, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7390597214155468276
@@ -15267,8 +15267,8 @@ MonoBehaviour:
   selectorAnimator: {fileID: 3522002914315496293}
   contentLayout: {fileID: 3140124685168000808}
   contentLayoutHelper: {fileID: 1272367197433548541}
-  saveValue: 0
-  selectorTag: Tag Text
+  saveValue: 1
+  selectorTag: Zoom
   enableIcon: 0
   enableIndicators: 1
   invokeAtStart: 0
@@ -15279,16 +15279,40 @@ MonoBehaviour:
   defaultIndex: 0
   index: 0
   itemList:
-  - itemTitle: HOLD
-    itemIcon: {fileID: 0}
-    onItemSelect:
-      m_PersistentCalls:
-        m_Calls: []
   - itemTitle: TOGGLE
     itemIcon: {fileID: 0}
     onItemSelect:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8655677628307456962}
+          m_TargetAssemblyTypeName: Michsky.UI.Dark.QualityManager, Assembly-CSharp
+          m_MethodName: SetZoomHold
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - itemTitle: HOLD
+    itemIcon: {fileID: 0}
+    onItemSelect:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8655677628307456962}
+          m_TargetAssemblyTypeName: Michsky.UI.Dark.QualityManager, Assembly-CSharp
+          m_MethodName: SetZoomHold
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 1
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -21908,7 +21932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 100, y: 0}
+  m_AnchoredPosition: {x: 445.12, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1408662493266346721
@@ -26370,7 +26394,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1812, y: 0}
+  m_AnchoredPosition: {x: 1593.2051, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1815563696623665950
@@ -28199,8 +28223,8 @@ MonoBehaviour:
   selectorAnimator: {fileID: 1532538782575881590}
   contentLayout: {fileID: 5941931957673626047}
   contentLayoutHelper: {fileID: 182399011028931347}
-  saveValue: 0
-  selectorTag: Tag Text
+  saveValue: 1
+  selectorTag: Run
   enableIcon: 0
   enableIndicators: 1
   invokeAtStart: 0
@@ -28211,16 +28235,40 @@ MonoBehaviour:
   defaultIndex: 0
   index: 0
   itemList:
-  - itemTitle: HOLD
-    itemIcon: {fileID: 0}
-    onItemSelect:
-      m_PersistentCalls:
-        m_Calls: []
   - itemTitle: TOGGLE
     itemIcon: {fileID: 0}
     onItemSelect:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8655677628307456962}
+          m_TargetAssemblyTypeName: Michsky.UI.Dark.QualityManager, Assembly-CSharp
+          m_MethodName: SetRunHold
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - itemTitle: HOLD
+    itemIcon: {fileID: 0}
+    onItemSelect:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8655677628307456962}
+          m_TargetAssemblyTypeName: Michsky.UI.Dark.QualityManager, Assembly-CSharp
+          m_MethodName: SetRunHold
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 1
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -31346,8 +31394,8 @@ MonoBehaviour:
   mainSlider: {fileID: 0}
   valueText: {fileID: 569275523557465934}
   popupValueText: {fileID: 0}
-  enableSaving: 0
-  sliderTag: Tag Text
+  enableSaving: 1
+  sliderTag: LookSensitivity
   saveValue: 0
   usePercent: 0
   showValue: 1
@@ -31405,7 +31453,19 @@ MonoBehaviour:
   m_Value: 2
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8655677628307456962}
+        m_TargetAssemblyTypeName: Michsky.UI.Dark.QualityManager, Assembly-CSharp
+        m_MethodName: SetLookSensitivity
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6614072997753760893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32314,8 +32374,8 @@ MonoBehaviour:
   selectorAnimator: {fileID: 1761686423395881709}
   contentLayout: {fileID: 8640542002843919938}
   contentLayoutHelper: {fileID: 3100037091544786228}
-  saveValue: 0
-  selectorTag: Tag Text
+  saveValue: 1
+  selectorTag: Crouch
   enableIcon: 0
   enableIndicators: 1
   invokeAtStart: 0
@@ -32326,16 +32386,40 @@ MonoBehaviour:
   defaultIndex: 0
   index: 0
   itemList:
-  - itemTitle: HOLD
-    itemIcon: {fileID: 0}
-    onItemSelect:
-      m_PersistentCalls:
-        m_Calls: []
   - itemTitle: TOGGLE
     itemIcon: {fileID: 0}
     onItemSelect:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8655677628307456962}
+          m_TargetAssemblyTypeName: Michsky.UI.Dark.QualityManager, Assembly-CSharp
+          m_MethodName: SetCrouchHold
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - itemTitle: HOLD
+    itemIcon: {fileID: 0}
+    onItemSelect:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8655677628307456962}
+          m_TargetAssemblyTypeName: Michsky.UI.Dark.QualityManager, Assembly-CSharp
+          m_MethodName: SetCrouchHold
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 1
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -35275,7 +35359,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchoredPosition: {x: 275.86, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8325378353687959163
@@ -37587,7 +37671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 88.045, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6241547740880372123
