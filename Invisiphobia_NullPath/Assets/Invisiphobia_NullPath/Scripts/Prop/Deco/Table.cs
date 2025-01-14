@@ -18,9 +18,9 @@ public class Table : BaseItem
     private bool isHit = false;
 
     private string[] tableArr = new string[2];
-    public override void Init()
+    public override void Init(PropStateType stateType)
     {
-        base.Init();
+        base.Init(stateType);
         for (int i = 0; i < itemTable.interactText.Count; i++)
         {
             tableArr[i] = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";

@@ -9,9 +9,9 @@ public class FallingObstacleObject : BaseItem
     private bool isFallen = false;
     [SerializeField] private bool isDestroyed = false;
 
-    public override void Init()
+    public override void Init(PropStateType stateType)
     {
-        base.Init();
+        base.Init(stateType);
         interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
 
         rb = GetComponent<Rigidbody>();

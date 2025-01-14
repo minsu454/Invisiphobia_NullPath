@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class NotUseInventoryItem : InHandItem
 {
-    public override void Init()
+    public override void Init(PropStateType stateType)
     {
-        base.Init();
+        base.Init(stateType);
         StateType = PropStateType.Revealed;
     }
 

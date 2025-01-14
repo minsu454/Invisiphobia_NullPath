@@ -10,9 +10,9 @@ public class SoundItem : BaseItem
     [SerializeField] private bool isLoop = false;
     [SerializeField] private AudioSource audioSource;
 
-    public override void Init()
+    public override void Init(PropStateType stateType)
     {
-        base.Init();
+        base.Init(stateType);
 
         audioSource.playOnAwake = false;
         audioSource.loop = isLoop;

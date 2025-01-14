@@ -7,12 +7,13 @@ using UnityEngine.Rendering;
 public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
     private const string navMeshBakerPath = "NavMesh/NavMeshBaker";
+    private SaveManager mapManager;
 
     protected override void InitScene()
     {
         CreateGameManager();
+        SaveManager();
 
-        MapManager.Instance.Init();
         EntityManager.Instance.Init();
     }
 
@@ -23,6 +24,16 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     {
         GameObject go = new GameObject("GameManager");
         go.AddComponent<GameManager>();
+    }
+
+    /// <summary>
+    /// 블륨 생성 함수
+    /// </summary>
+    private void SaveManager()
+    {
+        GameObject go = new GameObject("SaveManager");
+        mapManager = go.AddComponent<SaveManager>();
+        mapManager.Init();
     }
 
     /// <summary>

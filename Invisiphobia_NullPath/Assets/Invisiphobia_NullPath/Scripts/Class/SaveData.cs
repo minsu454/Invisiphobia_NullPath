@@ -3,7 +3,7 @@ using System.Collections.Generic;
 /// <summary>
 /// 맵 저장 데이터
 /// </summary>
-public class SaveMapData
+public class SaveData
 {
     public PointData playerData;
     public List<ItemData> ItemDataList = new List<ItemData>();

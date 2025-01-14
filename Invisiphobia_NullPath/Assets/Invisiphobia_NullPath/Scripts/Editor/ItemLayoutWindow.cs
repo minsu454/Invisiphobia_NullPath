@@ -336,7 +336,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
             go.transform.rotation = data.Rot;
 
             EventParts parts = go.GetComponent<EventParts>();
-            parts.Setting(data.isCompleted, data.useGoPath, data.eventList);
+            parts.Init(data.isCompleted, data.useGoPath, data.eventList);
         }
 
         isLoaded = true;
