@@ -12,8 +12,9 @@ public class EventData
     public Quaternion Rot;
     public List<PointData> eventList;
     public string useGoPath;
+    public bool isCompleted;
 
-    public EventData(string name, Vector3 pos, Quaternion rot, string useGoPath, List<PointData> eventList)
+    public EventData(string name, Vector3 pos, Quaternion rot, string useGoPath, List<PointData> eventList, bool isCompleted)
     {
         Name = name;
         Pos = pos;
@@ -21,5 +22,6 @@ public class EventData
 
         this.useGoPath = useGoPath;
         this.eventList = eventList;
+        this.isCompleted = isCompleted;
     }
 }

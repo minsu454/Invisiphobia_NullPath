@@ -32,12 +32,9 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
     public bool IsReveal => true;
 
     [Header("Hanking")]
-    private string puzzlePath = string.Empty;
-
     private int idx;
     private bool isOn = true;
     private bool isFirst = true;
-    private bool isCompleted = false;
 
     [Header("Door")]
     [SerializeField] private Transform door;
@@ -48,12 +45,14 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
 
     [SerializeField] private AudioClip doorOpen;
 
+    private EventParts eventParts;
+
     private void Start()
     {
+        eventParts = gameObject.GetComponent<EventParts>();
+
         startRotation = door.rotation;
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
-
-        puzzlePath = gameObject.GetComponent<EventParts>().PuzzlePath;
 
         itemTable = DataService.GetItemTableByKey(itemId);
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
@@ -64,7 +63,7 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
 
     public void Interact(Player player)
     {
-        if (isCompleted)
+        if (eventParts.IsCompleted)
             return;
 
         if (!player.PlayerInventory.Tablet.UsePuzzleSkill())
@@ -74,9 +73,9 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
         }
 
 
-        if (isFirst && puzzlePath != "")
+        if (isFirst && eventParts.PuzzlePath != "")
         {
-            idx = player.PlayerInventory.Tablet.InitPuzzle(puzzlePath, OnCompleted);
+            idx = player.PlayerInventory.Tablet.InitPuzzle(eventParts.PuzzlePath, OnCompleted);
             isFirst = false;
         }
 
@@ -104,7 +103,7 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
     {
         StartCoroutine(DoorInteract(startRotation, endRotation, 1f));
         Managers.Sound.SFX2DPlay(doorOpen);
-        isCompleted = true;
+        eventParts.IsCompleted = true;
     }
 
     /// <summary>
