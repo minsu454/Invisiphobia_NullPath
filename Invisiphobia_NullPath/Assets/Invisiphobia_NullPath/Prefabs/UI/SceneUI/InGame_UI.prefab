@@ -10451,6 +10451,7 @@ GameObject:
   - component: {fileID: 3289343965573124568}
   - component: {fileID: 4140137993092598617}
   - component: {fileID: 540263499572178490}
+  - component: {fileID: 7772264719734669292}
   m_Layer: 5
   m_Name: ItemInteractText
   m_TagString: Untagged
@@ -10589,6 +10590,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
+--- !u!114 &7772264719734669292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479926626779233336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a22e9b61f0ae3f40a70ff8ffebd955e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIManagerAsset: {fileID: 11400000, guid: 939e9d3371fe40641b465d9b6357ec32, type: 2}
+  textObject: {fileID: 4140137993092598617}
+  keepAlphaValue: 0
+  useCustomColor: 0
+  colorType: 0
+  fontType: 0
 --- !u!1 &1531985943303858353
 GameObject:
   m_ObjectHideFlags: 0
@@ -19654,6 +19673,7 @@ GameObject:
   - component: {fileID: 413816925080529945}
   - component: {fileID: 3916464711286891363}
   - component: {fileID: 6029407031637100322}
+  - component: {fileID: 6319687482834077465}
   m_Layer: 5
   m_Name: DefaultInteractText
   m_TagString: Untagged
@@ -19801,6 +19821,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &6319687482834077465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2486099123551600309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a22e9b61f0ae3f40a70ff8ffebd955e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIManagerAsset: {fileID: 11400000, guid: 939e9d3371fe40641b465d9b6357ec32, type: 2}
+  textObject: {fileID: 3916464711286891363}
+  keepAlphaValue: 0
+  useCustomColor: 0
+  colorType: 0
+  fontType: 0
 --- !u!1 &2497246344945343624
 GameObject:
   m_ObjectHideFlags: 0
@@ -26506,6 +26544,7 @@ GameObject:
   - component: {fileID: 2731276897697648987}
   - component: {fileID: 5858412094835099638}
   - component: {fileID: 5334642565261398069}
+  - component: {fileID: 6974752496874152251}
   m_Layer: 5
   m_Name: TabletInteractText
   m_TagString: Untagged
@@ -26644,6 +26683,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
+--- !u!114 &6974752496874152251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3355635381102100278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a22e9b61f0ae3f40a70ff8ffebd955e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIManagerAsset: {fileID: 11400000, guid: 939e9d3371fe40641b465d9b6357ec32, type: 2}
+  textObject: {fileID: 5858412094835099638}
+  keepAlphaValue: 0
+  useCustomColor: 0
+  colorType: 0
+  fontType: 0
 --- !u!1 &3401830842824142913
 GameObject:
   m_ObjectHideFlags: 0
@@ -77504,6 +77561,11 @@ PrefabInstance:
     - target: {fileID: 6874080122485630695, guid: 0c258c3b3e471384191421d45f4f8794,
         type: 3}
       propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6874080122485630695, guid: 0c258c3b3e471384191421d45f4f8794,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6943258433701384442, guid: 0c258c3b3e471384191421d45f4f8794,
