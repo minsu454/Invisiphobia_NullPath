@@ -341,6 +341,11 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Crouch(bool isCrouched)
     {
+        if (isCrouched)
+            enableSprint = false;
+        else
+            enableSprint = true;
+
         // 목표 위치 설정 (앉거나 서 있는 상태)
         Vector3 targetPosition = isCrouched ? crouchingPosition : standingPosition;
 

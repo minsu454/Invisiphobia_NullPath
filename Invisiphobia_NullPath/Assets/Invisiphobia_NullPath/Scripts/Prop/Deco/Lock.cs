@@ -44,13 +44,13 @@ public class Lock : MonoBehaviour, IInteractable, IErrorMessageable
         if (isLocked && player.PlayerInventory.IsLockOffItemInHand(receiveItemId))
         {
             curErrorMessageText = errorMessageText;
-            Debug.Log(curErrorMessageText);
             isLocked = false;
             gameObject.SetActive(false);
             Managers.Sound.SFX3DPlay(lockClip, transform);
         }
         else
         {
+            curErrorMessageText = "";
             Managers.Sound.SFX2DPlay(alockClip);
             Debug.Log("열려있는 상태인데 상호작용 했거나 열쇠가 없음");
         }

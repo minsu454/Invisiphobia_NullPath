@@ -1,7 +1,7 @@
 using Common.Data;
 using UnityEngine;
 
-public class TabletItem : MonoBehaviour, IInteractable
+public class TabletItem : MonoBehaviour, IInteractable, IErrorMessageable
 {
     [Header("Table")]
     [SerializeField] private int itemId;
@@ -19,16 +19,31 @@ public class TabletItem : MonoBehaviour, IInteractable
 
     public bool IsReveal => true;
 
+    protected string curErrorMessageText;
+    public string ErrorMessageText { get { return curErrorMessageText; } }
+    public string errorMessageText;
     [Header("Hanking")]
     private int unLockTabletSkill = 0;
 
     private void Start()
     {
+        itemTable = DataService.GetItemTableByKey(itemId);
         unLockTabletSkill = (int)GetComponent<EventParts>().TabletType - 1;
+        errorMessageText = DataService.GetItemText(ItemTable.errorMessage[0]);
+        curErrorMessageText = errorMessageText;
     }
 
     public void Interact(Player player)
     {
         player.PlayerInventory.SetTablet(unLockTabletSkill);
+
+        if(unLockTabletSkill == 1)
+        {
+            curErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[0]);
+        }
+        else if(unLockTabletSkill == 2)
+        {
+            curErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[1]);
+        }
     }
 }
