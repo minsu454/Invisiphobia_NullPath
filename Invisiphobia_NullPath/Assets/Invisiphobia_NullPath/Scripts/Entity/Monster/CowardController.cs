@@ -200,4 +200,9 @@ public class CowardController : MonoBehaviour, IDetectable
             agent.speed = saveSpeed;
         }
     }
+
+    private void OnDestroy()
+    {
+        EventManager.Subscribe(GameEventType.UseMonsterPause, OnUseMonsterPause);
+    }
 }
