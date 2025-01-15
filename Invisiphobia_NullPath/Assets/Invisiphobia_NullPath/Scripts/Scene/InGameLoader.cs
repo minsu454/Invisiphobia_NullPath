@@ -8,7 +8,8 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
     private const string navMeshBakerPath = "NavMesh/NavMeshBaker";
     private const string saveDataPath = "JSON/SaveData/Floor01_Original";
-    private SaveManager mapManager;
+    private SaveManager saveManager;
+
 
     protected override void InitScene()
     {
@@ -43,8 +44,8 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     {
         new GameObject("-------------Save--------------");
         GameObject go = new GameObject("SaveManager");
-        mapManager = go.AddComponent<SaveManager>();
-        mapManager.Init(saveData);
+        saveManager = go.AddComponent<SaveManager>();
+        saveManager.Init(saveData);
     }
 
     /// <summary>
