@@ -67,7 +67,7 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
         }
         else
         {
-            interactText = DataService.GetItemInteractText(ItemTable.interactText[isOpen ? 1 : 0]);
+            interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[isOpen ? 1 : 0])}";
         }
     }
     public void Interact(Player player)
@@ -142,7 +142,7 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
 
         // 문 상태 업데이트
         isOpen = startRotation != transform.rotation;
-        interactText = DataService.GetItemInteractText(ItemTable.interactText[isOpen? 1:0]);
+        interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[isOpen ? 1 : 0])}";
     }
 }
 
