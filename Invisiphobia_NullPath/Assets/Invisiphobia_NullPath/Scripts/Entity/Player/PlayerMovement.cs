@@ -336,8 +336,8 @@ public class PlayerMovement : MonoBehaviour
 
         this.isCrouched = isCrouched;
         // 카메라의 위치를 부드럽게 전환
-        playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, Time.deltaTime * crouchSpeed);
-        //playerCamera.transform.localPosition = targetPosition;
+        //playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, Time.deltaTime * crouchSpeed);
+        playerCamera.transform.localPosition = targetPosition;
     }
 
     /// <summary>
