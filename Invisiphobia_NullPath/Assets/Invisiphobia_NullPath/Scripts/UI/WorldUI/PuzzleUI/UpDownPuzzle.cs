@@ -52,7 +52,7 @@ public class UpDownPuzzle : PuzzleUI
     {
         Debug.Log(value);
         currentInputValue += value;
-        currentInputValue = Mathf.Clamp(currentInputValue, 0, 999);
+        currentInputValue = Mathf.Clamp(currentInputValue, 0, 100);
         playerInput.text = currentInputValue.ToString();
     }
 
