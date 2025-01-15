@@ -17,4 +17,6 @@ public enum GameEventType
 
     BossSpawn,
     CameraAnim,
+
+    IsSprinting,
 }

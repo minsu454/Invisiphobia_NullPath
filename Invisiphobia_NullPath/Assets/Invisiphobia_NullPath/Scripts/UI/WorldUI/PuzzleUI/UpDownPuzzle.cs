@@ -27,7 +27,7 @@ public class UpDownPuzzle : PuzzleUI
     private bool isColorChanged = false;
     public override void Init(IActiveStatable<TabletStateType> subject)
     {
-        targetNumber = Random.Range(1, 1000); // 1~999 사이 랜덤 값
+        targetNumber = Random.Range(1, 100);
         currentInputValue = 0;
         playerInput.text = currentInputValue.ToString();
         recentCode.text = "0";

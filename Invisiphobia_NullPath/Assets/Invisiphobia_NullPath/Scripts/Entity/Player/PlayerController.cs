@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public event Action<int> tabletSwitchActionEvent;
     public event Action playerPutDownActionEvent;
     public event Action playerEscActionEvent;
+    public event Action playerThrowActionEvent;
 
     public bool isSprinting = false;
     public bool isCrouched = false;
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
         EventManager.Subscribe(GameEventType.UseTabletInput, UseTabletInput);
         EventManager.Subscribe(GameEventType.UseEsc, UseEsc);
         EventManager.Subscribe(GameEventType.UseWheelClick, UseWheel);
+        EventManager.Subscribe(GameEventType.IsSprinting, SetIsSprinting);
     }
 
     void Update()
@@ -66,6 +68,7 @@ public class PlayerController : MonoBehaviour
         OnPlayerClick();
         OnZoomClick();
         OnPlayerPutDown();
+        OnPlayerThrow();
 
         if (!useTabletInput)
             return;
@@ -225,6 +228,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnPlayerThrow()
+    {
+       if(Input.GetKeyDown(KeyCode.R))
+       {
+            playerThrowActionEvent.Invoke();
+       }
+    }
+
     private void OnPlayerEsc()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -253,12 +264,18 @@ public class PlayerController : MonoBehaviour
         useWheel = (bool)args;
     }
 
+    public void SetIsSprinting(object args)
+    {
+        isSprinting = (bool)args;
+    }
+
     private void OnDestroy()
     {
         EventManager.Unsubscribe(GameEventType.UseInput, UseInput);
         EventManager.Unsubscribe(GameEventType.UseTabletInput, UseTabletInput);
         EventManager.Unsubscribe(GameEventType.UseEsc, UseEsc);
         EventManager.Unsubscribe(GameEventType.UseWheelClick, UseWheel);
+        EventManager.Unsubscribe(GameEventType.IsSprinting, SetIsSprinting);
     }
 }
 

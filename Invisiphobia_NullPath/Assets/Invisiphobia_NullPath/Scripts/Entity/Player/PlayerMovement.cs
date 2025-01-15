@@ -3,6 +3,7 @@ using Common.Yield;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
@@ -18,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxVelocityChange = 10f;
     Vector3 horizontalVelocity;
 
-    [SerializeField] private List <AudioClip> footClip; // 걷기 발소리
+    [SerializeField] private List<AudioClip> footClip; // 걷기 발소리
     [SerializeField] AudioClip hardBreathingClip;
     [SerializeField] private Transform footTr;
     [SerializeField] private float movementVolume = 0.7f;
@@ -104,10 +105,8 @@ public class PlayerMovement : MonoBehaviour
 
         player.PlayerController.playerMoveActionEvent += Move;
         player.PlayerController.playerSprintActionEvent += Sprint;
-        //player.PlayerController.playerJumpActionEvent += Jump;
         player.PlayerController.playerCrouchActionEvent += Crouch;
         playerCollider = transform.GetComponent<Collider>();
-
         EventManager.Subscribe(GameEventType.UseMove, UsePlayerCanMove);
     }
 
@@ -197,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
         if (enableSprint)
         {
             this.isSprinting = isSprinting;
-            if(isSprinting && currentSpeed > 0.5f)
+            if (isSprinting && currentSpeed > 0.5f)
             {
                 sprintRemaining -= 0.1f * Time.deltaTime * 10;
                 sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintValue);
@@ -220,6 +219,7 @@ public class PlayerMovement : MonoBehaviour
     {
         enableSprint = false;
         Managers.Sound.SFX3DPlay(hardBreathingClip, footTr); // 사운드 재생
+        EventManager.Dispatch(GameEventType.IsSprinting, false);
         yield return YieldCache.WaitForSeconds(3f);
         enableSprint = true;
     }
@@ -240,7 +240,7 @@ public class PlayerMovement : MonoBehaviour
         {
             ShowSprintBar(false); // Bar 숨기기
         }
-        
+
         if (sprintBarCanvasGroup != null && sprintBarCanvasGroup.alpha > 0)
         {
             staminaBar.value = sprintRemaining;
@@ -255,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if(isGrounded)
+        if (isGrounded)
         {
             // 현재 발소리 간격 설정: 걷기와 달리기 간격 구분
             float currentStepInterval = isSprinting ? sprintstepInterval : walkstepInterval;
@@ -324,27 +324,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어 점프하는 함수
-    /// </summary>
-    private void Jump()
-    {
-        // Adds force to the player rigidbody to jump
-        if (isGrounded)
-        {
-            rb.AddForce(0f, jumpPower, 0f, ForceMode.Impulse);
-            isJumping = false;
-        }
-    }
-
-    /// <summary>
     /// 플레이어 웅크리는 함수
     /// </summary>
     private void Crouch(bool isCrouched)
     {
-        if (isCrouched)
-            enableSprint = false;
-        else
-            enableSprint = true;
+        if (isSprinting)
+            return;
 
         // 목표 위치 설정 (앉거나 서 있는 상태)
         Vector3 targetPosition = isCrouched ? crouchingPosition : standingPosition;
@@ -360,7 +345,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void HeadBob()
     {
-        if(enableHeadBob)
+        if (enableHeadBob)
         {
             if (isWalking)
             {
