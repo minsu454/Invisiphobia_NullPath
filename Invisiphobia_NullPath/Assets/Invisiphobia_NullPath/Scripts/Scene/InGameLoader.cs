@@ -10,6 +10,7 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     private const string saveDataPath = "JSON/SaveData/Floor01_Original";
     private SaveManager saveManager;
 
+    public GameManager Game;
 
     protected override void InitScene()
     {
@@ -34,7 +35,7 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     private void CreateGameManager()
     {
         GameObject go = new GameObject("GameManager");
-        go.AddComponent<GameManager>();
+        Game = go.AddComponent<GameManager>();
     }
 
     /// <summary>

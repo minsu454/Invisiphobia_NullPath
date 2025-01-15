@@ -7,11 +7,11 @@ using UnityEngine;
 
 public class StunMonsterKillScene : MonsterKillScene
 {
-    [SerializeField] private GameObject light;
+    [SerializeField] private GameObject myLight;
 
     protected override void Kill()
     {
-        light.SetActive(true);
+        myLight.SetActive(true);
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<Collider>().enabled = false;
         if (monster.StateType != PropStateType.Revealed)
