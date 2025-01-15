@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
     private const string navMeshBakerPath = "NavMesh/NavMeshBaker";
-    private const string saveDataPath = "JSON/SaveData/Floor01";
+    private const string saveDataPath = "JSON/SaveData/Floor01_Original";
     private SaveManager mapManager;
 
     protected override void InitScene()
