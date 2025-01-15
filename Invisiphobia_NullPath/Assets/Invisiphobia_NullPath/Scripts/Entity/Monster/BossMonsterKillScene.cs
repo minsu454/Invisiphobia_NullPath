@@ -9,11 +9,11 @@ public class BossMonsterKillScene : MonsterKillScene
 {
     [SerializeField] private Ease killEase;
     [SerializeField] private float duration;
-    [SerializeField] private GameObject light;
+    [SerializeField] private GameObject myLight;
 
     protected override void Kill()
     {
-        light.SetActive(true);
+        myLight.SetActive(true);
         transform.DOMove(Camera.main.transform.position, duration).SetEase(killEase).OnComplete(() =>
         {
             target.Die();

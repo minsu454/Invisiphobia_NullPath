@@ -15,7 +15,6 @@ public class MovingPuzzle_Collider : MonoBehaviour
 
     public float addValue = 0.25f;
     private float timer = 0f;
-    private bool isOverlapping = false;
 
     public event Action clearActionEvent;
 

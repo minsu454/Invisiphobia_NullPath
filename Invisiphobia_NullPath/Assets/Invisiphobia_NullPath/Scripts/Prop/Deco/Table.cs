@@ -15,7 +15,6 @@ public class Table : BaseItem
     private bool isDrawer1Open = false;
     private bool isDrawer2Open = false;
     private bool isCoroutineRunning = false;
-    private bool isHit = false;
 
     private string[] tableArr = new string[2];
     public override void Init(PropStateType stateType)

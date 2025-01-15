@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     public event Action<Vector3> playerMoveActionEvent;
     public event Action <bool> playerSprintActionEvent;
-    public event Action playerJumpActionEvent;
+    //public event Action playerJumpActionEvent;
     public event Action<bool> playerCrouchActionEvent;
     public event Action playerInteractActionEvent;
     public event Action playerTabletActionEvent;

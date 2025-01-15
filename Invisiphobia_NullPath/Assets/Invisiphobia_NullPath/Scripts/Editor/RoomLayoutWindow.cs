@@ -17,9 +17,9 @@ public class RoomLayoutWindow : CustomWindow<RoomLayoutWindow>
 
     private Editor pickGoEditor;            //선택 오브젝트 프리뷰
 
-    private int curRotateCount = 0;         //회전 값 변수
-    private int rotate = 90;                //회전 각도
-    private const int rotateMax = 4;        //회전 각 횟수(90도)
+    //private int curRotateCount = 0;         //회전 값 변수
+    //private int rotate = 90;                //회전 각도
+    //private const int rotateMax = 4;        //회전 각 횟수(90도)
 
     private Texture2D[] texture2DArr;                                                           //Parts사진 저장 배열
     private Dictionary<string, RoomParts> partsGoDict = new Dictionary<string, RoomParts>();    //PartsGo 저장 Dictionary
@@ -254,7 +254,7 @@ public class RoomLayoutWindow : CustomWindow<RoomLayoutWindow>
                         string name = texture2DArr[index].name;
                         pickName = name;
                         pickIdx = index;
-                        curRotateCount = 0;
+                        //curRotateCount = 0;
 
                         if (!partsGoDict.TryGetValue(pickName, out RoomParts partsPrefab))
                             return;

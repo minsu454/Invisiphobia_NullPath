@@ -15,11 +15,11 @@ public class PlayerState : MonoBehaviour
             return;
 
         isDie = true;
-        GameManager.Instance.GameOver();
+        InGameLoader.Instance.Game.GameOver();
     }
 
     public void Clear()
     {
-        GameManager.Instance.GameClear();
+        InGameLoader.Instance.Game.GameClear();
     }
 }

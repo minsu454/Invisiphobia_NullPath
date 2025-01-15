@@ -23,8 +23,6 @@ public class MovingPuzzle : PuzzleUI
     private Coroutine moveCoroutine;
     private Coroutine overlapCoroutine;
 
-    private bool isMouseInsideBoard = true;
-
     [SerializeField] MovingPuzzle_Collider movingPuzzle_Collider;
     public override void Init(IActiveStatable<TabletStateType> subject)
     {
