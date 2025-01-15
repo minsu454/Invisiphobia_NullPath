@@ -8,10 +8,10 @@ public class SaveManager : MonoBehaviour
     public List<Prop> itemPartsList = new List<Prop>();
     public List<EventParts> eventPartsList = new List<EventParts>();
 
-    public void Init()
+    public void Init(SaveData saveData)
     {
-        //Item();
-        //Event();
+        Item(saveData.ItemDataList);
+        Event(saveData.EventDataList);
     }
 
     /// <summary>

@@ -63,35 +63,11 @@ namespace Common.Path
         }
 
         /// <summary>
-        /// 맵 머터리얼 반환 함수
-        /// </summary>
-        public static string MapMaterialPath(string name)
-        {
-            return $"Map/Material/{name}.mat";
-        }
-
-        /// <summary>
-        /// 룸 파츠 경로 반환 함수
-        /// </summary>
-        public static string RoomPartsPath(string name)
-        {
-            return $"Map/RoomParts/{name}.prefab";
-        }
-
-        /// <summary>
-        /// 데코 파츠 경로 반환 함수
-        /// </summary>
-        public static string DecoPartsPath(string name)
-        {
-            return $"Map/DecoParts/{name}.prefab";
-        }
-
-        /// <summary>
         /// 아이템 경로 반환 함수
         /// </summary>
         public static string ItemPartsPath(string name)
         {
-            return $"Map/ItemParts/{name}.prefab";
+            return $"Save/ItemParts/{name}.prefab";
         }
 
         /// <summary>
@@ -99,7 +75,7 @@ namespace Common.Path
         /// </summary>
         public static string EventPartsPath(string name)
         {
-            return $"Map/EventParts/{name}.prefab";
+            return $"Save/EventParts/{name}.prefab";
         }
 
         /// <summary>

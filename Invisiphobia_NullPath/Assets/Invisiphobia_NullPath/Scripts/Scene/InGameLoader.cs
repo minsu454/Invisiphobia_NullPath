@@ -7,12 +7,22 @@ using UnityEngine.Rendering;
 public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
     private const string navMeshBakerPath = "NavMesh/NavMeshBaker";
+    private const string saveDataPath = "JSON/SaveData/Floor01";
     private SaveManager mapManager;
 
     protected override void InitScene()
     {
         CreateGameManager();
-        SaveManager();
+
+        TextAsset json = Resources.Load<TextAsset>(saveDataPath);
+        SaveData saveData = JsonUtility.FromJson<SaveData>(json.text);
+
+        Player player = EntityManager.Instance.Player;
+        player.transform.position = saveData.playerData.Pos;
+        player.transform.rotation = saveData.playerData.Rot;
+        player.Init();
+
+        SaveManager(saveData);
 
         EntityManager.Instance.Init();
     }
@@ -29,11 +39,12 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     /// <summary>
     /// 블륨 생성 함수
     /// </summary>
-    private void SaveManager()
+    private void SaveManager(SaveData saveData)
     {
+        new GameObject("-------------Save--------------");
         GameObject go = new GameObject("SaveManager");
         mapManager = go.AddComponent<SaveManager>();
-        mapManager.Init();
+        mapManager.Init(saveData);
     }
 
     /// <summary>

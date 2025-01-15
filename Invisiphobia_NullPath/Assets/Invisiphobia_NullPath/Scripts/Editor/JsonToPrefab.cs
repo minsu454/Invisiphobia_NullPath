@@ -66,7 +66,7 @@ public static class JsonToPrefab
             saveData.ItemDataList = totalData.ItemDataList;
             saveData.EventDataList = totalData.EventDataList;
 
-            path = Application.dataPath + "/Resources/JSON/SaveData" + totalData.MapName + ".json"; ;
+            path = $"{Application.dataPath}/Resources/JSON/SaveData/{totalData.MapName}_Original.json"; ;
 
             json = JsonUtility.ToJson(saveData);
 
