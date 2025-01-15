@@ -28,6 +28,17 @@ public class PlayerInventory : MonoBehaviour
     private readonly Stack<GameObject> handItemStack = new Stack<GameObject>(2);
     private readonly Stack<Action<Transform>> interactStack = new Stack<Action<Transform>>(2);
 
+    public int InHandItemId
+    {
+        get
+        {
+            if (!groundItemStack.TryPeek(out InHandItem item))
+                return -1;
+
+            return item.Id;
+        }
+    }
+
     public void Init(Player player)
     {
         maxCount += handCount;

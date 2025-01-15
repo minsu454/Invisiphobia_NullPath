@@ -17,9 +17,10 @@ public class Table : BaseItem
     private bool isCoroutineRunning = false;
 
     private string[] tableArr = new string[2];
-    public override void Init(PropStateType stateType)
+
+    public override void Init(int id, PropStateType stateType)
     {
-        base.Init(stateType);
+        base.Init(id, stateType);
         for (int i = 0; i < itemTable.interactText.Count; i++)
         {
             tableArr[i] = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";

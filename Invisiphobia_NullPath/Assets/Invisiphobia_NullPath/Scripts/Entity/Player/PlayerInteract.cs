@@ -53,6 +53,7 @@ public class PlayerInteract : MonoBehaviour
         RaycastHit raycastHit;
 
         curInteractable = null;
+        curErrorMessageable = null;
 
         // 레이캐스트 시각적으로 표시 (초록색은 닿지 않았을 때, 빨간색은 닿았을 때)
         if (!Physics.Raycast(ray, out raycastHit, maxDistance, layerMask))
@@ -61,10 +62,6 @@ public class PlayerInteract : MonoBehaviour
         if (raycastHit.collider.TryGetComponent(out IErrorMessageable errorMessageable))
         {
             curErrorMessageable = errorMessageable;
-        }
-        else
-        {
-            curErrorMessageable = null;
         }
 
         if (!raycastHit.collider.TryGetComponent(out IInteractable interactable))

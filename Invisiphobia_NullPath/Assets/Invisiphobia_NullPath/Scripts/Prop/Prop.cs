@@ -5,6 +5,8 @@ public class Prop : MonoBehaviour, IDetectable, IParts
 {
     [Header("Prop")]
     [SerializeField] private Renderer[] myRendererArr;                      //해당 오브젝트 랜더러들 모음 배열
+    private int id;
+    public int Id { get { return id; } }
 
     MapIcon IDetectable.MapIcon => mapIcon;
     private MapIcon mapIcon;                                                    //맵아이콘
@@ -21,7 +23,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     /// <summary>
     /// Prop 초기화 함수
     /// </summary>
-    public virtual void Init(PropStateType stateType)
+    public virtual void Init(int id, PropStateType stateType)
     {
         foreach (Renderer renderer in myRendererArr)
         {
@@ -32,6 +34,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
         mapIcon = go.GetComponent<MapIcon>();
         mapIcon.Init(transform);
 
+        this.id = id;
         StateType = stateType;
     }
 

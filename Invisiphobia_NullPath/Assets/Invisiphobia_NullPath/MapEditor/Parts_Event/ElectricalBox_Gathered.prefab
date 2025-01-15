@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5793846916549297869}
   - component: {fileID: 7301809756705859631}
+  - component: {fileID: 2997636364116927606}
   - component: {fileID: 1364372921844320975}
-  - component: {fileID: 6900238680546895618}
   - component: {fileID: 3928073031252344301}
   m_Layer: 10
   m_Name: ElectricalBox_Gathered
@@ -43,6 +43,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4535859907621618551}
   m_Mesh: {fileID: -112315649064454003, guid: 6248ca552f4f96c45b0da890b0109c54, type: 3}
+--- !u!114 &2997636364116927606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4535859907621618551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a54837773164e7439b6e8da85c3f484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCompleted: 0
+  OnCompleteTrList: []
+  tabletType: 0
+  puzzlePath: 
 --- !u!23 &1364372921844320975
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -85,22 +101,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6900238680546895618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4535859907621618551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a037063af09735459e4ed4e71107728, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myRendererArr:
-  - {fileID: 1364372921844320975}
-  mapIconPrefab: {fileID: 7211629415118020332, guid: 619ea374204f11a4bbda9f0c6a485186,
-    type: 3}
 --- !u!65 &3928073031252344301
 BoxCollider:
   m_ObjectHideFlags: 0

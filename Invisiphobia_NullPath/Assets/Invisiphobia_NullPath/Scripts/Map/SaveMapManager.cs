@@ -3,21 +3,24 @@ using Common.Path;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveManager : MonoBehaviour
+public class SaveMapManager : MonoBehaviour
 {
-    public List<Prop> itemPartsList = new List<Prop>();
-    public List<EventParts> eventPartsList = new List<EventParts>();
+    private readonly List<Prop> itemPartsList = new List<Prop>();
+    public List<Prop> ItemPartsList { get { return itemPartsList; } }
+
+    private readonly List<EventParts> eventPartsList = new List<EventParts>();
+    public List<EventParts> EventPartsList { get { return eventPartsList; } }
 
     public void Init(SaveData saveData)
     {
-        Item(saveData.ItemDataList);
-        Event(saveData.EventDataList);
+        SpawnItem(saveData.ItemDataList);
+        SpawnEvent(saveData.EventDataList);
     }
 
     /// <summary>
     /// 아이템 생성 함수
     /// </summary>
-    private void Item(List<ItemData> dataList)
+    private void SpawnItem(List<ItemData> dataList)
     {
         foreach (ItemData data in dataList)
         {
@@ -29,14 +32,14 @@ public class SaveManager : MonoBehaviour
 
             Prop prop = go.GetComponent<Prop>();
             itemPartsList.Add(prop);
-            prop.Init(data.type);
+            prop.Init(data.Id, data.type);
         }
     }
 
     /// <summary>
     /// 아이템 생성 함수
     /// </summary>
-    private void Event(List<EventData> dataList)
+    private void SpawnEvent(List<EventData> dataList)
     {
         foreach (EventData data in dataList)
         {
