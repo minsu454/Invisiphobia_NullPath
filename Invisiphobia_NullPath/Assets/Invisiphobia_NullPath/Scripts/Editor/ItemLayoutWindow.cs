@@ -260,16 +260,20 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
         data.ItemDataList.Clear();
         data.ItemDataList = new List<ItemData>();
 
+        int i = 0;
+
         foreach (IParts parts in saveManager.SavePartsHashSet)
         {
             Prop itemParts = parts as Prop;
             ItemData itemData = new ItemData(
+                i,
                 itemParts.name,
                 itemParts.transform.position,
                 itemParts.transform.rotation,
                 itemParts.StateType);
 
             data.ItemDataList.Add(itemData);
+            i++;
         }
 
         string json = JsonUtility.ToJson(data);
@@ -326,6 +330,26 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
             saveManager.Add(parts);
         }
 
+        GameObject playerprefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{totalData.EntityData.playerData.Name}.prefab");
+        if (playerprefab != null)
+        {
+            GameObject go = Instantiate(playerprefab);
+
+            go.name = totalData.EntityData.playerData.Name;
+            go.transform.position = totalData.EntityData.playerData.Pos;
+            go.transform.rotation = totalData.EntityData.playerData.Rot;
+        }
+
+        foreach (PointData data in totalData.EntityData.monsterDataList)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EntityPartsPath}/{data.Name}.prefab");
+            GameObject go = Instantiate(prefab);
+
+            go.name = data.Name;
+            go.transform.position = data.Pos;
+            go.transform.rotation = data.Rot;
+        }
+
         foreach (EventData data in totalData.EventDataList)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EventPartsPath}/{data.Name}.prefab");
@@ -336,7 +360,7 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
             go.transform.rotation = data.Rot;
 
             EventParts parts = go.GetComponent<EventParts>();
-            parts.Setting(data.isCompleted, data.useGoPath, data.eventList);
+            parts.Init(data.isCompleted, data.useGoPath, data.eventList);
         }
 
         isLoaded = true;

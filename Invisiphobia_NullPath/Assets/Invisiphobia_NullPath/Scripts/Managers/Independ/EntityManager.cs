@@ -1,16 +1,12 @@
-using Common.Objects;
-using Common.Path;
-using Common.StringEx;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class EntityManager : MonoBehaviour
 {
     public static EntityManager Instance;
 
-    [SerializeField] private Player player;
-    public Player Player { get { return player; } set { player = value; } }
+    public Player Player;
+
     [SerializeField] private List<Monster> monsterList = new List<Monster>();
     public List<Monster> MonsterList { get { return monsterList; } }
 
@@ -21,8 +17,6 @@ public class EntityManager : MonoBehaviour
 
     public void Init()
     {
-        player.Init();
-
         foreach (var monster in monsterList)
         {
             monster.Init();

@@ -21,7 +21,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     /// <summary>
     /// Prop 초기화 함수
     /// </summary>
-    public virtual void Init()
+    public virtual void Init(PropStateType stateType)
     {
         foreach (Renderer renderer in myRendererArr)
         {
@@ -31,6 +31,8 @@ public class Prop : MonoBehaviour, IDetectable, IParts
         GameObject go = Instantiate(mapIconPrefab);
         mapIcon = go.GetComponent<MapIcon>();
         mapIcon.Init(transform);
+
+        StateType = stateType;
     }
 
     public virtual void Detected()

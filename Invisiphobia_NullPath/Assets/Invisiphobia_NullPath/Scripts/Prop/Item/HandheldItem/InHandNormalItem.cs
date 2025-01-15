@@ -2,9 +2,9 @@ using Common.Data;
 
 public class InHandNormalItem : InHandItem
 {
-    public override void Init()
+    public override void Init(PropStateType stateType)
     {
-        base.Init();
+        base.Init(stateType);
     }
 
     public override void Interact(Player player)

@@ -9,9 +9,9 @@ public class HideableObject : BaseItem
     public float hideSpeed = 2f; // 숨는 속도
     private Vector3 originalPosition;  // 원래 위치
 
-    public override void Init()
+    public override void Init(PropStateType stateType)
     {
-        base.Init();
+        base.Init(stateType);
         interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
     }
     public override void Interact(Player player)

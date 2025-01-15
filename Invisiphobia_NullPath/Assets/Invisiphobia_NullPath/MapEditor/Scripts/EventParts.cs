@@ -26,12 +26,7 @@ public class EventParts : MonoBehaviour, IParts
 
     [SerializeField] private string puzzlePath;
 
-    public void Init()
-    {
-
-    }
-
-    public void Setting(bool isCompleted, string useGoPath, List<PointData> eventList)
+    public void Init(bool isCompleted, string useGoPath, List<PointData> eventList)
     {
         IsCompleted = isCompleted;
         tabletType = PathToEnum(useGoPath);

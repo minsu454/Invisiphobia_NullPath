@@ -28,10 +28,6 @@ public static class JsonToPrefab
             GameObject go = new GameObject("--------------Map--------------");
             go.transform.SetParent(ingame.transform);
 
-            go = new GameObject("MapManager");
-            go.transform.SetParent(ingame.transform);
-            MapManager mapManager = go.AddComponent<MapManager>();
-
             foreach (RoomData data in totalData.RoomDataList)
             {
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.RoomPartsPath}/{data.Name}.prefab");
@@ -58,37 +54,23 @@ public static class JsonToPrefab
                 go.transform.rotation = data.Rot;
             }
 
-            foreach (ItemData data in totalData.ItemDataList)
-            {
-                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.ItemPartsPath}/{data.Name}.prefab");
-                go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, ingame.transform);
-
-                go.name = data.Name;
-                go.transform.position = data.Pos;
-                go.transform.rotation = data.Rot;
-
-                mapManager.itemPartsList.Add(go.GetComponent<Prop>());
-            }
-
-            foreach (EventData data in totalData.EventDataList)
-            {
-                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{EditorPath.EventPartsPath}/{data.Name}.prefab");
-                go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, ingame.transform);
-
-                go.name = data.Name;
-                go.transform.position = data.Pos;
-                go.transform.rotation = data.Rot;
-
-                EventParts parts = go.GetComponent<EventParts>();
-                parts.Setting(data.isCompleted, data.useGoPath, data.eventList);
-            }
-
             CreateEntityManager(totalData, ingame);
 
             string initialFilename = "SaveData_" + DateTime.Now.ToString(("MM_dd_HH_mm_ss")) + ".prefab";
-            path = EditorUtility.SaveFilePanel("Save File", "", initialFilename, "prefab");
+            path = EditorUtility.SaveFilePanel("Save MapPrefab", "", initialFilename, "prefab");
 
             PrefabUtility.SaveAsPrefabAsset(ingame, path);
+
+            SaveData saveData = new SaveData();
+            saveData.playerData = totalData.EntityData.playerData;
+            saveData.ItemDataList = totalData.ItemDataList;
+            saveData.EventDataList = totalData.EventDataList;
+
+            path = $"{Application.dataPath}/Resources/JSON/SaveData/{totalData.MapName}_Original.json"; ;
+
+            json = JsonUtility.ToJson(saveData);
+
+            File.WriteAllText(path, json);
         }
         catch
         {

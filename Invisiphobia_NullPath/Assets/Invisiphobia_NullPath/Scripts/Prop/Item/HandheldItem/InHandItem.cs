@@ -9,9 +9,9 @@ public abstract class InHandItem : BaseItem
     [Header("Hand GameObject")]
     public GameObject prefab;       //손에 드는 오브젝트 프리팹
 
-    public override void Init()
+    public override void Init(PropStateType stateType)
     {
-        base.Init();
+        base.Init(stateType);
 
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
         actionText = ItemTable.actionText != -1 ? DataService.GetItemInteractText(ItemTable.actionText) : "";
