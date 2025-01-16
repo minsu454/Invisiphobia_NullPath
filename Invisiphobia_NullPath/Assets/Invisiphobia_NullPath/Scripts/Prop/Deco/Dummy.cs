@@ -17,6 +17,8 @@ public class Dummy : Prop
 
     public void Start()
     {
+        followWatch = false;
+
         targetTr = EntityManager.Instance.Player.transform;
         playerCamera = Camera.main;
     }
@@ -39,9 +41,17 @@ public class Dummy : Prop
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            followWatch = false;
+        }
+    }
+
     void Update()
     {
-        if (!IsChildMeshActive())
+        if (StateType != PropStateType.Revealed)
         {
             // 자식 Mesh가 비활성화 상태면 실행하지 않음
             return;
@@ -54,18 +64,6 @@ public class Dummy : Prop
             return;
         }
         followWatchPlayer();
-    }
-
-    bool IsChildMeshActive()
-    {
-        // 자식 MeshRenderer 중 하나라도 활성화되어 있으면 true 반환
-        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
-        foreach (var renderer in meshRenderers)
-        {
-            if (renderer.enabled)
-                return true;
-        }
-        return false;
     }
 
     void followWatchPlayer()

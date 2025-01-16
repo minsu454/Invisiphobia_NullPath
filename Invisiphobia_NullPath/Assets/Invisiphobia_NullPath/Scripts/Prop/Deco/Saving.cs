@@ -15,8 +15,6 @@ public class Saving : MonoBehaviour, IInteractable, IErrorMessageable
     protected string interactText = "";
     public string InteractText { get { return interactText; } }
 
-    private string tempInteractText;
-
     protected string actionText;
     public string ActionText { get { return actionText; } }
 
@@ -34,7 +32,6 @@ public class Saving : MonoBehaviour, IInteractable, IErrorMessageable
 
         itemTable = DataService.GetItemTableByKey(itemId);
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
-        tempInteractText = interactText;
         errorMessageText = DataService.GetItemText(ItemTable.errorMessage[0]);
         curErrorMessageText = errorMessageText;
     }

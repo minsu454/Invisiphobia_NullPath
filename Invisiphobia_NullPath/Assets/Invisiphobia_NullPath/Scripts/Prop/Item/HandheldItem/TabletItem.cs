@@ -25,25 +25,26 @@ public class TabletItem : MonoBehaviour, IInteractable, IErrorMessageable
     [Header("Hanking")]
     private int unLockTabletSkill = 0;
 
+    private EventParts parts;
+
     private void Start()
     {
+        parts = GetComponent<EventParts>();
+
         itemTable = DataService.GetItemTableByKey(itemId);
-        unLockTabletSkill = (int)GetComponent<EventParts>().TabletType - 1;
+        unLockTabletSkill = (int)parts.TabletType - 1;
         errorMessageText = DataService.GetItemText(ItemTable.errorMessage[0]);
         curErrorMessageText = errorMessageText;
+
+        if(parts.IsCompleted)
+            EntityManager.Instance.Player.PlayerInventory.SetTablet(unLockTabletSkill);
     }
 
     public void Interact(Player player)
     {
         player.PlayerInventory.SetTablet(unLockTabletSkill);
+        curErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[unLockTabletSkill - 1]);
 
-        if(unLockTabletSkill == 1)
-        {
-            curErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[0]);
-        }
-        else if(unLockTabletSkill == 2)
-        {
-            curErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[1]);
-        }
+        parts.IsCompleted = true;
     }
 }
