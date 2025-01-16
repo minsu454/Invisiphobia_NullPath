@@ -63,7 +63,7 @@ public static class JsonToPrefab
 
             SaveData saveData = new SaveData(
                 new PlayerData(totalData.EntityData.playerData.Pos,
-                totalData.EntityData.playerData.Rot, -1),
+                totalData.EntityData.playerData.Rot, -1, 100),
                 totalData.ItemDataList,
                 totalData.EventDataList);
 

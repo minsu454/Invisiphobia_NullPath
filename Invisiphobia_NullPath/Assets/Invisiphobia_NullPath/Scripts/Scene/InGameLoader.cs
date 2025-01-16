@@ -18,12 +18,12 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     {
         CreateGameManager();
 
-        TextAsset json = Resources.Load<TextAsset>(SaveService.LoadPath);
-        SaveData saveData = JsonUtility.FromJson<SaveData>(json.text);
+        SaveData saveData = SaveService.Load();
 
         Player player = EntityManager.Instance.Player;
         player.transform.position = saveData.PlayerData.Pos;
         player.transform.rotation = saveData.PlayerData.Rot;
+        player.PlayerInventory.Tablet.Setting(saveData.PlayerData.battery);
         player.Init();
 
         SaveManager(saveData);
@@ -67,16 +67,22 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         Managers.Sound.FirstSceneBGMPlay(SceneType.InGame, 0.5f);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+            Save();
+    }
+
     public void Save()
     {
         SaveData saveData = new SaveData();
 
         Player player = EntityManager.Instance.Player;
-        saveData.PlayerData = new PlayerData(player.transform.position, player.transform.rotation, player.PlayerInventory.InHandItemId);
+        saveData.PlayerData = new PlayerData(player.transform.position, player.transform.rotation, player.PlayerInventory.InHandItemId, player.PlayerInventory.Tablet.CurrentCharge);
 
         foreach (Prop item in saveMapManager.ItemPartsList)
         {
-            ItemData data = new ItemData(item.Id, item.name, item.transform.position, item.transform.rotation, item.StateType);
+            ItemData data = new ItemData(item.Id, item.name, item.transform.position, item.transform.rotation, item.StateType, item.Charge);
             saveData.ItemDataList.Add(data);
         }
 

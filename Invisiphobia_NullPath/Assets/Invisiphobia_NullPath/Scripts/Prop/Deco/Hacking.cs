@@ -50,14 +50,14 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
     private void Start()
     {
         eventParts = gameObject.GetComponent<EventParts>();
+        startRotation = door.rotation;
+        endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
+
         if (eventParts.IsCompleted)
         {
             curErrorMessageText = "";
-            StartCoroutine(DoorInteract(startRotation, endRotation, 1f));
+            door.rotation = endRotation;
         }
-
-        startRotation = door.rotation;
-        endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
 
         itemTable = DataService.GetItemTableByKey(itemId);
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";

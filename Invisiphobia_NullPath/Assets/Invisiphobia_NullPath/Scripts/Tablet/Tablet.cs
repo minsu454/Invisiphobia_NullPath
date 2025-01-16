@@ -16,6 +16,14 @@ public class Tablet : MonoBehaviour
     [Header("Battery Settings")]
     [SerializeField] private float maxCharge = 100f;                //배터리 최대 값
     [SerializeField] private float currentCharge;                   //현재 배터리 값
+    public float CurrentCharge
+    {
+        get
+        {
+            return currentCharge;
+        }
+    }
+
     [SerializeField] private float consumptionRate;                 //소모주기
     [SerializeField] private float consumptionAmount;               //주기마다 소모되는 값
     private Coroutine myCoroutine;                                  //배터리 소모 코루틴 저장
@@ -70,7 +78,12 @@ public class Tablet : MonoBehaviour
 
         EventManager.Subscribe(GameEventType.UseTabletPause, OnUsePause);
 
-        SetCurrentCharge(maxCharge);
+        SetCurrentCharge(currentCharge);
+    }
+
+    public void Setting(float currentCharge)
+    {
+        this.currentCharge = currentCharge;
     }
 
     /// <summary>

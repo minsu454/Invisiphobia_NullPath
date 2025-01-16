@@ -270,7 +270,8 @@ public class ItemLayoutWindow : CustomWindow<ItemLayoutWindow>
                 itemParts.name,
                 itemParts.transform.position,
                 itemParts.transform.rotation,
-                itemParts.StateType);
+                itemParts.StateType,
+                1);
 
             data.ItemDataList.Add(itemData);
             i++;
