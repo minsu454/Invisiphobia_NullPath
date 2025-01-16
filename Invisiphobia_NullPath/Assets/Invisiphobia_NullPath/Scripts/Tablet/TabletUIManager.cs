@@ -6,7 +6,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
@@ -15,7 +14,6 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 
     [SerializeField] private List<GameObject> UpdateUIList = new List<GameObject>();
 
-    [SerializeField] private Volume volume;
     private LimitlessGlitch8 glitch;
 
     [SerializeField] private Image batteryBar; 
@@ -53,12 +51,12 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         worldUIList[choiceIdx].gameObject.SetActive(true);
         worldUIList[choiceIdx].Subscribe(this);
 
+        glitch = SettingManager.SetVolume.Glitch8;
+
         tablet.OnStateChangedEvent += OnStateChanged;
         tablet.OnShotEvent += OnShot;
         hiddenEvent += tablet.UnHidden;
 
-        volume = SettingManager.Volume;
-        volume.profile.TryGet(out glitch);
     }
 
     /// <summary>
@@ -179,6 +177,8 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
         yield return YieldCache.WaitForSeconds(0.2f);
 
         glitch.active = false;
+
+        //SettingManager.SetVolume.Glitch6.amount.value = 12f;
     }
 
     
