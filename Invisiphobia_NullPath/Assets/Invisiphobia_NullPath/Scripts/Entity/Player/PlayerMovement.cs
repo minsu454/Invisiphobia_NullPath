@@ -232,7 +232,7 @@ public class PlayerMovement : MonoBehaviour
         if (!isSprinting || (isSprinting && currentSpeed < 0.5f))
         {
             // 회복 로직
-            sprintRemaining += 0.1f * Time.deltaTime * 10;
+            sprintRemaining += 0.15f * Time.deltaTime * 10;
             sprintRemaining = Mathf.Clamp(sprintRemaining, 0, sprintValue);
         }
 
