@@ -259,6 +259,10 @@ public class Tablet : MonoBehaviour
     public void UnLockTabletSkill(int num)
     {
         tabletSkillUIArr[num].SetActive(true);
+    }
+
+    public void UnLockTabletSkillPopup(int num)
+    {
         manager.UpgradePopup(num);
     }
 

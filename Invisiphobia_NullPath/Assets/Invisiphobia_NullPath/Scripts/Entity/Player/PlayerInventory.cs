@@ -57,6 +57,11 @@ public class PlayerInventory : MonoBehaviour
         Tablet.UnLockTabletSkill(unLockTabletSkill);
     }
 
+    public void UnLockTabletSkillPopup(int unLockTabletSkill)
+    {
+        Tablet.UnLockTabletSkillPopup(unLockTabletSkill);
+    }
+
     /// <summary>
     /// 아이템 설정 함수
     /// </summary>

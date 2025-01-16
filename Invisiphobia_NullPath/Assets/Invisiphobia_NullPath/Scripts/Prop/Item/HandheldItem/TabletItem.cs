@@ -1,4 +1,5 @@
 using Common.Data;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class TabletItem : MonoBehaviour, IInteractable, IErrorMessageable
@@ -33,6 +34,9 @@ public class TabletItem : MonoBehaviour, IInteractable, IErrorMessageable
 
         itemTable = DataService.GetItemTableByKey(itemId);
         unLockTabletSkill = (int)parts.TabletType - 1;
+
+        interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
+
         errorMessageText = DataService.GetItemText(ItemTable.errorMessage[0]);
         curErrorMessageText = errorMessageText;
 
@@ -43,6 +47,8 @@ public class TabletItem : MonoBehaviour, IInteractable, IErrorMessageable
     public void Interact(Player player)
     {
         player.PlayerInventory.SetTablet(unLockTabletSkill);
+        player.PlayerInventory.UnLockTabletSkillPopup(unLockTabletSkill);
+
         curErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[unLockTabletSkill - 1]);
 
         parts.IsCompleted = true;

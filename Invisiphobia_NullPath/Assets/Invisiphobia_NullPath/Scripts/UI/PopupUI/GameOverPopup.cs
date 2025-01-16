@@ -2,6 +2,7 @@ using UnityEngine;
 using Michsky.UI.Dark;
 using Common.SceneEx;
 using Common.Event;
+using Common.Save;
 
 public class GameOverPopup : BasePopupUI
 {
@@ -26,6 +27,9 @@ public class GameOverPopup : BasePopupUI
 
     public void GoContinue()
     {
+        if (SaveService.Exists)
+            SaveService.SetCurPath(true);
+
         SceneManagerEx.LoadingAndNextScene(SceneType.InGame);
     }
 }
