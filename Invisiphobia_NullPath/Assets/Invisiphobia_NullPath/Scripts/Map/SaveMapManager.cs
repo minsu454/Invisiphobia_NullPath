@@ -21,7 +21,8 @@ public class SaveMapManager : MonoBehaviour
 
     private void Start()
     {
-        startHandItem.Interact(EntityManager.Instance.Player);
+        if (startHandItem != null)
+            startHandItem.Interact(EntityManager.Instance.Player);
     }
 
     /// <summary>
