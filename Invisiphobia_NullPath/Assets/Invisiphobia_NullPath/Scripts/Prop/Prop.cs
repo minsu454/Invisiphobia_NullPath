@@ -5,8 +5,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
 {
     [Header("Prop")]
     [SerializeField] private Renderer[] myRendererArr;                      //해당 오브젝트 랜더러들 모음 배열
-    private int id;
-    public int Id { get { return id; } }
+
 
     MapIcon IDetectable.MapIcon => mapIcon;
     private MapIcon mapIcon;                                                    //맵아이콘
@@ -14,6 +13,12 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     public bool IsDetectTablet { get; set; }
 
     public PropStateType StateType { get; protected set; } = PropStateType.None;
+
+    [Header("Save")]
+    private int id;
+    public int Id { get { return id; } }
+    [SerializeField] protected float charge = 0;
+    public float Charge { get { return charge; } }
 
     #region Test
     [Header("MapIcon")]
@@ -23,7 +28,7 @@ public class Prop : MonoBehaviour, IDetectable, IParts
     /// <summary>
     /// Prop 초기화 함수
     /// </summary>
-    public virtual void Init(int id, PropStateType stateType)
+    public virtual void Init(int id, PropStateType stateType, float charge)
     {
         foreach (Renderer renderer in myRendererArr)
         {
@@ -45,7 +50,9 @@ public class Prop : MonoBehaviour, IDetectable, IParts
             }
 
             mapIcon.Revealed();
-        } 
+        }
+
+        this.charge = charge;
     }
 
     public virtual void Detected()

@@ -11,13 +11,15 @@ public class ItemData
     public Vector3 Pos;
     public Quaternion Rot;
     public PropStateType type;
+    public float battery;
 
-    public ItemData(int id, string name, Vector3 pos, Quaternion rot, PropStateType type)
+    public ItemData(int id, string name, Vector3 pos, Quaternion rot, PropStateType type, float battery)
     {
         Id = id;
         Name = name;
         Pos = pos;
         Rot = rot;
         this.type = type;
+        this.battery = battery;
     }
 }

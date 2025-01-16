@@ -21,9 +21,9 @@ public abstract class BaseItem : Prop, IInteractable
 
     public bool IsReveal => StateType == PropStateType.Revealed;
 
-    public override void Init(int id, PropStateType stateType)
+    public override void Init(int id, PropStateType stateType, float charge)
     {
-        base.Init(id, stateType);
+        base.Init(id, stateType, charge);
         itemTable = DataService.GetItemTableByKey(itemId);
     }
 

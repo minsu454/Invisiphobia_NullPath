@@ -11,10 +11,17 @@ public class SaveMapManager : MonoBehaviour
     private readonly List<EventParts> eventPartsList = new List<EventParts>();
     public List<EventParts> EventPartsList { get { return eventPartsList; } }
 
+    private InHandItem startHandItem;
+
     public void Init(SaveData saveData)
     {
         SpawnItem(saveData.ItemDataList, saveData.PlayerData.InHandItemId);
         SpawnEvent(saveData.EventDataList);
+    }
+
+    private void Start()
+    {
+        startHandItem.Interact(EntityManager.Instance.Player);
     }
 
     /// <summary>
@@ -32,12 +39,11 @@ public class SaveMapManager : MonoBehaviour
 
             Prop prop = go.GetComponent<Prop>();
             itemPartsList.Add(prop);
-            prop.Init(data.Id, data.type);
+            prop.Init(data.Id, data.type, data.battery);
 
             if (handItemId == prop.Id && prop is InHandItem)
             {
-                InHandItem handItem = prop as InHandItem;
-                handItem.Interact(EntityManager.Instance.Player);
+                startHandItem = prop as InHandItem;
             }
         }
     }
