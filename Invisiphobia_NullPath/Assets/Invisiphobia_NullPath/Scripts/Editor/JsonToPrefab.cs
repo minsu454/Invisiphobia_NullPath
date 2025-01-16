@@ -61,12 +61,11 @@ public static class JsonToPrefab
 
             PrefabUtility.SaveAsPrefabAsset(ingame, path);
 
-            SaveData saveData = new SaveData();
-            saveData.PlayerData = new PlayerData();
-            saveData.PlayerData.Pos = totalData.EntityData.playerData.Pos;
-            saveData.PlayerData.Rot = totalData.EntityData.playerData.Rot;
-            saveData.ItemDataList = totalData.ItemDataList;
-            saveData.EventDataList = totalData.EventDataList;
+            SaveData saveData = new SaveData(
+                new PlayerData(totalData.EntityData.playerData.Pos,
+                totalData.EntityData.playerData.Rot, -1),
+                totalData.ItemDataList,
+                totalData.EventDataList);
 
             path = $"{Application.dataPath}/Resources/JSON/SaveData/{totalData.MapName}_Original.json"; ;
 

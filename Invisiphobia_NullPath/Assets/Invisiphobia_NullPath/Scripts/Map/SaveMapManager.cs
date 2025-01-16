@@ -13,14 +13,14 @@ public class SaveMapManager : MonoBehaviour
 
     public void Init(SaveData saveData)
     {
-        SpawnItem(saveData.ItemDataList);
+        SpawnItem(saveData.ItemDataList, saveData.PlayerData.InHandItemId);
         SpawnEvent(saveData.EventDataList);
     }
 
     /// <summary>
     /// 아이템 생성 함수
     /// </summary>
-    private void SpawnItem(List<ItemData> dataList)
+    private void SpawnItem(List<ItemData> dataList, int handItemId)
     {
         foreach (ItemData data in dataList)
         {
@@ -33,6 +33,12 @@ public class SaveMapManager : MonoBehaviour
             Prop prop = go.GetComponent<Prop>();
             itemPartsList.Add(prop);
             prop.Init(data.Id, data.type);
+
+            if (handItemId == prop.Id && prop is InHandItem)
+            {
+                InHandItem handItem = prop as InHandItem;
+                handItem.Interact(EntityManager.Instance.Player);
+            }
         }
     }
 

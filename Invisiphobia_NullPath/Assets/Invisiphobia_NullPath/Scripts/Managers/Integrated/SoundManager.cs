@@ -15,7 +15,7 @@ public sealed class SoundManager : MonoBehaviour, IInit
     private AudioMixer audioMixer;
     private AudioSource bgmSource;
 
-    private const int SoundPlayerCount = 10;
+    private const int SoundPlayerCount = 20;
 
     private AudioClip curSceneClip;
     private float curSceneVolume;

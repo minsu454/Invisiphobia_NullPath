@@ -28,7 +28,6 @@ public class SoundItem : BaseItem
         base.Revealed();
 
         audioSource.Play();
-        Debug.Log("재생");
     }
 
     //private IEnumerator AudioSourcePlay()
