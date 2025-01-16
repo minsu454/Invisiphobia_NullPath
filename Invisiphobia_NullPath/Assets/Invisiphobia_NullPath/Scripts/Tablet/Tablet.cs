@@ -16,11 +16,20 @@ public class Tablet : MonoBehaviour
     [Header("Battery Settings")]
     [SerializeField] private float maxCharge = 100f;                //배터리 최대 값
     [SerializeField] private float currentCharge;                   //현재 배터리 값
+
     public float CurrentCharge
     {
         get
         {
             return currentCharge;
+        }
+    }
+
+    public float CurrentMeter
+    {
+        get
+        {
+            return currentMeter;
         }
     }
 

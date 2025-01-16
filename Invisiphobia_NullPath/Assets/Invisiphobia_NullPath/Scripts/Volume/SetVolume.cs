@@ -10,12 +10,20 @@ public class SetVolume : MonoBehaviour
     private ColorAdjustments colorAdjustments;
     private LiftGammaGain liftGammaGain;
     private MotionBlur motionBlur;
+    private LimitlessGlitch8 glitch8; // 타블렛 화면전환 효과
+    private LimitlessGlitch6 glitch6; // 공포감 표현 효과
+
+    public LimitlessGlitch8 Glitch8 { get { return glitch8; } }
+    public LimitlessGlitch6 Glitch6 { get { return glitch6; } }
+
 
     public void Init()
     {
         volume.profile.TryGet(out colorAdjustments);
         volume.profile.TryGet(out liftGammaGain);
         volume.profile.TryGet(out motionBlur);
+        volume.profile.TryGet(out glitch8);
+        volume.profile.TryGet(out glitch6);
 
         InitPlayerPrefs();
     }

@@ -9,6 +9,8 @@ namespace Common.Setting
 {
     public static class SettingManager
     {
+        public static SetVolume SetVolume { get { return volume; } }
+
         private static SetVolume volume;
         public static Volume Volume { get { return volume.Volume; } }
 
