@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class DestroyableObject : BaseItem
 {
-    public override void Init(PropStateType stateType)
+    public override void Init(int id, PropStateType stateType)
     {
-        base.Init(stateType);
+        base.Init(id, stateType);
         interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);
     }
 

@@ -11,4 +11,6 @@ public class TitleUI : BaseSceneUI
     {
         SceneManagerEx.LoadingAndNextScene(SceneType.InGame);
     }
+
+
 }

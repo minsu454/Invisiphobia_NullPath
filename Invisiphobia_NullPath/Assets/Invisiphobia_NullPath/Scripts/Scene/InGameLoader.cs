@@ -1,5 +1,8 @@
 using Common.Objects;
 using Common.Path;
+using Common.Save;
+using DG.Tweening.Core.Easing;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
@@ -8,7 +11,7 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
     private const string navMeshBakerPath = "NavMesh/NavMeshBaker";
     private const string saveDataPath = "JSON/SaveData/Floor01_Original";
-    private SaveManager saveManager;
+    private SaveMapManager saveMapManager;
 
     public GameManager Game;
 
@@ -20,8 +23,8 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         SaveData saveData = JsonUtility.FromJson<SaveData>(json.text);
 
         Player player = EntityManager.Instance.Player;
-        player.transform.position = saveData.playerData.Pos;
-        player.transform.rotation = saveData.playerData.Rot;
+        player.transform.position = saveData.PlayerData.Pos;
+        player.transform.rotation = saveData.PlayerData.Rot;
         player.Init();
 
         SaveManager(saveData);
@@ -44,9 +47,9 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     private void SaveManager(SaveData saveData)
     {
         new GameObject("-------------Save--------------");
-        GameObject go = new GameObject("SaveManager");
-        saveManager = go.AddComponent<SaveManager>();
-        saveManager.Init(saveData);
+        GameObject go = new GameObject("SaveMapManager");
+        saveMapManager = go.AddComponent<SaveMapManager>();
+        saveMapManager.Init(saveData);
     }
 
     /// <summary>
@@ -63,5 +66,57 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     private void Start()
     {
         Managers.Sound.FirstSceneBGMPlay(SceneType.InGame, 0.5f);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Save();
+        }
+    }
+
+    public void Save()
+    {
+        SaveData saveData = new SaveData();
+
+        Player player = EntityManager.Instance.Player;
+        saveData.PlayerData = new PlayerData(player.transform.position, player.transform.rotation, player.PlayerInventory.InHandItemId);
+
+        foreach (Prop item in saveMapManager.ItemPartsList)
+        {
+            ItemData data = new ItemData(item.Id, item.name, item.transform.position, item.transform.rotation, item.StateType);
+            saveData.ItemDataList.Add(data);
+        }
+
+        List<EventParts> eventDataList = new List<EventParts>();
+        foreach (EventParts parts in saveMapManager.EventPartsList)
+        {
+            List<PointData> eventList = new List<PointData>();
+
+            foreach (Transform point in parts.OnCompleteTrList)
+            {
+                PointData pointData = new PointData(
+                point.name,
+                point.transform.position,
+                point.transform.rotation);
+
+                eventList.Add(pointData);
+            }
+
+            EventData eventData = new EventData(
+                parts.name,
+                parts.transform.position,
+                parts.transform.rotation,
+                parts.GetPath(),
+                eventList,
+                parts.IsCompleted);
+              
+            saveData.EventDataList.Add(eventData);
+        }
+
+        string json = JsonUtility.ToJson(saveData);
+
+        SaveService.Save(json);
     }
 }

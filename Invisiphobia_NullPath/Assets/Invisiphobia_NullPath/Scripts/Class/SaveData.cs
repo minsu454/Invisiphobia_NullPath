@@ -5,7 +5,19 @@ using System.Collections.Generic;
 /// </summary>
 public class SaveData
 {
-    public PointData playerData;
+    public PlayerData PlayerData;
     public List<ItemData> ItemDataList = new List<ItemData>();
     public List<EventData> EventDataList = new List<EventData>();
+
+    public SaveData()
+    {
+
+    }
+
+    public SaveData(PlayerData playerData, List<ItemData> itemDataList, List<EventData> eventDataList)
+    {
+        PlayerData = playerData;
+        ItemDataList = itemDataList;
+        EventDataList = eventDataList;
+    }
 }

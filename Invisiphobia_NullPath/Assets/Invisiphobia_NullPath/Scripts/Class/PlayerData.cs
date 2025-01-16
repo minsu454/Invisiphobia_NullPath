@@ -8,6 +8,11 @@ public class PlayerData
     public Quaternion Rot;
     public int InHandItemId;
 
+    public PlayerData()
+    {
+
+    }
+
     public PlayerData(Vector3 pos, Quaternion rot, int inHandItemId)
     {
         Pos = pos;
