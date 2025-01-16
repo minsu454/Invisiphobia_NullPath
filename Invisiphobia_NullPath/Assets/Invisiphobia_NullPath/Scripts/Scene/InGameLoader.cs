@@ -67,12 +67,6 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         Managers.Sound.FirstSceneBGMPlay(SceneType.InGame, 0.5f);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-            Save();
-    }
-
     public void Save()
     {
         SaveData saveData = new SaveData();
