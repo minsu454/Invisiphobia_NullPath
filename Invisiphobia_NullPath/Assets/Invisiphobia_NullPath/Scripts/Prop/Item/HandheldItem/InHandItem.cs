@@ -16,6 +16,6 @@ public abstract class InHandItem : BaseItem
         base.Init(id, stateType, charge);
 
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
-        actionText = ItemTable.actionText != -1 ? DataService.GetItemInteractText(ItemTable.actionText) : "";
+        actionText = ItemTable.actionText != -1 ? $"[F] : {DataService.GetItemInteractText(ItemTable.actionText)}" : "";
     }
 }

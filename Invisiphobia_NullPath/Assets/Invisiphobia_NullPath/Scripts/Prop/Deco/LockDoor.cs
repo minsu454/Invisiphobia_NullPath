@@ -1,5 +1,6 @@
 using Common.Data;
 using Common.Yield;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,9 +16,7 @@ public class LockDoor : MonoBehaviour, IInteractable, IErrorMessageable
 
     [Header("Door")]
     private Transform playerTr;
-    [SerializeField] Lock mylock;
     [SerializeField] private AudioClip doorOpen;
-    [SerializeField] private AudioClip doorClose;
     [SerializeField] private AudioClip lockClip;
 
     [Header("Table")]
@@ -45,6 +44,8 @@ public class LockDoor : MonoBehaviour, IInteractable, IErrorMessageable
 
     [SerializeField] private EventParts parts;
 
+    [SerializeField] private BoxCollider myCollider;
+
     public void Start()
     {
         playerTr = EntityManager.Instance.Player.transform;
@@ -52,29 +53,16 @@ public class LockDoor : MonoBehaviour, IInteractable, IErrorMessageable
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
 
         if (parts.IsCompleted)
+        {
             transform.rotation = endRotation;
+            myCollider.enabled = false;
+        }
 
-        itemTable = DataService.GetItemTableByKey(itemId);
-        interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
-        errorMessageText = DataService.GetItemText(ItemTable.errorMessage[(int)doorErrorType]);
-        doorBehindErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[(int)DoorErrorType.Door]);
         curErrorMessageText = "";
+        itemTable = DataService.GetItemTableByKey(itemId);
+        doorBehindErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[(int)DoorErrorType.Door]);
     }
-    private void Update()
-    {
-        if (IsPlayerBehind(playerTr))
-        {
-            if (parts.IsCompleted == false)
-            {
-                interactText = "";
-                return;
-            }
-        }
-        else
-        {
-            interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[parts.IsCompleted ? 1 : 0])}";
-        }
-    }
+
     public void Interact(Player player)
     {
         curErrorMessageText = "";
@@ -84,29 +72,11 @@ public class LockDoor : MonoBehaviour, IInteractable, IErrorMessageable
             return;
         }
 
-        if (IsPlayerBehind(player.transform))
+        if (parts.IsCompleted == false)
         {
-            if (parts.IsCompleted == false)
-            {
-                interactText = "";
-                curErrorMessageText = doorBehindErrorMessageText;
-                return;
-            }
+            curErrorMessageText = doorBehindErrorMessageText;
+            Managers.Sound.SFX2DPlay(lockClip);
         }
-        if (mylock != null && mylock.isLocked)
-        {
-            Managers.Sound.SFX3DPlay(lockClip, playerTr);
-            curErrorMessageText = errorMessageText;
-            StartCoroutine(DoorInteract(startRotation, endRotation, 1f)); // 열기 동작
-            Managers.Sound.SFX3DPlay(doorOpen, transform);
-            parts.IsCompleted = true;
-        }
-    }
-
-    private IEnumerator DelayedSoundPlay(float delay)
-    {
-        yield return YieldCache.WaitForSeconds(delay);
-        Managers.Sound.SFX3DPlay(doorClose, transform);
     }
 
     private bool IsPlayerBehind(Transform playerTransform)
@@ -137,9 +107,11 @@ public class LockDoor : MonoBehaviour, IInteractable, IErrorMessageable
         elapsedTime = 0f;
 
         transform.rotation = b; // 정확한 목표 회전값으로 설정
+        myCollider.enabled = false;
+    }
 
-        // 문 상태 업데이트
-        parts.IsCompleted = startRotation != transform.rotation;
-        interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[parts.IsCompleted ? 1 : 0])}";
+    public void Open()
+    {
+        StartCoroutine(DoorInteract(startRotation, endRotation, 1f)); // 열기 동작
     }
 }

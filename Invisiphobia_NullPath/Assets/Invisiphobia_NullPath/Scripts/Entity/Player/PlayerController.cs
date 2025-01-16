@@ -194,16 +194,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void OnZoomClick()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            isHoldRightmouse = true;
-        }
-        else if(Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            isHoldRightmouse = false;
-        }
-
-        if(Input.GetKeyDown(KeyCode.Mouse0) && isHoldRightmouse == true)
+        if(Input.GetKeyDown(KeyCode.F))
         {
             playerZoomClickActionEvent?.Invoke();
         }

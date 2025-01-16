@@ -101,7 +101,7 @@ public class InGame_UI : BaseSceneUI
         }
         else
         {
-            interactKeyText.text = "[R-click + L-click] : " + interact.ActionText;
+            interactKeyText.text = interact.ActionText;
         }
     }
 
