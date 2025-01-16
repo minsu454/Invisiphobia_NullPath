@@ -36,6 +36,16 @@ public class Prop : MonoBehaviour, IDetectable, IParts
 
         this.id = id;
         StateType = stateType;
+        if (stateType == PropStateType.Revealed)
+        {
+            mapIcon.Detected();
+            foreach (Renderer renderer in myRendererArr)
+            {
+                renderer.enabled = true;
+            }
+
+            mapIcon.Revealed();
+        } 
     }
 
     public virtual void Detected()

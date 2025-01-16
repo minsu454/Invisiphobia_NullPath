@@ -9,6 +9,8 @@ public abstract class InHandItem : BaseItem
     [Header("Hand GameObject")]
     public GameObject prefab;       //손에 드는 오브젝트 프리팹
 
+    public Action<Transform> keyDownEvent;
+
     public override void Init(int id, PropStateType stateType)
     {
         base.Init(id, stateType);

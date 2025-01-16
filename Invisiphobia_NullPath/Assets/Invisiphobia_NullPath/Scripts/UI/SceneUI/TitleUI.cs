@@ -1,16 +1,20 @@
-using Common.Objects;
-using Common.Path;
+using Common.Save;
 using Common.SceneEx;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class TitleUI : BaseSceneUI
 {
-    public void Btn()
+    public void NewGame()
     {
+        SaveService.SetCurPath(false);
         SceneManagerEx.LoadingAndNextScene(SceneType.InGame);
     }
 
+    public void LoadGame()
+    {
+        if (!SaveService.Exists)
+            return;
 
+        SaveService.SetCurPath(true);
+        SceneManagerEx.LoadingAndNextScene(SceneType.InGame);
+    }
 }

@@ -1,4 +1,5 @@
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace Common.Save
@@ -10,11 +11,16 @@ namespace Common.Save
 
         private static readonly string savePath;
 
+        private static string curPath = originalPath;
+
         static SaveService()
         {
             savePath = $"{Application.dataPath}/Resources/{tempSavePath}.json";
         }
 
+        /// <summary>
+        /// Save파일이 있는지 반환
+        /// </summary>
         public static bool Exists
         {
             get
@@ -23,25 +29,27 @@ namespace Common.Save
             }
         }
 
-        public static string OriginalPath
+        /// <summary>
+        /// 로드 파일경로 반환
+        /// </summary>
+        public static string LoadPath
         {
             get
             {
-                return originalPath;
+                return curPath;
             }
         }
 
-        public static string SavePath
+        public static void SetCurPath(bool useSavePath)
         {
-            get
-            {
-                return tempSavePath;
-            }
+            curPath = useSavePath ? tempSavePath : originalPath;
         }
 
         public static void Save(string json)
         {
+            Debug.Log(savePath);
             File.WriteAllText(savePath, json);
+            
         }
     }
 }

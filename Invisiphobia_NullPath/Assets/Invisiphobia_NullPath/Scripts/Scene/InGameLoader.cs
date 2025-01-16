@@ -10,7 +10,6 @@ using UnityEngine.Rendering;
 public class InGameLoader : BaseSceneLoader<InGameLoader>
 {
     private const string navMeshBakerPath = "NavMesh/NavMeshBaker";
-    private const string saveDataPath = "JSON/SaveData/Floor01_Original";
     private SaveMapManager saveMapManager;
 
     public GameManager Game;
@@ -19,7 +18,7 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     {
         CreateGameManager();
 
-        TextAsset json = Resources.Load<TextAsset>(saveDataPath);
+        TextAsset json = Resources.Load<TextAsset>(SaveService.LoadPath);
         SaveData saveData = JsonUtility.FromJson<SaveData>(json.text);
 
         Player player = EntityManager.Instance.Player;
@@ -28,12 +27,12 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         player.Init();
 
         SaveManager(saveData);
-
+        
         EntityManager.Instance.Init();
     }
 
     /// <summary>
-    /// 블륨 생성 함수
+    /// 게임 메니저 제작 함수
     /// </summary>
     private void CreateGameManager()
     {
@@ -66,14 +65,6 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
     private void Start()
     {
         Managers.Sound.FirstSceneBGMPlay(SceneType.InGame, 0.5f);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Save();
-        }
     }
 
     public void Save()
