@@ -78,6 +78,7 @@ public class Tablet : MonoBehaviour
         tabletSkillUIArr[2].SetActive(false);
 
         EventManager.Subscribe(GameEventType.UseTabletPause, OnUsePause);
+        EventManager.Subscribe(GameEventType.BossSpawn, OnSpawnBoss);
 
         SetCurrentCharge(currentCharge);
     }
@@ -85,6 +86,15 @@ public class Tablet : MonoBehaviour
     public void Setting(float currentCharge)
     {
         this.currentCharge = currentCharge;
+    }
+
+    /// <summary>
+    /// 보스 스폰시 배터리 달지 않게 잠궈주는 함수
+    /// </summary>
+    public void OnSpawnBoss(object args)
+    {
+        if(myCoroutine != null)
+            StopCoroutine(myCoroutine);
     }
 
     /// <summary>
