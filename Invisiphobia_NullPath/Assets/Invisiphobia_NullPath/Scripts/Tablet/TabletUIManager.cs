@@ -16,7 +16,9 @@ public class TabletUIManager : MonoBehaviour, IActiveStatable<TabletStateType>
 
     private LimitlessGlitch8 glitch;
 
-    [SerializeField] private Image batteryBar; 
+    [SerializeField] private Image batteryBar;
+    [SerializeField] private Image phobiaBar;
+
     private int choiceIdx = 0;
     public int ChoiceIdx
     {
