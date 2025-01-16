@@ -39,8 +39,12 @@ public class Saving : MonoBehaviour, IInteractable, IErrorMessageable
     public void Interact(Player player)
     {
         if (eventParts.IsCompleted)
+        {
+            errorMessageText = "";
             return;
+        }
 
         InGameLoader.Instance.Save();
+        eventParts.IsCompleted = true;
     }
 }

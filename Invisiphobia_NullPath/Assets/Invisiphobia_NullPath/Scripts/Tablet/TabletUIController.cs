@@ -3,7 +3,6 @@ using UnityEngine;
 public class TabletUIController : MonoBehaviour
 {
     [SerializeField] private Camera mapCam;
-    private bool isActive = false;
 
     [SerializeField] private float idleMapSize;
     [SerializeField] private float activeMapSize;
