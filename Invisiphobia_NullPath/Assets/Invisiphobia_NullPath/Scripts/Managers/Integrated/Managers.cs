@@ -27,8 +27,6 @@ public sealed class Managers : MonoBehaviour
         instance.uiManager = CreateManager<UIManager>(go.transform);
         instance.soundManager = CreateManager<SoundManager>(go.transform);
 
-        PlayerPrefs.DeleteAll();
-
         DataService.Init();
         SceneJobLoader.Init();
         SettingManager.Init();
