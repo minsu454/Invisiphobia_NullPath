@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Door : MonoBehaviour, IInteractable, IErrorMessageable
+public class LockDoor : MonoBehaviour, IInteractable, IErrorMessageable
 {
     float elapsedTime = 0f;
     Quaternion startRotation;
@@ -14,17 +14,20 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
     [SerializeField] private NavMeshObstacle obstacle;
 
     [Header("Door")]
-    [SerializeField] private int itemId;
-    protected ItemTable itemTable;
     private Transform playerTr;
+    [SerializeField] Lock mylock;
     [SerializeField] private AudioClip doorOpen;
     [SerializeField] private AudioClip doorClose;
     [SerializeField] private AudioClip lockClip;
+
+    [Header("Table")]
+    [SerializeField] private int itemId;
+    protected ItemTable itemTable;
     public ItemTable ItemTable
     {
         get { return itemTable; }
     }
-    
+
     protected string interactText;
     public string InteractText { get { return interactText; } }
 
@@ -36,7 +39,7 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
     [Header("Error Message")]
     [SerializeField] private DoorErrorType doorErrorType;
     protected string curErrorMessageText;
-    public string ErrorMessageText {  get { return curErrorMessageText; } }
+    public string ErrorMessageText { get { return curErrorMessageText; } }
     private string errorMessageText;
     private string doorBehindErrorMessageText;
 
@@ -81,27 +84,25 @@ public class Door : MonoBehaviour, IInteractable, IErrorMessageable
             return;
         }
 
-        if(IsPlayerBehind(player.transform))
+        if (IsPlayerBehind(player.transform))
         {
-            if(parts.IsCompleted == false)
+            if (parts.IsCompleted == false)
             {
                 interactText = "";
                 curErrorMessageText = doorBehindErrorMessageText;
                 return;
             }
         }
-
-        if (parts.IsCompleted)
+        if (mylock != null && mylock.isLocked)
         {
-            StartCoroutine(DoorInteract(endRotation, startRotation, 1f)); // 닫기 동작
-            StartCoroutine(DelayedSoundPlay(0.65f));
-        }
-        else
-        {
+            Managers.Sound.SFX3DPlay(lockClip, playerTr);
+            curErrorMessageText = errorMessageText;
             StartCoroutine(DoorInteract(startRotation, endRotation, 1f)); // 열기 동작
             Managers.Sound.SFX3DPlay(doorOpen, transform);
+            parts.IsCompleted = true;
         }
     }
+
     private IEnumerator DelayedSoundPlay(float delay)
     {
         yield return YieldCache.WaitForSeconds(delay);

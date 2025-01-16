@@ -25,14 +25,6 @@ public class Tablet : MonoBehaviour
         }
     }
 
-    public float CurrentMeter
-    {
-        get
-        {
-            return currentMeter;
-        }
-    }
-
     [SerializeField] private float consumptionRate;                 //소모주기
     [SerializeField] private float consumptionAmount;               //주기마다 소모되는 값
     private Coroutine myCoroutine;                                  //배터리 소모 코루틴 저장

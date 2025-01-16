@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 621771478742292118}
-  - component: {fileID: 5417565453949268154}
+  - component: {fileID: -4968827333627874468}
   m_Layer: 13
   m_Name: DoorSteel_Lock
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   - {fileID: 8377244170681694051}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &5417565453949268154
+--- !u!114 &-4968827333627874468
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,12 +49,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 46115675412120977}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4934f4134c1b1fc479c0b662372f9e87, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a54837773164e7439b6e8da85c3f484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: "\uD55C\uCABD\uC73C\uB85C \uC5F4 \uC218 \uC788\uB294 \uBB38(\uC7A0\uAE40)"
-  floorList: []
-  wallList: []
+  isCompleted: 0
+  OnCompleteTrList: []
+  tabletType: 0
+  puzzlePath: 
 --- !u!1 &537384355050047883
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +201,7 @@ MonoBehaviour:
   doorClose: {fileID: 8300000, guid: d7f59595aa88d4148b306f5e4a1b5096, type: 3}
   lockClip: {fileID: 8300000, guid: 9b1d76e3b7804da45be93720bd0c4e03, type: 3}
   doorErrorType: 1
+  parts: {fileID: -4968827333627874468}
 --- !u!1 &1035013015330657093
 GameObject:
   m_ObjectHideFlags: 0
