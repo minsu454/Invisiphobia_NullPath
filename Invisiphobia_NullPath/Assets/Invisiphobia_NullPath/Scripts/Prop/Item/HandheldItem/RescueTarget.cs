@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class RescueTarget : InHandItem
 {
-    public override void Init(int id, PropStateType stateType)
+    public override void Init(int id, PropStateType stateType, float charge)
     {
-        base.Init(id, stateType);
+        base.Init(id, stateType, charge);
         StateType = PropStateType.Revealed;
     }
 

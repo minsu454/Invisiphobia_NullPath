@@ -19,6 +19,7 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         CreateGameManager();
 
         SaveData saveData = SaveService.Load();
+
         Player player = EntityManager.Instance.Player;
         player.transform.position = saveData.PlayerData.Pos;
         player.transform.rotation = saveData.PlayerData.Rot;
@@ -81,7 +82,7 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
 
         foreach (Prop item in saveMapManager.ItemPartsList)
         {
-            ItemData data = new ItemData(item.Id, item.name, item.transform.position, item.transform.rotation, item.StateType);
+            ItemData data = new ItemData(item.Id, item.name, item.transform.position, item.transform.rotation, item.StateType, item.Charge);
             saveData.ItemDataList.Add(data);
         }
 

@@ -7,7 +7,6 @@ public class Battery : InHandItem
 {
     [Header("Battery Settings")]
     [SerializeField] private float maxCharge = 1f;
-    [SerializeField] private float currentCharge; // 현재 배터리 충전량
 
     private Player player;
 
@@ -24,10 +23,10 @@ public class Battery : InHandItem
         float tabletMaxCharge = tablet.GetMaxCharge();
 
         float tabletRatio = tablet.GetCurrentCharge() / tabletMaxCharge;
-        float batteryRatio = currentCharge * maxCharge;
+        float batteryRatio = charge * maxCharge;
 
-        tablet.SetCurrentCharge(batteryRatio * tabletMaxCharge); 
-        currentCharge = tabletRatio * maxCharge;
+        tablet.SetCurrentCharge(batteryRatio * tabletMaxCharge);
+        charge = tabletRatio * maxCharge;
 
         transform.position = Camera.main.transform.forward * 0.1f + playerTr.position;
     }

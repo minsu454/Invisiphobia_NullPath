@@ -11,9 +11,9 @@ public abstract class InHandItem : BaseItem
 
     public Action<Transform> keyDownEvent;
 
-    public override void Init(int id, PropStateType stateType)
+    public override void Init(int id, PropStateType stateType, float charge)
     {
-        base.Init(id, stateType);
+        base.Init(id, stateType, charge);
 
         interactText = $"[E] {DataService.GetItemInteractText(ItemTable.interactText[0])}";
         actionText = ItemTable.actionText != -1 ? DataService.GetItemInteractText(ItemTable.actionText) : "";
