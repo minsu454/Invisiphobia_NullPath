@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MonsterAnim : MonoBehaviour
 {
-    private readonly int idleHash = Animator.StringToHash("Idle");
+    //private readonly int idleHash = Animator.StringToHash("Idle");
     private readonly int revealHash = Animator.StringToHash("Reveal");
     private readonly int walkHash = Animator.StringToHash("IsWalking");
     private readonly int attackHash = Animator.StringToHash("IsAttacking");
@@ -19,7 +19,7 @@ public class MonsterAnim : MonoBehaviour
 
     public void Init(Monster monster)
     {
-        monster.MyState.IdleEvent += IdleAnim;
+        //monster.MyState.IdleEvent += IdleAnim;
         monster.MyState.RevealEvent += RevealAnim;
         monster.MyState.WanderingEvent += WanderingAnim;
         monster.MyState.AttackingEvent += AttackingAnim;
@@ -31,7 +31,7 @@ public class MonsterAnim : MonoBehaviour
 
     private void ResetAllStates()
     {
-        animator.SetBool(idleHash, false);
+        //animator.SetBool(idleHash, false);
         animator.SetBool(revealHash, false);
         animator.SetBool(walkHash, false);
         animator.SetBool(attackHash, false);
@@ -42,7 +42,7 @@ public class MonsterAnim : MonoBehaviour
     private void IdleAnim()
     {
         ResetAllStates();
-        animator.SetBool(idleHash, true);
+        //animator.SetBool(idleHash, true);
     }
 
     private void RevealAnim()
