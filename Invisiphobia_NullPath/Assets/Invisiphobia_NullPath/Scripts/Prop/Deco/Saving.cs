@@ -40,7 +40,7 @@ public class Saving : MonoBehaviour, IInteractable, IErrorMessageable
     {
         if (eventParts.IsCompleted)
         {
-            curErrorMessageText = "";
+            curErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[1]);
             return;
         }
 
