@@ -82,9 +82,10 @@ public class StunMonsterController : MonsterController
             if (targetDistance < hideAttackDistance)    // 너무 가까이 있을 때 숨어서 주금
             {
                 Kill();
+                return;
             }
-            isHiding = true;
 
+            isHiding = true;
             monster.AiState = AIStateType.Wandering;
         }
         else
@@ -130,11 +131,6 @@ public class StunMonsterController : MonsterController
             monster.AiState = AIStateType.Attacking;
             agent.speed = runSpeed;
         }
-        else if ((isHiding || targetDistance > detectDistance) && monster.AiState != AIStateType.Wandering) // 플레이어를 놓친 경우 Wandering으로 전환
-        {
-            monster.AiState = AIStateType.Wandering;
-            agent.speed = walkSpeed;
-        }
 
         if (AIStateType.Wandering == monster.AiState && agent.remainingDistance < 0.1f && canWander)
         {
@@ -153,7 +149,7 @@ public class StunMonsterController : MonsterController
     {
         Vector3 directionToPlayer = target.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
-        return angle < fieldOfView * 0.5f;
+        return angle < fieldOfView * 0.8f;
     }
 
     void FleeingUpdate()
