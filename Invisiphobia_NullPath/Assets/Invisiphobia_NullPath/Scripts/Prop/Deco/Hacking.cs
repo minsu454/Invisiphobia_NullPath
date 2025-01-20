@@ -57,6 +57,7 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
         {
             curErrorMessageText = "";
             door.rotation = endRotation;
+            return;
         }
 
         itemTable = DataService.GetItemTableByKey(itemId);
@@ -77,6 +78,7 @@ public class Hacking : MonoBehaviour, IInteractable, IErrorMessageable
             return;
         }
 
+        curErrorMessageText = "";
 
         if (isFirst && eventParts.PuzzlePath != "")
         {

@@ -40,11 +40,11 @@ public class Saving : MonoBehaviour, IInteractable, IErrorMessageable
     {
         if (eventParts.IsCompleted)
         {
-            errorMessageText = "";
+            curErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[1]);
             return;
         }
 
-        InGameLoader.Instance.Save();
         eventParts.IsCompleted = true;
+        InGameLoader.Instance.Save();
     }
 }
