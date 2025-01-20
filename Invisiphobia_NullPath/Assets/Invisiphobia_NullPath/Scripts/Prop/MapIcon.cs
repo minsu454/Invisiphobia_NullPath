@@ -7,6 +7,8 @@ public class MapIcon : MonoBehaviour
     [SerializeField] private SpriteRenderer CompletedRenderer;      //감지 아이콘 랜더러
     [SerializeField] private SpriteRenderer FillAmountRenderer;     //감지바 랜더러
 
+    [SerializeField] private Color32 activecolor = Color.white;
+
     private MaterialPropertyBlock propertyBlock;                    //머터리얼 복사본 생성하지 않고 값 수정하기 위한 변수
     private float y = 15;                                           //아이콘 높이
         
@@ -52,7 +54,7 @@ public class MapIcon : MonoBehaviour
     public void Revealed()
     {
         FillAmountRenderer.gameObject.SetActive(false);
-        CompletedRenderer.color = Color.white;
+        CompletedRenderer.color = activecolor;
     }
 
     /// <summary>
