@@ -27,7 +27,9 @@ public class InGameLoader : BaseSceneLoader<InGameLoader>
         player.Init();
 
         SaveManager(saveData);
-        
+        CreateNavMeshBaker();
+
+
         EntityManager.Instance.Init();
     }
 
