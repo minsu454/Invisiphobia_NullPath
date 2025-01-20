@@ -33,6 +33,7 @@ public abstract class MonsterController : MonoBehaviour
         monster.AiState = AIStateType.Idle;
         agent.enabled = false;
 
+        monster.MyState.IdleEvent += IdleUpdate;
         monster.MyState.AttackingEvent += AttackingUpdate;
 
         EventManager.Subscribe(GameEventType.UseMonsterPause, OnUseMonsterPause);
@@ -41,6 +42,11 @@ public abstract class MonsterController : MonoBehaviour
     void Update()
     {
         targetDistance = Vector3.Distance(transform.position, target.transform.position);
+    }
+
+    private void IdleUpdate()
+    {
+        monster.AiState = AIStateType.Idle;
     }
 
     protected abstract void AttackingUpdate();
