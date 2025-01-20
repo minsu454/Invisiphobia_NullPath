@@ -1,5 +1,7 @@
 using Common.Event;
+using Common.Yield;
 using System;
+using System.Collections;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
@@ -91,7 +93,7 @@ public class CowardController : MonoBehaviour, IDetectable
             {
                 myRenderer.enabled = false;
                 myRenderer.material.color = originalColor;
-                ResetToSpawnPoint();
+                StartCoroutine(CoResetToSpawnPoint());
             }
         }
     }
@@ -109,8 +111,9 @@ public class CowardController : MonoBehaviour, IDetectable
         }
     }
 
-    protected void ResetToSpawnPoint()
+    private IEnumerator CoResetToSpawnPoint()
     {
+        yield return YieldCache.WaitForSeconds(10f);
         agent.Warp(spawnPoint);
         ResetCycle();
     }
@@ -156,6 +159,7 @@ public class CowardController : MonoBehaviour, IDetectable
 
     public void ResetCycle()
     {
+
         if (IsDetectTablet)
         {
             mapIcon.Invisible();
