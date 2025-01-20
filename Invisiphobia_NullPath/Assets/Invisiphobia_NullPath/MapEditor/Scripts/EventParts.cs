@@ -13,7 +13,9 @@ public class EventParts : MonoBehaviour, IParts
 {
     [Header("Completed")]
     [SerializeField] private bool isCompleted = false;
-    public bool IsCompleted { get { return isCompleted; } set { isCompleted = value; } }
+    public bool IsCompleted {
+        get { return isCompleted; }
+        set { isCompleted = value; } }
     public List<Transform> OnCompleteTrList = new List<Transform>();
 
     [Header("TabletType")]

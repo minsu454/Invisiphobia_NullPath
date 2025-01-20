@@ -65,6 +65,4 @@ public abstract class BaseSceneLoader<T> : MonoBehaviour, IAddressable, IInit wh
         instance = null;
         ReleaseEvent?.Invoke(gameObject);
     }
-
-
 }

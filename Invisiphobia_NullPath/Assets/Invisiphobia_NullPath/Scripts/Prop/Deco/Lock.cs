@@ -34,8 +34,11 @@ public class Lock : MonoBehaviour, IInteractable, IErrorMessageable
 
     public void Start()
     {
-        if(parts.IsCompleted)
+        if (parts.IsCompleted)
+        {
             gameObject.SetActive(false);
+            return;
+        }
 
         itemTable = DataService.GetItemTableByKey(itemId);
         interactText = DataService.GetItemInteractText(ItemTable.interactText[0]);

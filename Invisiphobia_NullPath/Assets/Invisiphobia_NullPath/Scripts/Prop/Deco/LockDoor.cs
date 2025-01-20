@@ -51,15 +51,16 @@ public class LockDoor : MonoBehaviour, IInteractable, IErrorMessageable
         playerTr = EntityManager.Instance.Player.transform;
         startRotation = transform.rotation;
         endRotation = Quaternion.Euler(startRotation.eulerAngles.x, startRotation.eulerAngles.y - 90, startRotation.eulerAngles.z);
+        itemTable = DataService.GetItemTableByKey(itemId);
 
         if (parts.IsCompleted)
         {
             transform.rotation = endRotation;
             myCollider.enabled = false;
+            return;
         }
 
         curErrorMessageText = "";
-        itemTable = DataService.GetItemTableByKey(itemId);
         doorBehindErrorMessageText = DataService.GetItemText(ItemTable.errorMessage[(int)DoorErrorType.Door]);
     }
 
