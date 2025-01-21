@@ -86,36 +86,27 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 ### 🪄 메인 아이디어
 
 - **리미널 스페이스**
-    
-    
-    ![키 비주얼 레퍼런스 1](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/b95efbc4-8122-4349-8a48-15eb56219adf/-ysf6f4WVdd23Amu-xVyvQCJv_pTq9uITCZ4bjI4qhBFqKuSdaStqzqm6FbK87UxmDCc8kDBb2kHn4W9X-bpXA.webp)
-    
-    키 비주얼 레퍼런스 1
-    
-    ![키 비주얼 레퍼런스 2](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/3c4ff73e-7662-46f3-a542-2cad0e5ec74e/Level_2.png)
-    
-    키 비주얼 레퍼런스 2
+![image](https://github.com/user-attachments/assets/8382dcb0-4c39-4dc6-abfa-fd011bfe8324)
+![image](https://github.com/user-attachments/assets/a31d973b-b522-4dd8-b463-321016485843)
+
     
     ‘리미널 스페이스’는 현대 공포 게임에서 자주 활용되는 미학으로, **익숙하면서도 낯선 분위기**를 통해 플레이어에게 불확실성, 괴리감, 그리고 불안감을 조성합니다. 
     
     이러한 불안감은 **‘공간의 형성과 경험 사이의 경계’를 흐릿하게** 만드는 데서 비롯되며, 이를 구현하기 위해 **현실적 요소와 비현실적 요소가 공존**해야 합니다.
     
-    ![2019년에 처음 인터넷에 등장한 ‘Backroom’ 괴담](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/2905749a-fb9a-49a1-b371-7ce43b0da90b/l_nHpXDrhGLVUiqXUMfem1rfvaEOL6w-u3p-ExlqZ9iUkwOw2rCRrAspCqQgCkFWt8cycLCF52t7XIWVwBFydsyGhJJh-6zyH7lCWnejAFIj9SfnmMrSLOt9SV_IEu1MHS-HXQTQ0CrHXduqqpp8TA.webp)
+
     
     2019년에 처음 인터넷에 등장한 ‘Backroom’ 괴담
-    
+    ![image](https://github.com/user-attachments/assets/d600c0ff-ad27-46cb-92c7-1d92f01e8db3)
+
     대표적인 사례로 2020년대에 유행하기 시작한 ‘Backroom’이 있습니다. 이 개념은 친숙한 공간 요소를 비현실적으로 (무한정)반복 배치함으로써 불안감을 효과적으로 전달합니다. 특히, 이러한 접근법은 비디오 게임 제작에서 **적은 리소스로도 넓은 공간을 표현할 수 있는 당위성**을 제공하여 관련 게임들이 다수 등장하고 성공 사례도 많이 나타나고 있습니다.
     
 - **화면 전환 점프스케어 유도**
     
-    
-    ![이 분야의 대부인 **Five Nights at Freddy's**                                                                                   ](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/1c3481a7-0525-4235-8778-ef82e9bc6c0a/i8222383361_(1).jpg)
-    
-    이 분야의 대부인 **Five Nights at Freddy's**                                                                                   
-    
-    ![**I'm on Observation Duty**](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/23ebad9e-3391-490a-b186-1a8169abce3c/1607558027_Im_On_Jack_Black_Duty.png)
-    
-    **I'm on Observation Duty**
+![image](https://github.com/user-attachments/assets/faaf0c1a-50c3-4e05-85d8-c30a6480c030)
+![image](https://github.com/user-attachments/assets/45970918-405a-4c9c-9b3d-678d2b0ee96c)
+
+
     
     ‘화면 전환 점프스케어 유도’의 핵심은, 플레이어가 **스스로 시야를 전환하거나 화면을 이동하는 과정에서 공포 상황을 발견**하게 함으로써 강제적인 공포 유발을 줄이고, 대신 능동적인 조작을 통해 긴장감과 몰입도를 높이려는 데 있습니다.
     
@@ -126,19 +117,14 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 
 - **두 요소의 조합**
     
-    핵심은 저 두 요소의 조합이였습니다. 넓은 리미널 스페이스를 해매이며 화면 전환 점프스케어가 일어나는것은 아직 세상에 존재하지 않는 공포게임 이론이라고 생각했고, 동적인 공간에서 화면 전환이 생기기 위해 ‘보이지 않는 물체를 밝혀낸다’는 컨셉이 확정되었습니다.
-    
-    ![비어있는 공간에서 물체를 감지](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/bff42b1f-3b9c-4d18-816f-3f1ddcb28282/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-01-17_113314.png)
-    
-    비어있는 공간에서 물체를 감지
-    
-    ![타블렛을 들여다 봐 밝혀내고](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/57f7eb9b-b599-4d42-abb3-c6774f347cfc/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-01-17_113324.png)
-    
-    타블렛을 들여다 봐 밝혀내고
-    
-    ![타블렛을 내리면 그대로 물체들이 세상에 드러난다](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/e262cb62-ce49-4bc2-acfc-1fd0f21eac41/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-01-17_113332.png)
-    
-    타블렛을 내리면 그대로 물체들이 세상에 드러난다
+![image](https://github.com/user-attachments/assets/db09113f-9f23-4c53-9598-a57da592f1d0)
+비어있는 공간에서 물체를 감지
+
+![image](https://github.com/user-attachments/assets/4a0ccc50-56e3-468c-8afd-55c203c1ecf7)
+타블렛을 들여다 봐 밝혀내고
+
+![image](https://github.com/user-attachments/assets/2d15f8a2-a223-497f-afe9-94879ca76cd2)
+타블렛을 내리면 그대로 물체들이 세상에 드러난다
     
     동적인 공간에서 화면이 전환되어야 하기 때문에 휴대용 기기 화면을 들여다보다 내리는 상황을 만들어서 해당 경험을 게임플레이에 직접적으로 연관시키려 했습니다.
 
@@ -152,13 +138,11 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
     
     이런 단순한 게임플레이에 몰입시키기 위해선 흥미로운 공간 배치가 필수적이다.
     
-    ![스크린샷 2025-01-20 153828.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/0bead300-cf71-4c54-8653-df8c4da3b009/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-01-20_153828.png)
-    
-    ![스크린샷 2025-01-20 153856.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/01610146-2226-4d28-8bc3-cc7df6ad5f17/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-01-20_153856.png)
-    
-    ![스크린샷 2025-01-20 153907.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/c055938b-0c73-460a-9822-171d6e310bfb/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-01-20_153907.png)
-    
-    ![스크린샷 2025-01-20 153942.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/f8eb5b6a-3afc-4a8e-a12c-263069b8542d/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-01-20_153942.png)
+![image](https://github.com/user-attachments/assets/1c942b57-28cc-4cdf-b757-8a10c9caaba8)
+![image](https://github.com/user-attachments/assets/e54d5079-bc89-4231-9bd3-3633e2ef3758)
+![image](https://github.com/user-attachments/assets/6197fa45-c77a-4a5b-945f-42d79ae73364)
+
+
     
     위에서 설명한 ‘리미널 스페이스’의 느낌을 유지하되 어딜 가더라도 새로운 공간인 것처럼 하기 위해 노력했다.
     
@@ -193,12 +177,9 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
         
         - **Awake보다 먼저 실행**되는 것이 보장되어 해당 장소에서 **모든 Core단에 초기화**가 이루어지도록 하였습니다.
         - [**RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)**]을 사용해 모든 스크립트에서 제일 먼저 초기화해줄 객체들을 Managers에서 초기화하였습니다.
-        
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/f4904017-b547-4f61-b70d-1172b83a8604/image.png)
-        
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/96f75d60-4ee3-41ed-9148-c899dc89e1b6/image.png)
-        
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/68148d69-a28e-4132-8ba8-13d810512a44/image.png)
+        ![image](https://github.com/user-attachments/assets/ab300d24-bf09-4320-8e14-0b8ce50f818b)
+
+
         
 
 2. Awake
@@ -209,18 +190,16 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
         - 구현
             
             초기화 시켜줄 함수들을 우선순위에 맞춰 관리해주는 클래스 SortedList의 키값으로 enum을 들고 있어 내가 우선순위를 직접 관리할 수 있도록 구현
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/38e47b3b-ab4f-471d-ae4d-d4dbe7c16db8/image.png)
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/c1dccdc7-6854-415b-8a31-d12c96a72df3/image.png)
+           ![image](https://github.com/user-attachments/assets/b1d6868c-831b-4eee-91ed-eb85ff3b9d48)
+ 
+
             
         - SceneLoader
             - 사용 이유 : 씬이 로딩되었을 때 실행하는 모든 초기화를 직접 관리하기 위함.
             - 구현 : 해당 씬을 호출할 때 초기화될 GameObject들을 관리하고 싱글톤 패턴을 사용해 동적으로 생성되는 객체도 접근이 편하도록 설계
             
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/3feef734-06de-48ee-bbd2-c546799ced2d/image.png)
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/fefa720a-9f23-4abe-9a55-b558d21114e0/image.png)
+![image](https://github.com/user-attachments/assets/aac7bdeb-64a6-413f-892f-041408f0d41b)
+
             
 
 4. Start
@@ -248,47 +227,44 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
         - Unity에 기본 기능을 사용함과 동시에 Inspector 창을 공유할 필요 없이 독립적으로 작업을 진행 가능
         - 멀티창을 지원하기에 나중에 다른 기능과 병렬 작업을 해도 유용
             
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/fb2ccb87-f42e-4c9e-a97d-249f4af6aa6c/image.png)
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/a2669b04-23ac-4268-860f-f65d9199419e/image.png)
+![image](https://github.com/user-attachments/assets/c027549e-2d21-4fc4-b56f-df6d2d8c84d6)
+
             
 - Parts
     - Room : 방 벽과 천장, 바닥으로 이루어진 공간 오브젝트
         
-        ![Corridor_A01.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/3d369021-1161-4683-9f3e-4e4277ce7b21/Corridor_A01.png)
+![image](https://github.com/user-attachments/assets/1f2f385e-3466-4a7e-a0e1-b92f3d49f638)
+
         
     - Deco : 방을 꾸며주는 기본 오브젝트 (파이프, 일반 전등 등)
         
-        ![CeilingPipe_A03.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/9c2e311b-6c3e-4a9e-9394-ed0768ddfdda/CeilingPipe_A03.png)
+![image](https://github.com/user-attachments/assets/f0ecc8ac-5d8e-44b2-9a1d-aa4293cff636)
+
         
     - Item
         - Prop : 맵 아이콘을 가지고 있고 감지할 수 있는 가장 기본적인 객체 (상자, 드럼통 등)
             
-            ![Box02.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/838e8891-febd-4e71-955e-e8ae5d37e9f5/Box02.png)
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/8fd04b02-8556-4e4b-b879-301c88a426b3/image.png)
+![image](https://github.com/user-attachments/assets/10ff6131-7c87-4e51-8dee-a12eb21b0a7a)
+
             
         - BaseItem : 상호작용이 되는 객체
             
-            ![DrumBarrel_Opened1.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/26688963-0cc3-41a7-964c-27560a99df07/DrumBarrel_Opened1.png)
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/3315b6ef-dd1a-445d-9858-e9c8bddb83d1/image.png)
+![image](https://github.com/user-attachments/assets/4768fd13-12d4-4bc6-a0c8-a3ee57f84151)
+
             
         - HandItem : 손에 들 수 있는 객체
             
-            ![Key.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/24cc0b89-5aa5-4d26-b6f6-277c67daba51/Key.png)
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/6da3a572-b61a-4d3e-a961-8961867f15ee/image.png)
+![image](https://github.com/user-attachments/assets/98ba4e29-b6bc-4067-a3eb-b286f5f2cf79)
+
             
     - Event : Item과 유사하나 특정 조건을 만족했을 때 한 번만 실행되는 interact를 지닌 객체
         
-        ![ElectricalBox_Gathered.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/806717f4-e1ca-48d2-b585-4273273440eb/ElectricalBox_Gathered.png)
-        
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/6ee1f1b3-fa9e-490f-ac11-31fd8f0e06b2/image.png)
+![image](https://github.com/user-attachments/assets/5aff7f65-fe16-45b3-afa6-7dc1381e154c)
+
         
 </aside>
 
----
+
 
 <aside>
 ♻️
@@ -297,7 +273,7 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 
 <aside>
 ♻️
----
+
 
 ### **ObjectPool을 사용한 메모리 관리 및 최적화**
 
@@ -313,12 +289,11 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
     - **ObjectPool<T>** 사용
     - 해당 오브젝트가 어떤 Pool로 반환해줘야 되는지 **IObjectPoolable 인터페이스**를 통해 **ReturnEvent를 강제**하고 해당 ObjectPool로 **다시 반환**될 수 있게 설정
     
-    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/63a020e9-8615-44d4-b2b4-7abb0c304ea5/4d87958f-322c-4f66-9b89-d003db44dfd8.png)
-    
-    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/9686e146-5919-41af-b206-c6686d0639ae/image.png)
+![image](https://github.com/user-attachments/assets/dbc7b8f8-b6d2-498e-b499-685dd1f0663f)
+
     
 </aside>
----
+
 <aside>
 📁 
     
@@ -326,7 +301,7 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 
 <aside>
 📁
----
+
 
 ### 비동기로 씬 전환 관리
 
@@ -342,28 +317,31 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
     - 객체 생성시 발생하는 메모리를 아끼기 위해 Coroutine(class)대신 UniTask(struct)를 사용
     - 페이크로딩을 사용해 씬이 자연스럽게 넘어가도록 구성
     
-    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/3621c3e3-d039-415c-826d-4123c1af5e4d/image.png)
+![image](https://github.com/user-attachments/assets/f6e27c62-b858-4364-956c-0c3bd574b7a9)
+
     
     - Addressable
         - Resources에 문제점인 빌드할 때 모든 데이터를 들고 빌드되는 것(크기가 커짐)과 GameObject에 간단한 수정 시 재빌드해야하는 것, 런타임시 모든 메모리를 로드하는 것으로 메모리 낭비가 발생하는 문제 등으로 인해 Addressable을 사용
         
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/3bc9c6c0-f350-4d40-aa37-5b0b10554fa8/image.png)
+![image](https://github.com/user-attachments/assets/3703ee7f-c2e5-4211-8ba3-7807be670316)
+
         
     - ObjectManager
         - InGame에서 비동기 처리로 인해 발생할 수 있는 문제를 없애기 위해 해당 씬에 나오는 모든 아이템 데이터를 메모리에 올려놓고 실질적으로 게임에선 비동기함수 호출이 안되도록 하기 위한 클래스
         - 해당 씬이 동작할 때 필요한 모든 오브젝트를 Dictionary에 담고, 필요 시에 해당 오브젝트를 Return
         
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/7b2db8a8-1ff6-4dfb-b4a7-f2dd14db3aab/image.png)
+![image](https://github.com/user-attachments/assets/09e05d1d-403f-4b77-bd12-b119b66f10b5)
+
         
 </aside>
 
----
+
 <aside>
 📱 
     
 ## **Tablet**
 
----
+
 
 <aside>
 📱
@@ -376,31 +354,34 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
     - 구현
         - 내가 태블릿을 전환할 때마다 그에 해당하는 모든 이벤트들을 Subscribe로 연결
         
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/ff98dd18-eabf-466c-9ae9-c42bb04ed0d2/image.png)
+![image](https://github.com/user-attachments/assets/075542c3-ba36-4e1a-9088-1a994da0fc71)
+
         
 - **Observer 패턴**: 이벤트를 사용하여 상태 변화와 UI 동작을 연결 및 결합도 감소
     - 구현
         - 상태변환할 때 구독한 모든 이벤트에게 상태를 전달
         
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/46452fef-6e8c-4714-9132-39534af57d09/image.png)
+![image](https://github.com/user-attachments/assets/1473e895-9739-4965-aee6-deeee414f952)
+
         
 - **State 패턴**: 상태별 동작 정의와 상태 전환 관리
     - 구현
         - 상태를 변경할 때마다 해당 상태에 맞는 상호작용을 하도록 구현
         
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/2218f40a-9e51-4982-a340-67d4f2c5d8f4/image.png)
+![image](https://github.com/user-attachments/assets/3ce1e99a-3065-4d2e-a0eb-77aaeb148b99)
+
         
 
 </aside>
 
----
+
 
 <aside>
 📗 
     
 ## **Excel To Json**
 
----
+
 
 <aside>
 📗
@@ -412,21 +393,24 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 - DataService를 정적으로 배치하여 json 파일을 꺼내 쓸 수 있도록 설계
     - DataService
         
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/cd15d492-560b-4ff6-99c8-9ee378bd89c2/image.png)
+![image](https://github.com/user-attachments/assets/cb29a707-f743-48e6-aa20-4ac59e220c14)
+
         
 - Excel을 통해 데이터 관리를 하고 json파일로 변환하여 유지보수성과 확장성을 높이고 직관적으로 데이터를 볼 수 있도록 하였습니다.
     - ItemTable.xlsx
         
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/deb9c256-47dc-46a7-a12e-3362c68efe59/image.png)
+![image](https://github.com/user-attachments/assets/b6cff574-1ec4-4e84-beb4-3ca98074e071)
+
         
 - 이를 통해 인게임에서 사용되는 텍스트의 언어를 자유롭게 변경하고 확장 가능하도록 하였습니다.
     - InteractTextTable.xlsx
         
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/8bf1f944-243c-4ca6-bc97-c313fac9b3db/image.png)
+![image](https://github.com/user-attachments/assets/e3f4a22e-def5-4e31-8e9f-6839dfda424d)
+
         
 </aside>
 
----
+
 <aside>
 ⏸️ 
     
@@ -434,7 +418,7 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 
 <aside>
 ⏸️
----
+
 
 ### 게임 pause 관리
 
@@ -443,9 +427,8 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 - EventManager를 동적으로 배치해 외부에서 간단하게 모든 객체에 움직임을 컨트롤 할 수 있게 설계
     - GameEventType 및 이벤트 구독
         
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/2b604569-a42c-43ac-9f7f-63d678e75aa0/image.png)
-        
-        ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ade9b733-23fe-403b-87b0-6fca0a795c3e/6e6be464-83c8-43c8-ae84-2d395c417133/image.png)
+![image](https://github.com/user-attachments/assets/0bc0ed62-fd2a-44b3-90eb-df5c92618515)
+
         
 - UI에 애니메이션 삽입 가능
 </aside>
@@ -458,17 +441,26 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
     1. **스캔(TAB) 시스템의 참신함**
         - TAB 키를 눌러야만 눈에 보이지 않던 사물이 나타난다는 점이 “공포 연출”에 큰 역할을 함.
         - 플레이어가 직접 숨겨진 요소를 찾아내야 하므로 긴장감이 유지되고, 어디서 무언가가 튀어나올지 예측하기 어려워 스릴을 높여 줌.
+      
+          
     2. **분위기(그래픽·사운드·UI)의 완성도**
         - “어둡고 음산한 맵+사운드”가 잘 어우러져서 공포감을 제대로 전달한다는 반응이 많았음.
         - 메뉴 화면, BGM, 효과음, 마네킹이나 크리처의 등장 효과 등 전체적으로 몰입도가 높았다는 평가.
+      
+          
     3. **아이디어·콘셉트의 우수성**
         - 인디 호러게임 트렌드를 잘 반영했고, ‘스캔’이라는 소재를 접목해 게임적으로 차별화를 시도한 점이 인상 깊다는 의견.
+      
+          
     4. **조작 난이도 자체는 어렵지 않음**
         - “조작법이 복잡하지 않아 금방 적응할 수 있다”는 피드백도 일부 있었음.
         - 일단 움직임이나 마우스 조작 자체는 크게 어렵지 않아 호러 장르를 즐기지 않는 사람도 쉽게 진입 가능.
+      
+          
     5. **공포 연출과 점프 스케어(깜놀 요소)**
         - 마네킹·괴물 등의 시각적 연출과 ‘갑툭튀’가 제대로 무섭다는 평.
         - TAB 스캔 후 바뀐 화면에서 들려오는 사운드나 비주얼 이펙트가 게임의 분위기를 배가시킴.
+          
     
     전체적으로 **공포 연출**과 **핵심 메커니즘**에 대한 호평이 있었다.
     
@@ -476,19 +468,29 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
     - **가이드·튜토리얼 부족**
         - 게임 시작 후 목표나 진행 방향, 아이템 사용법 등을 알려주지 않아 “무엇을 해야 할지 모르겠다”는 의견이 가장 많음.
         - 조작키(벽돌 던지기, 아이템 사용 등)에 대한 설명이 부족하고, 플레이 흐름(맵 공략 방식·퍼즐 해법)이 명확하지 않아 초반 이탈 가능성 존재.
+     
+          
     - **맵이 너무 어둡거나, 구조가 복잡한 데 비해 빈약함**
         - “조금만 더 밝아졌으면 좋겠다”거나, “감마(밝기) 조절이 제대로 안 된다”라는 피드백이 다수.
         - 일부 플레이어들은 맵 자체가 커 보이나 반복되는 구조로 인해 길 찾기가 어렵고, 맵 내부에 상호작용 요소가 부족하다고 느낌.
+     
+          
     - **목적과 스토리 부족**
         - “게임 안에서 서사 혹은 스토리 동기가 부족하다”라는 반응.
         - 게임 내 스토리(예: ‘왜 여기에 갇혔는지?’, ‘어떤 목표가 있는지?’)가 없어서 진행 이유를 찾지 못하고 흥미가 떨어진다는 지적.
+     
+          
     - **아이템 사용·퍼즐 진행의 불명확성**
         - 건전지, 벽돌 등 파밍한 아이템의 쓰임새가 잘 설명되지 않음.
         - 벽돌을 던져야 문이 열리는 기믹이나, 업데이트 칩을 이용해서 다음 구역을 열어야 하는 등 로직이 직관적이지 않아 막히는 경우가 많았음.
+     
+          
     - **버그와 기술적 이슈**
         - 괴물이 특정 지형에 낑겨서 움직이지 않는 현상.
         - 벽돌 투척 시 마우스 에임 방향과 다르게 발사되는 문제.
         - 스캔이 먹히지 않는 오브젝트, 스캔 게이지가 안 차거나 UI가 해상도에 맞게 표시되지 않는 등 각종 버그 제보.
+     
+          
     - **세이브·체크포인트 미비**
         - 죽으면 처음부터 다시 해야 해서, 공포감보다는 귀찮음이 커진다는 의견.
         - 호러게임 특성상 반복 시 긴장감이 떨어지므로 중간 세이브 포인트/체크포인트가 필요하다고 주장.
@@ -498,8 +500,10 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 
 - 테스트 기간 동안 반영된 부분
     - **세이브·체크포인트 :** 게임을 저장할수 있는 오브젝트가 배치되었다.
-    - **약간의 가이드 :** 맵상으로 문이 열렸는지 닫혔는지 확인할수 있거나, 좀더 직관적으로 배치하는등의 개선이 이루어졌다.
+    - **약간의 가이드 :** 맵상으로 문이 열렸는지 닫혔는지 확인할수 있거나, 좀더 직관적으로 배치하는등으로 개선이 이루어졌다.
     - **상호작용 택스트** : 일부나마 상호작용 실패시 택스트를 출력시켜 의도된 사항임을 알리려 했다.
+ 
+      
 - 앞으로 고쳐나갈 부분
     - **코드 최적화** : ****아직 코드적으로 최적화 할수 있는 코드들이 많이 남아있다.
     - **상호작용 이팩트** : 상호작용 + 상호작용 실패시 적절한 효과음과 택스트가 나타나 의도된 사항임을 알리고, 상호작용으로 무엇이 일어났는지 플레이어에게 전달해야한다.
