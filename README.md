@@ -1,6 +1,7 @@
 2024 스파르타 Unity track 6기 최종프로젝트
 
-## 목차
+## ![image](https://github.com/user-attachments/assets/b7d02237-b7d5-4e5a-a157-02f11e24e340)
+목차
 - [기술 스택](#기술-스택)
 - [기획 의도](#기획-의도)
 - [Test](#Test)
