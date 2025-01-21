@@ -6,6 +6,8 @@ Invisiphobia : Null Path
 🎬 시연 영상
 https://youtu.be/LLINUvYx3uk
 
+![image](https://github.com/user-attachments/assets/23856271-16dd-4953-9623-b7e75a19f032)
+
 ## 기술 스택
 
 - Unity 버전: [2022.3.17f1]
