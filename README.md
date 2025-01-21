@@ -120,13 +120,22 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 - **두 요소의 조합**
     
 ![image](https://github.com/user-attachments/assets/db09113f-9f23-4c53-9598-a57da592f1d0)
+
+
 비어있는 공간에서 물체를 감지
 
+
 ![image](https://github.com/user-attachments/assets/4a0ccc50-56e3-468c-8afd-55c203c1ecf7)
+
+
 타블렛을 들여다 봐 밝혀내고
 
+
 ![image](https://github.com/user-attachments/assets/2d15f8a2-a223-497f-afe9-94879ca76cd2)
+
+
 타블렛을 내리면 그대로 물체들이 세상에 드러난다
+
     
     동적인 공간에서 화면이 전환되어야 하기 때문에 휴대용 기기 화면을 들여다보다 내리는 상황을 만들어서 해당 경험을 게임플레이에 직접적으로 연관시키려 했습니다.
 
