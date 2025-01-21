@@ -169,9 +169,10 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 <aside>
 🔥 
 <Summary>
+    
 ## **생명주기**
+
 </Summary>
----
 
 <aside>
 🔥
@@ -219,11 +220,14 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 </aside>
 <aside>
 </details>
-    
+
+<details>
 🏘️
+<Summary>
     
 ## **MapEditor**
 
+</Summary>
 <aside>
 🏘️
 
@@ -278,13 +282,16 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
         
 </aside>
 
+</details>
 
-
+<details>
 <aside>
 ♻️
+<Summary>
 
 ## **ObjectPool**
 
+</Summary>
 <aside>
 ♻️
 
@@ -308,10 +315,16 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
     
 </aside>
 
+</details>
+
+<details>
 <aside>
 📁 
-    
+<Summary>
+
 ## **Loading**
+
+</Summary>
 
 <aside>
 📁
@@ -349,11 +362,16 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
         
 </aside>
 
+</details>
 
+<details>
 <aside>
 📱 
+<Summary>
     
 ## **Tablet**
+
+</Summary>
 
 
 
@@ -388,6 +406,7 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 
 </aside>
 
+</details>
 
 
 <aside>
@@ -426,9 +445,14 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 
 
 <aside>
+    
+<details>
 ⏸️ 
+<summary>
     
 ## **Pause**
+
+</summary>
 
 <aside>
 ⏸️
@@ -446,6 +470,7 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
         
 - UI에 애니메이션 삽입 가능
 </aside>
+</details>
 
 # 유저테스트
 
