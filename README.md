@@ -83,7 +83,8 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
   
 # 기획
 </aside>
-### 🪄 메인 아이디어
+
+### ★ 메인 아이디어
 
 - **리미널 스페이스**
   
