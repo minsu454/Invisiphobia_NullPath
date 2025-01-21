@@ -165,12 +165,12 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
   # 핵심 기능
 
 ---
-
+<details>
 <aside>
 🔥 
-    
+<Summary>
 ## **생명주기**
-
+</Summary>
 ---
 
 <aside>
@@ -218,6 +218,8 @@ https://github.com/user-attachments/assets/1850bafc-bfa5-440c-b035-f6040885650e
 
 </aside>
 <aside>
+</details>
+    
 🏘️
     
 ## **MapEditor**
