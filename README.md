@@ -1,13 +1,7 @@
 2024 스파르타 Unity track 6기 최종프로젝트
 
 ## ![image](https://github.com/user-attachments/assets/66344946-0ac7-4618-bc6b-469e3908c9cd)
-
-목차
-- [기술 스택](#기술-스택)
-- [기획 의도](#기획-의도)
-- [Test](#Test)
-- [조작법](#조작법)
-- [참여 인원](#참여-인원)
+Invisiphobia : Null Path
 
 ## 기술 스택
 
