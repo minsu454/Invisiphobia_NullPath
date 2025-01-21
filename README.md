@@ -1,14 +1,15 @@
-2024 스파르타 Unity track 6기 최종프로젝트
+# 2024 스파르타 Unity track 6기 최종프로젝트
 
 ## ![image](https://github.com/user-attachments/assets/66344946-0ac7-4618-bc6b-469e3908c9cd)
-Invisiphobia : Null Path
+# Invisiphobia : Null Path
 
-🎬 #시연 영상
+---
+## 🎥 시연 영상
 
 https://youtu.be/LLINUvYx3uk
 ![화면 캡처 2025-01-21 155657](https://github.com/user-attachments/assets/6968d4f5-6d37-4c02-a498-28819f448d07)
 
-
+---
 
 ## 기술 스택
 
@@ -16,9 +17,18 @@ https://youtu.be/LLINUvYx3uk
 - C# 버전: [C#-17]
 - 발표 자료 & 프로젝트 기술 소개: [Figma](https://www.figma.com/slides/867H91N1ZlACgRbVFskaeb/15%EC%A1%B0-%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C?node-id=91-32&t=KDSpzmPqs5J08Pfg-0)
 
-## 기획 의도
-리미널 스페이스, 화면 전환을 통한 간접적 점프스케어 이 두가지 전략을 조합해 반복적인 동적인 공간에서 화면 전환을 통한
-점프스케어의 게임플레이를 구상, 그 결과 보이지 않는 물체를 밝혀내며 그 과정에서 화면 전환이 생기도록 하였다.
+---
+
+### 😱 게임 소개
+
+Invisiphobia : null path 는 보이지 않는 물체와 그 사이에 있는 괴물들로 가득 찬 미궁에서 펼쳐지는 **3D 1인칭 호러 어드벤처 게임**입니다.            
+
+**소중한 사람을 구출**하기 위해 당신은 보이지 않는 존재들을 조심스럽게 **탐색**하고, 갑작스럽게 나타나는 위협을 경계하며 살아남고, 마지막엔 구출 대상을 구해 당신이 들어왔던 지하실 입구로 되돌아 나가야 합니다.
+
+
+https://github.com/user-attachments/assets/44d088ca-48ff-4044-8ecd-e6acc264a2a2
+
+
 
 ## Test
 Download_Scene에서 시작해야 테스트 가능
