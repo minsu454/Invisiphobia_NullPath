@@ -3,10 +3,11 @@
 ## ![image](https://github.com/user-attachments/assets/66344946-0ac7-4618-bc6b-469e3908c9cd)
 Invisiphobia : Null Path
 
-🎬 시연 영상
+#🎬 시연 영상
 https://youtu.be/LLINUvYx3uk
+![화면 캡처 2025-01-21 155657](https://github.com/user-attachments/assets/6968d4f5-6d37-4c02-a498-28819f448d07)
 
-![image](https://github.com/user-attachments/assets/23856271-16dd-4953-9623-b7e75a19f032)
+
 
 ## 기술 스택
 
