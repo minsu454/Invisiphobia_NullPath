@@ -14,7 +14,7 @@ https://youtu.be/LLINUvYx3uk
 ## 기술 스택
 
 - Unity 버전: [2022.3.17f1]
-- C# 버전: [C#-17]
+- C# 버전: [C# 8.0]
 - 발표 자료 & 프로젝트 기술 소개: [Figma](https://www.figma.com/slides/867H91N1ZlACgRbVFskaeb/15%EC%A1%B0-%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C?node-id=91-32&t=KDSpzmPqs5J08Pfg-0)
 
 ---
