@@ -6,9 +6,8 @@
 ---
 ## 🎥 시연 영상
 
-https://youtu.be/LLINUvYx3uk
-![화면 캡처 2025-01-21 155657](https://github.com/user-attachments/assets/6968d4f5-6d37-4c02-a498-28819f448d07)
-
+[![Video Label](https://github.com/user-attachments/assets/6968d4f5-6d37-4c02-a498-28819f448d07)]
+(https://youtu.be/LLINUvYx3uk)
 ---
 
 ## 기술 스택
